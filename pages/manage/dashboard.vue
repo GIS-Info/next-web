@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <b>todo: 这里是主页 展示文章列表</b>
+    <b>todo: 这里是管理主页，显示各功能模块入口</b>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
 .main{
   width: 100%;
   height: 100%;
-  background-color: aquamarine;
+  background-color: rgb(241, 241, 241);
+  text-align: center;
 }
 </style>

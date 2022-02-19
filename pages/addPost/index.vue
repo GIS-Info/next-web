@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <b>todo: 这里是主页 展示文章列表</b>
+    <b>todo: 这里是新增帖子的页面，需要实现一个带格式限制的表单</b>
   </div>
 </template>
 
