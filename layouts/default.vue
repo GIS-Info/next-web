@@ -17,6 +17,6 @@
     flex-grow: 1;
   }
   .head{
-    flex-grow: 1;
+    flex-grow: 0;
   }
 </style>
