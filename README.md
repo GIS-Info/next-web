@@ -1,4 +1,4 @@
-# nuxt-demo
+# gis-web-next
 
 ## Build Setup
 

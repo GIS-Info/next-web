@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-demo',
+    title: 'GIS 留学指南',
     htmlAttrs: {
       lang: 'en'
     },

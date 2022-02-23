@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <head-bar class="head"/>
-    <nuxt class="main" />
+    <div class="main">
+      <nuxt />
+    </div>
   </div>
 </template>
 
@@ -17,6 +19,6 @@
     flex-grow: 1;
   }
   .head{
-    flex-grow: 1;
+    flex-grow: 0;
   }
 </style>
