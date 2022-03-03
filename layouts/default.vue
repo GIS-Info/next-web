@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <head-bar class="head"/>
+    <!-- <head-bar class="head"/> -->
     <div class="main">
       <nuxt />
     </div>
@@ -17,6 +17,7 @@
   }
   .main{
     flex-grow: 1;
+    position: relative;
   }
   .head{
     flex-grow: 0;
