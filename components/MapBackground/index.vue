@@ -1,8 +1,16 @@
 <template>
   <div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-1 -1 160 120" class="svg">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-1 -1 160 120" preserveAspectRatio="xMidYMid slice" class="svg">
       <g v-for="(line, xindex) in arr" :key="xindex" :transform="`translate(${xindex},0)`">
-          <circle v-for=" y in line" :key='`${xindex}-${y}`' cx="0" :cy="y" r="0.3" fill="white"/>
+          <circle v-for=" y in line" :key='`${xindex}-${y}`' cx="0" :cy="y" r="0.3" fill="#606266">
+              <animate
+                attributeName="fill"
+                values="#606266;#606266;#606266;#909399;#606266;#606266;#606266;"
+                dur="4s"
+                :begin="`${(xindex/160)*4}s`"
+                repeatCount="indefinite"
+              />
+          </circle>
       </g>
     </svg>
   </div>
@@ -33,7 +41,7 @@ export default {
 .svg{
   width: 100%;
   height: 100%;
-  background-color: #bbbbbb;
+  background-color: #303133;
   position: absolute;
   top: 0px;
   z-index: -1;

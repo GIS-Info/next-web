@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!-- <head-bar class="head"/> -->
+    <head-bar class="head"/>
     <div class="main">
       <nuxt />
     </div>
