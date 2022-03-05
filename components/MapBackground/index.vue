@@ -1,6 +1,6 @@
 <template>
   <div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="11 -1 100 90" preserveAspectRatio="xMidYMid slice" class="svg">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-1 -1 120 70" preserveAspectRatio="xMidYMid slice" class="svg">
       <g v-for="(line, xindex) in arr" :key="xindex" :transform="`translate(${xindex},0)`">
           <circle v-for=" y in line" :key='`${xindex}-${y}`' cx="0" :cy="y" r="0.3" fill="#404144">
               <animate
