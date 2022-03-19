@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <div class="titleDiv" @click="goHomePage">
+    <div class="title-div" @click="goHomePage">
       <img class="logo" src="./logo.svg" />
-      <span class="titleText">GISphere</span>
+      <span class="title-text">GISphere</span>
     </div>
     <!-- 中文情况下的链接 -->
-    <div v-if="lang == 'zh'" class="linksDiv">
+    <div v-if="lang == 'zh'" class="links-div">
       <div class="link" @click="goHomePage">关于我们</div>
       <div class="link" @click="goManagePage">管理员登录</div>
       <div class="link" @click="setLanguage('en')">English</div>
     </div>
     <!-- 英文情况下的链接 -->
-    <div v-if="lang == 'en'" class="linksDiv">
+    <div v-if="lang == 'en'" class="links-div">
       <div class="link" @click="goHomePage">About</div>
       <div class="link" @click="goManagePage">Login (Admin Only)</div>
       <div class="link" @click="setLanguage('zh')">切换中文</div>
@@ -49,7 +49,7 @@ export default {
   padding: 24px 80px;
   box-sizing: border-box;
 }
-.titleDiv{
+.title-div{
   background: #DCDFE6;
   width:198px;
   height:40px;
@@ -63,7 +63,7 @@ export default {
   width:40px;
   height:40px;
 }
-.titleText{
+.title-text{
   margin-left:12px;
   line-height:40px;
   font-family: 'Inter';
@@ -72,7 +72,7 @@ export default {
   font-size: 24px;
   color: #303133;
 }
-.linksDiv{
+.links-div{
   height:40px;
   width: 40px;
   display:flex;
