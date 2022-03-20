@@ -1,5 +1,7 @@
 <template>
- <div></div>
+ <div>
+   dataPanel
+ </div>
 </template>
 <style scoped>
 </style>
