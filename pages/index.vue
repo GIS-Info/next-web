@@ -11,6 +11,15 @@
           Find the most<br/>
           exciting GIS academic positions
         </div>
+        <div v-if="lang =='zh'" class="welcome-description">
+          下一个大事件 <br />
+          从这里开始。
+        </div>
+        <div v-if="lang =='en'" class="welcome-description">
+          The next big thing <br />
+          starts here.
+        </div>
+
       </div>
     </div>
     <div class="introduce-page">
@@ -61,5 +70,13 @@ export default {
     letter-spacing: -2px;
     color: #0073FF;
 
+  }
+  .welcome-description {
+    border-top: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    /* border: 2px, solid, #FFFFFF; */
   }
 </style>
