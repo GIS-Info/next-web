@@ -6,7 +6,6 @@
     </div>
   </div>
 </template>
-
 <style scoped>
   .container{
     font-size: 16px;
@@ -18,6 +17,7 @@
   .main{
     flex-grow: 1;
     position: relative;
+    overflow: scroll;
   }
   .head{
     flex-grow: 0;
