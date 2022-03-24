@@ -72,11 +72,10 @@ export default {
 
   }
   .welcome-description {
-    border-top: 10px;
+    margin-top: 10px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
     letter-spacing: 2px;
     color: #FFFFFF;
-    /* border: 2px, solid, #FFFFFF; */
   }
 </style>
