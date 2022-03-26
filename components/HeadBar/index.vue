@@ -97,6 +97,6 @@ export default {
 } */
 .link:hover {
   color: #0073FF;
-  transition: 200ms ease-in;
+  transition: 200ms ease-in-out;
 }
 </style>
