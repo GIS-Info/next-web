@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+
   head: {
     title: 'GIS 留学指南',
     htmlAttrs: {
@@ -18,6 +19,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
+  // element UI DIY theme: import "../theme/index.css"
   css: ['element-ui/lib/theme-chalk/index.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

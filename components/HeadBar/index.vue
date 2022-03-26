@@ -92,4 +92,11 @@ export default {
   margin-left: 36px;
   cursor: pointer;
 }
+/* .link:active {
+  color: #0073FF;
+} */
+.link:hover {
+  color: #0073FF;
+  transition: 200ms ease-in-out;
+}
 </style>
