@@ -127,5 +127,6 @@ export default {
   .contact-us-button:active,
   .contact-us-button:hover {
     background-color: #C0C4CC;
+    transition: 300ms ease-in-out;
   }
 </style>
