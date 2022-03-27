@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import axios from 'axios'
+// 引入less预编译器
+import less from 'less'
 import { api } from '@/config'
 
+
 Vue.use(Vuex)
+Vue.use(less)
 
 const state = {
   language: 'zh', // ['zh', 'en'] 语言
