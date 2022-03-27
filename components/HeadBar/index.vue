@@ -66,7 +66,7 @@ export default {
 .title-text{
   margin-left:12px;
   line-height:40px;
-  font-family: 'Inter';
+  font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -77,12 +77,12 @@ export default {
   width: 40px;
   display:flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: flex-end;
   flex-grow: 1;
   overflow: hidden;
 }
 .link{
-  font-family: 'Inter';
+  font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
