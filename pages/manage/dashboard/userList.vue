@@ -211,7 +211,7 @@ export default {
 
         console.log(error);
       })
-      //jquery ajax
+      // jquery ajax
       // $.ajax({
       //   url: 'http://127.0.0.1:8000/get_json/',
       //   type: "POST",

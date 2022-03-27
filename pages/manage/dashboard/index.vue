@@ -58,7 +58,7 @@ export default {
   height: 100%;
   width: 236px;
   min-width: 236px;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   background: rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
@@ -78,7 +78,6 @@ export default {
   height: 74px;
   background: #EBEEF5;
   border-radius: 20px;
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 25px;

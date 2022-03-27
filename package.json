@@ -19,6 +19,7 @@
     "axios": "^0.26.1",
     "core-js": "^3.19.3",
     "element-ui": "^2.15.6",
+    "less": "^4.1.2",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
@@ -40,6 +41,7 @@
     "eslint-plugin-vue": "^8.2.0",
     "husky": "^7.0.4",
     "jest": "^27.4.4",
+    "less-loader": "^6.0.0",
     "prettier": "^2.5.1",
     "vue-jest": "^3.0.4"
   }
