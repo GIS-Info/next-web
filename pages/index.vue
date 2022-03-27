@@ -76,7 +76,6 @@ export default {
     border: 2px solid #900000;
   }
   .welcome-heading{
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 800;
     font-size: 50px;
@@ -87,7 +86,6 @@ export default {
   }
   .welcome-description {
     margin-top: 15px;
-    font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
     letter-spacing: 2px;
     color: #FFFFFF;
