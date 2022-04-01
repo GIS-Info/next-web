@@ -22,7 +22,7 @@
       <div class="detail">招聘状态: <a href="">招募中</a></div>
       <div class="button" style="left: 68px">申请链接</div>
       <div class="button" style="left: 83px">联系邮箱</div>
-      <div class="description">职位描述</br>80 多年来，GfK 一直是世界上最大的公司和领先品牌的可靠和值得信赖的洞察合作伙伴，他们改变了每个消费者的生活——我们将继续在此基础上再接再厉。我们将数据、科学和创新的数字研究解决方案联系起来，为围绕消费者、市场、品牌和媒体的关键业务问题提供答案。我们的总部位于德国，业务遍及全球约 60 个国家/地区，您可以从我们拥有约 9,000 名员工的多元化社区的全球公司中受益。利用我们员工的力量，我们拥有的最大资产就是我们的员工。作为 GfK 的一部分，您可以将自己的未来掌握在自己手中。我们重视人才、技能和责任，并在我们的国际团队中支持您的发展。我们为我们的传统和我们的未来感到自豪：目前，我们正处于从传统市场研究公司转变为由创新技术支持的规范数据分析的可信赖提供商转型之旅的后期。这只有在非凡的人身上才有可能，这就是为什么我们正在寻找您来帮助创造我们的未来。对于我们的员工以及我们的客户，我们追求一个目标：从知识中成长！ GfK Marketing & Consumer Intelligence 正在寻找一位热情和有抱负的高级研究执行级别的候选人加入其品牌和消费者专家团队，因为对于一个雄心勃勃、有组织的研究人员来说，这是一个令人兴奋的机会，可以成为已建立团队的关键部分。与专家和专家一起工作，您将帮助向英国和全球的各种客户提供成功和高价值的品牌和消费者洞察力，涵盖电信、在线赌场和博彩、家居、汽车等众多行业，和媒体。</div>
+      <div class="description">职位描述<br/>80 多年来，GfK 一直是世界上最大的公司和领先品牌的可靠和值得信赖的洞察合作伙伴，他们改变了每个消费者的生活——我们将继续在此基础上再接再厉。我们将数据、科学和创新的数字研究解决方案联系起来，为围绕消费者、市场、品牌和媒体的关键业务问题提供答案。我们的总部位于德国，业务遍及全球约 60 个国家/地区，您可以从我们拥有约 9,000 名员工的多元化社区的全球公司中受益。利用我们员工的力量，我们拥有的最大资产就是我们的员工。作为 GfK 的一部分，您可以将自己的未来掌握在自己手中。我们重视人才、技能和责任，并在我们的国际团队中支持您的发展。我们为我们的传统和我们的未来感到自豪：目前，我们正处于从传统市场研究公司转变为由创新技术支持的规范数据分析的可信赖提供商转型之旅的后期。这只有在非凡的人身上才有可能，这就是为什么我们正在寻找您来帮助创造我们的未来。对于我们的员工以及我们的客户，我们追求一个目标：从知识中成长！ GfK Marketing & Consumer Intelligence 正在寻找一位热情和有抱负的高级研究执行级别的候选人加入其品牌和消费者专家团队，因为对于一个雄心勃勃、有组织的研究人员来说，这是一个令人兴奋的机会，可以成为已建立团队的关键部分。与专家和专家一起工作，您将帮助向英国和全球的各种客户提供成功和高价值的品牌和消费者洞察力，涵盖电信、在线赌场和博彩、家居、汽车等众多行业，和媒体。</div>
     </div>
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="page-main">
@@ -34,10 +34,10 @@
       <div class="detail">Status: <a href="">Active</a></div>
       <div class="button" style="left: 68px">Apply Link</div>
       <div class="button" style="left: 83px">Contact Email</div>
-      <div class="description">Job Description</br>
-      For over 80 years, GfK has been a reliable and trusted insight partner for the world’s biggest companies and leading brands who make a difference in every consumer’s life - and we will continue to build on this. We connect data, science and innovative digital research solutions to provide answers for key business questions around consumers, markets, brands and media. With our headquarters in Germany and a presence in around 60 countries worldwide, you benefit from our global company with a diverse community of ~9,000 employees.</br>
-      Harnessing the power of our workforce, the greatest asset we have is our people. As part of GfK, you can take your future into your own hands. We value talent, skills and responsibility and support your development within our international teams. We are proud of our heritage and our future: Currently we are in the latter stages of a transformational journey from a traditional market research company to a trusted provider of prescriptive data analytics powered by innovative technology. This is only possible with extraordinary people and this is why we are looking for YOU to help create our future. For our employees as well as for our clients we pursue one goal: Growth from Knowledge!</br>
-      GfK Marketing & Consumer Intelligence is looking for an enthusiastic and ambitions Senior Research Executive level candidate to to join its team of brand and consumer specialists as</br>
+      <div class="description">Job Description<br/>
+      For over 80 years, GfK has been a reliable and trusted insight partner for the world’s biggest companies and leading brands who make a difference in every consumer’s life - and we will continue to build on this. We connect data, science and innovative digital research solutions to provide answers for key business questions around consumers, markets, brands and media. With our headquarters in Germany and a presence in around 60 countries worldwide, you benefit from our global company with a diverse community of ~9,000 employees.<br/>
+      Harnessing the power of our workforce, the greatest asset we have is our people. As part of GfK, you can take your future into your own hands. We value talent, skills and responsibility and support your development within our international teams. We are proud of our heritage and our future: Currently we are in the latter stages of a transformational journey from a traditional market research company to a trusted provider of prescriptive data analytics powered by innovative technology. This is only possible with extraordinary people and this is why we are looking for YOU to help create our future. For our employees as well as for our clients we pursue one goal: Growth from Knowledge!<br/>
+      GfK Marketing & Consumer Intelligence is looking for an enthusiastic and ambitions Senior Research Executive level candidate to to join its team of brand and consumer specialists as<br/>
       This is an exciting opportunity for an ambitious and organised researcher to become a key part of an established team. Working alongside experts and specialists, you will be helping to deliver successful and highly valued brand and consumer insights to a diverse list of clients – both UK and global – covering a wide variety of industries from telecoms, online casinos and betting, home furnishings, automotive, and media.</div>
     </div>
   </div>
@@ -45,11 +45,17 @@
 
 <script>
 import {mapState} from 'vuex';
+import {isMobile} from '@/utils/index'
 
 export default {
   name: 'IndexPage',
   computed: {
     ...mapState({lang: 'language'}),
+  },
+  mounted() {
+    if(isMobile()){
+      this.$router.push('/mobile'+this.$router.currentRoute.path);
+    }
   },
 }
 </script>
