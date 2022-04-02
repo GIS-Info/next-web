@@ -1,25 +1,7 @@
 <template>
   <div class="main">
 
-    <div class="web-banner">
-      <img class=logo-img src="./logo.svg"></img>
-      <div class="logo-name">GISphere</div>
 
-      <!-- 中文web banner -->
-      <div v-if="lang =='zh'" class="about-us">
-        <button class="about-btn">关于我们</button>
-        <button class="about-btn">管理员登录</button>
-        <button class="about-btn">English</button>
-      </div>
-
-      <!-- 英文web banner -->
-      <div v-if="lang =='en'" class="about-us">
-        <button class="about-btn">About</button>
-        <button class="about-btn">Login (Admin Only)</button>
-        <button class="about-btn">切换中文</button>
-      </div>
-
-    </div>
 
     <!-- 中文banner -->
     <div v-if="lang =='zh'" class="page-banner">
@@ -313,19 +295,22 @@
       </table>
     </div>
 
-
-
   </div>
   </template>
 
   <script>
-    import Vue from 'vue'
+    import {isMobile} from '@/utils/index'
     export default {
       name: 'IndexList',
+      mounted() {
+        if (isMobile()) {
+          this.$router.push('/mobile' + this.$router.currentRoute.path);
+        }
+      },
       props: {
         lang: {
           type: String,
-          default: 'en',
+          default: 'zh',
           required: false,
         },
         
@@ -337,60 +322,16 @@
     .main {
       font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
       text-align: center;
-
-      margin-top: 60px;
       width: 100%;
       height: 100%;
       background-color: rgb(241, 241, 241);
-    }
-    .web-banner {
-      position: absolute;
-      width: 100%;
-      height: 60px;
-      left: 0px;
-      top: 0px;
-      background: #E4E7ED;
-      box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
-      border-radius: 0px;
-    }
-    .logo-img{
-      position:absolute;
-      width: 30px;
-      height:30px;
-      left: 50px;
-      top: 15px;
-    }
-    .logo-name {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 90px;
-      top: 20px;
-    }
-    .about-us{
-      position:absolute;
-      right:50px;
-      top:15px;
-      font-size:10px;
-    }
-    .about-btn {
-      background-color: transparent;
-      background-repeat: no-repeat;
-      border: none;
-      cursor: pointer;
-      overflow: hidden;
-      outline: none;
-      margin: 5px;
-    }
-    .about-btn:hover {
-      box-shadow: 0px 0 15px #7CE3B3;
     }
     .page-banner {
       position: absolute;
       width: 100%;
       height: 50px;
       left: 0px;
-      top: 60px;
+      top: 0px;
       background: #F5F7FA;
       box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
       border-radius: 0px;
@@ -426,6 +367,7 @@
         border-radius: 20px;
         font-size: 12px;
         background-color: #FFFFFF;
+        color:#303133;
       }
     .dropdown-content a:hover {
           box-shadow: 0px 0 15px #7CE3B3;
@@ -492,7 +434,7 @@
     }
     .list {
       position: absolute;
-      top: 110px;
+      top: 50px;
       left: 10%;
       width: 50%;
     }
@@ -504,6 +446,9 @@
       height: 65px;
       
     }
+    .entry:hover {
+        box-shadow: 0px 0 15px #7CE3B3;
+      }
     .entry-title{
       font-size:15px;
       position:absolute;
@@ -532,7 +477,7 @@
     }
     .filter {
       position: absolute;
-      top: 110px;
+      top: 50px;
       left: 60%;
       width: 30%;
     }
