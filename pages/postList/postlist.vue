@@ -1,75 +1,202 @@
 <template>
-  
-  <div class="table standard"
-       v-bind:class="{ 'dark-mode': darkModeOn }"
-       :style="{ height: tableHeight + 'px' }">
-    <div class="header">
-      
-      <div class="header-contents">
-        <div class="dropdown">
-          <button class="dropbtn">Level &#9660;</button>
-          <div class="dropdown-content">
-            <a href="#">Ph.D.</a>
-            <a href="#">Master</a>
-            <a href="#">Bachelor</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <button class="dropbtn">Country/Region &#9660;</button>
-          <div class="dropdown-content">
-            <a href="#">United States</a>
-            <a href="#">Singapore</a>
-            <a href="#">Germany</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <button class="dropbtn">Start Term &#9660;</button>
-          <div class="dropdown-content">
-            <a href="#">Spring</a>
-            <a href="#">Summer</a>
-            <a href="#">Fall</a>
-            <a href="#">Winter</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <button class="dropbtn">University &#9660;</button>
-          <div class="dropdown-content">
-            <a href="#">XXX</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <button class="button-reset">Reset</button>
-        </div>
+  <div class="main">
+
+    <div class="web-banner">
+      <img class=logo-img src="./logo.svg"></img>
+      <div class="logo-name">GISphere</div>
+
+      <!-- 中文web banner -->
+      <div v-if="lang =='zh'" class="about-us">
+        <button class="about-btn">关于我们</button>
+        <button class="about-btn">管理员登录</button>
+        <button class="about-btn">English</button>
+      </div>
+
+      <!-- 英文web banner -->
+      <div v-if="lang =='en'" class="about-us">
+        <button class="about-btn">About</button>
+        <button class="about-btn">Login (Admin Only)</button>
+        <button class="about-btn">切换中文</button>
       </div>
 
     </div>
 
-    <div class="list">
+    <!-- 中文banner -->
+    <div v-if="lang =='zh'" class="page-banner">
 
-      
-      
-
-      <div class="t-body">
-        <div v-for="(array, index) in receiveContentList"
-             v-bind:key="index"
-             class="items">
-          <p :style="{ width: columnsWidth + 'px' }"
-             v-for="(item, index) in array"
-             v-bind:key="index">
-            {{ item }}
-          </p>
+      <div class="dropdown level">
+        <button class="dropdown-button">职位层次 &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">博士</a>
+          <a href="#">硕士</a>
+          <a href="#">本科</a>
         </div>
+      </div>
+
+      <div class="dropdown loc">
+        <button class="dropdown-button">国家及地区 &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">美国</a>
+          <a href="#">中国香港</a>
+          <a href="#">德国</a>
+        </div>
+      </div>
+
+
+      <div class="dropdown start-term">
+        <button class="dropdown-button"> 开始时间 &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">春季 (学期制)</a>
+          <a href="#">春季 (学季制)</a>
+          <a href="#">夏季 (学期制)</a>
+        </div>
+      </div>
+      <div class="dropdown uni">
+        <button class="dropdown-button">学校 &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">伊利诺伊大学香槟分校</a>
+          <a href="#">纽约大学</a>
+          <a href="#">哥伦比亚大学</a>
+        </div>
+      </div>
+
+
+      <button class="reset_button">重置</button>
+    </div>
+
+    <!-- 英文banner -->
+    <div v-if="lang =='en'" class="page-banner">
+
+      <div class="dropdown level">
+        <button class="dropdown-button">Level &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">Ph.D.</a>
+          <a href="#">Master</a>
+          <a href="#">Bachelor</a>
+        </div>
+      </div>
+
+      <div class="dropdown loc">
+        <button class="dropdown-button">Country / Region &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">United States</a>
+          <a href="#">Hongkong,China</a>
+          <a href="#">Germany</a>
+        </div>
+      </div>
+
+
+
+      <div class="dropdown start-term">
+        <button class="dropdown-button"> Start Term &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">Spring (Semester)</a>
+          <a href="#">Spring (Quarter)</a>
+          <a href="#">Summer (Semester)</a>
+        </div>
+      </div>
+
+      <div class="dropdown uni">
+        <button class="dropdown-button">University &#9660;</button>
+        <div class="dropdown-content">
+          <a href="#">University of Illinois, Urbana-Champaign</a>
+          <a href="#">New York University</a>
+          <a href="#">Columbia University</a>
+        </div>
+      </div>
+
+      <button class="reset_button">Reset</button>
+
+    </div>
+
+    <!-- 中文list -->
+    <div v-if="lang =='zh'" class="list">
+      <div class="entry">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+
+      </div>
+
+    </div>
+
+    <!-- 英文list -->
+    <div v-if="lang =='en'" class="list">
+      <div class="entry">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
     </div>
 
-    <div class="filter">
-      <div class="wrapper-search">
-        <input v-model="searchText"
-               type="text"
-               class="search"
-               :placeholder="inputPlaceholder"
-               v-on:keyup.enter="searchFunc" />
-        <button @click="searchFunc" class="button-search">
+    <!-- 中文filter -->
+    <div v-if="lang =='zh'" class="filter">
+      <div class="filter-title">按内容搜索 <hr> </div>
+      <div>
+        <input v-model="searchText" type="text" class="search" />
+        <button class="button-search">
           <svg class="icon-search"
                viewBox="0 0 20 20"
                xmlns="http://www.w3.org/2000/svg"
@@ -81,350 +208,424 @@
           </svg>
         </button>
       </div>
-
-      <div class="filter-field">
-        <table>
-          <tr>
-            <td><button class="button-field">空间分析</button></td>
-            <td><button class="button-field">遥感</button></td>
-            <td><button class="button-field">地质</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-field">智慧城市</button></td>
-            <td><button class="button-field">城市规划</button></td>
-            <td><button class="button-field">制图</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-field">倾斜3D</button></td>
-            <td><button class="button-field">云GIS</button></td>
-            <td><button class="button-field">可视化</button></td>
-          </tr>
-        </table>
-      </div>
-
+      <div class="filter-title">按截止时间搜索 <hr> </div>
+      <select class="filter-year">
+        <option>2020年</option>
+        <option>2021年</option>
+        <option>2022年</option>
+      </select>
+      <table class="by-month">
+        <tr>
+          <td><button class="button-month">1月</button></td>
+          <td><button class="button-month">2月</button></td>
+          <td><button class="button-month">3月</button></td>
+          <td><button class="button-month">4月</button></td>
+          <td><button class="button-month">5月</button></td>
+          <td><button class="button-month">6月</button></td>
+        </tr>
+        <tr>
+          <td><button class="button-month">7月</button></td>
+          <td><button class="button-month">8月</button></td>
+          <td><button class="button-month">9月</button></td>
+          <td><button class="button-month">10月</button></td>
+          <td><button class="button-month">11月</button></td>
+          <td><button class="button-month">12月</button></td>
+        </tr>
+      </table>
+      <div class="filter-title">按专业领域搜索 <hr> </div>
+      <table class="by-field">
+        <tr>
+          <td><button class="button-field">空间分析</button></td>
+          <td><button class="button-field">遥感</button></td>
+          <td><button class="button-field">地质</button></td>
+        </tr>
+        <tr>
+          <td><button class="button-field">智慧城市</button></td>
+          <td><button class="button-field">城市规划</button></td>
+          <td><button class="button-field">制图</button></td>
+        </tr>
+        <tr>
+          <td><button class="button-field">倾斜3D</button></td>
+          <td><button class="button-field">云GIS</button></td>
+          <td><button class="button-field">可视化</button></td>
+        </tr>
+      </table>
     </div>
 
+    <!-- 英文filter -->
+    <div v-if="lang =='en'" class="filter">
+      <div class="filter-title">Search by Content <hr> </div>
+      <div>
+        <input v-model="searchText" type="text" class="search" />
+        <button class="button-search">
+          <svg class="icon-search"
+               viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg"
+               heigth="19"
+               width="19">
+            <path fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="filter-title">Search by Deadline <hr> </div>
+      <select class="filter-year">
+        <option>2020</option>
+        <option>2021</option>
+        <option>2022</option>
+      </select>
+      <table class="by-month">
+        <tr>
+          <td><button class="button-month">Jan</button></td>
+          <td><button class="button-month">Feb</button></td>
+          <td><button class="button-month">Mar</button></td>
+          <td><button class="button-month">Apr</button></td>
+          <td><button class="button-month">May</button></td>
+          <td><button class="button-month">Jun</button></td>
+        </tr>
+        <tr>
+          <td><button class="button-month">Jul</button></td>
+          <td><button class="button-month">Aug</button></td>
+          <td><button class="button-month">Sep</button></td>
+          <td><button class="button-month">Oct</button></td>
+          <td><button class="button-month">Nov</button></td>
+          <td><button class="button-month">Dec</button></td>
+        </tr>
+      </table>
+      <div class="filter-title">Search by Field <hr> </div>
+      <table class="by-field">
+        <tr>
+          <td><button class="button-field">Spatial Analysis</button></td>
+          <td><button class="button-field">Remote Sensing</button></td>
+          <td><button class="button-field">Geology</button></td>
+        </tr>
+        <tr>
+          <td><button class="button-field">Urban Informatics</button></td>
+          <td><button class="button-field">Urban Planning</button></td>
+          <td><button class="button-field">Cartography</button></td>
+        </tr>
+        <tr>
+          <td><button class="button-field">Oblique 3D</button></td>
+          <td><button class="button-field">CloudGIS</button></td>
+          <td><button class="button-field">Visulization</button></td>
+        </tr>
+      </table>
+    </div>
+
+
+
   </div>
+  </template>
 
-</template>
-
-<script>
-
-export default {
-  name: "post",
-  data() {
-    return {
-      searchText: "",
-      receiveContentList: this.content,
-    };
-  },
-  methods: {
-    searchFunc: function () {
-      let filtredArray = [];
-      if (this.isEmptyOrSpaces(this.searchText))
-        return (this.receiveContentList = this.content);
-      this.content.map((row) => {
-        row.map((item) => {
-          let itemLowCase = item.toLowerCase();
-          let searchLowCase = this.searchText.toLowerCase();
-          if (itemLowCase.includes(searchLowCase)) {
-            let itemNotExist = filtredArray.indexOf(row) === -1;
-            itemNotExist ? filtredArray.push(row) : null;
-          }
-        });
-      });
-
-      this.receiveContentList = filtredArray;
-    },
-    isEmptyOrSpaces: function (str) {
-      return str === null || str.match(/^ *$/) !== null;
-    },
-    initialState:function(){
-      return {
-        modalBodyDisplay: 'getUserInput',
-        submitButtonText: 'Lookup',
-        addressToConfirm: null,
-        bestViewedByTheseBounds: null,
-        location: {
-          name: null,
-          address: null,
-          position: null
-         }
-       }
-     }
-
-  },
-  props: {
-    content: {
-      type: Array,
-      default: () => {
-        return [
-          ["Position Name 1", "Univ1", "Loc1"],
-          ["Position Name 2", "Univ2", "Loc2"],
-          ["Position Name 3", "Univ3", "Loc3"],
-          ["Position Name 4", "Univ4", "Loc4"],
-          ["Position Name 5", "Univ5", "Loc5"],
-        ];
-      },
-    },
-    titles: {
-      type: Array,
-      default: () => {
-        return ["Position Name"];
-      },
-    },
-    tableHeight: { type: [String, Number] },
-    inputPlaceholder: { type: String, default: "Search..." },
-    columnsWidth: { type: [String, Number], default: 200 },
-    darkModeOn: { type: Boolean, default: false },
-    },
-
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
-  # table standard {
-    font-family: 'Inter', sans-serif;
-  }
-  .standard {
-    --background: #fff;
-    --color-1: #f0f0f7;
-    --color-2: #b1b3c4;
-    --color-3: #f5f5f7;
-    --color-4: #e4e5f1;
-    --color-5: #4b4a54;
-  }
-
-.dark-mode {
-  --background: #151618;
-  --color-1: #222426;
-  --color-2: #bfc0c1;
-  --color-3: #191a1c;
-  --color-4: #27282c;
-  --color-5: #b9b9ba;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--color-4);
-  border-radius: 5px;
-}
-
-p {
-  margin: 0;
-  padding: 0;
-}
-
-  .header {
-    background-color: var(--color-4);
-    padding: 10px
-  }
-  .header-contents {
-    margin-left:-30%;
-  }
-  .dropbtn {
-    background-color: #7CE3B3;
-    color: var(--color-5);
-    padding: 8px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
-    height: 30px;
-    margin-right: 30px;
-    position: relative;
-    
-  }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--color-3);
-    min-width: 16px;
-    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
-    z-index: 1;
-  }
-
-  .dropdown-content a {
-      color: var(--color-5);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 10px;
-    }
-
-  .dropdown-content a:hover {
-        background-color: #7CE3B3
+  <script>
+    import Vue from 'vue'
+    export default {
+      name: 'IndexList',
+      props: {
+        lang: {
+          type: String,
+          default: 'en',
+          required: false,
+        },
+        
       }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  .dropdown:hover .dropbtn {
-    background-color: #42d791;
-  }
-
-  .button-reset {
-    background-color: #E6A23C;
-    color: var(--color-5);
-    padding: 8px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
-    height: 30px;
-    
-    margin-left: 6px;
-    
-    
-
-  }
-
-  .table {
-    background: var(--background);
-    border-radius: 0px;
-    padding: 0px;
-    width: 100%;
-    margin-left: 0%;
-    height: fit-content;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    position: relative;
-    overflow-y: auto;
-  }
-
-  .list {
-    width: 60%;
-    margin-left: 5%;
-  }
-
-  .filter {
-    width:45%;
-    margin-left:70%
-  }
-
-
-  .search {
-    height: 35px;
-    width: 50%;
-    max-width: 500px;
-    border-radius: 20px;
-    outline: none;
-    border: 3px solid var(--color-1);
-    padding: 0 20px;
-    color: var(--color-5);
-    background: var(--background);
-  }
-
-  .wrapper-search {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-  }
-
-  .icon-search {
-    fill: var(--color-2);
-  }
-
-  .search::placeholder {
-    color: var(--color-4);
-    font-weight: bold;
-    font-size: 15px;
-  }
-
-  .button-search {
-    margin-left: -45px;
-    border-radius: 20px;
-    height: 30px;
-    width: 40px;
-    border: 0;
-    outline: none;
-    cursor: pointer;
-    background-color: var(--color-1);
-    transition: all 0.3s ease 0s;
-  }
-
-    .button-search:hover {
-      background-color: var(--color-4);
     }
+  </script>
 
+  <style>
+    .main {
+      font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+      text-align: center;
 
-  .button-field {
-    margin: 0px;
-    border-radius: 20px;
-    padding: 5px;
-    height: 25px;
-    width: 100px;
-    border: 0;
-    outline: none;
-    cursor: pointer;
-    background-color: var(--color-3);
-    transition: all 0.3s ease 0s;
-  }
+      margin-top: 60px;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(241, 241, 241);
+    }
+    .web-banner {
+      position: absolute;
+      width: 100%;
+      height: 60px;
+      left: 0px;
+      top: 0px;
+      background: #E4E7ED;
+      box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
+      border-radius: 0px;
+    }
+    .logo-img{
+      position:absolute;
+      width: 30px;
+      height:30px;
+      left: 50px;
+      top: 15px;
+    }
+    .logo-name {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 90px;
+      top: 20px;
+    }
+    .about-us{
+      position:absolute;
+      right:50px;
+      top:15px;
+      font-size:10px;
+    }
+    .about-btn {
+      background-color: transparent;
+      background-repeat: no-repeat;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      outline: none;
+      margin: 5px;
+    }
+    .about-btn:hover {
+      box-shadow: 0px 0 15px #7CE3B3;
+    }
+    .page-banner {
+      position: absolute;
+      width: 100%;
+      height: 50px;
+      left: 0px;
+      top: 60px;
+      background: #F5F7FA;
+      box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
+      border-radius: 0px;
+    }
+    .dropdown-button {
+      /* Font and Color */
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      font-weight: bold;
+      color: rgba(48, 49, 51, 0.75);
+      /* Button Feature */
+      line-height: 20px;
+      text-align: center;
+      background: #7CE3B3;
+      border-radius: 20px;
+      border-width: 0px;
+      padding: 5px 15px;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      
+      
+    }
+    .dropdown-content a {
+      padding: 10px 16px;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 12px;
 
+      }
+    .dropdown-content a:hover {
+        box-shadow: 0px 0 15px #7CE3B3;
+        border-radius:20px
+      }
+    .dropdown:hover .dropdown-content {
+      display:block;
+    }
+    .dropdown:hover .dropdown-button {
+      background-color: #42d791;
+    }
+    .level {
+      position: absolute;
+      width: 100px;
+      height: 25px;
+      left: 120px;
+      top: 10px;
+    }
+    .loc {
+      position: absolute;
+      width: 150px;
+      height: 25px;
+      left: 270px;
+      top: 10px;
+    }
+    .start-term {
+      position: absolute;
+      width: 120px;
+      height: 25px;
+      left: 460px;
+      top: 10px;
+    }
+    .uni {
+      position: absolute;
+      width: 120px;
+      height: 25px;
+      left: 620px;
+      top: 10px;
+    }
+    .reset_button {
+      /* Font and Color */
+      font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      font-weight: bold;
+      color: rgba(48, 49, 51, 0.75);
+      /* Button Feature */
+      line-height: 20px;
+      text-align: center;
+      background: #E6A23C;
+      border-radius: 20px;
+      border-color: black;
+      border-width: 0px;
+      padding: 0px 10px;
+      /* Position */
+      position: absolute;
+      width: 100px;
+      height: 25px;
+      right: 100px;
+      top: 10px;
+    }
+    .list {
+      position: absolute;
+      top: 110px;
+      left: 10%;
+      width: 50%;
+    }
+    .entry {
+      margin-top: 8px;
+      position: relative;
+      display: block;
+      background-color:#F5F7FA;
+      height: 65px;
+      
+    }
+    .entry-title{
+      font-size:15px;
+      position:absolute;
+      padding: 10px;
+      
+      
+    }
+    .entry-content-brief{
+       position:absolute;
+       padding: 30px 0px 10px 10px;
+       font-size: 10px;
+       color: #909399;
+    }
+    .entry-loc {
+      position: absolute;
+      padding: 45px 0px 10px 10px;
+      font-size: 10px;
+      color: #909399;
+    }
+    .entry-pubDate {
+      position: absolute;
+      padding: 45px 0px 10px 83%;
+      font-size: 10px;
+      color: #909399;
+      
+    }
+    .filter {
+      position: absolute;
+      top: 110px;
+      left: 60%;
+      width: 30%;
+    }
+    .filter-title {
+      position: relative;
+      display: block;
+      left: 30%;
+      top: 20px;
+      bottom: 50px;
+      width: 40%;
+    }
+    .search {
+      height: 35px;
+      width: 50%;
+      max-width: 500px;
+      border-radius: 20px;
+      outline: none;
+      border: 3px solid #7CE3B3;
+      padding: 0 20px;
+      color: #606266;
+      background: #FFFFFF;
+      margin-top:20px;
+    }
+    .button-search {
+      margin-left: -50px;
+      border-radius: 20px;
+      height: 30px;
+      width: 40px;
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      background-color: #FFFFFF;
+      transition: all 0.3s ease 0s;
+      margin-bottom:50px;
+    }
+    .button-search:hover {
+        background-color: var(--color-4);
+      }
+    .filter-title hr {
+        border-top: 3px solid #7CE3B3;
+        width: 35%
+      }
+    .filter-year {
+      position:relative;
+      top:20px;
+      left:0px;
+     
+      
+      border: 0px solid #7CE3B3;
+      padding: 5px;
+      word-spacing:30px;
+  
+    }
+    .by-month {
+      position: relative;
+      top: 20px;
+      width: 80%;
+      left:10%;
+      right:10%;
+      margin-bottom: 50px;
+    }
+    .button-month {
+      border-width: 0px;
+      margin: 5px;
+      padding: 0px;
+      height: 35px;
+      width: 40px;
+      color: #909399;
+      cursor: pointer;
+      background-color: #FFFFFF;
+      transition: all 0.3s ease 0s;
+    }
+    .button-month:hover {
+      background-color: #7CE3B3;
+      color: #303133;
+    }
+    .by-field {
+      position: relative;
+      left:10%;
+      right:10%;
+      width: 80%;
+      top: 20px;
+    }
+    .button-field {
+      border-color: #DCDFE6;
+      border-width: 1px;
+      border-radius: 20px;
+      height: 30px;
+      width: 120px;
+      color: #909399;
+      cursor: pointer;
+      background-color: #FFFFFF;
+      transition: all 0.3s ease 0s;
+    }
     .button-field:hover {
       background-color: #7CE3B3;
+      color:#303133;
     }
 
 
-
-  .titles {
-    display: flex;
-    flex-direction: row;
-    background: var(--color-1);
-    padding: 15px 0;
-    border-radius: 5px;
-  }
-.titles p {
-  padding: 0 10px;
-  color: var(--color-2);
-}
-
-.items {
-  display: flex;
-  flex-direction: row;
-  margin-top: 5px;
-  padding: 10px 0;
-  color: var(--color-5);
-  transition: all 0.3s ease 0s;
-}
-
-.items:nth-child(odd) {
-  background-color: var(--color-3);
-  border-radius: 5px;
-}
-
-.items:hover {
-  background: #7CE3B3;
-  border-radius: 5px;
-}
-
-.items p {
-  padding: 0 10px;
-}
-
-.t-body {
-  margin-top: 20px;
-}
-
-
-
-</style>
+  </style>
