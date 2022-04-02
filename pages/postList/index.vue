@@ -91,37 +91,37 @@
 
     <!-- 中文list -->
     <div v-if="lang =='zh'" class="list">
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
@@ -133,37 +133,37 @@
 
     <!-- 英文list -->
     <div v-if="lang =='en'" class="list">
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
-      <div class="entry">
+      <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
@@ -320,6 +320,11 @@ export default {
     if (isMobile()) {
       this.$router.push('/mobile' + this.$router.currentRoute.path);
     }
+  },
+  methods: {
+    goPost(id){
+      this.$router.push('/post/'+id.toString());
+    }
   }
 }
 </script>
@@ -361,8 +366,6 @@ export default {
     display: none;
     position: absolute;
     z-index: 1;
-    
-    
   }
   .dropdown-content a {
       width:100px;

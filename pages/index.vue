@@ -152,7 +152,6 @@ export default {
     margin-top: -136px;
     width: 798px;
     height: 272px;
-    border: 2px solid #900000;
   }
   .welcome-heading{
     font-style: normal;
@@ -161,7 +160,6 @@ export default {
     line-height: 60px;
     letter-spacing: -2px;
     color: #0073FF;
-
   }
   .welcome-description {
     margin-top: 15px;
