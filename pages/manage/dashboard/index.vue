@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import dataPanel from './dataPanel'
 import postList from './postList'
 import userList from './userList'
@@ -36,9 +37,18 @@ export default {
       currentView: 'dataPanel', // 当前视图 ['dataPanel','postList','userList']
     }
   },
+  computed: {
+    ...mapState({userToken: 'userToken'}),
+  },
+  created() {
+    if(!this.userToken){
+      this.$router.push('/manage/login')
+    }
+  },
   methods: {
     setView(view){
       this.currentView = view;
+      // eslint-disable-next-line no-console
       console.log('view',view)
     }
   }
