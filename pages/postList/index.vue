@@ -1,8 +1,6 @@
 <template>
   <div class="main">
 
-
-
     <!-- 中文banner -->
     <div v-if="lang =='zh'" class="page-banner">
 
@@ -179,14 +177,16 @@
       <div>
         <input v-model="searchText" type="text" class="search" />
         <button class="button-search">
-          <svg class="icon-search"
-               viewBox="0 0 20 20"
-               xmlns="http://www.w3.org/2000/svg"
-               heigth="19"
-               width="19">
-            <path fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"></path>
+          <svg 
+            class="icon-search" 
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            height="19"
+            width="19">
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"></path>
           </svg>
         </button>
       </div>
@@ -240,14 +240,16 @@
       <div>
         <input v-model="searchText" type="text" class="search" />
         <button class="button-search">
-          <svg class="icon-search"
-               viewBox="0 0 20 20"
-               xmlns="http://www.w3.org/2000/svg"
-               heigth="19"
-               width="19">
-            <path fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"></path>
+          <svg 
+            class="icon-search"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            height="19"
+            width="19">
+            <path 
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"></path>
           </svg>
         </button>
       </div>
@@ -290,292 +292,292 @@
         <tr>
           <td><button class="button-field">Oblique 3D</button></td>
           <td><button class="button-field">CloudGIS</button></td>
-          <td><button class="button-field">Visulization</button></td>
+          <td><button class="button-field">Visualization</button></td>
         </tr>
       </table>
     </div>
 
   </div>
-  </template>
+</template>
 
-  <script>
-    import {isMobile} from '@/utils/index'
-    export default {
-      name: 'IndexList',
-      mounted() {
-        if (isMobile()) {
-          this.$router.push('/mobile' + this.$router.currentRoute.path);
-        }
-      },
-      props: {
-        lang: {
-          type: String,
-          default: 'zh',
-          required: false,
-        },
-        
-      }
-    }
-  </script>
+<script>
+import {mapState} from 'vuex';
+import {isMobile} from '@/utils/index'
 
-  <style>
-    .main {
-      font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-      text-align: center;
-      width: 100%;
-      height: 100%;
-      background-color: rgb(241, 241, 241);
+export default {
+  name: 'IndexList',
+  // props: {
+  //   lang: {
+  //     type: String,
+  //     default: 'zh',
+  //     required: false,
+  //   },
+  // },
+  computed: {
+    ...mapState({lang: 'language'}),
+  },
+  mounted() {
+    if (isMobile()) {
+      this.$router.push('/mobile' + this.$router.currentRoute.path);
     }
-    .page-banner {
-      position: absolute;
-      width: 100%;
-      height: 50px;
-      left: 0px;
-      top: 0px;
-      background: #F5F7FA;
-      box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
-      border-radius: 0px;
-    }
-    .dropdown-button {
-      /* Font and Color */
-      font-style: normal;
-      font-weight: 400;
+  }
+}
+</script>
+
+<style scoped>
+  .main {
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(241, 241, 241);
+  }
+  .page-banner {
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    left: 0px;
+    top: 0px;
+    background: #F5F7FA;
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
+    border-radius: 0px;
+  }
+  .dropdown-button {
+    /* Font and Color */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgba(48, 49, 51, 0.75);
+    /* Button Feature */
+    line-height: 20px;
+    text-align: center;
+    background: #7CE3B3;
+    border-radius: 20px;
+    border-width: 0px;
+    padding: 5px 15px;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    
+    
+  }
+  .dropdown-content a {
+      width:100px;
+      margin-top:5px;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 20px;
       font-size: 12px;
-      font-weight: bold;
-      color: rgba(48, 49, 51, 0.75);
-      /* Button Feature */
-      line-height: 20px;
-      text-align: center;
-      background: #7CE3B3;
-      border-radius: 20px;
-      border-width: 0px;
-      padding: 5px 15px;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      z-index: 1;
-      
-     
-    }
-    .dropdown-content a {
-        width:100px;
-        margin-top:5px;
-        padding: 10px 16px;
-        text-decoration: none;
-        display: inline-block;
-        border-radius: 20px;
-        font-size: 12px;
-        background-color: #FFFFFF;
-        color:#303133;
-      }
-    .dropdown-content a:hover {
-          box-shadow: 0px 0 15px #7CE3B3;
-          border-radius: 20px;
-          background-color: #FFFFFF;
-        }
-    .dropdown:hover .dropdown-content {
-      display: block;
-      
-    }
-    .dropdown:hover .dropdown-button {
-      background-color: #42d791;
-    }
-    .level {
-      position: absolute;
-      width: 100px;
-      height: 25px;
-      left: 120px;
-      top: 10px;
-    }
-    .loc {
-      position: absolute;
-      width: 150px;
-      height: 25px;
-      left: 270px;
-      top: 10px;
-    }
-    .start-term {
-      position: absolute;
-      width: 120px;
-      height: 25px;
-      left: 460px;
-      top: 10px;
-    }
-    .uni {
-      position: absolute;
-      width: 120px;
-      height: 25px;
-      left: 620px;
-      top: 10px;
-    }
-    .reset_button {
-      /* Font and Color */
-      font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 12px;
-      font-weight: bold;
-      color: rgba(48, 49, 51, 0.75);
-      /* Button Feature */
-      line-height: 20px;
-      text-align: center;
-      background: #E6A23C;
-      border-radius: 20px;
-      border-color: black;
-      border-width: 0px;
-      padding: 0px 10px;
-      /* Position */
-      position: absolute;
-      width: 100px;
-      height: 25px;
-      right: 100px;
-      top: 10px;
-    }
-    .list {
-      position: absolute;
-      top: 50px;
-      left: 10%;
-      width: 50%;
-    }
-    .entry {
-      margin-top: 8px;
-      position: relative;
-      display: block;
-      background-color:#F5F7FA;
-      height: 65px;
-      
-    }
-    .entry:hover {
-        box-shadow: 0px 0 15px #7CE3B3;
-      }
-    .entry-title{
-      font-size:15px;
-      position:absolute;
-      padding: 10px;
-      
-      
-    }
-    .entry-content-brief{
-       position:absolute;
-       padding: 30px 0px 10px 10px;
-       font-size: 10px;
-       color: #909399;
-    }
-    .entry-loc {
-      position: absolute;
-      padding: 45px 0px 10px 10px;
-      font-size: 10px;
-      color: #909399;
-    }
-    .entry-pubDate {
-      position: absolute;
-      padding: 45px 0px 10px 83%;
-      font-size: 10px;
-      color: #909399;
-      
-    }
-    .filter {
-      position: absolute;
-      top: 50px;
-      left: 60%;
-      width: 30%;
-    }
-    .filter-title {
-      position: relative;
-      display: block;
-      left: 30%;
-      top: 20px;
-      bottom: 50px;
-      width: 40%;
-    }
-    .search {
-      height: 35px;
-      width: 50%;
-      max-width: 500px;
-      border-radius: 20px;
-      outline: none;
-      border: 3px solid #7CE3B3;
-      padding: 0 20px;
-      color: #606266;
-      background: #FFFFFF;
-      margin-top:20px;
-    }
-    .button-search {
-      margin-left: -50px;
-      border-radius: 20px;
-      height: 30px;
-      width: 40px;
-      border: 0;
-      outline: none;
-      cursor: pointer;
       background-color: #FFFFFF;
-      transition: all 0.3s ease 0s;
-      margin-bottom:50px;
-    }
-    .button-search:hover {
-        background-color: var(--color-4);
-      }
-    .filter-title hr {
-        border-top: 3px solid #7CE3B3;
-        width: 35%
-      }
-    .filter-year {
-      position:relative;
-      top:20px;
-      left:0px;
-     
-      
-      border: 0px solid #7CE3B3;
-      padding: 5px;
-      word-spacing:30px;
-  
-    }
-    .by-month {
-      position: relative;
-      top: 20px;
-      width: 80%;
-      left:10%;
-      right:10%;
-      margin-bottom: 50px;
-    }
-    .button-month {
-      border-width: 0px;
-      margin: 5px;
-      padding: 0px;
-      height: 35px;
-      width: 40px;
-      color: #909399;
-      cursor: pointer;
-      background-color: #FFFFFF;
-      transition: all 0.3s ease 0s;
-    }
-    .button-month:hover {
-      background-color: #7CE3B3;
-      color: #303133;
-    }
-    .by-field {
-      position: relative;
-      left:10%;
-      right:10%;
-      width: 80%;
-      top: 20px;
-    }
-    .button-field {
-      border-color: #DCDFE6;
-      border-width: 1px;
-      border-radius: 20px;
-      height: 30px;
-      width: 120px;
-      color: #909399;
-      cursor: pointer;
-      background-color: #FFFFFF;
-      transition: all 0.3s ease 0s;
-    }
-    .button-field:hover {
-      background-color: #7CE3B3;
       color:#303133;
     }
+  .dropdown-content a:hover {
+        box-shadow: 0px 0 15px #7CE3B3;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+      }
+  .dropdown:hover .dropdown-content {
+    display: block;
+    
+  }
+  .dropdown:hover .dropdown-button {
+    background-color: #42d791;
+  }
+  .level {
+    position: absolute;
+    width: 100px;
+    height: 25px;
+    left: 120px;
+    top: 10px;
+  }
+  .loc {
+    position: absolute;
+    width: 150px;
+    height: 25px;
+    left: 270px;
+    top: 10px;
+  }
+  .start-term {
+    position: absolute;
+    width: 120px;
+    height: 25px;
+    left: 460px;
+    top: 10px;
+  }
+  .uni {
+    position: absolute;
+    width: 120px;
+    height: 25px;
+    left: 620px;
+    top: 10px;
+  }
+  .reset_button {
+    /* Font and Color */
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgba(48, 49, 51, 0.75);
+    /* Button Feature */
+    line-height: 20px;
+    text-align: center;
+    background: #E6A23C;
+    border-radius: 20px;
+    border-color: black;
+    border-width: 0px;
+    padding: 0px 10px;
+    /* Position */
+    position: absolute;
+    width: 100px;
+    height: 25px;
+    right: 100px;
+    top: 10px;
+  }
+  .list {
+    position: absolute;
+    top: 50px;
+    left: 10%;
+    width: 50%;
+  }
+  .entry {
+    margin-top: 8px;
+    position: relative;
+    display: block;
+    background-color:#F5F7FA;
+    height: 65px;
+    
+  }
+  .entry:hover {
+      box-shadow: 0px 0 15px #7CE3B3;
+    }
+  .entry-title{
+    font-size:15px;
+    position:absolute;
+    padding: 10px;
+  }
+  .entry-content-brief{
+      position:absolute;
+      padding: 30px 0px 10px 10px;
+      font-size: 10px;
+      color: #909399;
+  }
+  .entry-loc {
+    position: absolute;
+    padding: 45px 0px 10px 10px;
+    font-size: 10px;
+    color: #909399;
+  }
+  .entry-pubDate {
+    position: absolute;
+    padding: 45px 0px 10px 83%;
+    font-size: 10px;
+    color: #909399;
+    
+  }
+  .filter {
+    position: absolute;
+    top: 50px;
+    left: 60%;
+    width: 30%;
+  }
+  .filter-title {
+    position: relative;
+    display: block;
+    left: 30%;
+    top: 20px;
+    bottom: 50px;
+    width: 40%;
+  }
+  .search {
+    height: 35px;
+    width: 50%;
+    max-width: 500px;
+    border-radius: 20px;
+    outline: none;
+    border: 3px solid #7CE3B3;
+    padding: 0 20px;
+    color: #606266;
+    background: #FFFFFF;
+    margin-top:20px;
+  }
+  .button-search {
+    margin-left: -50px;
+    border-radius: 20px;
+    height: 30px;
+    width: 40px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    transition: all 0.3s ease 0s;
+    margin-bottom:50px;
+  }
+  .button-search:hover {
+      background-color: var(--color-4);
+    }
+  .filter-title hr {
+      border-top: 3px solid #7CE3B3;
+      width: 35%
+    }
+  .filter-year {
+    position:relative;
+    top:20px;
+    left:0px;
+    
+    
+    border: 0px solid #7CE3B3;
+    padding: 5px;
+    word-spacing:30px;
 
-
-  </style>
+  }
+  .by-month {
+    position: relative;
+    top: 20px;
+    width: 80%;
+    left:10%;
+    right:10%;
+    margin-bottom: 50px;
+  }
+  .button-month {
+    border-width: 0px;
+    margin: 5px;
+    padding: 0px;
+    height: 35px;
+    width: 40px;
+    color: #909399;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    transition: all 0.3s ease 0s;
+  }
+  .button-month:hover {
+    background-color: #7CE3B3;
+    color: #303133;
+  }
+  .by-field {
+    position: relative;
+    left:10%;
+    right:10%;
+    width: 80%;
+    top: 20px;
+  }
+  .button-field {
+    border-color: #DCDFE6;
+    border-width: 1px;
+    border-radius: 20px;
+    height: 30px;
+    width: 120px;
+    color: #909399;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    transition: all 0.3s ease 0s;
+  }
+  .button-field:hover {
+    background-color: #7CE3B3;
+    color:#303133;
+  }
+</style>
