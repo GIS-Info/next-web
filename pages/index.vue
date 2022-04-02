@@ -43,12 +43,18 @@
 
 <script>
 import {mapState} from 'vuex';
+import {isMobile} from '@/utils/index'
 
 export default {
   name: 'IndexPage',
   computed: {
     ...mapState({lang: 'language'}),
   },
+  mounted() {
+    if(isMobile()){
+      this.$router.push('/mobile/');
+    }
+  }
 }
 </script>
 
