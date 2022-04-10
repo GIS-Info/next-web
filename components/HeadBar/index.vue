@@ -6,8 +6,8 @@
     </div>
     <!-- 中文情况下的链接 -->
     <div v-if="lang == 'zh'" class="links-div">
-      <div class="link" @click="goHomePage">关于我们</div>
-      <div class="link" @click="goManagePage">管理</div>
+      <div class="link" @click="goAboutUs">关于我们</div>
+      <div class="link" @click="goManagePage">管理员登录</div>
       <div class="link" @click="setLanguage('en')">English</div>
     </div>
     <!-- 英文情况下的链接 -->
@@ -33,6 +33,9 @@ export default {
     },
     goManagePage(){
       this.$router.push('/manage/dashboard')
+    },
+    goAboutUs(){
+      this.$router.push('/aboutUs')
     }
   }
 }
