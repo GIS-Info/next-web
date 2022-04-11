@@ -103,12 +103,10 @@ export default {
     flex-direction: row;
     justify-content: center;
     .main{
-      padding-top: 40px;
       width: 100%;
       max-width: 1200px;
-      padding-left: 20px;
-      padding-right: 20px;
-      padding-bottom: 40px;
+      padding: 40px 20px;
+      box-sizing: border-box;
     }
   }
 </style>
