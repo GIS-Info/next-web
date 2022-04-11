@@ -69,6 +69,10 @@ export default {
           {name: '彭建', email: 'pjwhusir@gmail.com', img: 'https://s3.bmp.ovh/imgs/2022/04/10/4b437562aeb04dfa.png', link: 'https://github.com/pengjeck'},        
           {name: '胡洛铭', email: 'huluoming98@gmail.com', img: 'https://s3.bmp.ovh/imgs/2022/04/10/2b78be43bec0914d.jpeg', link: ''},
           {name: '周智杰', email: 'zhou-zj@outlook.com', img: 'https://s3.bmp.ovh/imgs/2022/04/11/5ba5bf666ca0a0bc.png', link: 'https://zjalexzhou.github.io/portfolio'},
+          {name: '李秦家妹', email: 'l1075651504@gmail.com', img: 'https://s3.bmp.ovh/imgs/2022/04/11/b389c19870ee64b7.jpeg', link: ''},
+          {name: '孙婉莹', email: 'Wany.Sun@outlook.com', img: 'https://s3.bmp.ovh/imgs/2022/04/11/417ecc0aad6daf34.jpeg', link: 'https://github.com/YingLSCF'},
+          {name: '李长斯', email: 'lichangsi1015@gmail.com', img: 'https://s3.bmp.ovh/imgs/2022/04/11/b1e68def10d2fd04.png', link: 'https://github.com/LArk-root'},
+          {name: '冯国泉', email: 'guoquanfeng94@gmail.com', img: 'https://s3.bmp.ovh/imgs/2022/04/11/962890d0cfd1a35d.jpeg', link: ''},
         ],
         gisphere: [],
         gisource: [],
@@ -102,6 +106,9 @@ export default {
       padding-top: 40px;
       width: 100%;
       max-width: 1200px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 40px;
     }
   }
 </style>
