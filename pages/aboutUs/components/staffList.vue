@@ -57,6 +57,7 @@ export default {
     .name{
       cursor: pointer;
       color: #0073ff;
+      text-decoration: none;
     }
     .name:hover{
       text-decoration: underline;
@@ -65,6 +66,7 @@ export default {
       font-size: 12px;
       cursor: pointer;
       color: #0073ff;
+      text-decoration: none;
     }
     .email:hover{
       text-decoration: underline;
