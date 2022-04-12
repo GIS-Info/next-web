@@ -16,14 +16,16 @@
 
     <!-- 中文情况下 -->
     <div v-if="lang =='zh'" class="post-content">
-      <div class="content-title">{{ postdata.label + postdata.label }}</div>
+      <div class="content-title">{{ postdata.label + postdata.cn.job }}</div>
       <div class="content-detail">发布时间: <span class="normal">{{ postdata.postDate }}</span></div>
       <div class="content-detail">截止日期: <span class="normal">{{ postdata.closeDate }}</span></div>
-      <div class="content-detail">院校名称: <span class="normal">{{ postdata.label }}</span></div>
-      <div class="content-detail">地理位置: <span class="normal">{{ postdata.label }}</span></div>
+      <div class="content-detail">院校名称: <span class="normal">{{ postdata.cn.universityName }}</span></div>
+      <div class="content-detail">地理位置: <span class="normal">{{ postdata.cn.universityLoaction }}</span></div>
       <div class="content-detail">学历要求: <span class="normal">硕士</span></div>
       <div class="content-detail">岗位数量: <span class="normal">3</span></div>
-      <div class="content-detail">招聘状态: <span class="active">招募中</span></div>
+      <!-- 如果招聘状态为true，则css为active -->
+      <!-- 动态修改span内容 -->
+      <div class="content-detail">招聘状态: <span :class="postdata.status == true? 'active' : 'normal'" id="status">已截止</span></div>
 
       <div class="dropdown">
         <button class="dropdown-button">申请链接 &#x2709;</button>
@@ -35,14 +37,14 @@
       <div class="dropdown">
         <button class="dropdown-button">联系人1: Dr.AAAA &#x2709;</button>
         <div class="dropdown-content">
-          <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>
+          <a href="'mailto:${ postdata.contactEmail1 }'">{{ postdata.contactEmail1 }}</a>
         </div>
       </div>
 
       <div class="dropdown">
         <button class="dropdown-button">联系人2: Dr.BBB &#x2709;</button>
         <div class="dropdown-content">
-          <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>
+          <a href="'mailto:${ postdata.contactEmail2 }'">{{ postdata.contactEmail2 }}</a>
         </div>
       </div>
 
@@ -72,14 +74,22 @@
 import axios from 'axios'
 import {mapState} from 'vuex'
 import {isMobile} from '@/utils/index'
+// 从根目录引入api
+import {api} from '@/config/index.js'
 
 export default {
   name: 'IndexPage',
   // 这里存放数据
   data() {
     return {
-      // postdata: []还是{}？
-      postdata: {applyURL: 'https://www.gisphere.net/'},
+      api,
+      // postdata: []还是{}？以下是测试数据
+      postdata: {
+                status: false,
+                applyURL: 'https://www.gisphere.net/',
+                cn: {
+                  universityName: '新加坡国立大学'
+                }}
     }
   },
   computed: {
@@ -90,6 +100,12 @@ export default {
     // 告知本页面开发人员（张心怡）后，请记得删除注释，thanks！
     // 为什么这里不加逗号？
     this.getPost()
+    // 关于招募状态的处理函数，为什么这里要加this？
+    // 这个函数写在getPost里比较好，还是methods新建函数再加到mounted中比较好？
+    // 我认为它比较短，直接像isMobile写在mounted里最方便
+    if(this.postdata.status){
+      document.getElementById('status').innerHTML = '招募中';
+    }
     if(isMobile()){
       this.$router.push('/mobile'+this.$router.currentRoute.path);
     }
@@ -107,7 +123,7 @@ export default {
       // 测试时用1
       const eventId = 1;
       // 向后端发起请求，怎么解决跨域？正在学习中
-      axios.get('http://43.154.149.214/api/post/'+eventId.toString()).then(res=>{
+      axios.get(api+'/post/'+eventId.toString()).then(res=>{
         // 把后端传回的data存到此文件的postdata中
         this.data = res.data.postdata;
       }).catch(error=>{
