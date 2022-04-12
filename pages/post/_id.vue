@@ -4,23 +4,23 @@
     <div v-if="lang =='zh'" class="post-header">
       <!-- 求助！请问@click="goPost()"该怎么传入参数？ -->
       <button class="header-prev-button" @click="goPost(postdata.prevId)">&#9664; 上一页</button>
-      <button class="header-next-button" @click="goPost(2)">下一页 &#9654;</button>
+      <button class="header-next-button" @click="goPost(postdata.nextId)">下一页 &#9654;</button>
       <button class="header-back2list-button" @click="goPostList">返回列表</button>
     </div>
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="post-header">
-      <button class="header-prev-button" @click="goPost(1)">&#9664; PREV</button>
-      <button class="header-next-button" @click="goPost(2)">NEXT &#9654;</button>
+      <button class="header-prev-button" @click="goPost({{ postdata.prevId }})">&#9664; PREV</button>
+      <button class="header-next-button" @click="goPost({{ postdata.nextId }})">NEXT &#9654;</button>
       <button class="header-back2list-button" @click="goPostList">Back to List</button>
     </div>
 
     <!-- 中文情况下 -->
     <div v-if="lang =='zh'" class="post-content">
-      <div class="content-title">地理信息科学研究助理</div>
-      <div class="content-detail">发布时间: <span class="normal">03 Feb 2022</span></div>
-      <div class="content-detail">截止日期: <span class="normal">05 Mar 2022</span></div>
-      <div class="content-detail">院校名称: <span class="normal">新加坡国立大学</span></div>
-      <div class="content-detail">地理位置: <span class="normal">欧洲，英国，英格兰，伦敦</span></div>
+      <div class="content-title">{{ postdata.label + postdata.cn.job }}</div>
+      <div class="content-detail">发布时间: <span class="normal">{{ postdata.postDate }}}</span></div>
+      <div class="content-detail">截止日期: <span class="normal">{{ postdata.closeDate }}</span></div>
+      <div class="content-detail">院校名称: <span class="normal">{{ postdata.cn.universityName }}</span></div>
+      <div class="content-detail">地理位置: <span class="normal">{{ postdata.cn.universityLoaction }}</span></div>
       <div class="content-detail">学历要求: <span class="normal">硕士</span></div>
       <div class="content-detail">岗位数量: <span class="normal">3</span></div>
       <div class="content-detail">招聘状态: <span class="active">招募中</span></div>
@@ -28,7 +28,7 @@
       <div class="dropdown">
         <button class="dropdown-button">申请链接 &#x2709;</button>
         <div class="dropdown-content">
-          <a href="https://www.gisphere.net/" target="_blank">https://www.gisphere.net/</a>
+          <a :href="{{ postdata.applyURL }}" target="_blank">{{ postdata.applyURL }}</a>
         </div>
       </div>
 
@@ -78,7 +78,8 @@ export default {
   // 这里存放数据
   data() {
     return {
-      postdata: [],
+      // postdata: []还是{}？
+      postdata: {applyURL: 'https://www.gisphere.net/'},
     }
   },
   computed: {
