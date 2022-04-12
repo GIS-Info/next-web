@@ -9,18 +9,18 @@
     </div>
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="post-header">
-      <button class="header-prev-button" @click="goPost({{ postdata.prevId }})">&#9664; PREV</button>
-      <button class="header-next-button" @click="goPost({{ postdata.nextId }})">NEXT &#9654;</button>
+      <button class="header-prev-button" @click="goPost(postdata.prevId)">&#9664; PREV</button>
+      <button class="header-next-button" @click="goPost(postdata.nextId)">NEXT &#9654;</button>
       <button class="header-back2list-button" @click="goPostList">Back to List</button>
     </div>
 
     <!-- 中文情况下 -->
     <div v-if="lang =='zh'" class="post-content">
-      <div class="content-title">{{ postdata.label + postdata.cn.job }}</div>
-      <div class="content-detail">发布时间: <span class="normal">{{ postdata.postDate }}}</span></div>
+      <div class="content-title">{{ postdata.label + postdata.label }}</div>
+      <div class="content-detail">发布时间: <span class="normal">{{ postdata.postDate }}</span></div>
       <div class="content-detail">截止日期: <span class="normal">{{ postdata.closeDate }}</span></div>
-      <div class="content-detail">院校名称: <span class="normal">{{ postdata.cn.universityName }}</span></div>
-      <div class="content-detail">地理位置: <span class="normal">{{ postdata.cn.universityLoaction }}</span></div>
+      <div class="content-detail">院校名称: <span class="normal">{{ postdata.label }}</span></div>
+      <div class="content-detail">地理位置: <span class="normal">{{ postdata.label }}</span></div>
       <div class="content-detail">学历要求: <span class="normal">硕士</span></div>
       <div class="content-detail">岗位数量: <span class="normal">3</span></div>
       <div class="content-detail">招聘状态: <span class="active">招募中</span></div>
@@ -28,7 +28,7 @@
       <div class="dropdown">
         <button class="dropdown-button">申请链接 &#x2709;</button>
         <div class="dropdown-content">
-          <a :href="{{ postdata.applyURL }}" target="_blank">{{ postdata.applyURL }}</a>
+          <a :href="'{{ postdata.applyURL }}'" target="_blank">{{ postdata.applyURL }}</a>
         </div>
       </div>
 
@@ -69,9 +69,9 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import {isMobile} from '@/utils/index'
 import axios from 'axios'
+import {mapState} from 'vuex'
+import {isMobile} from '@/utils/index'
 
 export default {
   name: 'IndexPage',
@@ -88,7 +88,8 @@ export default {
   mounted() {
     // 请问填充内容的getPost函数和渲染移动端的函数有先后顺序吗？
     // 告知本页面开发人员（张心怡）后，请记得删除注释，thanks！
-    this.getPost(),
+    // 为什么这里不加逗号？
+    this.getPost()
     if(isMobile()){
       this.$router.push('/mobile'+this.$router.currentRoute.path);
     }
@@ -99,12 +100,14 @@ export default {
     },
     goPostList(){
       this.$router.push('../postList')
-    }，
+    },
     getPost(){
-      // 首先获取id
-      var eventId = this.$route.query.id;
-      // 向后端发起请求
-      axios.get('http://127.0.0.1:8000/api/post/'+eventId.toString()).then(res=>{
+      // 首先获取id，注意是用const
+      // const eventId = this.$route.query.id;
+      // 测试时用1
+      const eventId = 1;
+      // 向后端发起请求，怎么解决跨域？正在学习中
+      axios.get('http://43.154.149.214/api/post/'+eventId.toString()).then(res=>{
         // 把后端传回的data存到此文件的postdata中
         this.data = res.data.postdata;
       }).catch(error=>{
