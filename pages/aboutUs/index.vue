@@ -31,8 +31,8 @@
         <el-tab-pane label="设计组" name="design">
           <satff-list :staffs="info.design" />
         </el-tab-pane>
-        <el-tab-pane label="合伙人" name="partner">
-          <satff-list :staffs="info.partner" />
+        <el-tab-pane label="alumni" name="alumni">
+          <satff-list :staffs="info.alumni" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -80,7 +80,7 @@ export default {
         gisalon: [],
         media: [],
         design: [],
-        partner: [],
+        alumni: [],
       }
     };
   },
