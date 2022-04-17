@@ -69,7 +69,6 @@ export default {
 .title-text{
   margin-left:12px;
   line-height:40px;
-  font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -85,7 +84,6 @@ export default {
   overflow: hidden;
 }
 .link{
-  font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
