@@ -40,33 +40,28 @@
 </template>
 
 <script>
-import satffList from './components/staffList.vue';
-import staffInfo from './staff.json'
-import {isMobile} from '@/utils/index'
+import satffList from './components/staffList.vue'
+import staffInfo from '@/pages/aboutUs/staff.json'
 export default {
   components: {
     satffList,
   },
+  layout: 'mobile',
   data() {
     return {
       tab: 'gisinfo',
       info: staffInfo
     };
   },
-  mounted() {
-    if(isMobile()){
-      this.$router.push('/mobile'+this.$router.currentRoute.path);
-    }
-  },
 }
 </script>
 
 <style lang="less" scoped>
   b{
-    margin-right: 20px;
+    margin-right: 3vw;
   }
   h2{
-    margin-top: 40px;
+    margin-top: 8vw;
   }
   .container{
     overflow: auto;
@@ -79,7 +74,7 @@ export default {
     .main{
       width: 100%;
       max-width: 1200px;
-      padding: 40px 20px;
+      padding: 4vw 2vw;
       box-sizing: border-box;
     }
   }
