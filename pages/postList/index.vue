@@ -42,6 +42,8 @@
 
 
       <button class="reset_button">重置</button>
+      <!-- todo: 添加招聘按钮完善样式 -->
+      <button @click="goAddPost">添加招聘</button>
     </div>
 
     <!-- 英文banner -->
@@ -324,7 +326,10 @@ export default {
   methods: {
     goPost(id){
       this.$router.push('/post/'+id.toString());
-    }
+    },
+    goAddPost(){
+      this.$router.push('/addPost');
+    },
   }
 }
 </script>

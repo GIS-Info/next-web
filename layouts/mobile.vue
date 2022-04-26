@@ -12,7 +12,8 @@ export default {
   mounted() {
     //  如果不是移动端，则跳转到PC端视图
     if(!isMobile()){
-      this.$router.push('/'+this.$router.currentRoute.path.split('/').shift().join('/'))
+      const pathArr = this.$route.path.split('/');
+      this.$router.push('/'+pathArr.slice(2, pathArr.length).join('/'))
     }
   }
 }
@@ -28,10 +29,12 @@ export default {
   }
   .main{
     flex-grow: 1;
+    flex-shrink: 1;
     position: relative;
     overflow: scroll;
   }
   .head{
     flex-grow: 0;
+    flex-shrink: 0;
   }
 </style>
