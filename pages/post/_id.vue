@@ -2,7 +2,6 @@
   <div class="main">
     <!-- 中文情况下 -->
     <div v-if="lang =='zh'" class="post-header">
-      <!-- 求助！请问@click="goPost()"该怎么传入参数？ -->
       <button class="header-prev-button" @click="goPost(postdata.prevId)">&#9664; 上一页</button>
       <button class="header-next-button" @click="goPost(postdata.nextId)">下一页 &#9654;</button>
       <button class="header-back2list-button" @click="goPostList">返回列表</button>
@@ -21,11 +20,10 @@
       <div class="content-detail">截止日期: <span class="normal">{{ postdata.closeDate }}</span></div>
       <div class="content-detail">院校名称: <span class="normal">{{ postdata.cn.universityName }}</span></div>
       <div class="content-detail">地理位置: <span class="normal">{{ postdata.cn.universityLoaction }}</span></div>
-      <div class="content-detail">学历要求: <span class="normal">硕士</span></div>
-      <div class="content-detail">岗位数量: <span class="normal">3</span></div>
+      <div class="content-detail">学历要求: <span class="normal">{{ postdata.cn.requiredDegree }}</span></div>
+      <div class="content-detail">岗位数量: <span class="normal">{{ postdata.vacancyNum }}</span></div>
       <!-- 如果招聘状态为true，则css为active -->
-      <!-- 动态修改span内容 -->
-      <div class="content-detail">招聘状态: <span :class="postdata.status == true? 'active' : 'normal'" id="status">已截止</span></div>
+      <div class="content-detail">招聘状态: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
 
       <div class="dropdown">
         <button class="dropdown-button">申请链接 &#x2709;</button>
@@ -34,38 +32,59 @@
         </div>
       </div>
 
-      <div class="dropdown">
-        <button class="dropdown-button">联系人1: Dr.AAAA &#x2709;</button>
+      <!-- 判断是否有联系人，若无，则button不显示 -->
+      <div class="dropdown" :style="{'display' : postdata.email1 == null ? 'none' : 'inline-block'}">
+        <button class="dropdown-button">联系人1: <span>{{ postdata.contact1 }}</span> &#x2709;</button>
         <div class="dropdown-content">
-          <a href="'mailto:${ postdata.contactEmail1 }'">{{ postdata.contactEmail1 }}</a>
+          <a href="'mailto:${ postdata.email1 }'">{{ postdata.email1 }}</a>
         </div>
       </div>
 
-      <div class="dropdown">
-        <button class="dropdown-button">联系人2: Dr.BBB &#x2709;</button>
+      <div class="dropdown" :style="{'display' : postdata.email2 == null ? 'none' : 'inline-block'}">
+        <button class="dropdown-button">联系人2: <span>{{ postdata.contact2 }}</span> &#x2709;</button>
         <div class="dropdown-content">
-          <a href="'mailto:${ postdata.contactEmail2 }'">{{ postdata.contactEmail2 }}</a>
+          <a href="'mailto:${ postdata.email2 }'">{{ postdata.email2 }}</a>
         </div>
       </div>
 
-      <div class="content-description">职位描述<br/>80 多年来，GfK 一直是世界上最大的公司和领先品牌的可靠和值得信赖的洞察合作伙伴，他们改变了每个消费者的生活——我们将继续在此基础上再接再厉。我们将数据、科学和创新的数字研究解决方案联系起来，为围绕消费者、市场、品牌和媒体的关键业务问题提供答案。</div>
+      <div class="content-description"><p>职位描述</p>{{ postdata.cn.description }}</div>
     </div>
 
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="post-content">
-      <div class="content-title">GIS Research Analyst</div>
-      <div class="content-detail">Publish Date: <span class="normal">03 Feb 2022</span></div>
-      <div class="content-detail">Apply Deadline: <span class="normal">05 Mar 2022</span></div>
-      <div class="content-detail">School: <span class="normal">National University of Singapore</span></div>
-      <div class="content-detail">Location: <span class="normal">Europe, London, England, United Kingdom</span></div>
-      <div class="content-detail">Required Degree: <span class="normal">Master</span></div>
-      <div class="content-detail">Number of Vacancy: <span class="normal">3</span></div>
-      <div class="content-detail">Status: <span class="active">Active</span></div>
-      <div class="dropdown-button">Apply Link &#x2709;</div>
-      <div class="dropdown-button">Contact Email 1: Dr.AAAA &#x2709;</div>
-      <div class="dropdown-button">Contact Email 2: Dr.BBB &#x2709;</div>
-      <div class="content-description">Job content-description<br/>
-      For over 80 years, GfK has been a reliable and trusted insight partner for the world’s biggest companies and leading brands who make a difference in every consumer’s life - and we will continue to build on this. We connect data, science and innovative digital research solutions to provide answers for key business questions around consumers, markets, brands and media.</div>
+      <div class="content-title">{{ postdata.label + postdata.en.job }}</div>
+      <div class="content-detail">Publish Date: <span class="normal">{{ postdata.postDate }}</span></div>
+      <div class="content-detail">Apply Deadline: <span class="normal">{{ postdata.closeDate }}</span></div>
+      <div class="content-detail">School: <span class="normal">{{ postdata.en.universityName }}</span></div>
+      <div class="content-detail">Location: <span class="normal">{{ postdata.en.universityLoaction }}</span></div>
+      <div class="content-detail">Required Degree: <span class="normal">{{ postdata.en.requiredDegree }}</span></div>
+      <div class="content-detail">Number of Vacancy: <span class="normal">{{ postdata.vacancyNum }}</span></div>
+      <!-- 如果招聘状态为true，则css为active -->
+      <div class="content-detail">Status: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusEN }}</span></div>
+
+      <div class="dropdown">
+        <button class="dropdown-button">Apply Link &#x2709;</button>
+        <div class="dropdown-content">
+          <a :href="'{{ postdata.applyURL }}'" target="_blank">{{ postdata.applyURL }}</a>
+        </div>
+      </div>
+
+      <!-- 判断是否有联系人，若无，则button不显示 -->
+      <div class="dropdown" :style="{'display' : postdata.email1 == null ? 'none' : 'inline-block'}">
+        <button class="dropdown-button">Contact Email 1: <span>{{ postdata.contact1 }}</span> &#x2709;</button>
+        <div class="dropdown-content">
+          <a href="'mailto:${ postdata.email1 }'">{{ postdata.email1 }}</a>
+        </div>
+      </div>
+
+      <div class="dropdown" :style="{'display' : postdata.email2 == null ? 'none' : 'inline-block'}">
+        <button class="dropdown-button">Contact Email 2: <span>{{ postdata.contact2 }}</span> &#x2709;</button>
+        <div class="dropdown-content">
+          <a href="'mailto:${ postdata.email2 }'">{{ postdata.email2 }}</a>
+        </div>
+      </div>
+
+      <div class="content-description"><p>Job Description</p>{{ postdata.en.description }}</div>
     </div>
   </div>
 </template>
@@ -83,32 +102,36 @@ export default {
   data() {
     return {
       api,
-      // postdata: []还是{}？以下是测试数据
-      postdata: {
-                status: false,
-                applyURL: 'https://www.gisphere.net/',
-                cn: {
-                  universityName: '新加坡国立大学'
-                }}
+      postdata: {}
     }
   },
   computed: {
     ...mapState({lang: 'language'}),
+    // 中文模式下，招募状态情况
+    getStatusCN(){
+      if(this.postdata.status){
+        return '招募中';
+      } else {
+        return '已截止';
+      }
+    },
+    // 英文模式下，招募状态情况
+    getStatusEN(){
+      if(this.postdata.status){
+        return 'Active';
+      } else {
+        return 'Closed';
+      }
+    }
   },
   mounted() {
-    // 请问填充内容的getPost函数和渲染移动端的函数有先后顺序吗？
-    // 告知本页面开发人员（张心怡）后，请记得删除注释，thanks！
-    // 为什么这里不加逗号？
-    this.getPost()
-    // 关于招募状态的处理函数，为什么这里要加this？
-    // 这个函数写在getPost里比较好，还是methods新建函数再加到mounted中比较好？
-    // 我认为它比较短，直接像isMobile写在mounted里最方便
-    if(this.postdata.status){
-      document.getElementById('status').innerHTML = '招募中';
-    }
+    // 跳转到移动端界面，建议放在getPost之前
     if(isMobile()){
       this.$router.push('/mobile'+this.$router.currentRoute.path);
     }
+    // 填充内容的getPost函数
+    this.getPost();
+    
   },
   methods: {
     goPost(eventId){
@@ -118,14 +141,15 @@ export default {
       this.$router.push('../postList')
     },
     getPost(){
+      // 测试用
+      const eventId = 1;
       // 首先获取id，注意是用const
       // const eventId = this.$route.query.id;
-      // 测试时用1
-      const eventId = 1;
-      // 向后端发起请求，怎么解决跨域？正在学习中
-      axios.get(api+'/post/'+eventId.toString()).then(res=>{
+      // 向后端发起请求
+      axios.get(api + '/post/' + eventId.toString()).then(res=>{
         // 把后端传回的data存到此文件的postdata中
-        this.data = res.data.postdata;
+        console.log(res);
+        this.postdata = res.data;
       }).catch(error=>{
         console.log(error);
       });
