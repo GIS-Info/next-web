@@ -106,6 +106,96 @@
         <hr class="short-horizontal-line"/>
       </div>
     </div>
+
+    <div class="school">
+      <div v-if="lang =='zh'" class="intro-title">
+        院校列表
+        <hr class="short-horizontal-line"/>
+
+        <div class="intro-text">
+          <div class="school-table">
+            <table class="uni-table">
+              <tr>
+                <td class="uni-content"><b>亚洲</b></td>
+                <td class="uni-content"><b>北美</b></td>
+                <td class="uni-content"><b>欧洲</b></td>
+                <td class="uni-content"><b>大洋洲</b></td>
+                <td class="uni-content"><b>非洲</b></td>
+              </tr>
+              <tr>
+                <td class="uni-content">新加坡国立大学</td>
+                <td class="uni-content">加州大学伯克利分校</td>
+                <td class="uni-content">剑桥大学</td>
+                <td class="uni-content">墨尔本大学</td>
+                <td class="uni-content">约翰内斯堡大学</td>
+              </tr>
+              <tr>
+                <td class="uni-content">新加坡国立大学</td>
+                <td class="uni-content">加州大学伯克利分校</td>
+                <td class="uni-content">剑桥大学</td>
+                <td class="uni-content">墨尔本大学</td>
+                <td class="uni-content">约翰内斯堡大学</td>
+              </tr>
+            </table>
+            <!-- <template> -->
+              <!-- <el-table :data="uniData" style="width: 100%" class="el-table">
+                <el-table-column
+                  prop="asia"
+                  label="亚洲"
+                  width="227">
+                </el-table-column>
+                <el-table-column
+                  prop="northAmerica"
+                  label="北美"
+                  width="227">
+                </el-table-column>
+                <el-table-column
+                  prop="Europe"
+                  label="欧洲"
+                  width="227">
+                </el-table-column>
+                <el-table-column
+                  prop="oceania"
+                  label="大洋洲"
+                  width="227">
+                </el-table-column>
+                <el-table-column
+                  prop="africa"
+                  label="非洲"
+                  width="227">
+                </el-table-column>
+              </el-table>   -->
+            <!-- </template> -->
+          </div>
+      </div>
+      </div>
+      <div v-if="lang =='en'" class="intro-title">
+        School
+        <hr class="short-horizontal-line"/>
+      </div>
+
+
+    </div>
+
+    <div class="contact_us"> 
+      <div v-if="lang =='zh'" class="intro-title">
+        联系我们
+        <hr class="short-horizontal-line"/>
+        <div class="intro-text">
+          <table class="contact-table">
+            <tr>
+              <td class="contact-content">康雨豪  kkyyhh96@outlook.com</td>
+              <td class="contact-content">叶山  yeshanumich@hotmail.com</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div v-if="lang =='en'" class="intro-title">
+        Contact Us
+        <hr class="short-horizontal-line"/>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -115,6 +205,26 @@ import {isMobile} from '@/utils/index'
 
 export default {
   name: 'IndexPage',
+
+  // element ui table的数据
+  // data() {
+  //   return {
+  //     uniData: [{
+  //       asia: '新加坡国立大学',
+  //       northAmerica: '威斯康星大学麦迪逊分校',
+  //       Europe: '剑桥大学',
+  //       oceania: '墨尔本大学',
+  //       africa: '约翰内斯堡大学'
+  //     },{
+  //       asia: '香港大学',
+  //       northAmerica: '加州大学伯克利分校',
+  //       Europe: '爱丁堡大学',
+  //       oceania: '奥克兰大学',
+  //       africa: '我编不出来大学'
+  //     }],
+  //   }
+  // },
+
   computed: {
     ...mapState({lang: 'language'}),
   },
@@ -238,6 +348,23 @@ export default {
   }
   .to-be-added {
     color: #0073FF;
+    text-align: center;
+  }
+  /* .el-table {
+    background-color: #000000;
+  } */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .uni-content {
+    width: 20%;
+    font-size: 15px;
+    text-align: left;
+  }
+  .contact-content {
+    width: 50%;
+    font-size: 15px;
     text-align: center;
   }
 </style>
