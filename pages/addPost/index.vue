@@ -95,7 +95,7 @@
       <div class="section">
         <el-form ref="form" :model="form" label-position="top" label-width="80px">
           <el-form-item label="标签" required>
-            <el-select v-model="form.fields" placeholder="选择或添加相关标签（多选）" multiple style="width:100%">
+            <el-select v-model="form.fields" placeholder="选择或添加相关标签（多选）" multiple filterable allow-create style="width:100%">
               <el-option label="1" value="1"></el-option>
               <el-option label="2" value="2"></el-option>
             </el-select>
