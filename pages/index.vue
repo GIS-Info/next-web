@@ -20,12 +20,12 @@
           starts here.
         </div>
         <div v-if="lang =='zh'" class="welcome-buttons">
-          <el-button class="explore-hirings" @click="linkToPostList" >浏览招聘</el-button>
-          <el-button class="explore-programs">探索项目</el-button>
+          <el-button class="explore-hirings" @click="goToPostList">浏览招聘</el-button>
+          <el-button class="explore-programs" @click="goToUniversityList">院校指南</el-button>
         </div>
         <div v-if="lang =='en'" class="welcome-buttons">
-          <el-button class="explore-hirings" @click="linkToPostList">Explore Hirings</el-button>
-          <el-button class="explore-programs">Explore Programs</el-button>
+          <el-button class="explore-hirings" @click="goToPostList">Explore Hirings</el-button>
+          <el-button class="explore-programs" @click="goToUniversityList">Explore Programs</el-button>
         </div>
       </div>
 
@@ -234,8 +234,11 @@ export default {
     }
   },
   methods: {
-    linkToPostList() {
+    goToPostList() {
       this.$router.push('./postList');
+    },
+    goToUniversityList() {
+      window.location.href = 'https://www.gisphere.net';
     },
   }
 }
