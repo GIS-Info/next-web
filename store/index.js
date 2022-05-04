@@ -35,7 +35,11 @@ const actions = {
     */
     commit('setUserToken', 'test_token')
     return Promise.resolve()
-  }
+  },
+  logout({ commit }) {
+    commit('setUserToken', undefined)
+    return Promise.resolve()
+  },
 }
 
 const store = () =>
