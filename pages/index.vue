@@ -196,6 +196,8 @@
       </div>
     </div>
 
+    <bottom-bar />
+
   </div>
 </template>
 
