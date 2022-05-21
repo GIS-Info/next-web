@@ -100,12 +100,7 @@ export default {
   data() {
     return {
       api,
-      postdata: {
-        label: 'GIS',
-        cn: {
-          job: '科研助理'
-        }
-      }
+      postdata: {}
     }
   },
   computed: {
