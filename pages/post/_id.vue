@@ -93,8 +93,6 @@
 import axios from 'axios'
 import {mapState} from 'vuex'
 import {isMobile} from '@/utils/index'
-// 从根目录引入api
-import {api} from '@/config/index.js'
 
 export default {
   name: 'IndexPage',
@@ -131,7 +129,7 @@ export default {
     }
     // 填充内容的getPost函数
     this.getPost();
-    
+    // console.log(this);
   },
   methods: {
     goPost(eventId){
@@ -146,12 +144,14 @@ export default {
       // 首先获取id，注意是用const
       // const eventId = this.$route.query.id;
       // 向后端发起请求
-      axios.get(api + '/post/' + eventId.toString()).then(res=>{
-        // 把后端传回的data存到此文件的postdata中
+      axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
         console.log(res);
+        // 把后端传回的data存到此文件的postdata中
         this.postdata = res.data;
       }).catch(error=>{
         console.log(error);
+        // 跳转到error界面
+        this.$router.push('/error');
       });
     }
   }
