@@ -254,13 +254,13 @@ export default {
     goToPostList(type) {
       if(type){
         this.$router.push({
-          path: '/post/list',
+          path: '/postList',
           query: {
             type
           }
         })
       }else{
-        this.$router.push('/post/list');
+        this.$router.push('/postList');
       }
     },
     goToUniversityList() {
