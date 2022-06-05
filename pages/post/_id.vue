@@ -15,20 +15,20 @@
 
     <!-- 中文情况下 -->
     <div v-if="lang =='zh'" class="post-content">
-      <div class="content-title">{{ postdata.label + postdata.cn.job }}</div>
-      <div class="content-detail">发布时间: <span class="normal">{{ postdata.postDate }}</span></div>
-      <div class="content-detail">截止日期: <span class="normal">{{ postdata.closeDate }}</span></div>
-      <div class="content-detail">院校名称: <span class="normal">{{ postdata.cn.universityName }}</span></div>
-      <div class="content-detail">地理位置: <span class="normal">{{ postdata.cn.universityLoaction }}</span></div>
-      <div class="content-detail">学历要求: <span class="normal">{{ postdata.cn.requiredDegree }}</span></div>
-      <div class="content-detail">岗位数量: <span class="normal">{{ postdata.vacancyNum }}</span></div>
+      <div class="content-title">{{ postdata.label + postdata.job_title }}</div>
+      <div class="content-detail">发布时间: <span class="normal">{{ postdata.post_date }}</span></div>
+      <div class="content-detail">截止日期: <span class="normal">{{ postdata.close_date }}</span></div>
+      <div class="content-detail">院校名称: <span class="normal">{{ postdata.university_fk }}</span></div>
+      <div class="content-detail">地理位置: <span class="normal">{{ postdata.country }}</span></div>
+      <div class="content-detail">学历要求: <span class="normal">{{ postdata.required_degree }}</span></div>
+      <div class="content-detail">岗位数量: <span class="normal">{{ postdata.number_of_vacancy }}</span></div>
       <!-- 如果招聘状态为true，则css为active -->
-      <div class="content-detail">招聘状态: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
+      <div class="content-detail">招聘状态: <span :class="postdata.still_open == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
 
       <div class="dropdown">
         <button class="dropdown-button">申请链接 &#x2709;</button>
         <div class="dropdown-content">
-          <a :href="'{{ postdata.applyURL }}'" target="_blank">{{ postdata.applyURL }}</a>
+          <a :href="'{{ postdata.applyURL }}'" target="_blank">{{ postdata.url }}</a>
         </div>
       </div>
 
@@ -47,14 +47,14 @@
         </div>
       </div>
 
-      <div class="content-description"><p>职位描述</p>{{ postdata.cn.description }}</div>
+      <div class="content-description"><p>职位描述</p>{{ postdata.detail }}</div>
     </div>
 
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="post-content">
       <div class="content-title">{{ postdata.label + postdata.en.job }}</div>
-      <div class="content-detail">Publish Date: <span class="normal">{{ postdata.postDate }}</span></div>
-      <div class="content-detail">Apply Deadline: <span class="normal">{{ postdata.closeDate }}</span></div>
+      <div class="content-detail">Publish Date: <span class="normal">{{ postdata.post_date }}</span></div>
+      <div class="content-detail">Apply Deadline: <span class="normal">{{ postdata.close_date }}</span></div>
       <div class="content-detail">School: <span class="normal">{{ postdata.en.universityName }}</span></div>
       <div class="content-detail">Location: <span class="normal">{{ postdata.en.universityLoaction }}</span></div>
       <div class="content-detail">Required Degree: <span class="normal">{{ postdata.en.requiredDegree }}</span></div>
@@ -99,8 +99,10 @@ export default {
   // 这里存放数据
   data() {
     return {
-      api,
-      postdata: {}
+      postdata: {
+        prevId: null,
+        nextId: 2
+      }
     }
   },
   computed: {
@@ -147,7 +149,7 @@ export default {
       axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
         console.log(res);
         // 把后端传回的data存到此文件的postdata中
-        this.postdata = res.data;
+        this.postdata = res.data[0];
       }).catch(error=>{
         console.log(error);
         // 跳转到error界面
