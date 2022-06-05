@@ -198,6 +198,18 @@
 
     <bottom-bar />
 
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <p>此网站正在建设中</p>
+      <p>如须获取 GISphere 相关信息，请访问 <a href="https://www.gisphere.net">https://www.gisphere.net</a></p>
+      <p>如有疑问，请联系 <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a></p>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -207,6 +219,11 @@ import {isMobile} from '@/utils/index'
 
 export default {
   name: 'IndexPage',
+  data() {
+    return {
+      dialogVisible: true,
+    }
+  },
 
   // element ui table的数据
   // data() {
