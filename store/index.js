@@ -7,7 +7,6 @@ import { api } from '@/config'
 import axios from 'axios'
 */
 
-
 Vue.use(Vuex)
 Vue.use(less)
 

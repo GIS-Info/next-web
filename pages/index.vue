@@ -4,28 +4,26 @@
       <map-background />
       <div class="welcome-content">
         <div v-if="lang == 'zh'" class="welcome-heading">
-          在此寻找<br/>
-          最激动人心的地理信息系统学术职位
+          时空桥接无限可能
         </div>
         <div v-if="lang == 'en'" class="welcome-heading">
-          Find the most<br/>
-          exciting GIS academic positions
+          Where GeoSpatial Thinking Shines
         </div>
         <div v-if="lang =='zh'" class="welcome-description">
-          下一个大事件，<br />
-          从这里开始。
+          致力于分享世界各地 GIS 相关领域教育信息
         </div>
         <div v-if="lang =='en'" class="welcome-description">
-          The next big thing <br />
-          starts here.
+          Empower the GIS-related education for the future
         </div>
         <div v-if="lang =='zh'" class="welcome-buttons">
-          <el-button class="explore-hirings" @click="goToPostList">浏览招聘</el-button>
+          <el-button class="explore-academic-recruiting" @click="goToPostList('academic')">招生信息</el-button>
+          <el-button class="explore-job-recruiting" @click="goToPostList('job')">招聘信息</el-button>
           <el-button class="explore-programs" @click="goToUniversityList">院校指南</el-button>
         </div>
         <div v-if="lang =='en'" class="welcome-buttons">
-          <el-button class="explore-hirings" @click="goToPostList">Explore Hirings</el-button>
-          <el-button class="explore-programs" @click="goToUniversityList">Explore Programs</el-button>
+          <el-button class="explore-academic-recruiting" @click="goToPostList('academic')">Academic Recruiting</el-button>
+          <el-button class="explore-job-recruiting" @click="goToPostList('job')">Job Recruiting</el-button>
+          <el-button class="explore-programs" @click="goToUniversityList">School Instruction</el-button>
         </div>
       </div>
 
@@ -45,7 +43,7 @@
           <hr class="short-horizontal-line"/>
         </div>
         <div class="intro-text">
-          天上白玉京，十二樓五城。仙人撫我頂，結髮受長生。誤逐世間樂，頗窮理亂情。九十六聖君，浮雲掛空名。天地賭一擲，未能忘戰爭。試涉霸王略，將期軒冕榮。時命乃大謬，棄之海上行。學劍翻自哂，為文竟何成。劍非萬人敵，文竊四海聲。兒戲不足道，五噫出西京。臨當欲去時，慷慨淚沾纓。嘆君倜儻才，標舉冠群英。
+          This guide was launched in September 2019, and the latest update time is Feb 2022. We aim to provide timely and comprehensive information of global graduate-level programs in geographic information sciences (GIS). Authors of this guide are from GIS-related programs, being either current graduate students, recent alumni, or young faculty. We mainly provide first-hand information about GIS-related programs and potential supervisors. We hope this guide can help those who are seeking graduate school opportunities in GIS.
         </div>
         <div class="intro-tag">
           <el-tag type="info" class="tag">地理信息系统</el-tag>
@@ -253,8 +251,17 @@ export default {
     }
   },
   methods: {
-    goToPostList() {
-      this.$router.push('./postList');
+    goToPostList(type) {
+      if(type){
+        this.$router.push({
+          path: '/post/list',
+          query: {
+            type
+          }
+        })
+      }else{
+        this.$router.push('/post/list');
+      }
     },
     goToUniversityList() {
       window.location.href = 'https://www.gisphere.net';
@@ -302,19 +309,25 @@ export default {
   .welcome-buttons {
     margin-top: 39px;
   }
-  .explore-hirings {
+  .explore-academic-recruiting {
     border-color: #FFFFFF;
     background-color: #FFFFFF;
     color: #0073FF;
   }
-
+  .explore-job-recruiting {
+    border-color: #FFFFFF;
+    background-color: transparent;
+    color: #FFFFFF;
+  }
   .explore-programs {
     border-color: #0073FF;
     background-color: transparent;
     color: #0073FF;
   }
-  .explore-hirings:active,
-  .explore-hirings:hover,
+  .explore-academic-recruiting:active,
+  .explore-academic-recruiting:hover,
+  .explore-job-recruiting:active,
+  .explore-job-recruiting:hover,
   .explore-programs:active,
   .explore-programs:hover {
     border-color: #0073FF;
