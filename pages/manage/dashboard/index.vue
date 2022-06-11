@@ -26,7 +26,7 @@
 
 <script>
 import dataPanel from './dataPanel'
-import postList from './postList'
+import postList from './post-list/index.vue'
 import userList from './userList'
 export default {
   name: 'IndexPage',
