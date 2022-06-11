@@ -6,7 +6,7 @@
     </div>
     <!-- 中文情况下的链接 -->
     <div v-if="lang == 'zh'" class="links-div">
-      <div class="link" @click="goHomePage">关于我们</div>
+      <div class="link" @click="goAboutUs">关于我们</div>
       <div class="link" @click="goManagePage">管理员登录</div>
       <div class="link" @click="setLanguage('en')">English</div>
     </div>
@@ -33,6 +33,9 @@ export default {
     },
     goManagePage(){
       this.$router.push('/manage/dashboard')
+    },
+    goAboutUs(){
+      this.$router.push('/aboutUs')
     }
   }
 }
@@ -66,7 +69,6 @@ export default {
 .title-text{
   margin-left:12px;
   line-height:40px;
-  font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -82,7 +84,6 @@ export default {
   overflow: hidden;
 }
 .link{
-  font-family: 'PingFang SC';
   font-style: normal;
   font-weight: 500;
   font-size: 16px;

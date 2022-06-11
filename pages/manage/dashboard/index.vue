@@ -15,6 +15,9 @@
           <div :class="`button-expansion${currentView === 'userList'?' button-expansion-active':''}`"></div>
         </div>
       </div>
+      <div class="logout-button" @click="logout">
+        <img class="img" src="./imgs/logout.png" />退出账户
+      </div>
     </div>
     <div class="view">
       <dataPanel v-if="currentView === 'dataPanel'" />
@@ -25,6 +28,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import dataPanel from './dataPanel'
 import postList from './post-list/index.vue'
 import userList from './userList'
@@ -36,16 +40,29 @@ export default {
       currentView: 'dataPanel', // 当前视图 ['dataPanel','postList','userList']
     }
   },
+  computed: {
+    ...mapState({userToken: 'userToken'}),
+  },
+  created() {
+    if(!this.userToken){
+      this.$router.push('/manage/login')
+    }
+  },
   methods: {
     setView(view){
       this.currentView = view;
+      // eslint-disable-next-line no-console
       console.log('view',view)
-    }
+    },
+    logout(){
+      this.$store.dispatch('logout');
+      this.$router.push('/');
+    },
   }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .main{
   width: 100%;
   height: 100%;
@@ -63,6 +80,7 @@ export default {
   display: flex;
   align-items: center;
   overflow: hidden;
+  position: relative;
 }
 .button-list{
   height: 334px;
@@ -110,5 +128,31 @@ export default {
   height: 100%;
   width: 1204px;
   flex-grow: 1;
+}
+.logout-button{
+  height: 49px;
+  left: 50px;
+  right: 50px;
+  border-radius: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 49px;
+  cursor: pointer;
+  position:absolute;
+  bottom: 39px;
+  font-size: 16px;
+  line-height: 49px;
+  color: #6A81A5;
+  border: 3px solid #EBEEF5;
+  transition: all 0.3s;
+  .img{
+    height: 16px;
+    margin-right: 5px;
+    transform: translateY(2px);
+  }
+}
+.logout-button:hover{
+  border: 3px solid #6A81A5;
 }
 </style>
