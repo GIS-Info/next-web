@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import API from "./api"
+
 export default {
   name: 'IndexPage',
   data() {
@@ -114,7 +116,14 @@ export default {
        queryValue: ''
     }
   },
+  created() {
+      this.init()
+  },
   methods: {
+    async init() {
+       await API.getData()
+      //  console.log(res);
+    },
     // 选择， 支持多选
     selectItem() {
       
@@ -226,7 +235,7 @@ export default {
             display: inline-block;
             width: 100px;
             height: 100%;
-            background: url('./imgs/label.png') no-repeat;
+            background: url('../imgs/label.png') no-repeat;
             background-size: 80%;
           }
         }
@@ -262,7 +271,7 @@ export default {
             right: 20px;
             width: 43px;
             height: 61px;
-            background: url(./imgs/green-label.png) no-repeat;
+            background: url(../imgs/green-label.png) no-repeat;
             background-size: 100%
           }
           .check {
@@ -272,7 +281,7 @@ export default {
             width: 31px;
             height: 31px;
             z-index: 1;
-            background: url(./imgs/check-label.png) no-repeat;
+            background: url(../imgs/check-label.png) no-repeat;
             background-size: 100%;
           }
         }
@@ -333,29 +342,29 @@ export default {
           }
         }
         .more {
-            background: url('./imgs/more.png') no-repeat center;
+            background: url('../imgs/more.png') no-repeat center;
             background-size: 90%;
             // transition: 0.5s;
             &:hover {
-              background: url('./imgs/more-color.png') no-repeat center;
+              background: url('../imgs/more-color.png') no-repeat center;
               background-size: 90%;
               cursor: pointer;
             }
         }
         .add {
-          background: url("./imgs/add.png") no-repeat;
+          background: url("../imgs/add.png") no-repeat;
           background-size: 90%;
           &:hover {
-            background: url('./imgs/add-color.png') no-repeat center;
+            background: url('../imgs/add-color.png') no-repeat center;
             background-size: 90%;
             cursor: pointer;
           }
         }
         .delete {
-          background: url("./imgs/delete.png") no-repeat;
+          background: url("../imgs/delete.png") no-repeat;
           background-size: 90%;
           &:hover {
-            background: url('./imgs/delete-color.png') no-repeat center;
+            background: url('../imgs/delete-color.png') no-repeat center;
             background-size: 90%;
             cursor: pointer;
           }

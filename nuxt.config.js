@@ -45,7 +45,14 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/'
   },
-
+  // 开发环境配置跨域
+  proxy: {
+    // api/post?pageSize = XX && 
+    "/api":{
+      target:'https://gisphere.info/post?pageSize=1',
+      // pathRewrite:{"^/api":''}
+    }
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/]
