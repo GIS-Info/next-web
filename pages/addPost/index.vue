@@ -173,7 +173,6 @@ export default {
     return {
       form: {
         title: '',
-
       }
     }
   },
