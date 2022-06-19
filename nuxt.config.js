@@ -37,20 +37,22 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: 'https://gisphere.info',
+    proxy: true, // 表示开启代理
+    credentials: true // 表示跨域请求时是否需要使用凭证
   },
   // 开发环境配置跨域
   proxy: {
-    // api/post?pageSize = XX && 
     "/api":{
-      target:'https://gisphere.info/post?pageSize=1',
-      // pathRewrite:{"^/api":''}
+      target:'https://gisphere.info',
+      changeOrigin: true,
     }
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build

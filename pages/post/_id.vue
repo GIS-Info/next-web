@@ -90,7 +90,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import {mapState} from 'vuex'
 import {isMobile} from '@/utils/index'
 
@@ -146,7 +145,7 @@ export default {
       // 首先获取id，注意是用const
       // const eventId = this.$route.query.id;
       // 向后端发起请求
-      axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
+      this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
         console.log(res);
         // 把后端传回的data存到此文件的postdata中
         this.postdata = res.data[0];
