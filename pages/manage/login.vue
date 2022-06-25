@@ -10,6 +10,10 @@
       <el-form-item>
         <el-button type="primary" @click="submit">提交</el-button>
       </el-form-item>
+      <el-form-item>
+        还未获取管理员账户？
+        <el-button @click="register">申请注册</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -39,6 +43,9 @@ export default {
         this.$router.push('/manage/dashboard/')
       })
     },
+    register() {
+      this.$router.push('/manage/register')
+    }
   }
 }
 </script>
