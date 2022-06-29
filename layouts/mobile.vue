@@ -30,7 +30,6 @@ export default {
   .main{
     flex-grow: 1;
     flex-shrink: 1;
-    position: relative;
   }
   .head{
     flex-grow: 0;
