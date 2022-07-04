@@ -151,7 +151,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="补充">
-            <el-input v-model="form.title" type="textarea" :rows="17" placeholder="输入具体职位"></el-input>
+            <el-input v-model="form.detail" type="textarea" :rows="17" placeholder="输入具体职位"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -173,12 +173,32 @@ export default {
     return {
       form: {
         title: '',
+        jobClass: '',
+        jobType: '',
+        number: '',
+        university: '',
+        country: '',
+        contact1: '',
+        email1: '',
+        contact2: '',
+        email2: '',
+        provider: '',
+        providerEmail: '',
+        URL: '',
+        fields: '',
+        requiredDegree: '',
+        hasStartTerm: '',
+        startYear: '',
+        startTerm: '',
+        noDeadline: '',
+        deadline: '',
+        detail: '',
       }
     }
   },
   methods: {
   onSubmit() {
-    console.log('submit!');
+    alert('submit!');
   }
 }
 }
