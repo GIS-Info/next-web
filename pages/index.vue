@@ -28,8 +28,7 @@
       </div>
 
       <div v-if="lang =='zh'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
-        {{ showContactCard }}
-        <div v-if="showContactCard">
+        <div v-if="showContactCard" class="contact-us-card">
           <div>加入微信社区</div>
           <div>gisphere@outlook.com</div>
         </div>
@@ -349,6 +348,9 @@ export default {
     position:absolute;
     bottom: 60px; 
     right: 60px;
+  }
+  .contact-us-card{
+    background-color: aqua;
   }
   .contact-us-button {
     background-color: #909399;

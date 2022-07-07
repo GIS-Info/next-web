@@ -110,7 +110,7 @@
               </el-switch>
             </el-col>
             <el-col span="8">
-              <el-select v-model="form.startYear">
+              <el-select v-model="form.startYear" :disabled="!form.hasStartTerm">
                 <el-option label="2018" value="2018"></el-option>
                 <el-option label="2019" value="2019"></el-option>
                 <el-option label="2020" value="2020"></el-option>
@@ -127,9 +127,9 @@
               </el-select>
             </el-col>
             <el-col span="8">
-              <el-select v-model="form.startTerm">
-                <el-option label="第一学期" value="1"></el-option>
-                <el-option label="第二学期" value="2"></el-option>
+              <el-select v-model="form.startTerm" :disabled="!form.hasStartTerm">
+                <el-option label="第一学期 Term 1" value="1"></el-option>
+                <el-option label="第二学期 Term 2" value="2"></el-option>
               </el-select>
             </el-col>
           </el-form-item>
