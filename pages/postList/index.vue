@@ -341,6 +341,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgb(241, 241, 241);
+    position: relative;
   }
   .page-banner {
     position: absolute;

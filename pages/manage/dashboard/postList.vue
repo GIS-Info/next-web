@@ -141,7 +141,6 @@ export default {
 .main-container {
   width: 100%;
   height: 100%;
-  text-align: center;
   padding: 40px;
   background-color: #EBEEF5;;
   display: flex;

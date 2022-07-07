@@ -27,10 +27,18 @@
         </div>
       </div>
 
-      <div v-if="lang =='zh'" class="contact-us">
-        <el-button type="info" round class="contact-us-button">联系我们/加入我们</el-button>
+      <div v-if="lang =='zh'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
+        <div v-if="showContactCard" class="contact-us-card">
+          <div>加入微信社区</div>
+          <div>gisphere@outlook.com</div>
+        </div>
+        <el-button type="info" round class="contact-us-button">联系我们 / 加入我们</el-button>
       </div>
-      <div v-if="lang =='en'" class="contact-us">
+      <div v-if="lang =='en'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
+        <div v-if="showContactCard">
+          <div>加入微信社区</div>
+          <div>gisphere@outlook.com</div>
+        </div>
         <el-button type="info" round class="contact-us-button">Contact Us / Join Us</el-button>
       </div>
 
@@ -220,6 +228,7 @@ export default {
   data() {
     return {
       dialogVisible: true,
+      showContactCard: false,
     }
   },
 
@@ -337,8 +346,11 @@ export default {
   }
   .contact-us {
     position:absolute;
-    top: 600px; 
-    right: 40px;
+    bottom: 60px; 
+    right: 60px;
+  }
+  .contact-us-card{
+    background-color: aqua;
   }
   .contact-us-button {
     background-color: #909399;
