@@ -28,26 +28,38 @@
       </div>
 
       <div v-if="lang =='zh'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
-        <div v-if="showContactCard" class="contact-us-card">
-          <div>加入微信社区</div>
-          <div>gisphere@outlook.com</div>
-        </div>
+        <transition name="trans-content">
+            <div v-if="showContactCard" class="contact-us-card">
+            <div class="contact-us-content">加入微信社区</div>
+            <div class="contact-us-content">
+              <a href="mailto:gisphere@outlook.com">
+                gisphere@outlook.com
+              </a>
+            </div>
+            <div class="contact-us-qrcode">
+              <img src="../components/BottomBar/imgs/wechat-qrcode.png" />
+            </div>
+          </div>
+        </transition>
         <el-button type="info" round class="contact-us-button">联系我们 / 加入我们</el-button>
       </div>
       <div v-if="lang =='en'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
         <div v-if="showContactCard">
-          <div>加入微信社区</div>
-          <div>gisphere@outlook.com</div>
+          <div class="contact-us-content">Join WeChat Community</div>
+          <div class="contact-us-content">
+            <a href="mailto:gisphere@outlook.com">
+              gisphere@outlook.com
+            </a>
+          </div>
         </div>
         <el-button type="info" round class="contact-us-button">Contact Us / Join Us</el-button>
       </div>
-
     </div>
 
-    <div class="field"> 
+    <div class="field">
       <div v-if="lang =='zh'" class="introduce-page">
         <div class="intro-title">
-          专业领域 
+          专业领域
           <hr class="short-horizontal-line"/>
         </div>
         <div class="intro-text">
@@ -102,7 +114,7 @@
       </div>
     </div>
 
-    <div class="about"> 
+    <div class="about">
       <div v-if="lang =='zh'" class="intro-title">
           关于我们
           <hr class="short-horizontal-line"/>
@@ -179,11 +191,9 @@
         School
         <hr class="short-horizontal-line"/>
       </div>
-
-
     </div>
 
-    <div class="contact_us"> 
+    <div class="contact_us">
       <div v-if="lang =='zh'" class="intro-title">
         联系我们
         <hr class="short-horizontal-line"/>
@@ -295,8 +305,10 @@ export default {
   .welcome-content{
     position: absolute;
     left: calc((492/1440)*100vw);
+    /* left: 93px; */
     margin-left: -399px;
     top: calc((427/1080)*100vh);
+    /* top: 376px; */
     margin-top: -136px;
     width: 798px;
     height: 272px;
@@ -346,11 +358,11 @@ export default {
   }
   .contact-us {
     position:absolute;
-    bottom: 60px; 
+    bottom: 60px;
     right: 60px;
   }
   .contact-us-card{
-    background-color: aqua;
+    background-color: transparent;
   }
   .contact-us-button {
     background-color: #909399;
@@ -387,11 +399,12 @@ export default {
   .tag {
     background-color: #DCDFE6;
     color: #000000;
-    text-align: center;
+    text-align: left;
     padding: 20px 195.5px 38px 23.5px;
     margin: 8px 4px;
     width: 272px;
     height: 81px;
+    font-size: medium;
   }
   .to-be-added {
     color: #0073FF;
@@ -413,5 +426,32 @@ export default {
     width: 50%;
     font-size: 15px;
     text-align: center;
+  }
+  .contact-us-content {
+    background-color: #909399;
+    border-radius: 30px;
+    height: 40px;
+    width: 171.68px;
+    line-height: 42px;
+    text-align: center;
+    font-size: small;
+    margin-bottom: 5px;
+  }
+  .contact-us-qrcode {
+    background-color: #909399;
+    border-radius: 20px;
+    height: 171.68px;
+    width: 171.68px;
+    margin-bottom: 5px;
+  }
+  .contact-us-qrcode > img {
+    width: 80%;
+    height: 80%;
+    /* 图片居中显示 */
+    margin-left: 10%;
+    margin-top: 10%;
+  }
+  .trans-content-enter-active, .trans-content-leave-active {
+    transition: all 1s ease-in-out;
   }
 </style>
