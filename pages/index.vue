@@ -29,7 +29,7 @@
 
       <div v-if="lang =='zh'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
         <transition name="trans-content">
-            <div v-if="showContactCard" class="contact-us-card">
+          <div v-if="showContactCard" class="contact-us-card">
             <div class="contact-us-content">加入微信社区</div>
             <div class="contact-us-content">
               <a href="mailto:gisphere@outlook.com">
@@ -43,6 +43,7 @@
         </transition>
         <el-button type="info" round class="contact-us-button">联系我们 / 加入我们</el-button>
       </div>
+
       <div v-if="lang =='en'" class="contact-us" @mouseover="showContactCard = true" @mouseleave="showContactCard = false">
         <div v-if="showContactCard">
           <div class="contact-us-content">Join WeChat Community</div>
@@ -114,7 +115,7 @@
       </div>
     </div>
 
-    <div class="about">
+    <!-- <div class="about">
       <div v-if="lang =='zh'" class="intro-title">
           关于我们
           <hr class="short-horizontal-line"/>
@@ -123,7 +124,7 @@
         Who are we?
         <hr class="short-horizontal-line"/>
       </div>
-    </div>
+    </div> -->
 
     <div class="school">
       <div v-if="lang =='zh'" class="intro-title">
@@ -193,7 +194,7 @@
       </div>
     </div>
 
-    <div class="contact_us">
+    <div class="contact-us-in-text">
       <div v-if="lang =='zh'" class="intro-title">
         联系我们
         <hr class="short-horizontal-line"/>
@@ -397,6 +398,7 @@ export default {
   .intro-tag {
     margin: 16px 151.5px;
   }
+
   .tag {
     background-color: #DCDFE6;
     color: #000000;
@@ -453,6 +455,17 @@ export default {
     margin-top: 10%;
   }
   .trans-content-enter-active, .trans-content-leave-active {
-    transition: all 1s ease-in-out;
+    transition: all .3s cubic-bezier(.34,.34,.77,.75);
+  }
+  .trans-content-enter,
+  .trans-content-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  .contact-us-in-text {
+    margin-bottom: 64px;
+  }
+  .school {
+    margin-bottom: 64px;
   }
 </style>
