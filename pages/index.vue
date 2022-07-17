@@ -297,6 +297,7 @@ export default {
   .welcome-page{
     height:100%;
     width:100%;
+    position: relative;
   }
   .introduce-page{
     height:auto;
