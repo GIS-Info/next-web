@@ -42,8 +42,7 @@
 
 
       <button class="reset_button">重置</button>
-      <!-- todo: 添加招聘按钮完善样式 -->
-      <button @click="goAddPost">添加招聘</button>
+      <button @click="goAddPost" class="addPost_button">添加招聘</button>
     </div>
 
     <!-- 英文banner -->
@@ -88,6 +87,7 @@
       </div>
 
       <button class="reset_button">Reset</button>
+      <button @click="goAddPost" class="addPost_button">Add Post</button>
 
     </div>
 
@@ -128,13 +128,39 @@
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-
       </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">研究助理</div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">研究助理 </div>
+        <div class="entry-content-brief">xxxxx公司</div>
+        <div class="entry-loc">英国，伦敦</div>
+        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+      </div>
+
+
 
     </div>
 
     <!-- 英文list -->
     <div v-if="lang =='en'" class="list">
+
       <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
@@ -171,7 +197,45 @@
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+      <div class="entry" @click="goPost(1)">
+        <div class="entry-title">Research Assistant</div>
+        <div class="entry-content-brief">Research Assistant</div>
+        <div class="entry-loc">London, England, United Kingdom</div>
+        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
+      </div>
+
     </div>
+
+    <!-- 页码 中英文-->
+    <div class="page-div">
+
+      <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>上一页</strong></button>
+      <button class="button-changePage" v-if="lang =='en'" @click="goPrevPage"><strong>PREV</strong></button>
+      <button class="button-page">1</button>
+      <button class="button-page">2</button>
+      <button class="button-page">3</button>
+      <button class="button-page">4</button>
+      <button class="button-page">5</button>
+      <button class="button-page">6</button>
+      <button class="button-page">7</button>
+      <button class="button-changePage" v-if="lang =='en'" @click="goNextPage"><strong>NEXT</strong></button>
+      <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>下一页</strong></button>
+
+    </div>
+
+
 
     <!-- 中文filter -->
     <div v-if="lang =='zh'" class="filter">
@@ -179,16 +243,14 @@
       <div>
         <input v-model="searchText" type="text" class="search" />
         <button class="button-search">
-          <svg 
-            class="icon-search" 
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-            height="19"
-            width="19">
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"></path>
+          <svg class="icon-search"
+               viewBox="0 -3 20 20"
+               xmlns="http://www.w3.org/2000/svg"
+               height="19"
+               width="19">
+            <path fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"></path>
           </svg>
         </button>
       </div>
@@ -242,16 +304,14 @@
       <div>
         <input v-model="searchText" type="text" class="search" />
         <button class="button-search">
-          <svg 
-            class="icon-search"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-            height="19"
-            width="19">
-            <path 
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"></path>
+          <svg class="icon-search"
+               viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg"
+               height="19"
+               width="19">
+            <path fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"></path>
           </svg>
         </button>
       </div>
@@ -303,35 +363,52 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import {isMobile} from '@/utils/index'
+  import { mapState } from 'vuex';
+  import { isMobile } from '@/utils/index'
 
-export default {
-  name: 'IndexList',
-  // props: {
-  //   lang: {
-  //     type: String,
-  //     default: 'zh',
-  //     required: false,
-  //   },
-  // },
-  computed: {
-    ...mapState({lang: 'language'}),
-  },
-  mounted() {
-    if (isMobile()) {
-      this.$router.push('/mobile' + this.$router.currentRoute.path);
+  export default {
+    name: 'IndexList',
+    // props: {
+    //   lang: {
+    //     type: String,
+    //     default: 'zh',
+    //     required: false,
+    //   },
+    // },
+
+    computed: {
+      ...mapState({ lang: 'language' }),
+    },
+    mounted() {
+      if (isMobile()) {
+        this.$router.push('/mobile' + this.$router.currentRoute.path);
+      }
+    },
+    methods: {
+      goPost(id) {
+        this.$router.push('/post/' + id.toString());
+      },
+      goAddPost() {
+        this.$router.push('/addPost');
+      },
+      getPost() {
+        // 测试用
+        const eventId = 1;
+        // 首先获取id，注意是用const
+        // const eventId = this.$route.query.id;
+        // 向后端发起请求
+        this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res => {
+          console.log(res);
+          // 把后端传回的data存到此文件的postdata中
+          this.postdata = res.data[0];
+        }).catch(error => {
+          console.log(error);
+          // 跳转到error界面
+          this.$router.push('/error');
+        });
+      }
     }
-  },
-  methods: {
-    goPost(id){
-      this.$router.push('/post/'+id.toString());
-    },
-    goAddPost(){
-      this.$router.push('/addPost');
-    },
   }
-}
 </script>
 
 <style scoped>
@@ -343,6 +420,7 @@ export default {
     background-color: rgb(241, 241, 241);
     position: relative;
   }
+
   .page-banner {
     position: absolute;
     width: 100%;
@@ -353,6 +431,7 @@ export default {
     box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
     border-radius: 0px;
   }
+
   .dropdown-button {
     /* Font and Color */
     font-style: normal;
@@ -368,62 +447,71 @@ export default {
     border-width: 0px;
     padding: 5px 15px;
   }
+
   .dropdown-content {
     display: none;
     position: absolute;
     z-index: 1;
   }
-  .dropdown-content a {
-      width:100px;
-      margin-top:5px;
+
+    .dropdown-content a {
+      width: 100px;
+      margin-top: 5px;
       padding: 10px 16px;
       text-decoration: none;
       display: inline-block;
       border-radius: 20px;
       font-size: 12px;
       background-color: #FFFFFF;
-      color:#303133;
+      color: #303133;
     }
-  .dropdown-content a:hover {
+
+      .dropdown-content a:hover {
         box-shadow: 0px 0 15px #7CE3B3;
         border-radius: 20px;
         background-color: #FFFFFF;
       }
+
   .dropdown:hover .dropdown-content {
     display: block;
-    
   }
+
   .dropdown:hover .dropdown-button {
     background-color: #42d791;
   }
+
   .level {
     position: absolute;
-    width: 100px;
+    width: 150px;
     height: 25px;
-    left: 120px;
+    left: 8%;
     top: 10px;
   }
+
   .loc {
     position: absolute;
     width: 150px;
     height: 25px;
-    left: 270px;
+    left: 20%;
     top: 10px;
   }
+
   .start-term {
     position: absolute;
-    width: 120px;
+    width: 150px;
     height: 25px;
-    left: 460px;
+    left: 30%;
     top: 10px;
   }
+
   .uni {
     position: absolute;
-    width: 120px;
+    width: 150px;
     height: 25px;
-    left: 620px;
+    left: 40%;
     top: 10px;
   }
+
   .reset_button {
     /* Font and Color */
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
@@ -444,56 +532,136 @@ export default {
     position: absolute;
     width: 100px;
     height: 25px;
-    right: 100px;
+    right: 15%;
     top: 10px;
   }
+
+    .reset_button:hover {
+      background-color: #ed9005;
+    }
+
+  .addPost_button {
+    /* Font and Color */
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgba(48, 49, 51, 0.75);
+    /* Button Feature */
+    text-align: center;
+    background: #FFFFFF;
+    border-radius: 20px;
+    border-color: #7CE3B3;
+    border-width: 5px;
+    padding: 0px 10px;
+    /* Position */
+    position: absolute;
+    width: 100px;
+    height: 25px;
+    right: 40%;
+    top: 10px;
+  }
+
+    .addPost_button:hover {
+      background-color: #DCDFE6;
+    }
+
   .list {
     position: absolute;
     top: 50px;
     left: 10%;
     width: 50%;
   }
+
   .entry {
-    margin-top: 8px;
+    margin-top: 15px;
     position: relative;
     display: block;
-    background-color:#F5F7FA;
+    background-color: #F5F7FA;
     height: 65px;
-    
   }
-  .entry:hover {
+
+    .entry:hover {
       box-shadow: 0px 0 15px #7CE3B3;
     }
-  .entry-title{
-    font-size:15px;
-    position:absolute;
+
+  .entry-title {
+    font-size: 15px;
+    position: absolute;
     padding: 10px;
   }
-  .entry-content-brief{
-      position:absolute;
-      padding: 30px 0px 10px 10px;
-      font-size: 10px;
-      color: #909399;
+
+  .entry-content-brief {
+    position: absolute;
+    padding: 30px 0px 10px 10px;
+    font-size: 10px;
+    color: #909399;
   }
+
   .entry-loc {
     position: absolute;
     padding: 45px 0px 10px 10px;
     font-size: 10px;
     color: #909399;
   }
+
   .entry-pubDate {
     position: absolute;
     padding: 45px 0px 10px 83%;
     font-size: 10px;
     color: #909399;
-    
   }
-  .filter {
+
+  .page-div {
     position: absolute;
-    top: 50px;
+    top: 900px;
+    left: 10%;
+    width: 50%;
+  }
+
+  .button-page {
+    border-width: 0px;
+    margin: 5px;
+    padding: 0px;
+    height: 40px;
+    width: 40px;
+    color: #909399;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    transition: all 0.3s ease 0s;
+    border-radius: 25px;
+  }
+
+    .button-page:hover {
+      background-color: #7CE3B3;
+      color: black;
+    }
+
+    .button-page:active {
+      box-shadow: 0px 0 15px #7CE3B3;
+    }
+
+  .button-changePage {
+    border-width: 0px;
+    color: #909399;
+    cursor: pointer;
+    background-color: none;
+    transition: all 0.3s ease 0s;
+    border-radius: 25px;
+  }
+
+    .button-changePage:hover {
+      font-size: 15px;
+    }
+
+  .filter {
+    position: fixed;
+    top: 150px;
     left: 60%;
     width: 30%;
   }
+
   .filter-title {
     position: relative;
     display: block;
@@ -502,6 +670,7 @@ export default {
     bottom: 50px;
     width: 40%;
   }
+
   .search {
     height: 35px;
     width: 50%;
@@ -512,8 +681,9 @@ export default {
     padding: 0 20px;
     color: #606266;
     background: #FFFFFF;
-    margin-top:20px;
+    margin-top: 20px;
   }
+
   .button-search {
     margin-left: -50px;
     border-radius: 20px;
@@ -524,34 +694,37 @@ export default {
     cursor: pointer;
     background-color: #FFFFFF;
     transition: all 0.3s ease 0s;
-    margin-bottom:50px;
+    margin-bottom: 50px;
   }
-  .button-search:hover {
+
+    .button-search:hover {
       background-color: var(--color-4);
     }
+
   .filter-title hr {
-      border-top: 3px solid #7CE3B3;
-      width: 35%
-    }
+    background-color: #7CE3B3;
+    border: 1px solid #7CE3B3;
+    width: 35%
+  }
+
   .filter-year {
-    position:relative;
-    top:20px;
-    left:0px;
-    
-    
+    position: relative;
+    top: 20px;
+    left: 0px;
     border: 0px solid #7CE3B3;
     padding: 5px;
-    word-spacing:30px;
-
+    word-spacing: 30px;
   }
+
   .by-month {
     position: relative;
     top: 20px;
     width: 80%;
-    left:10%;
-    right:10%;
+    left: 10%;
+    right: 10%;
     margin-bottom: 50px;
   }
+
   .button-month {
     border-width: 0px;
     margin: 5px;
@@ -563,17 +736,20 @@ export default {
     background-color: #FFFFFF;
     transition: all 0.3s ease 0s;
   }
-  .button-month:hover {
-    background-color: #7CE3B3;
-    color: #303133;
-  }
+
+    .button-month:hover {
+      background-color: #7CE3B3;
+      color: #303133;
+    }
+
   .by-field {
     position: relative;
-    left:10%;
-    right:10%;
+    left: 10%;
+    right: 10%;
     width: 80%;
     top: 20px;
   }
+
   .button-field {
     border-color: #DCDFE6;
     border-width: 1px;
@@ -585,8 +761,9 @@ export default {
     background-color: #FFFFFF;
     transition: all 0.3s ease 0s;
   }
-  .button-field:hover {
-    background-color: #7CE3B3;
-    color:#303133;
-  }
+
+    .button-field:hover {
+      background-color: #7CE3B3;
+      color: #303133;
+    }
 </style>
