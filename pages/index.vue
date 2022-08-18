@@ -218,6 +218,7 @@
     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
+      :append-to-body='true'
       width="30%">
       <p>此网站正在建设中</p>
       <p>如须获取 GISphere 相关信息，请访问 <a href="https://www.gisphere.net">https://www.gisphere.net</a></p>
@@ -238,7 +239,7 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      dialogVisible: true,
+      dialogVisible: false,
       showContactCard: false,
     }
   },
@@ -269,6 +270,7 @@ export default {
     if(isMobile()){
       this.$router.push('/mobile/');
     }
+    this.dialogVisible = true;
   },
   methods: {
     goToPostList(type) {
