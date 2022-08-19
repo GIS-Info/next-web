@@ -7,7 +7,7 @@
       <span>4</span>
     </section>
     <div class="desc">Oops! Lost in Space</div>
-    <button @click="goHome" class="home">Go Back Home</button>
+    <button class="home" @click="goHome">Go Back Home</button>
 
   </div>
  
