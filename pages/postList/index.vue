@@ -368,14 +368,12 @@
 
   export default {
     name: 'IndexList',
-    // props: {
-    //   lang: {
-    //     type: String,
-    //     default: 'zh',
-    //     required: false,
-    //   },
-    // },
-
+    data() {
+      return {
+        postdata: [],
+        pageIndex: 1,
+      };
+    },
     computed: {
       ...mapState({ lang: 'language' }),
     },
