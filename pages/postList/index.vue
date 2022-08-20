@@ -93,129 +93,22 @@
 
     <!-- 中文list -->
     <div v-if="lang =='zh'" class="list">
-      <div class="entry" @click="goPost(1)">
+      <div v-for="post in postListData" :key="post.id" class="entry" @click="goPost(post.id)" >
         <div class="entry-title">研究助理</div>
         <div class="entry-content-brief">xxxxx公司</div>
         <div class="entry-loc">英国，伦敦</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理 </div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-
-
-
     </div>
 
     <!-- 英文list -->
     <div v-if="lang =='en'" class="list">
-
       <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-
     </div>
 
     <!-- 页码 中英文-->
@@ -370,8 +263,9 @@
     name: 'IndexList',
     data() {
       return {
-        postdata: [],
+        postListData: [],
         pageIndex: 1,
+        queryType: '', // 从url带入的查询类型 ['academic', 'job']
       };
     },
     computed: {
@@ -381,6 +275,9 @@
       if (isMobile()) {
         this.$router.push('/mobile' + this.$router.currentRoute.path);
       }
+      // 从url带入的查询类型
+      this.queryType = this.$route.query?.type
+      this.getPostListData();
     },
     methods: {
       goPost(id) {
@@ -389,20 +286,15 @@
       goAddPost() {
         this.$router.push('/addPost');
       },
-      getPost() {
-        // 测试用
-        const eventId = 1;
-        // 首先获取id，注意是用const
-        // const eventId = this.$route.query.id;
-        // 向后端发起请求
-        this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res => {
+      getPostListData() {
+        this.$axios.get('https://gisphere.info/api/post', {
+          params: {}
+        }).then(res => {
           console.log(res);
           // 把后端传回的data存到此文件的postdata中
-          this.postdata = res.data[0];
+          this.postListData = res.data[0];
         }).catch(error => {
           console.log(error);
-          // 跳转到error界面
-          this.$router.push('/error');
         });
       }
     }
