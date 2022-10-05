@@ -42,7 +42,7 @@
 
 
       <button class="reset_button">重置</button>
-      <button @click="goAddPost" class="addPost_button">添加招聘</button>
+      <button class="addPost_button" @click="goAddPost">添加招聘</button>
     </div>
 
     <!-- 英文banner -->
@@ -85,50 +85,42 @@
           <a href="#">Columbia University</a>
         </div>
       </div>
-
       <button class="reset_button">Reset</button>
-      <button @click="goAddPost" class="addPost_button">Add Post</button>
-
+      <button class="addPost_button" @click="goAddPost">Add Post</button>
     </div>
 
-    <!-- 中文list -->
-    <div v-if="lang =='zh'" class="list">
-      <div v-for="post in postListData" :key="post.id" class="entry" @click="goPost(post.id)" >
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
+    <div class="list">
+      <div v-for="post in postListData" :key="post.event_id" class="entry" @click="goPost(post.event_id)" >
+        <div class="entry-title">{{ post.job_title || '-' }}</div>
+        <div class="entry-content-brief">{{ post.university_fk || '-'}}</div>
+        <div class="entry-loc">{{ post.country || '-' }}</div>
         <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
       </div>
-    </div>
-
-    <!-- 英文list -->
-    <div v-if="lang =='en'" class="list">
       <div class="entry" @click="goPost(1)">
         <div class="entry-title">Research Assistant</div>
         <div class="entry-content-brief">Research Assistant</div>
         <div class="entry-loc">London, England, United Kingdom</div>
         <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
       </div>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :current-page="pageIndex"
+        :total="totalCount"
+        @current-change="handlePageChange">
+      </el-pagination>
     </div>
 
     <!-- 页码 中英文-->
+    <!--
     <div class="page-div">
-
       <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>上一页</strong></button>
       <button class="button-changePage" v-if="lang =='en'" @click="goPrevPage"><strong>PREV</strong></button>
       <button class="button-page">1</button>
-      <button class="button-page">2</button>
-      <button class="button-page">3</button>
-      <button class="button-page">4</button>
-      <button class="button-page">5</button>
-      <button class="button-page">6</button>
-      <button class="button-page">7</button>
       <button class="button-changePage" v-if="lang =='en'" @click="goNextPage"><strong>NEXT</strong></button>
       <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>下一页</strong></button>
-
     </div>
-
-
+    -->
 
     <!-- 中文filter -->
     <div v-if="lang =='zh'" class="filter">
@@ -265,7 +257,12 @@
       return {
         postListData: [],
         pageIndex: 1,
-        queryType: '', // 从url带入的查询类型 ['academic', 'job']
+        searchText: '',
+        pageSize: 100,
+        totalCount: 0,
+        filter: {
+          queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
+        },
       };
     },
     computed: {
@@ -276,7 +273,7 @@
         this.$router.push('/mobile' + this.$router.currentRoute.path);
       }
       // 从url带入的查询类型
-      this.queryType = this.$route.query?.type
+      this.filter.queryType = this.$route.query?.type
       this.getPostListData();
     },
     methods: {
@@ -288,14 +285,21 @@
       },
       getPostListData() {
         this.$axios.get('https://gisphere.info/api/post', {
-          params: {}
+          params: {
+            pageSize: this.pageSize,
+            pageIndex: this.pageIndex,
+          }
         }).then(res => {
           console.log(res);
           // 把后端传回的data存到此文件的postdata中
-          this.postListData = res.data[0];
+          this.postListData = res.data;
         }).catch(error => {
           console.log(error);
         });
+      },
+      handlePageChange(i){
+        this.pageIndex = i;
+        this.getPostListData();
       }
     }
   }
@@ -418,6 +422,7 @@
     border-color: black;
     border-width: 0px;
     padding: 0px 10px;
+    cursor: pointer;
     /* Position */
     position: absolute;
     width: 100px;
@@ -445,6 +450,7 @@
     border-color: #7CE3B3;
     border-width: 5px;
     padding: 0px 10px;
+    cursor: pointer;
     /* Position */
     position: absolute;
     width: 100px;
@@ -465,11 +471,13 @@
   }
 
   .entry {
-    margin-top: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     position: relative;
     display: block;
     background-color: #F5F7FA;
     height: 65px;
+    cursor: pointer;
   }
 
     .entry:hover {
