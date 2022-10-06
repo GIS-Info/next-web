@@ -1,7 +1,9 @@
 <template>
   <div class="main">
 
+    <!-- 暂时不显示 banner -->
     <!-- 中文banner -->
+    <!--
     <div v-if="lang =='zh'" class="page-banner">
 
       <div class="dropdown level">
@@ -42,10 +44,12 @@
 
 
       <button class="reset_button">重置</button>
-      <button @click="goAddPost" class="addPost_button">添加招聘</button>
+      <button class="addPost_button" @click="goAddPost">添加招聘</button>
     </div>
+    -->
 
     <!-- 英文banner -->
+    <!--
     <div v-if="lang =='en'" class="page-banner">
 
       <div class="dropdown level">
@@ -85,160 +89,44 @@
           <a href="#">Columbia University</a>
         </div>
       </div>
-
       <button class="reset_button">Reset</button>
-      <button @click="goAddPost" class="addPost_button">Add Post</button>
-
+      <button class="addPost_button" @click="goAddPost">Add Post</button>
     </div>
+    -->
 
-    <!-- 中文list -->
-    <div v-if="lang =='zh'" class="list">
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理</div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">研究助理 </div>
-        <div class="entry-content-brief">xxxxx公司</div>
-        <div class="entry-loc">英国，伦敦</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+    <div class="list">
+      <div v-for="post in postListData" :key="post.event_id" class="entry" @click="goPost(post.event_id)" >
+        <div class="entry-title">{{ (lang == 'zh'? post.title_cn : post.title_en) || '-' }}</div>
+        <div class="entry-content-brief">{{ post.description || '-' }}</div>
+        <div class="entry-bottom-flex">
+          <span>{{ (lang == 'zh'? post.country_cn : post.country_en) || '-' }}</span>
+          <span>发布于 <b>{{ post.date || '未知时间' }}</b></span>
+        </div>
       </div>
 
-
-
-    </div>
-
-    <!-- 英文list -->
-    <div v-if="lang =='en'" class="list">
-
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
-
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :current-page="pageIndex"
+        :total="totalCount"
+        :page-size="pageSize"
+        @current-change="handlePageChange">
+      </el-pagination>
     </div>
 
     <!-- 页码 中英文-->
+    <!--
     <div class="page-div">
-
       <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>上一页</strong></button>
       <button class="button-changePage" v-if="lang =='en'" @click="goPrevPage"><strong>PREV</strong></button>
       <button class="button-page">1</button>
-      <button class="button-page">2</button>
-      <button class="button-page">3</button>
-      <button class="button-page">4</button>
-      <button class="button-page">5</button>
-      <button class="button-page">6</button>
-      <button class="button-page">7</button>
       <button class="button-changePage" v-if="lang =='en'" @click="goNextPage"><strong>NEXT</strong></button>
       <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>下一页</strong></button>
-
     </div>
-
-
+    -->
 
     <!-- 中文filter -->
-    <div v-if="lang =='zh'" class="filter">
+    <div v-if="lang =='zh'" class="filter" @click="error('相关功能还在开发中')">
       <div class="filter-title">按内容搜索 <hr> </div>
       <div>
         <input v-model="searchText" type="text" class="search" />
@@ -364,25 +252,28 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { isMobile } from '@/utils/index'
 
   export default {
     name: 'IndexList',
-    // props: {
-    //   lang: {
-    //     type: String,
-    //     default: 'zh',
-    //     required: false,
-    //   },
-    // },
-
+    data() {
+      return {
+        postListData: [],
+        pageIndex: 1,
+        searchText: '',
+        pageSize: 7,
+        totalCount: 0,
+        filter: {
+          queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
+        },
+      };
+    },
     computed: {
       ...mapState({ lang: 'language' }),
     },
     mounted() {
-      if (isMobile()) {
-        this.$router.push('/mobile' + this.$router.currentRoute.path);
-      }
+      // 从url带入的查询类型
+      this.filter.queryType = this.$route.query?.type
+      this.getPostListData();
     },
     methods: {
       goPost(id) {
@@ -391,21 +282,30 @@
       goAddPost() {
         this.$router.push('/addPost');
       },
-      getPost() {
-        // 测试用
-        const eventId = 1;
-        // 首先获取id，注意是用const
-        // const eventId = this.$route.query.id;
-        // 向后端发起请求
-        this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res => {
-          console.log(res);
-          // 把后端传回的data存到此文件的postdata中
-          this.postdata = res.data[0];
+      getPostListData() {
+        this.$axios.get('https://gisphere.info/api/post', {
+          params: {
+            pageSize: this.pageSize,
+            pageIndex: this.pageIndex,
+          }
+        }).then(res => {
+          if(res?.data?.code === 0){
+            // 把后端传回的data存到此文件的postdata中
+            this.postListData = res.data.data;
+            this.totalCount = res.data.count;
+          }else{
+            alert('请求错误: ' + res.msg)
+          }
         }).catch(error => {
-          console.log(error);
-          // 跳转到error界面
-          this.$router.push('/error');
+          alert(error);
         });
+      },
+      handlePageChange(i){
+        this.pageIndex = i;
+        this.getPostListData();
+      },
+      error(err) {
+        alert(err)
       }
     }
   }
@@ -528,6 +428,7 @@
     border-color: black;
     border-width: 0px;
     padding: 0px 10px;
+    cursor: pointer;
     /* Position */
     position: absolute;
     width: 100px;
@@ -555,6 +456,7 @@
     border-color: #7CE3B3;
     border-width: 5px;
     padding: 0px 10px;
+    cursor: pointer;
     /* Position */
     position: absolute;
     width: 100px;
@@ -575,11 +477,17 @@
   }
 
   .entry {
-    margin-top: 15px;
-    position: relative;
-    display: block;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
     background-color: #F5F7FA;
     height: 65px;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: left;
+    white-space: nowrap;
+    padding: 10px;
   }
 
     .entry:hover {
@@ -587,30 +495,27 @@
     }
 
   .entry-title {
-    font-size: 15px;
-    position: absolute;
-    padding: 10px;
+    font-size: 16px;
+    height: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .entry-content-brief {
-    position: absolute;
-    padding: 30px 0px 10px 10px;
     font-size: 10px;
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #909399;
   }
 
-  .entry-loc {
-    position: absolute;
-    padding: 45px 0px 10px 10px;
+  .entry-bottom-flex{
+    height: 20px;
+    display: flex;
+    flex-direction: row;
     font-size: 10px;
     color: #909399;
-  }
-
-  .entry-pubDate {
-    position: absolute;
-    padding: 45px 0px 10px 83%;
-    font-size: 10px;
-    color: #909399;
+    justify-content: space-between;
   }
 
   .page-div {
@@ -618,6 +523,7 @@
     top: 900px;
     left: 10%;
     width: 50%;
+    padding-bottom: 50px;
   }
 
   .button-page {

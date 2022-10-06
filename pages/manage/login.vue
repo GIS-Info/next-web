@@ -39,9 +39,12 @@ export default {
   methods: {
     ...mapActions({login: 'login'}),
     submit() {
+      alert('无效的账户');
+      /*
       this.login().then(()=>{
         this.$router.push('/manage/dashboard/')
       })
+      */
     },
     register() {
       this.$router.push('/manage/register')

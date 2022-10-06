@@ -30,12 +30,9 @@
       }
     },
     methods: {
-     
       goHome() {
-        this.$router.push('/postList');
-        // may redirect in the future
-      },
-      
+        this.$router.push('/');
+      }, 
     }
   }
 </script>
