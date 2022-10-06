@@ -6,6 +6,17 @@
     </div>
   </div>
 </template>
+<script>
+import {isMobile} from '@/utils/index';
+export default {
+  mounted() {
+    //  如果是移动端，则跳转到移动端视图
+    if(isMobile()){
+      this.$router.push('/mobile'+this.$route.path);
+    }
+  }
+}
+</script>
 <style scoped>
   .default-container{
     font-size: 16px;

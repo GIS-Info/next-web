@@ -1,7 +1,9 @@
 <template>
   <div class="main">
 
+    <!-- 暂时不显示 banner -->
     <!-- 中文banner -->
+    <!--
     <div v-if="lang =='zh'" class="page-banner">
 
       <div class="dropdown level">
@@ -44,8 +46,10 @@
       <button class="reset_button">重置</button>
       <button class="addPost_button" @click="goAddPost">添加招聘</button>
     </div>
+    -->
 
     <!-- 英文banner -->
+    <!--
     <div v-if="lang =='en'" class="page-banner">
 
       <div class="dropdown level">
@@ -88,25 +92,24 @@
       <button class="reset_button">Reset</button>
       <button class="addPost_button" @click="goAddPost">Add Post</button>
     </div>
+    -->
 
     <div class="list">
       <div v-for="post in postListData" :key="post.event_id" class="entry" @click="goPost(post.event_id)" >
-        <div class="entry-title">{{ post.job_title || '-' }}</div>
-        <div class="entry-content-brief">{{ post.university_fk || '-'}}</div>
-        <div class="entry-loc">{{ post.country || '-' }}</div>
-        <div class="entry-pubDate">发布于 <b>2022年3月31日</b></div>
+        <div class="entry-title">{{ (lang == 'zh'? post.title_cn : post.title_en) || '-' }}</div>
+        <div class="entry-content-brief">{{ post.description || '-' }}</div>
+        <div class="entry-bottom-flex">
+          <span>{{ (lang == 'zh'? post.country_cn : post.country_en) || '-' }}</span>
+          <span>发布于 <b>{{ post.date || '未知时间' }}</b></span>
+        </div>
       </div>
-      <div class="entry" @click="goPost(1)">
-        <div class="entry-title">Research Assistant</div>
-        <div class="entry-content-brief">Research Assistant</div>
-        <div class="entry-loc">London, England, United Kingdom</div>
-        <div class="entry-pubDate">Published on <b>31 Mar, 2022</b></div>
-      </div>
+
       <el-pagination
         background
         layout="prev, pager, next"
         :current-page="pageIndex"
         :total="totalCount"
+        :page-size="pageSize"
         @current-change="handlePageChange">
       </el-pagination>
     </div>
@@ -123,7 +126,7 @@
     -->
 
     <!-- 中文filter -->
-    <div v-if="lang =='zh'" class="filter">
+    <div v-if="lang =='zh'" class="filter" @click="error('相关功能还在开发中')">
       <div class="filter-title">按内容搜索 <hr> </div>
       <div>
         <input v-model="searchText" type="text" class="search" />
@@ -249,7 +252,6 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { isMobile } from '@/utils/index'
 
   export default {
     name: 'IndexList',
@@ -258,7 +260,7 @@
         postListData: [],
         pageIndex: 1,
         searchText: '',
-        pageSize: 100,
+        pageSize: 7,
         totalCount: 0,
         filter: {
           queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
@@ -269,9 +271,6 @@
       ...mapState({ lang: 'language' }),
     },
     mounted() {
-      if (isMobile()) {
-        this.$router.push('/mobile' + this.$router.currentRoute.path);
-      }
       // 从url带入的查询类型
       this.filter.queryType = this.$route.query?.type
       this.getPostListData();
@@ -290,16 +289,23 @@
             pageIndex: this.pageIndex,
           }
         }).then(res => {
-          console.log(res);
-          // 把后端传回的data存到此文件的postdata中
-          this.postListData = res.data;
+          if(res?.data?.code === 0){
+            // 把后端传回的data存到此文件的postdata中
+            this.postListData = res.data.data;
+            this.totalCount = res.data.count;
+          }else{
+            alert('请求错误: ' + res.msg)
+          }
         }).catch(error => {
-          console.log(error);
+          alert(error);
         });
       },
       handlePageChange(i){
         this.pageIndex = i;
         this.getPostListData();
+      },
+      error(err) {
+        alert(err)
       }
     }
   }
@@ -473,11 +479,15 @@
   .entry {
     margin-top: 8px;
     margin-bottom: 8px;
-    position: relative;
-    display: block;
+    display: flex;
+    flex-direction: column;
     background-color: #F5F7FA;
     height: 65px;
     cursor: pointer;
+    overflow: hidden;
+    text-align: left;
+    white-space: nowrap;
+    padding: 10px;
   }
 
     .entry:hover {
@@ -485,30 +495,27 @@
     }
 
   .entry-title {
-    font-size: 15px;
-    position: absolute;
-    padding: 10px;
+    font-size: 16px;
+    height: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .entry-content-brief {
-    position: absolute;
-    padding: 30px 0px 10px 10px;
     font-size: 10px;
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #909399;
   }
 
-  .entry-loc {
-    position: absolute;
-    padding: 45px 0px 10px 10px;
+  .entry-bottom-flex{
+    height: 20px;
+    display: flex;
+    flex-direction: row;
     font-size: 10px;
     color: #909399;
-  }
-
-  .entry-pubDate {
-    position: absolute;
-    padding: 45px 0px 10px 83%;
-    font-size: 10px;
-    color: #909399;
+    justify-content: space-between;
   }
 
   .page-div {
@@ -516,6 +523,7 @@
     top: 900px;
     left: 10%;
     width: 50%;
+    padding-bottom: 50px;
   }
 
   .button-page {

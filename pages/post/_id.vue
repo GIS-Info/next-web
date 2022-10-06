@@ -1,28 +1,32 @@
 <template>
-  <div class="main">
+  <div class="main-container">
+    <!-- 暂不支持翻页功能 -->
     <!-- 中文情况下 -->
+    <!--
     <div v-if="lang =='zh'" class="post-header">
       <button class="header-prev-button" @click="goPost(postdata.prevId)">&#9664; 上一页</button>
       <button class="header-next-button" @click="goPost(postdata.nextId)">下一页 &#9654;</button>
       <button class="header-back2list-button" @click="goPostList">返回列表</button>
     </div>
+    -->
     <!-- 英文情况下 -->
+    <!--
     <div v-if="lang =='en'" class="post-header">
       <button class="header-prev-button" @click="goPost(postdata.prevId)">&#9664; PREV</button>
       <button class="header-next-button" @click="goPost(postdata.nextId)">NEXT &#9654;</button>
       <button class="header-back2list-button" @click="goPostList">Back to List</button>
     </div>
+    -->
 
     <!-- 中文情况下 -->
     <div v-if="lang =='zh'" class="post-content">
-      <div class="content-title">{{ postdata.label + postdata.job_title }}</div>
-      <div class="content-detail">发布时间: <span class="normal">{{ postdata.post_date }}</span></div>
-      <div class="content-detail">截止日期: <span class="normal">{{ postdata.close_date }}</span></div>
-      <div class="content-detail">院校名称: <span class="normal">{{ postdata.university_fk }}</span></div>
-      <div class="content-detail">地理位置: <span class="normal">{{ postdata.country }}</span></div>
-      <div class="content-detail">学历要求: <span class="normal">{{ postdata.required_degree }}</span></div>
-      <div class="content-detail">岗位数量: <span class="normal">{{ postdata.number_of_vacancy }}</span></div>
+      <div class="content-title">{{ postdata.title_cn || '-' }}</div>
+      <div class="content-detail">发布时间: <span class="normal">{{ postdata.date || '-' }}</span></div>
+      <div class="content-detail">院校名称: <span class="normal">{{ postdata.university_cn || '-' }}</span></div>
+      <div class="content-detail">地理位置: <span class="normal">{{ postdata.country_cn || '-' }}</span></div>
+      <div class="content-detail">岗位类型: <span class="normal">{{ postdata.job_cn || '-' }}</span></div>
       <!-- 如果招聘状态为true，则css为active -->
+      <!--
       <div class="content-detail">招聘状态: <span :class="postdata.still_open == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
 
       <div class="dropdown">
@@ -31,8 +35,10 @@
           <a :href="'{{ postdata.applyURL }}'" target="_blank">{{ postdata.url }}</a>
         </div>
       </div>
+      -->
 
       <!-- 判断是否有联系人，若无，则button不显示 -->
+      <!--
       <div class="dropdown" :style="{'display' : postdata.email1 == null ? 'none' : 'inline-block'}">
         <button class="dropdown-button">联系人1: <span>{{ postdata.contact1 }}</span> &#x2709;</button>
         <div class="dropdown-content">
@@ -46,20 +52,20 @@
           <a href="'mailto:${ postdata.email2 }'">{{ postdata.email2 }}</a>
         </div>
       </div>
+      -->
 
-      <div class="content-description"><p>职位描述</p>{{ postdata.detail }}</div>
+      <div class="content-description"><p>职位描述</p>{{ postdata.description }}</div>
     </div>
 
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="post-content">
-      <div class="content-title">{{ postdata.label + postdata.en.job }}</div>
-      <div class="content-detail">Publish Date: <span class="normal">{{ postdata.post_date }}</span></div>
-      <div class="content-detail">Apply Deadline: <span class="normal">{{ postdata.close_date }}</span></div>
-      <div class="content-detail">School: <span class="normal">{{ postdata.en.universityName }}</span></div>
-      <div class="content-detail">Location: <span class="normal">{{ postdata.en.universityLoaction }}</span></div>
-      <div class="content-detail">Required Degree: <span class="normal">{{ postdata.en.requiredDegree }}</span></div>
-      <div class="content-detail">Number of Vacancy: <span class="normal">{{ postdata.vacancyNum }}</span></div>
+      <div class="content-title">{{ postdata.title_en || 'unknown' }}</div>
+      <div class="content-detail">Publish Date: <span class="normal">{{ postdata.date || 'unknown' }}</span></div>
+      <div class="content-detail">School: <span class="normal">{{ postdata.university_en || 'unknown' }}</span></div>
+      <div class="content-detail">Location: <span class="normal">{{ postdata.country_en || 'unknown' }}</span></div>
+      <div class="content-detail">Type: <span class="normal">{{ postdata.job_en || 'unknown' }}</span></div>
       <!-- 如果招聘状态为true，则css为active -->
+      <!--
       <div class="content-detail">Status: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusEN }}</span></div>
 
       <div class="dropdown">
@@ -68,8 +74,10 @@
           <a :href="'{{ postdata.applyURL }}'" target="_blank">{{ postdata.applyURL }}</a>
         </div>
       </div>
+      -->
 
       <!-- 判断是否有联系人，若无，则button不显示 -->
+      <!--
       <div class="dropdown" :style="{'display' : postdata.email1 == null ? 'none' : 'inline-block'}">
         <button class="dropdown-button">Contact Email 1: <span>{{ postdata.contact1 }}</span> &#x2709;</button>
         <div class="dropdown-content">
@@ -83,15 +91,15 @@
           <a href="'mailto:${ postdata.email2 }'">{{ postdata.email2 }}</a>
         </div>
       </div>
+      -->
 
-      <div class="content-description"><p>Job Description</p>{{ postdata.en.description }}</div>
+      <div class="content-description"><p>Job Description</p>{{ postdata.description }}</div>
     </div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
-import {isMobile} from '@/utils/index'
 
 export default {
   name: 'IndexPage',
@@ -103,6 +111,27 @@ export default {
         nextId: 2
       }
     }
+  },
+  /**
+   * 使用 fetch 方法是为了服务端渲染，参考 https://nuxtjs.org/docs/features/data-fetching
+   */
+  async fetch() {
+    const eventId = this.$route.params.id;
+    // 向后端发起请求
+    await this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
+      console.log('res: '+res);
+      // 把后端传回的data存到此文件的postdata中
+      this.postdata = res.data[0];
+    }).catch(error=>{
+      console.log('err: ' + error);
+      // 跳转到error界面
+      this.$router.push('/error');
+    });
+  },
+  head() {
+    return {
+      title: this.postdata.title_cn,
+    };
   },
   computed: {
     ...mapState({lang: 'language'}),
@@ -123,15 +152,6 @@ export default {
       }
     }
   },
-  mounted() {
-    // 跳转到移动端界面，建议放在getPost之前
-    if(isMobile()){
-      this.$router.push('/mobile'+this.$router.currentRoute.path);
-    }
-    // 填充内容的getPost函数
-    this.getPost();
-    // console.log(this);
-  },
   methods: {
     goPost(eventId){
       this.$router.push('/post/'+eventId.toString());
@@ -139,31 +159,15 @@ export default {
     goPostList(){
       this.$router.push('../postList')
     },
-    getPost(){
-      // 测试用
-      const eventId = 1;
-      // 首先获取id，注意是用const
-      // const eventId = this.$route.query.id;
-      // 向后端发起请求
-      this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
-        console.log(res);
-        // 把后端传回的data存到此文件的postdata中
-        this.postdata = res.data[0];
-      }).catch(error=>{
-        console.log(error);
-        // 跳转到error界面
-        this.$router.push('/error');
-      });
-    }
   }
 }
 </script>
 
 <style scoped>
-.main{
+.main-container{
   width: 100%;
   height: 100%;
-  background-color: rgb(241, 241, 241);
+  background: #EBEEF5;
   text-align: center;
 }
 
@@ -238,13 +242,13 @@ export default {
 
 /* content部分 */
 .post-content{
-  position: absolute;
   padding-bottom: 60px;
   width: 1128px;
-  left: 164px;
+  margin: auto;
   top: 60px;
   background: #EBEEF5;
   border-radius: 0px;
+  word-wrap: break-word;
 }
 .content-title{
   position: relative;
@@ -338,7 +342,7 @@ export default {
   position: relative;
   width: 600px;
   left: 68px;
-  margin-top: 74px;
+  margin-top: 40px;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
