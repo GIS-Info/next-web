@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="main-container">
     <!-- 中文情况下 -->
@@ -7,7 +8,7 @@
       <div class="content-detail">院校名称: <span class="normal">{{ postdata.university_cn || '-' }}</span></div>
       <div class="content-detail">地理位置: <span class="normal">{{ postdata.country_cn || '-' }}</span></div>
       <div class="content-detail">岗位类型: <span class="normal">{{ postdata.job_cn || '-' }}</span></div>
-      <div class="content-description"><p>职位描述</p>{{ postdata.description }}</div>
+      <div class="content-description"><p>职位描述</p><div v-html="description"></div></div>
     </div>
 
     <!-- 英文情况下 -->
@@ -17,7 +18,7 @@
       <div class="content-detail">School: <span class="normal">{{ postdata.university_en || 'unknown' }}</span></div>
       <div class="content-detail">Location: <span class="normal">{{ postdata.country_en || 'unknown' }}</span></div>
       <div class="content-detail">Type: <span class="normal">{{ postdata.job_en || 'unknown' }}</span></div>
-      <div class="content-description"><p>Job Description</p>{{ postdata.description }}</div>
+      <div class="content-description"><p>Job Description</p><div v-html="description"></div></div>
     </div>
   </div>
 </template>
@@ -42,11 +43,11 @@ export default {
     const eventId = this.$route.params.id;
     // 向后端发起请求
     await this.$axios.get('https://gisphere.info/api/post/' + eventId.toString()).then(res=>{
-      console.log('res: '+res);
+      console.log('res', res);
       // 把后端传回的data存到此文件的postdata中
       this.postdata = res.data[0];
     }).catch(error=>{
-      console.log('err: ' + error);
+      console.log('err', error);
       // 跳转到error界面
       this.$router.push('/error');
     });
@@ -73,6 +74,10 @@ export default {
       } else {
         return 'Closed';
       }
+    },
+    description() {
+      // 将\n替换为<br/>，为url增加<a>
+      return this.postdata?.description?.replace(/\\n/gm,'<br/>').replace(/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/gm, "<a href='$1$2'>$1$2</a>") || '';
     }
   },
 }
