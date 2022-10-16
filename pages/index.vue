@@ -270,7 +270,7 @@ export default {
     if(isMobile()){
       this.$router.push('/mobile/');
     }
-    this.dialogVisible = true;
+    this.dialogVisible = false;
   },
   methods: {
     goToPostList(type) {
