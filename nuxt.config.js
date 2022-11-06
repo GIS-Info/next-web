@@ -24,8 +24,13 @@ export default {
   css: ['element-ui/lib/theme-chalk/index.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/element-ui'],
-
+  plugins: [
+    '@/plugins/element-ui',
+    {
+      src: '~plugins/nuxt-quill-plugin.js',
+      ssr: false // 富文本组件仅在客户端渲染
+    }
+  ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
