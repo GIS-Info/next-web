@@ -123,7 +123,7 @@ export default {
   methods: {  
     onSubmit() {
       console.log('form', this.form)
-      if(this.form.description?.length > 500000) {
+      if(this.form.description?.length > 20000) {
         alert('正文太长或正文包含的图片过大');
       }
       if(!this.form.title_cn || !this.form.title_en){
@@ -147,8 +147,12 @@ export default {
         label_gnss: this.form.label.includes('Label_GNSS') ? 1 : 0,
         date: dayjs().format('YYYY-MM-DD')
       }
-      this.$axios.post('https://gisphere.info/api/post/add/', payload).then(()=>{
-        alert('提交成功')
+      this.$axios.post('https://gisphere.info/api/post/add/', payload).then((res)=>{
+        if(res.status === '200'){
+          alert('提交成功')
+        } else {
+          alert(res.msg)
+        }
       }).catch(error=>{
         console.log('error', error)
         alert(error)
