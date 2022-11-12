@@ -1,5 +1,7 @@
 <template>
-  <div class="main">
+<!-- 此页面不做服务端渲染 -->
+<client-only>
+  <el-main v-loading="loading" class="main">
 
     <!-- 暂时不显示 banner -->
     <!-- 中文banner -->
@@ -247,14 +249,15 @@
       </table>
     </div>
 
-  </div>
+  </el-main>
+</client-only>
 </template>
 
 <script>
   import { mapState } from 'vuex';
 
   export default {
-    name: 'IndexList',
+    name: 'PostList',
     data() {
       return {
         postListData: [],
@@ -265,15 +268,17 @@
         filter: {
           queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
         },
+        loading: true,
       };
     },
     computed: {
       ...mapState({ lang: 'language' }),
     },
-    mounted() {
+    async mounted() {
       // 从url带入的查询类型
       this.filter.queryType = this.$route.query?.type
-      this.getPostListData();
+      // 加载列表数据
+      await this.getPostListData();
     },
     methods: {
       goPost(id) {
@@ -283,7 +288,8 @@
         this.$router.push('/addPost');
       },
       getPostListData() {
-        this.$axios.get('https://gisphere.info/api/post', {
+        this.loading = true;
+        return this.$axios.get('https://gisphere.info/api/post', {
           params: {
             pageSize: this.pageSize,
             pageIndex: this.pageIndex,
@@ -296,8 +302,10 @@
           }else{
             alert('请求错误: ' + res.msg)
           }
+          this.loading = false
         }).catch(error => {
           alert(error);
+          this.loading = false
         });
       },
       handlePageChange(i){
