@@ -5,8 +5,11 @@
     <div class="main">
       <el-form ref="form" class="form" :model="form" label-position="top" label-width="80px">
         <h2 class="form-title">新增 GISource 帖子</h2>
-        <el-form-item label="标题" required>
-          <el-input v-model="form.title" placeholder="输入 GISource 帖子标题"></el-input>
+        <el-form-item label="标题（中文）" required>
+          <el-input v-model="form.title_cn" placeholder="输入 GISource 帖子标题（中文）"></el-input>
+        </el-form-item>
+        <el-form-item label="标题（英文）" required>
+          <el-input v-model="form.title_en" placeholder="输入 GISource 帖子标题（英文）"></el-input>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="12">
@@ -57,7 +60,7 @@
           </el-col>
         </el-row>
         <el-form-item label="标签">
-          <el-select v-model="form.label" placeholder="选择或添加相关标签（多选）" multiple filterable allow-create style="width:100%">
+          <el-select v-model="form.label" placeholder="选择或添加相关标签（多选）" multiple filterable style="width:100%">
             <el-option label="自然地理" value="Label_Physical_Geo"></el-option>
             <el-option label="人文地理" value="Label_Human_Geo"></el-option>
             <el-option label="城市及区域规划" value="Label_Urban"></el-option>
@@ -90,6 +93,7 @@
 </template>
 
 <script>
+import * as dayjs from 'dayjs'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
@@ -99,7 +103,8 @@ export default {
     return {
       form: {
         label: [],
-        title: '',
+        title_cn: '',
+        title_en: '',
         university_cn: '',
         university_en: '',
         university_id: '',
@@ -118,11 +123,42 @@ export default {
   methods: {  
     onSubmit() {
       console.log('form', this.form)
+      if(this.form.description?.length > 500000) {
+        alert('正文太长或正文包含的图片过大');
+      }
+      if(!this.form.title_cn || !this.form.title_en){
+        alert('没有填写标题');
+      }
+      const payload = {
+        university_cn: this.form.university_cn,
+        university_en: this.form.university_en,
+        country_cn: this.form.country_cn,
+        country_en: this.form.country_en,
+        job_cn: this.form.job_cn,
+        job_en: this.form.job_en,
+        description: this.form.description,
+        title_cn: this.form.title_cn,
+        title_en: this.form.title_en,
+        label_physical_geo: this.form.label.includes('Label_Physical_Geo') ? 1 : 0,
+        label_human_geo: this.form.label.includes('Label_Human_Geo') ? 1 : 0,
+        label_urban: this.form.label.includes('Label_Urban') ? 1 : 0,
+        label_gis: this.form.label.includes('Label_GIS') ? 1 : 0,
+        label_rs: this.form.label.includes('Label_RS') ? 1 : 0,
+        label_gnss: this.form.label.includes('Label_GNSS') ? 1 : 0,
+        date: dayjs().format('YYYY-MM-DD')
+      }
+      this.$axios.post('https://gisphere.info/api/post/add', payload).then(()=>{
+        alert('提交成功')
+      }).catch(error=>{
+        console.log('error', error)
+        alert(error)
+      });
     },
     onReset() {
       this.form = {
         label: [],
-        title: '',
+        title_cn: '',
+        title_en: '',
         university_cn: '',
         university_en: '',
         university_id: '',
