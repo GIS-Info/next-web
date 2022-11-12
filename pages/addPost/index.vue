@@ -176,7 +176,9 @@ export default {
     },
     onEditorChange({ editor, html, text }) {
         console.log('editor change!', editor, html, text)
-        this.form.description = html
+        if(html || html === ''){
+          this.form.description = html
+        }
     }
   }
 }
