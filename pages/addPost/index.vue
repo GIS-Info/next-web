@@ -148,7 +148,7 @@ export default {
         date: dayjs().format('YYYY-MM-DD')
       }
       this.$axios.post('https://gisphere.info/api/post/add/', payload).then((res)=>{
-        if(res.status === '200'){
+        if(res.data?.status === '200'){
           alert('提交成功')
         } else {
           alert(res.msg)
