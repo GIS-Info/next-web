@@ -21,13 +21,18 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   // element UI DIY theme: import "../theme/index.css"
-  css: ['element-ui/lib/theme-chalk/index.css'],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css'
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/element-ui',
     {
-      src: '~plugins/nuxt-quill-plugin.js',
+      src: '~plugins/vue-quill-editor.js',
       ssr: false // 富文本组件仅在客户端渲染
     }
   ],

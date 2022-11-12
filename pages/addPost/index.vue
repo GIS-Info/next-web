@@ -1,206 +1,148 @@
+<!-- todo: 图片大小压缩，或上传到第三方存储 -->
 <template>
+<client-only>
   <div class="container">
     <div class="main">
-      <div class="section">
-        <el-form ref="form" :model="form" label-position="top" label-width="80px">
-          <el-form-item label="职位" required>
-            <el-input v-model="form.title" placeholder="输入具体职位"></el-input>
-          </el-form-item>
-          <el-row>
-            <el-col span="8">
-              <el-form-item label="类别" required>
-                <el-select v-model="form.jobClass" placeholder="类别">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col span="8">
-              <el-form-item label="级别" required>
-                <el-select v-model="form.jobType" placeholder="级别">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col span="8">
-              <el-form-item label="岗位数量" required>
-                <el-select v-model="form.number" placeholder="数量">
-                  <el-option label="1" value="1"></el-option>
-                  <el-option label="2" value="2"></el-option>
-                  <el-option label="3" value="3"></el-option>
-                  <el-option label="4" value="4"></el-option>
-                  <el-option label="5" value="5"></el-option>
-                  <el-option label="大于5" value="-1"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item label="机构/大学" required>
-            <el-input v-model="form.university" placeholder="输入机构/大学名称"></el-input>
-          </el-form-item>
-          <el-form-item label="位置" required>
-            <el-col span="8">
-              <el-select v-model="form.country" placeholder="国家/地区">
-                <el-option label="区域一" value="shanghai"></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="16">
-              <!-- !!! 暂时不设置城市，二期需求 !!!
-              <el-select v-model="form.region" placeholder="城市">
-                <el-option label="区域一" value="shanghai"></el-option>
-              </el-select>
-              -->
-            </el-col>
-          </el-form-item>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item label="联系人" required>
-                <el-input v-model="form.contact1" placeholder="输入联系姓名"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item label="联系邮箱" required>
-                <el-input v-model="form.email1" placeholder="输入联系邮箱"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item label="联系人2">
-                <el-input v-model="form.contact2" placeholder="输入联系姓名"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item label="联系邮箱2">
-                <el-input v-model="form.email2" placeholder="输入联系邮箱"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item label="消息提供者" required>
-                <el-input v-model="form.provider" placeholder="输入消息提供者姓名"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item label="联系邮箱" required>
-                <el-input v-model="form.providerEmail" placeholder="输入联系邮箱"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item label="信息来源">
-            <el-input v-model="form.URL" placeholder="输入信息来源网址"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div class="section">
-        <el-form ref="form" :model="form" label-position="top" label-width="80px">
-          <el-form-item label="标签" required>
-            <el-select v-model="form.fields" placeholder="选择或添加相关标签（多选）" multiple filterable allow-create style="width:100%">
-              <el-option label="1" value="1"></el-option>
-              <el-option label="2" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="入学所需学位条件">
-            <el-input v-model="form.requiredDegree" placeholder="输入学位"></el-input>
-          </el-form-item>
-          <el-form-item label="开始时间">
-            <el-col span="3">
-              <el-switch
-                v-model="form.hasStartTerm">
-              </el-switch>
-            </el-col>
-            <el-col span="8">
-              <el-select v-model="form.startYear" :disabled="!form.hasStartTerm">
-                <el-option label="2018" value="2018"></el-option>
-                <el-option label="2019" value="2019"></el-option>
-                <el-option label="2020" value="2020"></el-option>
-                <el-option label="2021" value="2021"></el-option>
-                <el-option label="2022" value="2022"></el-option>
-                <el-option label="2023" value="2023"></el-option>
-                <el-option label="2024" value="2024"></el-option>
-                <el-option label="2025" value="2025"></el-option>
-                <el-option label="2026" value="2026"></el-option>
-                <el-option label="2027" value="2027"></el-option>
-                <el-option label="2028" value="2028"></el-option>
-                <el-option label="2029" value="2029"></el-option>
-                <el-option label="2030" value="2030"></el-option>
-              </el-select>
-            </el-col>
-            <el-col span="8">
-              <el-select v-model="form.startTerm" :disabled="!form.hasStartTerm">
-                <el-option label="第一学期 Term 1" value="1"></el-option>
-                <el-option label="第二学期 Term 2" value="2"></el-option>
-              </el-select>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="截止日期">
-            <el-col span="5">
-              <el-switch
-                v-model="form.noDeadline"
-                active-text="尽快申请">
-              </el-switch>
-            </el-col>
-            <el-col span="10">
-              <el-date-picker
-                v-model="form.deadline"
-                :disabled="form.noDeadline"
-                type="date"
-                placeholder="选择截止日期"
-                style="width: 100%">
-              </el-date-picker>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="补充">
-            <el-input v-model="form.detail" type="textarea" :rows="17" placeholder="输入具体职位"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form ref="form" class="form" :model="form" label-position="top" label-width="80px">
+        <h2 class="form-title">新增 GISource 帖子</h2>
+        <el-form-item label="标题" required>
+          <el-input v-model="form.title" placeholder="输入 GISource 帖子标题"></el-input>
+        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="类别（中文）">
+              <el-input v-model="form.job_cn" placeholder="例如：硕士、博士、博士后、助理教授">
+              </el-input>
+              <!-- 后续考虑改造为可选择的 -->
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="类别（英文）">
+              <el-input v-model="form.job_en" placeholder="例如: Doctoral Student、Research Assistance">
+              </el-input>
+              <!-- 后续考虑改造为可选择的 -->
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="机构/大学（中文）">
+              <el-input v-model="form.university_cn" placeholder="例如：纽约大学">
+              </el-input>
+              <!-- 后续考虑改造为可选择的 -->
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="机构/大学（英文）">
+              <el-input v-model="form.university_en" placeholder="例如: New York University">
+              </el-input>
+              <!-- 后续考虑改造为可选择的 -->
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="国家/地区（中文）">
+              <el-input v-model="form.country_cn" placeholder="例如：美国">
+              </el-input>
+              <!-- 后续考虑改造为可选择的 -->
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="国家/地区（英文）">
+              <el-input v-model="form.country_en" placeholder="例如：United States">
+              </el-input>
+              <!-- 后续考虑改造为可选择的 -->
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="标签">
+          <el-select v-model="form.label" placeholder="选择或添加相关标签（多选）" multiple filterable allow-create style="width:100%">
+            <el-option label="自然地理" value="Label_Physical_Geo"></el-option>
+            <el-option label="人文地理" value="Label_Human_Geo"></el-option>
+            <el-option label="城市及区域规划" value="Label_Urban"></el-option>
+            <el-option label="GIS" value="Label_GIS"></el-option>
+            <el-option label="遥感（RS）" value="Label_RS"></el-option>
+            <el-option label="定位导航与测绘（GNSS）" value="Label_GNSS"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="正文" required>
+          <!-- <el-input v-model="form.detail" type="textarea" :rows="17" placeholder=""></el-input> -->
+          <!-- vue-quill-editor 富文本编辑器 -->
+          <div
+            v-quill:myQuillEditor="editorOption" 
+            class="quill-editor"
+            :content="form.description"
+            @change="onEditorChange($event)">
+          </div>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="bottom-bar">
       <div class="bottom-button-container">
-        <el-button>取消</el-button>
-        <el-button>重置表单</el-button>
+        <el-button @click="onCancel">取消</el-button>
+        <el-button @click="onReset">重置表单</el-button>
         <el-button type="primary" @click="onSubmit">立即创建</el-button>  
       </div>
     </div>
   </div>
+</client-only>
 </template>
 
 <script>
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 export default {
   name: 'AddPost',
   data() {
     return {
       form: {
+        label: [],
         title: '',
-        jobClass: '',
-        jobType: '',
-        number: '',
-        university: '',
-        country: '',
-        contact1: '',
-        email1: '',
-        contact2: '',
-        email2: '',
-        provider: '',
-        providerEmail: '',
-        URL: '',
-        fields: '',
-        requiredDegree: '',
-        hasStartTerm: '',
-        startYear: '',
-        startTerm: '',
-        noDeadline: '',
-        deadline: '',
-        detail: '',
+        university_cn: '',
+        university_en: '',
+        university_id: '',
+        job_cn: '',
+        job_en: '',
+        job_id: '',
+        country_cn: '',
+        country_en: '',
+        country_id: '',
+        description: '',
+      },
+      editorOption: {
       }
     }
   },
-  methods: {
-  onSubmit() {
-    alert('submit!');
+  methods: {  
+    onSubmit() {
+      console.log('form', this.form)
+    },
+    onReset() {
+      this.form = {
+        label: [],
+        title: '',
+        university_cn: '',
+        university_en: '',
+        university_id: '',
+        job_cn: '',
+        job_en: '',
+        job_id: '',
+        country_cn: '',
+        country_en: '',
+        country_id: '',
+        description: '',
+      };
+    },
+    onCancel() {
+      this.$router.push('../postList');
+    },
+    onEditorChange({ editor, html, text }) {
+        console.log('editor change!', editor, html, text)
+        this.form.description = html
+    }
   }
-}
 }
 </script>
 
@@ -215,16 +157,10 @@ export default {
     flex-grow: 1;
     flex-shrink: 1;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     overflow-y: scroll;
-    flex-wrap: wrap;
-    justify-content:center;
-    align-items: flex-start;
-    .section{
-      width: 700px;
-      margin: 20px;
-      padding: 20px;
-    }
+    justify-content: flex-start;
+    align-items: center;
   }
   .bottom-bar{
     width: 100%;
@@ -244,7 +180,16 @@ export default {
     }
   }
 }
-.el-form-item{
-    margin-bottom: 10px;
+.form{
+  width: 70%;
+  min-width: 500px;
+  max-width: 1000px;
+  .form-title{
+    margin-top: 70px;
+  }
+  .quill-editor{
+    height: 500px;
+  }
 }
+
 </style>
