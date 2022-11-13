@@ -49,10 +49,10 @@
       >
         <transition name="trans-content">
           <div v-if="showContactCard" class="contact-us-card">
-            <div class="contact-us-content">加入微信社区</div>
             <div class="contact-us-content">
               <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
             </div>
+            <div class="contact-us-content">加入微信社区</div>
             <div class="contact-us-qrcode">
               <img src="../components/BottomBar/imgs/wechat-qrcode.png" />
             </div>
@@ -69,12 +69,17 @@
         @mouseover="showContactCard = true"
         @mouseleave="showContactCard = false"
       >
-        <div v-if="showContactCard">
-          <div class="contact-us-content">Join WeChat Community</div>
-          <div class="contact-us-content">
-            <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
+        <transition name="trans-content">
+          <div v-if="showContactCard" class="contact-us-card">
+            <div class="contact-us-content">
+              <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
+            </div>
+            <div class="contact-us-content">Join our Whatsapp</div>
+            <div class="contact-us-qrcode">
+              <img src="../static/WhatsApp.png" />
+            </div>
           </div>
-        </div>
+        </transition>
         <el-button type="info" round class="contact-us-button"
           >Contact Us / Join Us</el-button
         >
@@ -84,169 +89,163 @@
     <div class="field">
       <div v-if="lang == 'zh'" class="introduce-page">
         <div class="intro-title">
-          专业领域
+          项目介绍
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text">
-          This guide was launched in September 2019, and the latest update time
-          is Feb 2022. We aim to provide timely and comprehensive information of
-          global graduate-level programs in geographic information sciences
-          (GIS). Authors of this guide are from GIS-related programs, being
-          either current graduate students, recent alumni, or young faculty. We
-          mainly provide first-hand information about GIS-related programs and
-          potential supervisors. We hope this guide can help those who are
-          seeking graduate school opportunities in GIS.
-        </div>
+        <div class="intro-text">{{ projectIntroZH }}</div>
         <div class="intro-tag">
-          <el-tag type="info" class="tag">地理信息系统</el-tag>
-          <el-tag type="info" class="tag">健康</el-tag>
-          <el-tag type="info" class="tag">大数据</el-tag>
-          <el-tag type="info" class="tag">遥感</el-tag>
-          <el-tag type="info" class="tag">公共健康</el-tag>
-          <el-tag type="info" class="tag">房地产</el-tag>
-          <el-tag type="info" class="tag">城乡规划</el-tag>
-          <el-tag type="info" class="tag">可持续发展</el-tag>
-          <el-tag type="info" class="tag">交通</el-tag>
-          <el-tag type="info" class="tag">地质</el-tag>
-          <el-tag type="info" class="tag">自然资源</el-tag>
-          <el-tag type="info" class="tag">水文</el-tag>
-        </div>
-
-        <div>
-          <p class="to-be-added">More to be added</p>
+          <div class="tag">{{ subProject[0] }}</div>
+          <div class="tag">{{ subProject[1] }}</div>
+          <div class="tag">{{ subProject[2] }}</div>
+          <div class="tag">{{ subProject[3] }}</div>
+          <div class="tag">{{ subProject[4] }}</div>
         </div>
       </div>
 
       <div v-if="lang == 'en'" class="introduce-page">
         <div class="intro-title">
-          Fields
+          Project Intro
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text">
-          The sky above the white moon, the twelve towers. The sage helps me on
-          my head, the hair is pulled by the long-lived. Wrongly pursued the
-          world's pleasure, not enough to be in the wrong. The ninety-six sages,
-          floating in the sky, name of the empty sky. The sky is thrown, not
-          able to forget the war. Try to conquer the king's brief, the crown of
-          the reigning. The time is big mistake, the crown is thrown away. The
-          sword is not for all
-        </div>
+        <div class="intro-text">{{ projectIntroEN }}</div>
         <div class="intro-tag">
-          <el-tag type="info" class="tag">GIS</el-tag>
-          <el-tag type="info" class="tag">Health</el-tag>
-          <el-tag type="info" class="tag">Bid Data</el-tag>
-          <el-tag type="info" class="tag">Remote Sensing</el-tag>
-          <el-tag type="info" class="tag">Public Health</el-tag>
-          <el-tag type="info" class="tag">Real Estate</el-tag>
-          <el-tag type="info" class="tag">Urban Planning</el-tag>
-          <el-tag type="info" class="tag">Sustainability</el-tag>
-          <el-tag type="info" class="tag">Transportation</el-tag>
-          <el-tag type="info" class="tag">Geology</el-tag>
-          <el-tag type="info" class="tag">Natural Resources</el-tag>
-          <el-tag type="info" class="tag">Water</el-tag>
-        </div>
-
-        <div>
-          <p class="to-be-added">More to be added</p>
+          <div class="tag">{{ subProject[0] }}</div>
+          <div class="tag">{{ subProject[1] }}</div>
+          <div class="tag">{{ subProject[2] }}</div>
+          <div class="tag">{{ subProject[3] }}</div>
+          <div class="tag">{{ subProject[4] }}</div>
         </div>
       </div>
     </div>
 
-    <!-- <div class="about">
-      <div v-if="lang =='zh'" class="intro-title">
-          关于我们
-          <hr class="short-horizontal-line"/>
-      </div>
-      <div v-if="lang =='en'" class="intro-title">
-        Who are we?
-        <hr class="short-horizontal-line"/>
-      </div>
-    </div> -->
-
     <div class="school">
       <div v-if="lang == 'zh'" class="intro-title">
-        院校列表
+        热门院校
         <hr class="short-horizontal-line" />
-
         <div class="intro-text">
-          <div class="school-table">
+          <div>
             <table class="uni-table">
               <tr>
-                <td class="uni-content"><b>亚洲</b></td>
-                <td class="uni-content"><b>北美</b></td>
-                <td class="uni-content"><b>欧洲</b></td>
-                <td class="uni-content"><b>大洋洲</b></td>
-                <td class="uni-content"><b>非洲</b></td>
+                <td class="uni-content-title"><b>亚洲</b></td>
+                <td class="uni-content-title"><b>北美</b></td>
+                <td class="uni-content-title"><b>欧洲</b></td>
+                <td class="uni-content-title"><b>大洋洲</b></td>
+                <td class="uni-content-title"><b>非洲</b></td>
               </tr>
               <tr>
-                <td class="uni-content">新加坡国立大学</td>
-                <td class="uni-content">加州大学伯克利分校</td>
-                <td class="uni-content">剑桥大学</td>
-                <td class="uni-content">墨尔本大学</td>
-                <td class="uni-content">约翰内斯堡大学</td>
+                <td class="uni-content">{{ universitiesZH.asia[0] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[0] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[0] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[0] }}</td>
+                <td class="uni-content">{{ universitiesZH.africaAndLA[0] }}</td>
               </tr>
               <tr>
-                <td class="uni-content">新加坡国立大学</td>
-                <td class="uni-content">加州大学伯克利分校</td>
-                <td class="uni-content">剑桥大学</td>
-                <td class="uni-content">墨尔本大学</td>
-                <td class="uni-content">约翰内斯堡大学</td>
+                <td class="uni-content">{{ universitiesZH.asia[1] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[1] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[1] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[1] }}</td>
+                <td class="uni-content">{{ universitiesZH.africaAndLA[1] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesZH.asia[2] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[2] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[2] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[2] }}</td>
+                <td class="uni-content">{{ universitiesZH.africaAndLA[2] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesZH.asia[3] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[3] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[3] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[3] }}</td>
+                <td class="uni-content">{{ universitiesZH.africaAndLA[3] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesZH.asia[4] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[4] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[4] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[4] }}</td>
+                <td class="uni-content">{{ universitiesZH.africaAndLA[4] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesZH.asia[5] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[5] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[5] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[5] }}</td>
+                <td class="uni-content">{{ universitiesZH.africaAndLA[5] }}</td>
               </tr>
             </table>
-            <!-- <template> -->
-            <!-- <el-table :data="uniData" style="width: 100%" class="el-table">
-                <el-table-column
-                  prop="asia"
-                  label="亚洲"
-                  width="227">
-                </el-table-column>
-                <el-table-column
-                  prop="northAmerica"
-                  label="北美"
-                  width="227">
-                </el-table-column>
-                <el-table-column
-                  prop="Europe"
-                  label="欧洲"
-                  width="227">
-                </el-table-column>
-                <el-table-column
-                  prop="oceania"
-                  label="大洋洲"
-                  width="227">
-                </el-table-column>
-                <el-table-column
-                  prop="africa"
-                  label="非洲"
-                  width="227">
-                </el-table-column>
-              </el-table>   -->
-            <!-- </template> -->
+            <div>
+              <a href="https://www.gisphere.net/" target="_blank"
+                ><p class="to-be-added">完整院校列表</p></a
+              >
+            </div>
           </div>
         </div>
       </div>
       <div v-if="lang == 'en'" class="intro-title">
-        School
-        <hr class="short-horizontal-line" />
-      </div>
-    </div>
-
-    <div class="contact-us-in-text">
-      <div v-if="lang == 'zh'" class="intro-title">
-        联系我们
+        Popular Institutes
         <hr class="short-horizontal-line" />
         <div class="intro-text">
-          <table class="contact-table">
-            <tr>
-              <td class="contact-content">康雨豪 kkyyhh96@outlook.com</td>
-              <td class="contact-content">叶山 yeshanumich@hotmail.com</td>
-            </tr>
-          </table>
+          <div>
+            <table class="uni-table">
+              <tr>
+                <td class="uni-content"><b>Asia</b></td>
+                <td class="uni-content"><b>North America</b></td>
+                <td class="uni-content"><b>Europe</b></td>
+                <td class="uni-content"><b>Oceania</b></td>
+                <td class="uni-content"><b>Africa and South America</b></td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesEN.asia[0] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[0] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[0] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[0] }}</td>
+                <td class="uni-content">{{ universitiesEN.africaAndLA[0] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesEN.asia[1] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[1] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[1] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[1] }}</td>
+                <td class="uni-content">{{ universitiesEN.africaAndLA[1] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesEN.asia[2] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[2] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[2] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[2] }}</td>
+                <td class="uni-content">{{ universitiesEN.africaAndLA[2] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesEN.asia[3] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[3] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[3] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[3] }}</td>
+                <td class="uni-content">{{ universitiesEN.africaAndLA[3] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesEN.asia[4] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[4] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[4] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[4] }}</td>
+                <td class="uni-content">{{ universitiesEN.africaAndLA[4] }}</td>
+              </tr>
+              <tr>
+                <td class="uni-content">{{ universitiesEN.asia[5] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[5] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[5] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[5] }}</td>
+                <td class="uni-content">{{ universitiesEN.africaAndLA[5] }}</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <a href="https://www.gisphere.net/" target="_blank"
+              ><p class="to-be-added">Full list of institutes</p></a
+            >
+          </div>
         </div>
-      </div>
-      <div v-if="lang == 'en'" class="intro-title">
-        Contact Us
-        <hr class="short-horizontal-line" />
       </div>
     </div>
 
@@ -279,6 +278,8 @@
 <script>
 import { mapState } from 'vuex'
 import { isMobile } from '@/utils/index'
+import { ProjectIntro } from '~/utils/ProjectIntro'
+import { universities } from '~/utils/Universities'
 
 export default {
   name: 'IndexPage',
@@ -286,27 +287,13 @@ export default {
     return {
       dialogVisible: false,
       showContactCard: false,
+      projectIntroZH: ProjectIntro[0],
+      projectIntroEN: ProjectIntro[1],
+      subProject: ['GIS-Info', 'GISphere', 'GISource', 'GISpace', 'GISalon'],
+      universitiesZH: universities.zh,
+      universitiesEN: universities.en,
     }
   },
-
-  // element ui table的数据
-  // data() {
-  //   return {
-  //     uniData: [{
-  //       asia: '新加坡国立大学',
-  //       northAmerica: '威斯康星大学麦迪逊分校',
-  //       Europe: '剑桥大学',
-  //       oceania: '墨尔本大学',
-  //       africa: '约翰内斯堡大学'
-  //     },{
-  //       asia: '香港大学',
-  //       northAmerica: '加州大学伯克利分校',
-  //       Europe: '爱丁堡大学',
-  //       oceania: '奥克兰大学',
-  //       africa: '我编不出来大学'
-  //     }],
-  //   }
-  // },
 
   computed: {
     ...mapState({ lang: 'language' }),
@@ -458,32 +445,31 @@ export default {
 }
 .intro-tag {
   margin: 16px 151.5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .tag {
   background-color: #dcdfe6;
-  color: #000000;
-  text-align: left;
-  padding: 20px 195.5px 38px 23.5px;
-  margin: 8px 4px;
-  width: 272px;
-  height: 81px;
+  border-radius: 10px;
+  height: 60px;
+  line-height: 60px;
+  width: 180px;
   font-size: medium;
-}
-.to-be-added {
-  color: #0073ff;
   text-align: center;
 }
-/* .el-table {
-    background-color: #000000;
-  } */
-table {
+.uni-table {
   border-collapse: collapse;
   width: 100%;
 }
+.uni-content-title {
+  font-size: 24px;
+  text-align: left;
+  padding-bottom: 10px;
+}
 .uni-content {
   width: 20%;
-  font-size: 15px;
+  font-size: 16px;
   text-align: left;
 }
 .contact-content {
@@ -524,10 +510,13 @@ table {
   transform: translateY(-20px);
   opacity: 0;
 }
-.contact-us-in-text {
-  margin-bottom: 64px;
-}
 .school {
   margin-bottom: 64px;
+}
+.to-be-added {
+  color: #0073ff;
+  text-align: center;
+  font-display: block;
+  font-size: 16px;
 }
 </style>
