@@ -1,5 +1,5 @@
 <template>
-  <div class="main" @copy="disableCopy(e)">
+  <div class="main" @click.right.prevent @copy.prevent @paste.prevent>
     <div class="welcome-page">
       <map-background />
       <div class="welcome-content">
@@ -343,8 +343,14 @@ export default {
 </script>
 
 <style scoped>
-/* * {
-  user-select: none; // 禁止选中文字的css解决办法
+/* 
+  // 禁止选中文字的css解决办法
+  * { 
+  -webkit-user-select: none;  
+  -moz-user-select: none;  
+  -ms-user-select: none;  
+  -o-user-select: none;  
+  user-select: none; 
 } */
 .main {
   width: 100%;
