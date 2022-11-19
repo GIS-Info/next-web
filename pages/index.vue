@@ -132,47 +132,14 @@
                 <td class="uni-content-title"><b>大洋洲</b></td>
                 <td class="uni-content-title"><b>非洲</b></td>
               </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesZH.asia[0] }}</td>
-                <td class="uni-content">{{ universitiesZH.na[0] }}</td>
-                <td class="uni-content">{{ universitiesZH.eu[0] }}</td>
-                <td class="uni-content">{{ universitiesZH.oceania[0] }}</td>
-                <td class="uni-content">{{ universitiesZH.africaAndLA[0] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesZH.asia[1] }}</td>
-                <td class="uni-content">{{ universitiesZH.na[1] }}</td>
-                <td class="uni-content">{{ universitiesZH.eu[1] }}</td>
-                <td class="uni-content">{{ universitiesZH.oceania[1] }}</td>
-                <td class="uni-content">{{ universitiesZH.africaAndLA[1] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesZH.asia[2] }}</td>
-                <td class="uni-content">{{ universitiesZH.na[2] }}</td>
-                <td class="uni-content">{{ universitiesZH.eu[2] }}</td>
-                <td class="uni-content">{{ universitiesZH.oceania[2] }}</td>
-                <td class="uni-content">{{ universitiesZH.africaAndLA[2] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesZH.asia[3] }}</td>
-                <td class="uni-content">{{ universitiesZH.na[3] }}</td>
-                <td class="uni-content">{{ universitiesZH.eu[3] }}</td>
-                <td class="uni-content">{{ universitiesZH.oceania[3] }}</td>
-                <td class="uni-content">{{ universitiesZH.africaAndLA[3] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesZH.asia[4] }}</td>
-                <td class="uni-content">{{ universitiesZH.na[4] }}</td>
-                <td class="uni-content">{{ universitiesZH.eu[4] }}</td>
-                <td class="uni-content">{{ universitiesZH.oceania[4] }}</td>
-                <td class="uni-content">{{ universitiesZH.africaAndLA[4] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesZH.asia[5] }}</td>
-                <td class="uni-content">{{ universitiesZH.na[5] }}</td>
-                <td class="uni-content">{{ universitiesZH.eu[5] }}</td>
-                <td class="uni-content">{{ universitiesZH.oceania[5] }}</td>
-                <td class="uni-content">{{ universitiesZH.africaAndLA[5] }}</td>
+              <tr v-for="index in universitiesZH.asia.length" :key="index">
+                <td class="uni-content">{{ universitiesZH.asia[index] }}</td>
+                <td class="uni-content">{{ universitiesZH.na[index] }}</td>
+                <td class="uni-content">{{ universitiesZH.eu[index] }}</td>
+                <td class="uni-content">{{ universitiesZH.oceania[index] }}</td>
+                <td class="uni-content">
+                  {{ universitiesZH.africaAndLA[index] }}
+                </td>
               </tr>
             </table>
             <div>
@@ -196,47 +163,14 @@
                 <td class="uni-content"><b>Oceania</b></td>
                 <td class="uni-content"><b>Africa and South America</b></td>
               </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesEN.asia[0] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[0] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[0] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[0] }}</td>
-                <td class="uni-content">{{ universitiesEN.africaAndLA[0] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesEN.asia[1] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[1] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[1] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[1] }}</td>
-                <td class="uni-content">{{ universitiesEN.africaAndLA[1] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesEN.asia[2] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[2] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[2] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[2] }}</td>
-                <td class="uni-content">{{ universitiesEN.africaAndLA[2] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesEN.asia[3] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[3] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[3] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[3] }}</td>
-                <td class="uni-content">{{ universitiesEN.africaAndLA[3] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesEN.asia[4] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[4] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[4] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[4] }}</td>
-                <td class="uni-content">{{ universitiesEN.africaAndLA[4] }}</td>
-              </tr>
-              <tr>
-                <td class="uni-content">{{ universitiesEN.asia[5] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[5] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[5] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[5] }}</td>
-                <td class="uni-content">{{ universitiesEN.africaAndLA[5] }}</td>
+              <tr v-for="index in universitiesEN.asia.length" :key="index">
+                <td class="uni-content">{{ universitiesEN.asia[index] }}</td>
+                <td class="uni-content">{{ universitiesEN.na[index] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[index] }}</td>
+                <td class="uni-content">{{ universitiesEN.oceania[index] }}</td>
+                <td class="uni-content">
+                  {{ universitiesEN.africaAndLA[index] }}
+                </td>
               </tr>
             </table>
           </div>
