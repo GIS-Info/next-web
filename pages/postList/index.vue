@@ -289,7 +289,7 @@
       },
       getPostListData() {
         this.loading = true;
-        return this.$axios.get('https://gisphere.info/api/post', {
+        return this.$axios.get('/api/post', {
           params: {
             pageSize: this.pageSize,
             pageIndex: this.pageIndex,
