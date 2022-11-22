@@ -147,7 +147,7 @@ export default {
         label_gnss: this.form.label.includes('Label_GNSS') ? 1 : 0,
         date: dayjs().format('YYYY-MM-DD')
       }
-      this.$axios.post('https://gisphere.info/api/post/add/', payload).then((res)=>{
+      this.$axios.post('/api/post/add/', payload).then((res)=>{
         if(res.data?.status === '200'){
           alert('提交成功')
         } else {

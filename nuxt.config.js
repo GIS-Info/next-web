@@ -61,8 +61,9 @@ export default {
   },
   // 开发环境配置跨域
   proxy: {
-    "/api":{
-      target:'https://gisphere.info',
+    "/api/":{
+      target:'https://gisphere.info', // 代理指向线上
+      // target:'http://127.0.0.1:8000/', // 代理指向本地
       changeOrigin: true,
     }
   },

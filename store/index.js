@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-/*
-import { api } from '@/config'
-import axios from 'axios'
-*/
 
 Vue.use(Vuex)
 
@@ -27,9 +23,6 @@ const getters = {}
 const actions = {
   //  api 请求示例
   login({ commit }) {
-    /*
-    const data = await axios(`${api}/login`).data
-    */
     commit('setUserToken', 'test_token')
     return Promise.resolve()
   },

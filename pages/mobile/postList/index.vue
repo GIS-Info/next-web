@@ -55,7 +55,7 @@
         this.$router.push('/addPost');
       },
       getPostListData() {
-        this.$axios.get('https://gisphere.info/api/post', {
+        this.$axios.get('/api/post', {
           params: {
             pageSize: this.pageSize,
             pageIndex: this.pageIndex,
