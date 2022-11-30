@@ -127,7 +127,6 @@
 
 
 <script>
-import axios from 'axios'
 
 // import $ from 'jquery'
 
@@ -205,12 +204,14 @@ export default {
   methods: {
     getUserList () {
       // const _this = this
+      /*
       axios.get('http://127.0.0.1:8000/get_json/').then(res => {
 
       }).catch(error => {
 
         console.log(error);
       })
+      */
       // jquery ajax
       // $.ajax({
       //   url: 'http://127.0.0.1:8000/get_json/',
