@@ -1,4 +1,5 @@
-const axios = require('axios').default;
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const axios = require('axios');
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -77,7 +78,6 @@ export default {
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://gisphere.info/',
-    gzip: true,
     exclude: [],
     // cacheTime: 60 * 60 * 6, //  更新频率
     // generate: false,
@@ -87,8 +87,8 @@ export default {
         '/aboutUs'
       ];
       // 帖子页面的路由
-      const data = await axios.get('https//gisphere.info/api/post');
-      const count = data.data.count;
+      const { data } = await axios.get('https://gisphere.info/api/post');
+      const count = data.count;
       for(let index = 1; index <= count; index ++){
         urls.push(`/post/${index}`);
       }
