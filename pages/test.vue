@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     get() {
-      this.$axios.$get('/api/post/1')
+      this.$axios.get('/api/post/1')
       .then((res)=>{
         alert('成功');
         // eslint-disable-next-line no-console

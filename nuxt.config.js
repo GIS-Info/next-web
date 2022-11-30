@@ -1,3 +1,5 @@
+const axios = require('axios').default;
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
 
@@ -50,6 +52,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    '@nuxtjs/sitemap',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -70,5 +73,26 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/]
+  },
+  sitemap: {
+    path: '/sitemap.xml',
+    hostname: 'https://gisphere.info/',
+    gzip: true,
+    exclude: [],
+    // cacheTime: 60 * 60 * 6, //  更新频率
+    // generate: false,
+    routes: async () => {
+      const urls = [
+        '/postList',
+        '/aboutUs'
+      ];
+      // 帖子页面的路由
+      const data = await axios.get('https//gisphere.info/api/post');
+      const count = data.data.count;
+      for(let index = 1; index <= count; index ++){
+        urls.push(`/post/${index}`);
+      }
+      return urls;
+    }
   }
 }
