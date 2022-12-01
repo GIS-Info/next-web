@@ -91,6 +91,7 @@ export default {
       const count = data.count;
       for(let index = 1; index <= count; index ++){
         urls.push(`/post/${index}`);
+        urls.push(`/mobile/post/${index}`);
       }
       return urls;
     }
