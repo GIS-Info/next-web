@@ -132,8 +132,9 @@
                 <td class="uni-content-title"><b>大洋洲</b></td>
                 <td class="uni-content-title"><b>非洲</b></td>
               </tr>
-              <tr v-for="index in universitiesZH.asia.length" :key="index">
+              <tr v-for="(n, index) in universitiesZH.asia.length" :key="index">
                 <td class="uni-content">{{ universitiesZH.asia[index] }}</td>
+                <!-- <td>{{ index }}</td> -->
                 <td class="uni-content">{{ universitiesZH.na[index] }}</td>
                 <td class="uni-content">{{ universitiesZH.eu[index] }}</td>
                 <td class="uni-content">{{ universitiesZH.oceania[index] }}</td>
