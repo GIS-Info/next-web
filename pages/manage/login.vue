@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-  import { mapState, mapActions } from 'vuex';
+  import { mapState } from 'vuex';
 export default {
   data() {
     return {
@@ -37,14 +37,27 @@ export default {
     }
   },
   methods: {
-    ...mapActions({login: 'login'}),
     submit() {
-      alert('无效的账户');
-      /*
-      this.login().then(()=>{
-        this.$router.push('/manage/dashboard/')
-      })
-      */
+      const payload = {
+        username: this.form.username,
+        password: this.form.password,
+      }
+      this.$axios.post('/api/manage/login/', payload).then((res)=>{
+        console.log('res', res);
+        if(res.data?.status === '200'){
+              this.login().then(()=>{
+            this.$router.push('/manage/dashboard/')
+          })
+        } else {
+          alert(res.msg)
+        }
+      }).catch(error=>{
+        if(error?.response?.data?.error?.non_field_errors?.[0]){
+          alert(error?.response?.data?.error?.non_field_errors?.[0])
+        }else{
+          alert(error)
+        }
+      });
     },
     register() {
       this.$router.push('/manage/register')
