@@ -128,7 +128,7 @@
           <hr>
         </div>
         <div>
-          <input v-model="searchText" type="text" class="search" @keypress="queryBySearchtext()"/>
+          <input v-model="searchText" type="text" class="search" @keyup.enter="queryBySearchtext()" />
           <button class="button-search" @click="queryBySearchtext()">
             <svg class="icon-search" viewBox="0 -3 20 20" xmlns="http://www.w3.org/2000/svg" height="19" width="19">
               <path fill-rule="evenodd"
@@ -207,7 +207,7 @@
           <hr>
         </div>
         <div>
-          <input v-model="searchText" type="text" class="search" @keypress="queryBySearchtext()"/>
+          <input v-model="searchText" type="text" class="search" @keyup.enter="queryBySearchtext()" />
           <button class="button-search" @click="queryBySearchtext()">
             <svg class="icon-search" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" height="19" width="19">
               <path fill-rule="evenodd"
@@ -318,11 +318,11 @@ export default {
   },
   methods: {
     queryBySearchtext() {
-      console.log(this.searchText);//测试一下得到值
+      if(this.month!=='') this.pageIndex=1;//如果从月份搜索直接跳转到内容搜索，页面也应该重置为1
       this.$axios.post('api/post_querystring', {
         queryString: this.searchText,
-        pageIndex:this.pageIndex,
-        pageSize:this.pageSize
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize
       }).then(res => {
         if (res?.data?.code === 0) {
           // 前端做一个提醒以防后端没有数据
@@ -346,6 +346,7 @@ export default {
       })
     },
     queryByDate(e) {
+      if(e!==this.month) this.pageIndex=1;//如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
       this.date = this.selected + '-' + e;
       this.month = e;
       this.$axios.get('api/post_closedate', {
@@ -366,7 +367,6 @@ export default {
           }
           // 把后端传回的data存到此文件的postdata中
           this.postListData = res.data.data;
-          console.log(this.postListData.length);
           this.totalCount = res.data.count;
         } else {
           alert('请求错误: ' + res.msg)
@@ -406,8 +406,10 @@ export default {
     },
     handlePageChange(i) {
       this.pageIndex = i;
-      if (this.date !== '') this.queryByDate(this.month);//如果之前按照日期搜索成功了，那么记录下这个信息，用于请求
-      else if(this.searchText!=='') this.queryBySearchtext();
+      if (this.date !== '') {
+        this.queryByDate(this.month);
+      }//如果之前按照日期搜索成功了，那么记录下这个信息，用于翻页时的下次请求
+      else if (this.searchText !== '') this.queryBySearchtext();
       else this.getPostListData();//否则正常翻页所有的数据
     },
     error(err) {
