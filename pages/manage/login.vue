@@ -18,13 +18,13 @@
   </div>
 </template>
 <script>
-  import { mapState } from 'vuex';
+  import { mapState, mapMutations } from 'vuex';
 export default {
   data() {
     return {
       form: {
         username: '',
-        password: ''
+        password: '',
       }
     };
   },
@@ -37,6 +37,8 @@ export default {
     }
   },
   methods: {
+    // 传入 vuex 的 mutation 方法
+    ...mapMutations(['setSuperUser','setUserToken','setUserInfo']),
     submit() {
       const payload = {
         username: this.form.username,
@@ -44,18 +46,23 @@ export default {
       }
       this.$axios.post('/api/manage/login/', payload).then((res)=>{
         console.log('res', res);
-        if(res.data?.status === '200'){
-              this.login().then(()=>{
-            this.$router.push('/manage/dashboard/')
-          })
-        } else {
-          alert(res.msg)
+        const token = res?.data?.token;
+        const user = res?.data?.user;
+        if(!user?.is_active){ alert('账户已注销') }
+        else if(!user?.is_staff){ alert('账户未被审核，请联系管理员') }
+        else if(token) {
+          // 登录成功
+          this.setSuperUser(user?.is_superuser)
+          this.setUserToken(token)
+          this.setUserInfo(user)
+          this.$axios.defaults.headers.common.Authorization = `Token ${token}`;
+          this.$router.push('/manage/dashboard/')
         }
       }).catch(error=>{
         if(error?.response?.data?.error?.non_field_errors?.[0]){
           alert(error?.response?.data?.error?.non_field_errors?.[0])
         }else{
-          alert(error)
+          alert('未注册的信息')
         }
       });
     },

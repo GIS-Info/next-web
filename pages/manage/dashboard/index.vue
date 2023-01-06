@@ -10,7 +10,8 @@
           内容管理
           <div :class="`button-expansion${currentView === 'postList'?' button-expansion-active':''}`"></div>
         </div>
-        <div class="button" @click="setView('userList')">
+        <!-- 仅超级管理员可以管理用户，超级管理员权限仅可以修改数据库来赋予 -->
+        <div v-if="isSuperUser" class="button" @click="setView('userList')">
           用户管理
           <div :class="`button-expansion${currentView === 'userList'?' button-expansion-active':''}`"></div>
         </div>
@@ -41,7 +42,7 @@ export default {
     }
   },
   computed: {
-    ...mapState({userToken: 'userToken'}),
+    ...mapState({userToken: 'userToken', isSuperUser: 'isSuperUser'}),
   },
   created() {
     if(!this.userToken){
@@ -56,7 +57,7 @@ export default {
     },
     logout(){
       this.$store.dispatch('logout');
-      this.$router.push('/');
+      location.reload();
     },
   }
 }

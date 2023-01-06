@@ -58,13 +58,7 @@ export default {
       }
       this.$axios.post('/api/manage/register/', payload).then((res)=>{
         console.log('res', res);
-        if(res.data?.status === '200'){
-              this.login().then(()=>{
-            this.$router.push('/manage/dashboard/')
-          })
-        } else {
-          alert(res.msg)
-        }
+        alert('您的注册已经提交，请联系管理员审核')
       }).catch(error=>{
         if(error?.response?.data?.error?.non_field_errors?.[0]){
           alert(error?.response?.data?.error?.non_field_errors?.[0])
