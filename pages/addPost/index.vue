@@ -151,6 +151,7 @@ export default {
       }
       this.$axios.post('/api/post/add/', payload).then((res)=>{
         if(res.data?.status === '200'){
+          this.$router.push('/manage/dashboard/');
           alert('提交成功')
         } else {
           alert(res.msg)

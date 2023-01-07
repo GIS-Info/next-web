@@ -28,19 +28,14 @@
     <!-- 帖子内容行 -->
     <div class="content">
       <ul class="content-list">
-        <li
-          v-for="item in contentlist"
-          :key="item.event_id"
-          class="board"
-          @click="editItem(item)"
-        >
+        <li v-for="item in contentlist" :key="item.event_id" class="board">
           <!-- 左侧bander -->
           <div class="left-label">
             <span class="label-background"></span>
             <span class="text-label">招生</span>
           </div>
           <!-- 职位详情 -->
-          <div class="detail">
+          <div class="detail" @click="editItem(item)">
             <div>
               <div class="position">{{ item.title_cn }}</div>
               <div>
@@ -62,6 +57,7 @@
             <div class="background-green">
             </div>
             <div class="check"></div>
+            <div class="right-delete" @click="deleteItem(item)"></div>
           </div>
         </li>
       </ul>
@@ -128,11 +124,11 @@ export default {
     editItem(item) {
       // this.$router.push('/addPost');
       this.$router.push({
-          path: '/editPost',
-          query: {
-            item,
-          },
-        });
+        path: '/editPost',
+        query: {
+          item,
+        },
+      });
     },
     /**
      * 更换当前页
@@ -144,11 +140,12 @@ export default {
     },
     /**
      * 获取帖子列表
-     * @param {number} pageSize 
-     * @param {number} pageIndex 
+     * @param {number} pageSize
+     * @param {number} pageIndex
      */
     async getListData(pageSize, pageIndex) {
-      const url = 'api/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex;
+      const url =
+        'api/manage/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex
       await this.$axios
         .$get(url)
         .then((res) => {
@@ -157,6 +154,42 @@ export default {
         })
         .catch((e) => {
           alert(e)
+        })
+    },
+
+    deleteItem(item) {
+      this.$confirm('此操作将永久删除该帖子, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          console.log('item :>> ', item);
+          const url = 'api/manage/post/' + item.event_id
+          this.$axios
+            .delete(url)
+            .then((res) => {
+              if (res.data?.msg === 'success') {
+                this.$router.push('/manage/dashboard/');
+                alert('提交成功')
+              } else {
+                alert(res.msg)
+              }
+            })
+            .catch((error) => {
+              console.log('error', error)
+              alert(error)
+            })
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
         })
     },
   },
@@ -186,7 +219,7 @@ export default {
     }
     /deep/ .el-input__inner {
       border-radius: 15px;
-
+      
     }
     .search-btn {
       margin-left: 15px;
@@ -301,8 +334,23 @@ export default {
             background: url(../imgs/check-label.png) no-repeat;
             background-size: 100%;
           }
-        }
 
+          .right-delete {
+            position: absolute;
+            top: 70px;
+            right: 24px;
+            width: 31px;
+            height: 31px;
+            z-index: 1;
+            background: url('../imgs/delete.png') no-repeat;
+            background-size: 90%;
+            &:hover {
+              background: url('../imgs/delete-color.png') no-repeat center;
+              background-size: 90%;
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
   }
@@ -386,10 +434,8 @@ export default {
           cursor: pointer;
         }
       }
-
+      
     }
   }
-
-
 }
 </style>
