@@ -145,10 +145,13 @@ export default {
         label_gis: this.form.label.includes('Label_GIS') ? 1 : 0,
         label_rs: this.form.label.includes('Label_RS') ? 1 : 0,
         label_gnss: this.form.label.includes('Label_GNSS') ? 1 : 0,
-        date: dayjs().format('YYYY-MM-DD')
+        date: dayjs().format('YYYY-MM-DD'),
+        is_public: 0,
+        is_deleted: 0
       }
       this.$axios.post('/api/post/add/', payload).then((res)=>{
         if(res.data?.status === '200'){
+          this.$router.push('/manage/dashboard/');
           alert('提交成功')
         } else {
           alert(res.msg)
