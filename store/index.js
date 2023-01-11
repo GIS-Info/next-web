@@ -22,7 +22,7 @@ const mutations = {
     state.isSuperUser = data
   },
   setUserInfo(state, data) {
-    state.isSuperUser = data
+    state.userInfo = data
   }
 }
 
