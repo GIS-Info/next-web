@@ -32,6 +32,7 @@ const actions = {
   logout({ commit }){
     commit('setUserToken', undefined)
     commit('setSuperUser', false)
+    commit('setUserInfo', {})
     return Promise.resolve()
   }
 }
