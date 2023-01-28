@@ -215,7 +215,6 @@ import { mapState } from 'vuex'
 import { isMobile } from '@/utils/index'
 import { ProjectIntro } from '~/utils/ProjectIntro'
 import { universities } from '~/utils/Universities'
-
 export default {
   name: 'IndexPage',
   data() {
@@ -229,18 +228,15 @@ export default {
       universitiesEN: universities.en,
     }
   },
-
   computed: {
     ...mapState({ lang: 'language' }),
   },
-
   mounted() {
     if (isMobile()) {
       this.$router.push('/mobile/')
     }
     this.dialogVisible = false
   },
-
   methods: {
     goToPostList(type) {
       if (type) {
@@ -255,7 +251,8 @@ export default {
       }
     },
     goToUniversityList() {
-      window.location.href = 'https://www.gisphere.net'
+      // window.location.href = 'https://www.gisphere.net'
+      this.$router.push('/uniInfo'); 
     },
     disableCopy(e) {
       e.preventDefault()
@@ -383,7 +380,6 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-
 .tag {
   background-color: #dcdfe6;
   border-radius: 10px;
