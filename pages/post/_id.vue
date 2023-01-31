@@ -20,7 +20,7 @@
     -->
 
     <!-- 中文情况下 -->
-    <div v-if="lang =='zh'" class="post-content">
+    <div v-if="lang =='zh'" class="post-content" id="content">
       <div class="content-title">{{ postdata.title_cn || '-' }}</div>
       <div class="content-detail">发布时间: <span class="normal">{{ postdata.date || '-' }}</span></div>
       <div class="content-detail">院校名称: <span class="normal">{{ postdata.university_cn || '-' }}</span></div>
@@ -137,7 +137,7 @@ export default {
   computed: {
     ...mapState({lang: 'language'}),
     // 中文模式下，招募状态情况
-    getStatusCN(){
+    getStatusCN() {
       if(this.postdata.status){
         return '招募中';
       } else {
@@ -145,7 +145,7 @@ export default {
       }
     },
     // 英文模式下，招募状态情况
-    getStatusEN(){
+    getStatusEN() {
       if(this.postdata.status){
         return 'Active';
       } else {
@@ -155,15 +155,49 @@ export default {
     description() {
       // 将\n替换为<br/>，为url增加<a>
       return this.postdata?.description?.replace(/\\n/gm,'<br/>').replace(/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/gm, "<a href='$1$2'>$1$2</a>") || '';
-    }
+    },
   },
+
+  // 禁止复制的需求--update:2023-01-29
+  mounted() {
+    // 禁用功能，本来想写在created里但总是报错就写在这里了
+    // document.oncopy = function(){return false;}
+
+    // 监听ctrl+c键盘事件并弹窗
+    // document.addEventListener('copy',(event) => {
+    //   alert('著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。');
+    // });
+
+    // 允许复制，版权提示
+    document.addEventListener("cut", e => {
+      this.addCopy(e)
+    });
+    document.addEventListener("copy", e => {
+      this.addCopy(e)
+    });
+    // window.storeChangeRc = this.storeChangeRc;
+    // 不知道有没有加这句的必要，同时有alert的时候会有Uncaught的情况
+
+  },
+
   methods: {
-    goPost(eventId){
+    goPost(eventId) {
       this.$router.push('/post/'+eventId.toString());
     },
-    goPostList(){
+    goPostList() {
       this.$router.push('../postList')
     },
+
+    // 允许复制，版权提示--update:2023-01-29
+    addCopy(e) {
+      let copyTxt = ""
+      e.preventDefault(); // 取消默认的复制事件
+      copyTxt = window.getSelection(0).toString()
+      copyTxt = `${copyTxt}\n\n________________\n作者：GISphere\n原文：${window.location.href}\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。`
+      const clipboardData = e.clipboardData || window.clipboardData
+      clipboardData.setData('text', copyTxt);
+    },
+
   }
 }
 </script>
