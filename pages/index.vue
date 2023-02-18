@@ -184,6 +184,30 @@
       </div>
     </div>
 
+    <div class="sponsor-part">
+      <div class="introduce-page">
+        <div class="intro-title">
+          {{ lang == 'zh'? '赞助商':'SPONSOR' }}
+          <hr class="short-horizontal-line" />
+        </div>
+        <div class="sponsor-list">
+          <div class="sponsor-card" @click="goUrl('https://maptable.com')">
+            <b>Maptable</b>
+            <small>新一代空间数据协同工具</small>
+          </div>
+          <div class="sponsor-card" @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')">
+            <b>Vision 留学</b>
+          </div>
+          <div class="sponsor-card" @click="goUrl('mailto:gisphere@outlook.com')">
+            <b v-if="lang == 'zh'">成为赞助商？</b>
+            <small v-if="lang == 'zh'">联系 gisphere@outlook.com</small>
+            <b v-if="lang == 'en'">Become Sponsor?</b>
+            <small v-if="lang == 'en'">mail to gisphere@outlook.com</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <bottom-bar />
 
     <el-dialog
@@ -255,6 +279,9 @@ export default {
       // 暂时不放出对外的入口，先进行内部测试
       // this.$router.push('/uniInfo'); 
     },
+    goUrl(url) {
+      window.location.href = url
+    },
     disableCopy(e) {
       e.preventDefault()
     },
@@ -301,17 +328,24 @@ export default {
   font-weight: 800;
   font-size: 50px;
   line-height: 60px;
-  letter-spacing: -2px;
+  letter-spacing: 2px;
   color: #0073ff;
+  /* 保持背景黑色阴影 */
+  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20,0 0 60px #1f1f20,0 0 80px #1f1f20
 }
 .welcome-description {
   margin-top: 15px;
   font-size: 20px;
   letter-spacing: 2px;
   color: #ffffff;
+  /* 保持背景黑色阴影 */
+  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20,0 0 60px #1f1f20,0 0 80px #1f1f20
 }
 .welcome-buttons {
   margin-top: 39px;
+  margin-bottom: 39px;
+  /* 保持背景黑色阴影 */
+  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20,0 0 60px #1f1f20,0 0 80px #1f1f20
 }
 .explore-academic-recruiting {
   border-color: #ffffff;
@@ -450,5 +484,36 @@ export default {
   text-align: center;
   font-display: block;
   font-size: 16px;
+}
+.sponsor-part{
+  line-height: 26px;
+  letter-spacing: 2px;
+  color: #000000;
+  margin-left: 151.5px;
+  margin-right: 151.5px;
+  margin-bottom: 100px;
+  display: block;
+}
+.sponsor-card{
+  background-color: #efefef;
+  border-radius: 10px;
+  height: 80px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sponsor-card:hover{
+  transform: translateY(-5px);
+  background-color: #f6f4f4;
+}
+.sponsor-list {
+  display: flex;
+  justify-content: left;
 }
 </style>
