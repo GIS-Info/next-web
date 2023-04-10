@@ -106,7 +106,8 @@
           </div>
         </div>
 
-        <el-pagination background layout="prev, pager, next" :current-page="pageIndex" :total="totalCount"
+        <el-pagination 
+          background layout="prev, pager, next" :current-page="pageIndex" :total="totalCount"
           :page-size="pageSize" @current-change="handlePageChange">
         </el-pagination>
       </div>
@@ -131,7 +132,8 @@
           <input v-model="searchText" type="text" class="search" @keyup.enter="queryBySearchtext()" />
           <button class="button-search" @click="queryBySearchtext()">
             <svg class="icon-search" viewBox="0 -3 20 20" xmlns="http://www.w3.org/2000/svg" height="19" width="19">
-              <path fill-rule="evenodd"
+              <path 
+                fill-rule="evenodd"
                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                 clip-rule="evenodd"></path>
             </svg>
@@ -145,8 +147,8 @@
           <option>2021年</option>
           <option>2022年</option>
         </select> -->
-        <select class="filter-year" v-model="selected">
-          <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
+        <select v-model="selected" class="filter-year">
+          <option v-for="(option, index) in options" :key="index" :value="option.value">{{ option.text }}</option>
         </select>
         <!-- <table class="by-month">
           <tr>
@@ -210,7 +212,8 @@
           <input v-model="searchText" type="text" class="search" @keyup.enter="queryBySearchtext()" />
           <button class="button-search" @click="queryBySearchtext()">
             <svg class="icon-search" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" height="19" width="19">
-              <path fill-rule="evenodd"
+              <path
+                fill-rule="evenodd"
                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                 clip-rule="evenodd"></path>
             </svg>
@@ -244,12 +247,12 @@
         </table> -->
         <table class="by-month">
           <tr>
-            <td v-for="i in 6">
+            <td v-for="i in 6" :key="i - 1">
               <button class="button-month" @click="queryByDate(i)">{{ months[i - 1] }}</button>
             </td>
           </tr>
           <tr>
-            <td v-for="i in 6">
+            <td v-for="i in 6" :key="i + 5">
               <button class="button-month" @click="queryByDate(i + 6)">{{ months[i + 5] }}</button>
             </td>
           </tr>
@@ -299,9 +302,10 @@ export default {
       },
       loading: true,
       selected: '2022',
-      months1: ['1', '2', '3', '4', '5', '6'],//上半年
-      months2: ['7', '8', '9', '10', '11', '12'],//下半年
-      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],//英文界面
+      
+      months1: ['1', '2', '3', '4', '5', '6'], // 上半年
+      months2: ['7', '8', '9', '10', '11', '12'], // 下半年
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // 英文界面
       date: '',
       month: '',
       options: [{ text: '2020年', value: '2020' }, { text: '2021年', value: '2021' }, { text: '2022年', value: '2022' }]
@@ -318,7 +322,7 @@ export default {
   },
   methods: {
     queryBySearchtext() {
-      if(this.month!=='') this.pageIndex=1;//如果从月份搜索直接跳转到内容搜索，页面也应该重置为1
+      if(this.month!=='') this.pageIndex=1; // 如果从月份搜索直接跳转到内容搜索，页面也应该重置为1
       this.$axios.post('api/post_querystring', {
         queryString: this.searchText,
         pageIndex: this.pageIndex,
@@ -333,7 +337,7 @@ export default {
               duration: 1000
             });
           }
-          //把后端传回的data存到此文件的postdata中
+          // 把后端传回的data存到此文件的postdata中
           this.postListData = res.data.data;
           console.log(this.postListData);
           this.totalCount = res.data.count;
@@ -342,17 +346,16 @@ export default {
         }
       }).catch(error => {
         alert(error);
-        console.log(res.msg);
       })
     },
     queryByDate(e) {
-      if(e!==this.month) this.pageIndex=1;//如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
+      if(e!==this.month) this.pageIndex=1; // 如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
       this.date = this.selected + '-' + e;
       this.month = e;
       this.$axios.get('api/post_closedate', {
         params: {
-          year: this.selected,//选择的年份
-          month: e,//选择的月份
+          year: this.selected, // 选择的年份
+          month: e, // 选择的月份
           pageSize: this.pageSize,
           pageIndex: this.pageIndex
         }
@@ -373,7 +376,6 @@ export default {
         }
       }).catch(error => {
         alert(error);
-        console.log(res.msg);
       })
     },
     goPost(id) {
@@ -408,9 +410,9 @@ export default {
       this.pageIndex = i;
       if (this.date !== '') {
         this.queryByDate(this.month);
-      }//如果之前按照日期搜索成功了，那么记录下这个信息，用于翻页时的下次请求
+      } // 如果之前按照日期搜索成功了，那么记录下这个信息，用于翻页时的下次请求
       else if (this.searchText !== '') this.queryBySearchtext();
-      else this.getPostListData();//否则正常翻页所有的数据
+      else this.getPostListData(); // 否则正常翻页所有的数据
     },
     error(err) {
       alert(err);
@@ -599,7 +601,7 @@ export default {
 }
 
 .entry:hover {
-  box-shadow: 0px 0 15px #7CE3B3;
+  box-shadow: 0px 0 4px #70a28b;
 }
 
 .entry-title {
