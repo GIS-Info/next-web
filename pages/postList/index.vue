@@ -99,7 +99,7 @@
       <div class="list">
         <div v-for="post in postListData" :key="post.event_id" class="entry" @click="goPost(post.event_id)">
           <div class="entry-title">{{ (lang == 'zh' ? post.title_cn : post.title_en) || '-' }}</div>
-          <div class="entry-content-brief">{{ post.description || '-' }}</div>
+          <div class="entry-content-brief">{{ post?.description || '-' }}</div>
           <div class="entry-bottom-flex">
             <span>{{ (lang == 'zh' ? post.country_cn : post.country_en) || '-' }}</span>
             <span>发布于 <b>{{ post.date || '未知时间' }}</b></span>
@@ -286,6 +286,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import _ from 'lodash';
 // import { options } from 'yargs';
 
 export default {
@@ -337,9 +338,12 @@ export default {
               duration: 1000
             });
           }
-          // 把后端传回的data存到此文件的postdata中
-          this.postListData = res.data.data;
-          console.log(this.postListData);
+          // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+          this.postListData = res.data.data.map((i) => {
+            const l = _.cloneDeep(i);
+            l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
+            return l;
+          });
           this.totalCount = res.data.count;
         } else {
           alert('请求错误: ' + res.msg)
@@ -368,8 +372,12 @@ export default {
               duration: 1000
             });
           }
-          // 把后端传回的data存到此文件的postdata中
-          this.postListData = res.data.data;
+          // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+          this.postListData = res.data.data.map((i) => {
+            const l = _.cloneDeep(i);
+            l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
+            return l;
+          });
           this.totalCount = res.data.count;
         } else {
           alert('请求错误: ' + res.msg)
@@ -394,8 +402,12 @@ export default {
         }
       }).then(res => {
         if (res?.data?.code === 0) {
-          // 把后端传回的data存到此文件的postdata中
-          this.postListData = res.data.data;
+          // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+          this.postListData = res.data.data.map((i) => {
+            const l = _.cloneDeep(i);
+            l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
+            return l;
+          });
           this.totalCount = res.data.count;
         } else {
           alert('请求错误: ' + res.msg)
