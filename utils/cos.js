@@ -9,5 +9,5 @@
 
  // SECRETID 和 SECRETKEY 请登录 https://console.cloud.tencent.com/cam/capi 进行查看和管理
  export const cos = new COS({
-  // 填入密钥
+  // 填入密钥 todo
  });
