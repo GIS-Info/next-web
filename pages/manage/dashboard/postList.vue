@@ -3,62 +3,44 @@
     <div class="manipulate-wrap">
       <div class="icon-wraps">
         <el-button type="primary" @click="goAddPost">新增帖子</el-button>
+        <span style="margin-left: 20px;color: #787878;">新增帖子后默认处于未上架状态，需要在内容管理中拨为上架状态</span>
       </div>
     </div>
     <!-- 帖子内容行 -->
-    <div class="content">
-      <ul class="content-list">
-        <li v-for="item in contentlist" :key="item.event_id" class="board">
-          <!-- 左侧bander -->
-          <div class="left-label">
-            <span class="label-background"></span>
-            <span class="text-label">招生</span>
-          </div>
-          <!-- 职位详情 -->
-          <div class="detail" @click="editItem(item)">
-            <div>
-              <div class="position">{{ item.title_cn }}</div>
-              <div>
-                <span class="bold-text">发布时间</span>
-                <span class="normal-text">{{ item.date }}</span>
-              </div>
-              <div>
-                <span class="bold-text">截止日期</span>
-                <span class="normal-text">03 Mar 2022</span>
-              </div>
-              <div>
-                <span class="bold-text">院校名称</span>
-                <span class="normal-text">{{ item.university_cn }}</span>
-              </div>
-            </div>
-          </div>
-          <!-- 右侧bander -->
-          <div class="right-label">
-            <div class="background-green">
-            </div>
-            <div class="check"></div>
-            <div class="right-delete" @click="deleteItem(item)"></div>
-          </div>
-        </li>
-      </ul>
-      <!-- 分页 -->
-      <div class="page">
-        <el-pagination
-          layout="prev, pager, next"
-          :page-size="pageSize"
-          :page-count="pageCount"
-          :page-index="pageIndex"
-          :total="total"
-          @current-change="handleCurrentChange"
-        >
-        </el-pagination>
-      </div>
+    <el-table class="table" :data="showTableData" border>
+      <el-table-column prop="event_id" label="编号" />
+      <el-table-column prop="title_cn" label="中文标题" />
+      <el-table-column prop="title_en" label="英文标题" />
+      <el-table-column prop="university_cn" label="院校中文名称" />
+      <el-table-column prop="date" label="更新日期" />
+      <el-table-column prop="is_public" label="上架状态" />
+      <el-table-column
+        fixed="right"
+        label="操作">
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row)" type="text">查看</el-button>
+          <el-button type="text">编辑</el-button>
+          <el-button type="text">上架</el-button>
+          <el-button type="text">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页 -->
+    <div class="page">
+      <el-pagination
+        layout="prev, pager, next"
+        :page-size="pageSize"
+        :page-index="pageIndex"
+        :total="total"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-// import API from './api'
+import _ from 'lodash'
 
 export default {
   name: 'IndexPage',
@@ -71,12 +53,20 @@ export default {
       },
 
       contentlist: [],
-      pageSize: 4,
-      pageCount: 10,
+      pageSize: 8,
       pageIndex: 1,
       total: 100,
       selectedTab: 'all',
       queryValue: '',
+    }
+  },
+  computed: {
+    showTableData() {
+      return this.contentlist.map((l) => { 
+        const u = _.cloneDeep(l);
+        u.is_public = l.is_public === 1 ? "已上架" : "未上架"
+        return u;
+      })
     }
   },
   created() {
@@ -89,20 +79,7 @@ export default {
     goAddPost() {
       this.$router.push('/addPost')
     },
-    // 选择， 支持多选
-    selectItem() {},
-    // 切换tab
-    changeTab(value) {
-      console.log(8888, value)
-      this.selectedTab = value
-    },
-    // 查询
-    querySearchAsync() {},
-    // 模糊搜索选中触发
-    handleSelect() {},
-    // 点击选中
     editItem(item) {
-      // this.$router.push('/addPost');
       this.$router.push({
         path: '/editPost',
         query: {
@@ -183,155 +160,27 @@ export default {
   text-align: center;
   padding: 40px;
   background-color: #EBEEF5;;
-  display: flex;
-  flex-direction: column!important;
-  // justify-content: left!important;
-  text-align: left !important;
   box-sizing: border-box;
   position: relative;
+  overflow: auto;
   z-index: 2;
-
-  .search-wrap {
-    margin-bottom: 28px;
-
-    /deep/.el-input {
-      width: 619px;
-    }
-    /deep/ .el-input__inner {
-      border-radius: 15px;
-      
-    }
-    .search-btn {
-      margin-left: 15px;
-      border-radius: 15px;
-    }
-
+  .table{
+    width: 100%;
   }
-  .content {
-    height: calc(100% - 160px);
-    // background-color: pink;
-    // 分页
-    .page {
-      width: 1102px;
-      text-align: center;
-      margin-top: 15px;
-      // /deep/ .btn-prev, .el-pager, .btn-next{
-      //   background-color: #EBEEF5;
-      // }
-      /deep/ .number {
-        background-color: #EBEEF5;
-      }
-      /deep/ .btn-prev {
-        background-color: #EBEEF5;
-      }
-      /deep/ .btn-next {
-        background-color: #EBEEF5;
-      }
-      /deep/ .el-icon-more {
-        background-color: #EBEEF5;
-      }
+  .page {
+    text-align: left;
+    margin-top: 15px;
+    /deep/ .number {
+      background-color: #EBEEF5;
     }
-    .content-list {
-      height: calc(100% - 40px);
-      padding-left: 0px!important;
-      margin: 0px;
-      overflow-y: scroll;
-      .board {
-        // position: relative;
-        display: flex;
-        justify-content: row;
-        width: 100%;
-        height: 107px;
-        background-color: #fff;
-        list-style: none;
-        margin-bottom: 5px;
-        border-radius: 20px;
-        .left-label {
-          width: 10%;
-          height: 100%;
-          position: relative;
-          // background-color: pink;
-          .text-label {
-            position: absolute;
-            left: 10px;
-            top: 20px;
-            transform: rotate(-45deg);
-            color: #909399;
-          }
-          .label-background {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            display: inline-block;
-            width: 100px;
-            height: 100%;
-            background: url('./imgs/label.png') no-repeat;
-            background-size: 80%;
-          }
-        }
-        .detail {
-          width: 70%;
-          height: 100%;
-          // line-height: 107px;
-          // background-color: green;
-          display: flex;
-          justify-content: column;
-          align-items: center;
-          .position {
-            font-size: 18px;
-            font-weight: 700
-          }
-          .bold-text {
-            font-size: 13px;
-            font-weight: 700
-          }
-          .normal-text {
-            font-size: 13px;
-
-          }
-        }
-        .right-label {
-          width: 19%;
-          height: 100%;
-          position: relative;
-          // background-color: blue;
-          .background-green {
-            position: absolute;
-            top: 0px;
-            right: 20px;
-            width: 43px;
-            height: 61px;
-            background: url(./imgs/green-label.png) no-repeat;
-            background-size: 100%
-          }
-          .check {
-            position: absolute;
-            top: 7px;
-            right: 26px;
-            width: 31px;
-            height: 31px;
-            z-index: 1;
-            background: url(./imgs/check-label.png) no-repeat;
-            background-size: 100%;
-          }
-
-          .right-delete {
-            position: absolute;
-            top: 70px;
-            right: 24px;
-            width: 31px;
-            height: 31px;
-            z-index: 1;
-            background: url('./imgs/delete.png') no-repeat;
-            background-size: 90%;
-            &:hover {
-              background: url('./imgs/delete-color.png') no-repeat center;
-              background-size: 90%;
-              cursor: pointer;
-            }
-          }
-        }
-      }
+    /deep/ .btn-prev {
+      background-color: #EBEEF5;
+    }
+    /deep/ .btn-next {
+      background-color: #EBEEF5;
+    }
+    /deep/ .el-icon-more {
+      background-color: #EBEEF5;
     }
   }
   .manipulate-wrap {
@@ -340,81 +189,10 @@ export default {
     justify-content: space-between;
     width: 100%;
     margin-bottom: 28px;
-    // background-color: yellow;
-    .tab-wrap {
-      display: inline-block;
-      // background-color: green;
-      .tab {
-        display: inline-block;
-        width: 167px;
-        height: 56px;
-        box-sizing: border-box;
-        background-color: #EBEEF5;
-        border: 2px solid white;
-        border-radius: 30px;
-        margin-right: 30px;
-        text-align: center;
-        line-height: 56px;
-        // 颜色、水平阴影位置、垂直阴影位置、模糊距离、阴影大
-        //  #f44336 -2px -2px 0 1px,
-        box-shadow: rgb(161, 161, 161) 0px 2px 5px 1px;
-        color: #6A81A5;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-      .tab-selected {
-        background-color: #DCDFE6;
-        color: #0C2041;
-      }
-    }
     .icon-wraps {
       display: flex;
       flex-direction: row;
-      // background-color: blue;
       align-items: center;
-
-      .icon {
-        display: inline-block;
-        width: 25px;
-        height: 25px;
-        // background-color: pink;
-        margin-right: 10px;
-
-        &:hover {
-          cursor: pointer;
-          // background-color: pink;
-        }
-      }
-      .more {
-        background: url('./imgs/more.png') no-repeat center;
-        background-size: 90%;
-        // transition: 0.5s;
-        &:hover {
-          background: url('./imgs/more-color.png') no-repeat center;
-          background-size: 90%;
-          cursor: pointer;
-        }
-      }
-      .add {
-        background: url("./imgs/add.png") no-repeat;
-        background-size: 90%;
-        &:hover {
-          background: url('./imgs/add-color.png') no-repeat center;
-          background-size: 90%;
-          cursor: pointer;
-        }
-      }
-      .delete {
-        background: url("./imgs/delete.png") no-repeat;
-        background-size: 90%;
-        &:hover {
-          background: url('./imgs/delete-color.png') no-repeat center;
-          background-size: 90%;
-          cursor: pointer;
-        }
-      }
-      
     }
   }
 }
