@@ -18,10 +18,11 @@
         fixed="right"
         label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text">查看</el-button>
+          <el-button type="text" @click="viewPost(scope.row)">查看</el-button>
           <el-button type="text">编辑</el-button>
-          <el-button type="text">上架</el-button>
-          <el-button type="text">删除</el-button>
+          <el-button v-if="scope.row.is_public === '未上架'" type="text">上架</el-button>
+          <el-button v-if="scope.row.is_public === '已上架'" type="text">下架</el-button>
+          <el-button type="text" @click="deleteItem(scope.row) ">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +63,7 @@ export default {
   },
   computed: {
     showTableData() {
-      return this.contentlist.map((l) => { 
+      return this.contentlist.map((l) => {
         const u = _.cloneDeep(l);
         u.is_public = l.is_public === 1 ? "已上架" : "未上架"
         return u;
@@ -79,12 +80,13 @@ export default {
     goAddPost() {
       this.$router.push('/addPost')
     },
+    viewPost(row) {
+      this.$router.push({ path: `/post/${row.event_id}` });
+    },
     editItem(item) {
       this.$router.push({
         path: '/editPost',
-        query: {
-          item,
-        },
+        query: { item },
       });
     },
     /**
@@ -101,8 +103,7 @@ export default {
      * @param {number} pageIndex
      */
     async getListData(pageSize, pageIndex) {
-      const url =
-        'api/manage/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex
+      const url = 'api/manage/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex;
       await this.$axios
         .$get(url)
         .then((res) => {
@@ -113,15 +114,13 @@ export default {
           alert(e)
         })
     },
-
     deleteItem(item) {
       this.$confirm('此操作将永久删除该帖子, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      })
+        })
         .then(() => {
-          console.log('item :>> ', item);
           const url = 'api/manage/post/' + item.event_id
           this.$axios
             .delete(url)
