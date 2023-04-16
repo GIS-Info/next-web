@@ -20,8 +20,8 @@
         <template slot-scope="scope">
           <el-button type="text" @click="viewPost(scope.row)">查看</el-button>
           <el-button type="text">编辑</el-button>
-          <el-button v-if="scope.row.is_public === '未上架'" type="text">上架</el-button>
-          <el-button v-if="scope.row.is_public === '已上架'" type="text">下架</el-button>
+          <el-button v-if="scope.row.is_public === '未上架'" @click="changePostPublicStatus(scope.row, true)" type="text">上架</el-button>
+          <el-button v-if="scope.row.is_public === '已上架'" @click="changePostPublicStatus(scope.row, false)" type="text">下架</el-button>
           <el-button type="text" @click="deleteItem(scope.row) ">删除</el-button>
         </template>
       </el-table-column>
@@ -78,10 +78,10 @@ export default {
       this.getListData(this.pageSize, this.pageIndex);
     },
     goAddPost() {
-      this.$router.push('/addPost')
+      window.open(`https://gisphere.info/addPost`);
     },
     viewPost(row) {
-      this.$router.push({ path: `/post/${row.event_id}` });
+      window.open(`https://gisphere.info/post/${row.event_id}`);
     },
     editItem(item) {
       this.$router.push({
@@ -148,6 +148,26 @@ export default {
           })
         })
     },
+    changePostPublicStatus(row, newStatus) { 
+      const payload = {
+        is_public: newStatus? 1:0,
+      }
+      const url = 'api/manage/post/' + row.event_id
+      this.$axios
+        .post(url, payload)
+        .then((res) => {
+          if (res.data?.msg === 'success') {
+            this.$router.push('/manage/dashboard/');
+            alert('提交成功')
+          } else {
+            alert(res.msg)
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+          alert(error)
+        })
+    }
   },
 }
 </script>
