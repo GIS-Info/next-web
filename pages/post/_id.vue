@@ -125,7 +125,6 @@ export default {
     const eventId = this.$route.params.id;
     // 向后端发起请求
     await this.$axios.get('/api/post/' + eventId.toString()).then(res=>{
-      console.log('res', res);
       // 把后端传回的data存到此文件的postdata中
       this.postdata = res.data[0];
     }).catch(error=>{
