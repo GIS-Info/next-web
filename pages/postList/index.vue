@@ -286,7 +286,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import _ from 'lodash';
 // import { options } from 'yargs';
 
 export default {
@@ -340,7 +339,7 @@ export default {
           }
           // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
           this.postListData = res.data.data.map((i) => {
-            const l = _.cloneDeep(i);
+            const l = {...i}
             l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
             return l;
           });
@@ -374,7 +373,7 @@ export default {
           }
           // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
           this.postListData = res.data.data.map((i) => {
-            const l = _.cloneDeep(i);
+            const l = {...i}
             l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
             return l;
           });
@@ -404,7 +403,7 @@ export default {
         if (res?.data?.code === 0) {
           // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
           this.postListData = res.data.data.map((i) => {
-            const l = _.cloneDeep(i);
+            const l = {...i}
             l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
             return l;
           });

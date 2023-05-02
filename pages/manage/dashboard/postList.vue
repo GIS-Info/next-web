@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 
 export default {
   name: 'IndexPage',
@@ -64,7 +63,7 @@ export default {
   computed: {
     showTableData() {
       return this.contentlist.map((l) => {
-        const u = _.cloneDeep(l);
+        const u = {...l}
         u.is_public = l.is_public === 1 ? "已上架" : "未上架"
         return u;
       })
