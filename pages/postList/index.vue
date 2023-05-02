@@ -170,12 +170,12 @@
         </table> -->
         <table class="by-month">
           <tr>
-            <td v-for="month in months1" :key="month">
+            <td v-for="month1 in months1" :key="month1">
               <button class="button-month" @click="queryByDate(month)">{{ month }}月</button>
             </td>
           </tr>
           <tr>
-            <td v-for="month in months2" :key="month">
+            <td v-for="month2 in months2" :key="month2">
               <button class="button-month" @click="queryByDate(month)">{{ month }}月</button>
             </td>
           </tr>
