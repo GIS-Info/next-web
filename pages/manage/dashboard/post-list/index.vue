@@ -21,88 +21,82 @@
       </div>
       <div class="icon-wraps">
         <span class="icon more" @click="selectItem"></span>
-        <span class="icon add"></span>
+        <span class="icon add" @click="goAddPost"></span>
         <span class="icon delete"></span>
       </div>
     </div>
     <!-- 帖子内容行 -->
-    <el-table class="table" :data="showTableData" border>
-      <el-table-column prop="event_id" label="编号" />
-      <el-table-column prop="title_cn" label="中文标题" />
-      <el-table-column prop="title_en" label="英文标题" />
-      <el-table-column prop="university_cn" label="院校中文名称" />
-      <el-table-column prop="date" label="更新日期" />
-      <el-table-column prop="is_public" label="上架状态" />
-      <el-table-column
-        fixed="right"
-        label="操作">
-        <template slot-scope="scope">
-          <el-button type="text" @click="viewPost(scope.row)">查看</el-button>
-          <el-button type="text">编辑</el-button>
-          <el-button v-if="scope.row.is_public === '未上架'" @click="changePostPublicStatus(scope.row, true)" type="text">上架</el-button>
-          <el-button v-if="scope.row.is_public === '已上架'" @click="changePostPublicStatus(scope.row, false)" type="text">下架</el-button>
-          <el-button type="text" @click="deleteItem(scope.row) ">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页 -->
-    <div class="page">
-      <el-pagination
-        layout="prev, pager, next"
-        :page-size="pageSize"
-        :page-index="pageIndex"
-        :total="total"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+    <div class="content">
+      <ul class="content-list">
+        <li v-for="item in contentlist" :key="item.event_id" class="board">
+          <!-- 左侧bander -->
+          <div class="left-label">
+            <span class="label-background"></span>
+            <span class="text-label">招生</span>
+          </div>
+          <!-- 职位详情 -->
+          <div class="detail" @click="editItem(item)">
+            <div>
+              <div class="position">{{ item.title_cn }}</div>
+              <div>
+                <span class="bold-text">发布时间</span>
+                <span class="normal-text">{{ item.date }}</span>
+              </div>
+              <div>
+                <span class="bold-text">截止日期</span>
+                <span class="normal-text">03 Mar 2022</span>
+              </div>
+              <div>
+                <span class="bold-text">院校名称</span>
+                <span class="normal-text">{{ item.university_cn }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- 右侧bander -->
+          <div class="right-label">
+            <div class="background-green">
+            </div>
+            <div class="check"></div>
+            <div class="right-delete" @click="deleteItem(item)"></div>
+          </div>
+        </li>
+      </ul>
+      <!-- 分页 -->
+      <div class="page">
+        <el-pagination
+          layout="prev, pager, next"
+          :page-size="pageSize"
+          :page-count="pageCount"
+          :page-index="pageIndex"
+          :total="total"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+// import API from './api'
+
 export default {
   name: 'IndexPage',
   data() {
     return {
-       data: {
-         all: 130,
-         posted: 125,
-         unposted: 5
-       },
-       contentlist: [
-         {
-           title: '招聘',
-           content: '1111'
-         },
-         {
-           title: '招生',
-           content: '2222'
-         },
-         {
-           title: '招聘',
-           content: '3333'
-         },
-         {
-           title: '招生',
-           content: '4444'
-         },
-        // {
-        //    title: '招生',
-        //    content: '2222'
-        //  },
+      data: {
+        all: 130,
+        posted: 125,
+        unposted: 5,
+      },
 
-       ],
-       selectedTab: 'all',
-       queryValue: ''
-    }
-  },
-  computed: {
-    showTableData() {
-      return this.contentlist.map((l) => {
-        const u = _.cloneDeep(l);
-        u.is_public = l.is_public === 1 ? "已上架" : "未上架"
-        return u;
-      })
+      contentlist: [],
+      pageSize: 4,
+      pageCount: 10,
+      pageIndex: 1,
+      total: 100,
+      selectedTab: 'all',
+      queryValue: '',
     }
   },
   created() {
@@ -113,15 +107,27 @@ export default {
       this.getListData(this.pageSize, this.pageIndex);
     },
     goAddPost() {
-      window.open(`https://gisphere.info/addPost`);
+      this.$router.push('/addPost')
     },
-    viewPost(row) {
-      window.open(`https://gisphere.info/post/${row.event_id}`);
+    // 选择， 支持多选
+    selectItem() {},
+    // 切换tab
+    changeTab(value) {
+      console.log(8888, value)
+      this.selectedTab = value
     },
+    // 查询
+    querySearchAsync() {},
+    // 模糊搜索选中触发
+    handleSelect() {},
+    // 点击选中
     editItem(item) {
+      // this.$router.push('/addPost');
       this.$router.push({
         path: '/editPost',
-        query: { item },
+        query: {
+          item,
+        },
       });
     },
     /**
@@ -138,7 +144,8 @@ export default {
      * @param {number} pageIndex
      */
     async getListData(pageSize, pageIndex) {
-      const url = 'api/manage/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex;
+      const url =
+        'api/manage/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex
       await this.$axios
         .$get(url)
         .then((res) => {
@@ -149,13 +156,15 @@ export default {
           alert(e)
         })
     },
+
     deleteItem(item) {
       this.$confirm('此操作将永久删除该帖子, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-        })
+      })
         .then(() => {
+          console.log('item :>> ', item);
           const url = 'api/manage/post/' + item.event_id
           this.$axios
             .delete(url)
@@ -183,26 +192,6 @@ export default {
           })
         })
     },
-    changePostPublicStatus(row, newStatus) { 
-      const payload = {
-        is_public: newStatus? 1:0,
-      }
-      const url = 'api/manage/post/' + row.event_id
-      this.$axios
-        .post(url, payload)
-        .then((res) => {
-          if (res.data?.msg === 'success') {
-            this.$router.push('/manage/dashboard/');
-            alert('提交成功')
-          } else {
-            alert(res.msg)
-          }
-        })
-        .catch((error) => {
-          console.log('error', error)
-          alert(error)
-        })
-    }
   },
 }
 </script>
@@ -211,12 +200,13 @@ export default {
 .main-container {
   width: 100%;
   height: 100%;
+  text-align: center;
   padding: 40px;
   background-color: #EBEEF5;;
   display: flex;
   flex-direction: column!important;
   // justify-content: left!important;
-  text-align: left!important;
+  text-align: left !important;
   box-sizing: border-box;
   position: relative;
   z-index: 2;
@@ -224,17 +214,17 @@ export default {
   .search-wrap {
     margin-bottom: 28px;
 
-   /deep/.el-input {
+    /deep/.el-input {
       width: 619px;
-   }
-   /deep/ .el-input__inner {
-     border-radius: 15px;
-     
-   }
-   .search-btn {
-     margin-left: 15px;
-     border-radius: 15px;
-   }
+    }
+    /deep/ .el-input__inner {
+      border-radius: 15px;
+      
+    }
+    .search-btn {
+      margin-left: 15px;
+      border-radius: 15px;
+    }
 
   }
   .content {
@@ -249,23 +239,23 @@ export default {
       //   background-color: #EBEEF5;
       // }
       /deep/ .number {
-          background-color: #EBEEF5;
+        background-color: #EBEEF5;
       }
       /deep/ .btn-prev {
-          background-color: #EBEEF5;
+        background-color: #EBEEF5;
       }
       /deep/ .btn-next {
-          background-color: #EBEEF5;
+        background-color: #EBEEF5;
       }
       /deep/ .el-icon-more {
-          background-color: #EBEEF5;
+        background-color: #EBEEF5;
       }
     }
     .content-list {
       height: calc(100% - 40px);
       padding-left: 0px!important;
       margin: 0px;
-      overflow-y: scroll;  
+      overflow-y: scroll;
       .board {
         // position: relative;
         display: flex;
@@ -282,11 +272,11 @@ export default {
           position: relative;
           // background-color: pink;
           .text-label {
-              position: absolute;
-              left: 10px;
-              top: 20px;       
-              transform: rotate(-45deg);
-              color: #909399;
+            position: absolute;
+            left: 10px;
+            top: 20px;
+            transform: rotate(-45deg);
+            color: #909399;
           }
           .label-background {
             position: absolute;
@@ -295,7 +285,7 @@ export default {
             display: inline-block;
             width: 100px;
             height: 100%;
-            background: url('./imgs/label.png') no-repeat;
+            background: url('../imgs/label.png') no-repeat;
             background-size: 80%;
           }
         }
@@ -324,14 +314,14 @@ export default {
           width: 19%;
           height: 100%;
           position: relative;
-          // background-color: blue;    
+          // background-color: blue;
           .background-green {
             position: absolute;
             top: 0px;
             right: 20px;
             width: 43px;
             height: 61px;
-            background: url(./imgs/green-label.png) no-repeat;
+            background: url(../imgs/green-label.png) no-repeat;
             background-size: 100%
           }
           .check {
@@ -341,11 +331,26 @@ export default {
             width: 31px;
             height: 31px;
             z-index: 1;
-            background: url(./imgs/check-label.png) no-repeat;
+            background: url(../imgs/check-label.png) no-repeat;
             background-size: 100%;
           }
+
+          .right-delete {
+            position: absolute;
+            top: 70px;
+            right: 24px;
+            width: 31px;
+            height: 31px;
+            z-index: 1;
+            background: url('../imgs/delete.png') no-repeat;
+            background-size: 90%;
+            &:hover {
+              background: url('../imgs/delete-color.png') no-repeat center;
+              background-size: 90%;
+              cursor: pointer;
+            }
+          }
         }
- 
       }
     }
   }
@@ -371,7 +376,7 @@ export default {
         text-align: center;
         line-height: 56px;
         // 颜色、水平阴影位置、垂直阴影位置、模糊距离、阴影大
-        //  #f44336 -2px -2px 0 1px, 
+        //  #f44336 -2px -2px 0 1px,
         box-shadow: rgb(161, 161, 161) 0px 2px 5px 1px;
         color: #6A81A5;
         &:hover {
@@ -380,59 +385,57 @@ export default {
       }
       .tab-selected {
         background-color: #DCDFE6;
-        color: #0C2041
+        color: #0C2041;
       }
     }
     .icon-wraps {
-        display: flex;
-        flex-direction: row;
-        // background-color: blue;
-        align-items: center;
+      display: flex;
+      flex-direction: row;
+      // background-color: blue;
+      align-items: center;
 
-        .icon {
-          display: inline-block;
-          width: 25px;
-          height: 25px;
+      .icon {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        // background-color: pink;
+        margin-right: 10px;
+
+        &:hover {
+          cursor: pointer;
           // background-color: pink;
-          margin-right: 10px;
-          
-          &:hover {
-            cursor: pointer;
-            // background-color: pink;
-          }
         }
-        .more {
-            background: url('./imgs/more.png') no-repeat center;
-            background-size: 90%;
-            // transition: 0.5s;
-            &:hover {
-              background: url('./imgs/more-color.png') no-repeat center;
-              background-size: 90%;
-              cursor: pointer;
-            }
-        }
-        .add {
-          background: url("./imgs/add.png") no-repeat;
+      }
+      .more {
+        background: url('../imgs/more.png') no-repeat center;
+        background-size: 90%;
+        // transition: 0.5s;
+        &:hover {
+          background: url('../imgs/more-color.png') no-repeat center;
           background-size: 90%;
-          &:hover {
-            background: url('./imgs/add-color.png') no-repeat center;
-            background-size: 90%;
-            cursor: pointer;
-          }
+          cursor: pointer;
         }
-        .delete {
-          background: url("./imgs/delete.png") no-repeat;
+      }
+      .add {
+        background: url("../imgs/add.png") no-repeat;
+        background-size: 90%;
+        &:hover {
+          background: url('../imgs/add-color.png') no-repeat center;
           background-size: 90%;
-          &:hover {
-            background: url('./imgs/delete-color.png') no-repeat center;
-            background-size: 90%;
-            cursor: pointer;
-          }
+          cursor: pointer;
         }
-
+      }
+      .delete {
+        background: url("../imgs/delete.png") no-repeat;
+        background-size: 90%;
+        &:hover {
+          background: url('../imgs/delete-color.png') no-repeat center;
+          background-size: 90%;
+          cursor: pointer;
+        }
+      }
+      
     }
   }
-
-
 }
 </style>

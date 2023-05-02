@@ -20,12 +20,12 @@
     -->
 
     <!-- 中文情况下 -->
-    <div v-if="lang =='zh'" id="content" class="post-content">
-      <h1 class="content-title">{{ postdata.title_cn || '-' }}</h1>
-      <h4 class="content-detail">发布时间: <span class="normal">{{ postdata.date || '-' }}</span></h4>
-      <h4 class="content-detail">院校名称: <span class="normal">{{ postdata.university_cn || '-' }}</span></h4>
-      <h4 class="content-detail">地理位置: <span class="normal">{{ postdata.country_cn || '-' }}</span></h4>
-      <h4 class="content-detail">岗位类型: <span class="normal">{{ postdata.job_cn || '-' }}</span></h4>
+    <div v-if="lang =='zh'" class="post-content" id="content">
+      <div class="content-title">{{ postdata.title_cn || '-' }}</div>
+      <div class="content-detail">发布时间: <span class="normal">{{ postdata.date || '-' }}</span></div>
+      <div class="content-detail">院校名称: <span class="normal">{{ postdata.university_cn || '-' }}</span></div>
+      <div class="content-detail">地理位置: <span class="normal">{{ postdata.country_cn || '-' }}</span></div>
+      <div class="content-detail">岗位类型: <span class="normal">{{ postdata.job_cn || '-' }}</span></div>
       <!-- 如果招聘状态为true，则css为active -->
       <!--
       <div class="content-detail">招聘状态: <span :class="postdata.still_open == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
@@ -55,20 +55,16 @@
       </div>
       -->
 
-      
-      <div class="content-description">
-        <h4>职位描述</h4>
-        <div v-html="description"></div>
-      </div> 
+      <div class="content-description"><p>职位描述</p><div v-html="description"></div></div>
     </div>
 
     <!-- 英文情况下 -->
     <div v-if="lang =='en'" class="post-content">
-      <h1 class="content-title">{{ postdata.title_en || 'unknown' }}</h1>
-      <h4 class="content-detail">Publish Date: <span class="normal">{{ postdata.date || 'unknown' }}</span></h4>
-      <h4 class="content-detail">School: <span class="normal">{{ postdata.university_en || 'unknown' }}</span></h4>
-      <h4 class="content-detail">Location: <span class="normal">{{ postdata.country_en || 'unknown' }}</span></h4>
-      <h4 class="content-detail">Type: <span class="normal">{{ postdata.job_en || 'unknown' }}</span></h4>
+      <div class="content-title">{{ postdata.title_en || 'unknown' }}</div>
+      <div class="content-detail">Publish Date: <span class="normal">{{ postdata.date || 'unknown' }}</span></div>
+      <div class="content-detail">School: <span class="normal">{{ postdata.university_en || 'unknown' }}</span></div>
+      <div class="content-detail">Location: <span class="normal">{{ postdata.country_en || 'unknown' }}</span></div>
+      <div class="content-detail">Type: <span class="normal">{{ postdata.job_en || 'unknown' }}</span></div>
       <!-- 如果招聘状态为true，则css为active -->
       <!--
       <div class="content-detail">Status: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusEN }}</span></div>
@@ -97,10 +93,8 @@
         </div>
       </div>
       -->
-      <div class="content-description">
-        <h4>职位描述</h4>
-        <div v-html="description"></div>
-      </div> 
+
+      <div class="content-description"><p>Job Description</p><div v-html="description"></div></div>
     </div>
   </div>
 </template>
@@ -159,8 +153,8 @@ export default {
       }
     },
     description() {
-      // 将\n替换为<br/>
-      return this.postdata?.description?.replace(/\\n/gm,'<br/>') || '';
+      // 将\n替换为<br/>，为url增加<a>
+      return this.postdata?.description?.replace(/\\n/gm,'<br/>').replace(/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/gm, "<a href='$1$2'>$1$2</a>") || '';
     },
   },
 
@@ -214,7 +208,6 @@ export default {
   height: 100%;
   background: #EBEEF5;
   text-align: center;
-  position: absolute;
 }
 
 /* header部分 */
@@ -302,9 +295,10 @@ export default {
   height: 32px;
   left: 68px;
   top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 27px;
   font-style: normal;
   font-weight: 700;
+  font-size: 24px;
   line-height: 32px;
   text-align: left;
   color: rgba(48, 49, 51, 0.9);
@@ -317,14 +311,15 @@ export default {
   margin: 5px 0;
   font-style: normal;
   font-weight: 700;
+  font-size: 13px;
   line-height: 20px;
   text-align: left;
-  color: #636569;
+  color: #909399;
 }
 /* 正常文本 */
 .content-detail .normal{
   font-weight: 400;
-  color: rgba(86, 88, 93, 0.9);
+  color: rgba(144,147,153,0.9);
 }
 /* 申请状态 */
 .content-detail .active{
@@ -389,6 +384,7 @@ export default {
   margin-top: 40px;
   font-style: normal;
   font-weight: 400;
+  font-size: 14px;
   line-height: 20px;
   text-align: left;
   color: rgba(48, 49, 51, 0.9);

@@ -23,12 +23,10 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.21.1",
     "core-js": "^3.19.3",
-    "cos-js-sdk-v5": "^1.4.15",
-    "dayjs": "^1.11.6",
     "deck.gl": "^8.8.20",
+    "dayjs": "^1.11.6",
     "element-ui": "^2.15.6",
     "less": "^4.1.2",
-    "lodash": "^4.17.21",
     "mapbox-gl": "^2.11.1",
     "mapbox-vue": "^0.0.2",
     "nuxt": "^2.15.8",
@@ -55,7 +53,6 @@
     "eslint-plugin-vue": "^8.2.0",
     "jest": "^27.4.4",
     "less-loader": "^6.0.0",
-    "postcss": "^8.4.21",
     "prettier": "^2.5.1",
     "vue-jest": "^3.0.4"
   }
