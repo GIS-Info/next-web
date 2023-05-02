@@ -26,53 +26,35 @@
       </div>
     </div>
     <!-- 帖子内容行 -->
-    <div class="content">
-      <ul class="content-list">
-        <li 
-        v-for="item in contentlist"
-        :key="item.content"
-        class="board"
-        > 
-          <!-- 左侧bander -->
-          <div class="left-label">
-            <span class="label-background"></span>
-            <span class="text-label">招生</span>
-          </div>
-          <!-- 职位详情 -->
-          <div class="detail">
-            <div>
-              <div class="position">地理信息科学研究助理</div>
-              <div>
-                <span class="bold-text">发布时间</span>
-                <span class="normal-text">03 Feb 2022</span>
-              </div>
-              <div>
-                <span class="bold-text">截止日期</span>
-                <span class="normal-text">03 Mar 2022</span>
-              </div>
-              <div>
-                <span class="bold-text">院校名称</span>
-                <span class="normal-text">新加坡国立大学</span>
-              </div>
-            </div>
-          </div>
-          <!-- 右侧bander -->
-          <div class="right-label"> 
-            <div class="background-green">
-            </div>
-            <div class="check"></div>
-          </div>
-        </li>
-      </ul>
-       <!-- 分页 -->
-       <div class="page">
-        <el-pagination
-          layout="prev, pager, next"
-          :page-size="20"
-          :pager-count="7"
-          :total="400">
-        </el-pagination>
-       </div>
+    <el-table class="table" :data="showTableData" border>
+      <el-table-column prop="event_id" label="编号" />
+      <el-table-column prop="title_cn" label="中文标题" />
+      <el-table-column prop="title_en" label="英文标题" />
+      <el-table-column prop="university_cn" label="院校中文名称" />
+      <el-table-column prop="date" label="更新日期" />
+      <el-table-column prop="is_public" label="上架状态" />
+      <el-table-column
+        fixed="right"
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="text" @click="viewPost(scope.row)">查看</el-button>
+          <el-button type="text">编辑</el-button>
+          <el-button v-if="scope.row.is_public === '未上架'" @click="changePostPublicStatus(scope.row, true)" type="text">上架</el-button>
+          <el-button v-if="scope.row.is_public === '已上架'" @click="changePostPublicStatus(scope.row, false)" type="text">下架</el-button>
+          <el-button type="text" @click="deleteItem(scope.row) ">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页 -->
+    <div class="page">
+      <el-pagination
+        layout="prev, pager, next"
+        :page-size="pageSize"
+        :page-index="pageIndex"
+        :total="total"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -114,26 +96,114 @@ export default {
        queryValue: ''
     }
   },
-  methods: {
-    // 选择， 支持多选
-    selectItem() {
-      
-    },
-    // 切换tab
-    changeTab(value) {
-      console.log(8888, value);
-      this.selectedTab = value
-    },
-    // 查询
-    querySearchAsync() {
-
-    },
-    // 模糊搜索选中触发
-    handleSelect() {
-
+  computed: {
+    showTableData() {
+      return this.contentlist.map((l) => {
+        const u = _.cloneDeep(l);
+        u.is_public = l.is_public === 1 ? "已上架" : "未上架"
+        return u;
+      })
     }
-
-  }
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    init() {
+      this.getListData(this.pageSize, this.pageIndex);
+    },
+    goAddPost() {
+      window.open(`https://gisphere.info/addPost`);
+    },
+    viewPost(row) {
+      window.open(`https://gisphere.info/post/${row.event_id}`);
+    },
+    editItem(item) {
+      this.$router.push({
+        path: '/editPost',
+        query: { item },
+      });
+    },
+    /**
+     * 更换当前页
+     * @param {number} val 页数
+     */
+    handleCurrentChange(val) {
+      this.pageIndex = val;
+      this.getListData(this.pageSize, this.pageIndex);
+    },
+    /**
+     * 获取帖子列表
+     * @param {number} pageSize
+     * @param {number} pageIndex
+     */
+    async getListData(pageSize, pageIndex) {
+      const url = 'api/manage/post?pageSize=' + pageSize + '&&pageIndex=' + pageIndex;
+      await this.$axios
+        .$get(url)
+        .then((res) => {
+          this.contentlist = res.data;
+          this.total = res.count;
+        })
+        .catch((e) => {
+          alert(e)
+        })
+    },
+    deleteItem(item) {
+      this.$confirm('此操作将永久删除该帖子, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        })
+        .then(() => {
+          const url = 'api/manage/post/' + item.event_id
+          this.$axios
+            .delete(url)
+            .then((res) => {
+              if (res.data?.msg === 'success') {
+                this.$router.push('/manage/dashboard/');
+                alert('提交成功')
+              } else {
+                alert(res.msg)
+              }
+            })
+            .catch((error) => {
+              console.log('error', error)
+              alert(error)
+            })
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
+    },
+    changePostPublicStatus(row, newStatus) { 
+      const payload = {
+        is_public: newStatus? 1:0,
+      }
+      const url = 'api/manage/post/' + row.event_id
+      this.$axios
+        .post(url, payload)
+        .then((res) => {
+          if (res.data?.msg === 'success') {
+            this.$router.push('/manage/dashboard/');
+            alert('提交成功')
+          } else {
+            alert(res.msg)
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+          alert(error)
+        })
+    }
+  },
 }
 </script>
 
