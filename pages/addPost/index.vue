@@ -72,12 +72,7 @@
         <el-form-item label="正文" required>
           <!-- <el-input v-model="form.detail" type="textarea" :rows="17" placeholder=""></el-input> -->
           <!-- vue-quill-editor 富文本编辑器 -->
-          <div
-            v-quill:myQuillEditor="editorOption" 
-            class="quill-editor"
-            :content="form.description"
-            @change="onEditorChange($event)">
-          </div>
+          <QuillEditor :content.sync="form.description" />
         </el-form-item>
       </el-form>
     </div>
@@ -116,11 +111,9 @@ export default {
         country_id: '',
         description: '',
       },
-      editorOption: {
-      }
-    }
+  };
   },
-  methods: {  
+  methods: {
     onSubmit() {
       console.log('form', this.form)
       if(this.form.description?.length > 20000) {
@@ -149,19 +142,23 @@ export default {
         is_public: 0,
         is_deleted: 0
       }
-      this.$axios.post('/api/post/add/', payload).then((res)=>{
-        if(res.data?.status === '200'){
-          this.$router.push('/manage/dashboard/');
-          alert('提交成功')
-        } else {
-          alert(res.msg)
-        }
-      }).catch(error=>{
-        console.log('error', error)
-        alert(error)
-      });
+        this.$axios.post("/api/post/add/", payload).then((res) => {
+            if (res.data?.status === "200") {
+                this.$message({
+                    type: "success",
+                    message: "提交成功，请等待管理员审核上架",
+                });
+            }
+            else {
+                alert(res.msg);
+            }
+        }).catch(error => {
+            console.log("error", error);
+            alert(error);
+        });
     },
     onReset() {
+      this.editorContent = '';
       this.form = {
         label: [],
         title_cn: '',
@@ -179,14 +176,8 @@ export default {
       };
     },
     onCancel() {
-      this.$router.push('../postList');
+      this.$router.push("../postList");
     },
-    onEditorChange({ editor, html, text }) {
-        console.log('editor change!', editor, html, text)
-        if(html || html === ''){
-          this.form.description = html
-        }
-    }
   }
 }
 </script>
@@ -231,9 +222,6 @@ export default {
   max-width: 1000px;
   .form-title{
     margin-top: 70px;
-  }
-  .quill-editor{
-    height: 500px;
   }
 }
 

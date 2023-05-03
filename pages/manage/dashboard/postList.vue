@@ -127,7 +127,11 @@ export default {
             .then((res) => {
               if (res.data?.msg === 'success') {
                 this.$router.push('/manage/dashboard/');
-                alert('提交成功')
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!',
+                })
+                this.getListData(this.pageSize, this.pageIndex);
               } else {
                 alert(res.msg)
               }
@@ -136,10 +140,6 @@ export default {
               console.log('error', error)
               alert(error)
             })
-          this.$message({
-            type: 'success',
-            message: '删除成功!',
-          })
         })
         .catch(() => {
           this.$message({
@@ -151,14 +151,19 @@ export default {
     changePostPublicStatus(row, newStatus) { 
       const payload = {
         is_public: newStatus? 1:0,
+        event_id: row.event_id,
       }
-      const url = 'api/manage/post/' + row.event_id
+      const url = 'api/manage/post/status'
       this.$axios
         .post(url, payload)
         .then((res) => {
           if (res.data?.msg === 'success') {
             this.$router.push('/manage/dashboard/');
-            alert('提交成功')
+            this.$message({
+              type: 'success',
+              message: '修改成功!',
+            })
+            this.getListData(this.pageSize, this.pageIndex);
           } else {
             alert(res.msg)
           }
