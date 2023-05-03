@@ -18,8 +18,8 @@
         fixed="right"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="viewPost(scope.row)">查看</el-button>
-          <el-button type="text">编辑</el-button>
+          <el-button v-if="scope.row.is_public === '已上架'" type="text" @click="viewPost(scope.row)">查看</el-button>
+          <el-button @click="editPost(scope.row)" type="text">编辑</el-button>
           <el-button v-if="scope.row.is_public === '未上架'" @click="changePostPublicStatus(scope.row, true)" type="text">上架</el-button>
           <el-button v-if="scope.row.is_public === '已上架'" @click="changePostPublicStatus(scope.row, false)" type="text">下架</el-button>
           <el-button type="text" @click="deleteItem(scope.row) ">删除</el-button>
@@ -37,13 +37,17 @@
       >
       </el-pagination>
     </div>
+    <edit-post ref="editPostDialog" @reloadTable="getListData(pageSize, pageIndex)" />
   </div>
 </template>
 
 <script>
-
+import editPost from './components/editPost.vue'
 export default {
   name: 'IndexPage',
+  components: {
+    editPost
+  },
   data() {
     return {
       data: {
@@ -82,11 +86,8 @@ export default {
     viewPost(row) {
       window.open(`https://gisphere.info/post/${row.event_id}`);
     },
-    editItem(item) {
-      this.$router.push({
-        path: '/editPost',
-        query: { item },
-      });
+    editPost(item) {
+      this.$refs.editPostDialog.open(item);
     },
     /**
      * 更换当前页
