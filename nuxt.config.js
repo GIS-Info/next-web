@@ -1,5 +1,7 @@
 // eslint-disable-next-line nuxt/no-cjs-in-config
 const axios = require('axios');
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const webpack = require('webpack')
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -73,7 +75,13 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^element-ui/]
+    transpile: [/^element-ui/],
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ]
   },
   sitemap: {
     path: '/sitemap.xml',

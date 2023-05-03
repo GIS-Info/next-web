@@ -72,12 +72,7 @@
           <el-form-item label="正文" required>
             <!-- <el-input v-model="form.detail" type="textarea" :rows="17" placeholder=""></el-input> -->
             <!-- vue-quill-editor 富文本编辑器 -->
-            <div
-              v-quill:myQuillEditor="editorOption" 
-              class="quill-editor"
-              :content="form.description"
-              @change="onEditorChange($event)">
-            </div>
+            <QuillEditor :content.sync="form.description" />
           </el-form-item>
         </el-form>
       </div>
@@ -226,12 +221,6 @@ export default {
     onCancel() {
       this.$router.push('../postList')
     },
-    onEditorChange({ editor, html, text }) {
-      console.log('editor change!', editor, html, text)
-      if (html || html === '') {
-        this.form.description = html
-      }
-    },
   },
 }
 </script>
@@ -276,9 +265,6 @@ export default {
   max-width: 1000px;
   .form-title {
     margin-top: 70px;
-  }
-  .quill-editor {
-    height: 500px;
   }
 }
 </style>
