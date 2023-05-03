@@ -1,10 +1,8 @@
-<!-- todo: 图片大小压缩，或上传到第三方存储 -->
 <template>
   <client-only>
-    <div class="container">
+    <el-dialog :visible.sync="dialogVisible" @close="dislogCloseHandler" :modal="false" width="80%" title="编辑 GISource 帖子">
       <div class="main">
-        <el-form ref="form" class="form" :model="form" label-position="top" label-width="80px">
-          <h2 class="form-title">编辑 GISource 帖子</h2>
+        <el-form ref="form" class="form" :model="form" label-width="200px">
           <el-form-item label="标题（中文）" required>
             <el-input v-model="form.title_cn" placeholder="输入 GISource 帖子标题（中文）"></el-input>
           </el-form-item>
@@ -76,14 +74,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="bottom-bar">
-        <div class="bottom-button-container">
-          <el-button @click="onCancel">取消</el-button>
-          <el-button @click="onReset">重置表单</el-button>
-          <el-button type="primary" @click="onSubmit">编辑成功</el-button>  
-        </div>
-      </div>
-    </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" :disabled="loading" @click="onSubmit">提交</el-button>  
+      </span>
+    </el-dialog>
   </client-only>
   </template>
     
@@ -96,6 +90,9 @@ export default {
   name: 'AddPost',
   data() {
     return {
+      loading: false,
+      dialogVisible: false,
+      event_id: '',
       form: {
         label: [],
         title_cn: '',
@@ -112,18 +109,37 @@ export default {
         description: '',
       },
       editorOption: {},
-      data: {},
     }
   },
-  mounted() {
-    this.data = this.$route.query?.item;
-    this.setInitialForm();
-  },
   methods: {
+    open(data) {
+      this.setInitialForm(data);
+      this.dialogVisible = true;
+    },
+    // 关闭弹窗的回调
+    dislogCloseHandler() {
+      this.event_id = '';
+      this.form = {
+        label: [],
+        title_cn: '',
+        title_en: '',
+        university_cn: '',
+        university_en: '',
+        university_id: '',
+        job_cn: '',
+        job_en: '',
+        job_id: '',
+        country_cn: '',
+        country_en: '',
+        country_id: '',
+        description: '',
+      }
+    },
     /**
      * 设置表格初始值
      */
-    setInitialForm() {
+    setInitialForm(data) {
+      this.event_id = data.event_id;
       const paramName = [
         'title_cn',
         'title_en',
@@ -139,7 +155,7 @@ export default {
         'description',
       ]
       for (const item of paramName) {
-        this.form[item] = this.data[item]
+        this.form[item] = data[item]
       }
       const labelData = Object.create({
         label_physical_geo: 'Label_Physical_Geo',
@@ -149,12 +165,12 @@ export default {
         label_rs: 'Label_RS',
         label_gnss: 'Label_GNSS',
       })
-
       for (const item in labelData) {
-        if (this.data[item] === 1) {
+        if (data[item] === 1) {
           this.form.label.push(labelData[item])
         }
       }
+      this.loading = false;
     },
     onSubmit() {
       if(this.form.description?.length > 20000) {
@@ -185,13 +201,21 @@ export default {
         is_public: 0,
         is_deleted: 0,
       }
-      const url = 'api/manage/post/' + this.data.event_id
+      const url = 'api/manage/post/' + this.event_id
       this.$axios
         .post(url, payload)
         .then((res) => {
           if (res.data?.msg === 'success') {
             this.$router.push('/manage/dashboard/');
-            alert('提交成功')
+            this.$message({
+              type: "success",
+              message: "编辑成功",
+            });
+            this.$emit('reloadTable')
+            this.loading = true;
+            setTimeout(()=>{
+              this.dialogVisible = false;
+            }, 2000)
           } else {
             alert(res.msg)
           }
@@ -201,66 +225,21 @@ export default {
           alert(error)
         })
     },
-    onReset() {
-      this.form = {
-        label: [],
-        title_cn: '',
-        title_en: '',
-        university_cn: '',
-        university_en: '',
-        university_id: '',
-        job_cn: '',
-        job_en: '',
-        job_id: '',
-        country_cn: '',
-        country_en: '',
-        country_id: '',
-        description: '',
-      }
-    },
-    onCancel() {
-      this.$router.push('../postList')
-    },
   },
 }
 </script>
     
     <style lang="less" scoped>
-.container {
-  width: 100%;
-  height: 100%;
+.main {
+  height: 60vh;
   display: flex;
   flex-direction: column;
-  .main {
-    height: 200px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  .bottom-bar {
-    width: 100%;
-    height: 120px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    background-color: #dcdfe6;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    .bottom-button-container {
-      width: 100%;
-      max-width: 1460px;
-      padding: 35px 10px 35px 10px;
-      display: flex;
-      justify-content: space-between;
-    }
-  }
+  overflow-y: scroll;
+  justify-content: flex-start;
+  align-items: center;
 }
 .form {
-  width: 70%;
+  width: 90%;
   min-width: 500px;
   max-width: 1000px;
   .form-title {
