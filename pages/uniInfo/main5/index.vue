@@ -59,6 +59,7 @@ export default {
                 const country = city? countries.find(c => c.Country_Name_CN === city.Country) : null;
                 return {
                     ...university,
+                    City_Name_CN: city ? city.City_Name_CN : '',
                     Country: city ? city.Country : '',
                     Continent: country ? country.Continent : '',
                 }
@@ -88,11 +89,11 @@ export default {
                 if (!groups[university.Country]) {
                     groups[university.Country] = {};
                 }
-                if (!groups[university.Country][university.City]) {
-                    groups[university.Country][university.City] = [];
+                if (!groups[university.Country][university.City_Name_CN]) {
+                    groups[university.Country][university.City_Name_CN] = [];
                 }
                 // console.log("OK");
-                groups[university.Country][university.City].push(university);
+                groups[university.Country][university.City_Name_CN].push(university);
 
             });
             return groups;
