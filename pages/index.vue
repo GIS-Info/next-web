@@ -461,14 +461,14 @@ export default {
 .intro-tag {
   margin: 16px 151.5px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .tag {
   background-color: #dcdfe6;
   border-radius: 10px;
   height: 60px;
   line-height: 60px;
-  width: 180px;
+  width: 140px;
   font-size: medium;
   text-align: center;
 }
