@@ -217,7 +217,13 @@
         <div class="sponsor-list">
           <div class="sponsor-card" @click="goUrl('https://maptable.com')">
             <b>Maptable</b>
-            <small> 新一代空间数据协同工具</small>
+            <small>
+              {{
+                lang == 'zh'
+                  ? '新一代空间数据协同工具'
+                  : 'Next-Generation Spatial Data Analytics Platform'
+              }}
+            </small>
           </div>
           <div
             class="sponsor-card"
