@@ -51,11 +51,10 @@
       </div>
 
       <!-- Contact Us pop up card -->
-      <div>
+      <div class="contact-us">
         <!-- ZH -->
         <div
           v-if="lang == 'zh'"
-          class="contact-us"
           @mouseover="showContactCard = true"
           @mouseleave="showContactCard = false"
         >
@@ -77,7 +76,6 @@
         <!-- EN -->
         <div
           v-if="lang == 'en'"
-          class="contact-us"
           @mouseover="showContactCard = true"
           @mouseleave="showContactCard = false"
         >
@@ -362,14 +360,10 @@ export default {
 }
 .welcome-content {
   position: absolute;
-  left: calc((492 / 1440) * 100vw);
-  /* left: 93px; */
-  margin-left: -399px;
-  top: calc((427 / 1080) * 100vh);
-  /* top: 376px; */
-  margin-top: -136px;
-  width: 798px;
-  height: 272px;
+  top: 20%;
+  left: 10%;
+  width: auto;
+  height: auto;
 }
 .welcome-heading {
   font-style: normal;
@@ -424,8 +418,8 @@ export default {
 }
 .contact-us {
   position: absolute;
-  bottom: 60px;
-  right: 60px;
+  bottom: 10%;
+  right: 5%;
 }
 .contact-us-card {
   background-color: transparent;
