@@ -197,8 +197,11 @@
             </table>
           </div>
           <div>
-            <a href="https://www.gisphere.net/" target="_blank"
-              ><p class="to-be-added">Full list of institutes</p></a
+            <el-link
+              href="https://www.gisphere.net/"
+              target="_blank"
+              class="to-be-added"
+              >Full list of institutes</el-link
             >
           </div>
         </div>
