@@ -5,41 +5,48 @@
 
       <!-- Welcome content -->
       <div class="welcome-content">
-        <div v-if="lang == 'zh'" class="welcome-heading">时空桥接无限可能</div>
-        <div v-if="lang == 'en'" class="welcome-heading">
-          Where GeoSpatial Thinking Shines
+        <div v-if="lang == 'zh'">
+          <div class="welcome-heading">时空桥接无限可能</div>
+          <div class="welcome-description">
+            致力于分享世界各地 GIS 相关领域教育信息
+          </div>
+          <div class="welcome-buttons">
+            <el-button
+              class="explore-academic-recruiting"
+              @click="goToPostList('academic')"
+              >招生信息</el-button
+            >
+            <el-button
+              class="explore-job-recruiting"
+              @click="goToPostList('job')"
+              >招聘信息</el-button
+            >
+            <el-button class="explore-programs" @click="goToUniversityList"
+              >院校指南</el-button
+            >
+          </div>
         </div>
-        <div v-if="lang == 'zh'" class="welcome-description">
-          致力于分享世界各地 GIS 相关领域教育信息
-        </div>
-        <div v-if="lang == 'en'" class="welcome-description">
-          Empower the GIS-related education for the future
-        </div>
-        <div v-if="lang == 'zh'" class="welcome-buttons">
-          <el-button
-            class="explore-academic-recruiting"
-            @click="goToPostList('academic')"
-            >招生信息</el-button
-          >
-          <el-button class="explore-job-recruiting" @click="goToPostList('job')"
-            >招聘信息</el-button
-          >
-          <el-button class="explore-programs" @click="goToUniversityList"
-            >院校指南</el-button
-          >
-        </div>
-        <div v-if="lang == 'en'" class="welcome-buttons">
-          <el-button
-            class="explore-academic-recruiting"
-            @click="goToPostList('academic')"
-            >Academic Recruiting</el-button
-          >
-          <el-button class="explore-job-recruiting" @click="goToPostList('job')"
-            >Job Recruiting</el-button
-          >
-          <el-button class="explore-programs" @click="goToUniversityList"
-            >School Instruction</el-button
-          >
+        <!-- <div v-if="lang == 'zh'" class="welcome-heading">时空桥接无限可能</div> -->
+        <div v-if="lang == 'en'">
+          <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
+          <div class="welcome-description">
+            Empower the GIS-related education for the future
+          </div>
+          <div class="welcome-buttons">
+            <el-button
+              class="explore-academic-recruiting"
+              @click="goToPostList('academic')"
+              >Academic Recruiting</el-button
+            >
+            <el-button
+              class="explore-job-recruiting"
+              @click="goToPostList('job')"
+              >Job Recruiting</el-button
+            >
+            <el-button class="explore-programs" @click="goToUniversityList"
+              >School Instruction</el-button
+            >
+          </div>
         </div>
       </div>
 
