@@ -140,7 +140,7 @@
                 <td class="uni-content-title"><b>大洋洲</b></td>
                 <td class="uni-content-title"><b>非洲</b></td>
               </tr>
-              <tr v-for="(n, index) in universitiesZH.asia.length" :key="index">
+              <tr v-for="(n, index) in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">{{ universitiesZH.asia[index] }}</td>
                 <!-- <td>{{ index }}</td> -->
                 <td class="uni-content">{{ universitiesZH.na[index] }}</td>
@@ -152,8 +152,12 @@
               </tr>
             </table>
             <div>
-              <a href="https://www.gisphere.net/" target="_blank"
-                ><p class="to-be-added">完整院校列表</p></a
+              <!-- <p class="to-be-added">完整院校列表</p> -->
+              <el-link
+                href="https://www.gisphere.net/"
+                target="_blank"
+                class="to-be-added"
+                >完整院校列表</el-link
               >
             </div>
           </div>
@@ -471,14 +475,14 @@ export default {
 }
 .uni-content-title {
   font-size: 24px;
-  text-align: left;
+  text-align: center;
   padding-bottom: 10px;
 }
 .uni-content {
   width: 20%;
-  height: 3.5rem;
+  height: 2.5rem;
   font-size: 16px;
-  text-align: left;
+  text-align: center;
   letter-spacing: normal;
   vertical-align: text-top;
 }
@@ -528,6 +532,9 @@ export default {
   text-align: center;
   font-display: block;
   font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
 }
 .sponsor-part {
   line-height: 26px;
