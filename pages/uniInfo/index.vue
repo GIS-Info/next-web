@@ -7,83 +7,12 @@
                 @close="handleClose"
                 @select="handSelect">
                 <h2 @click="$router.push('/uniInfo')">院校指南</h2>
-                <el-submenu index="1" >
-                    <template slot="title">
-                        <span>North America</span>
-                    </template>
-                    
-                    <el-submenu index="1-1">
-                        <template slot="title"><span>United States</span></template>
-                        <el-menu-item index="1-1-1" @click="$router.push('/uniInfo/main1')">Eastern United States</el-menu-item>
-                        <el-menu-item index="1-1-2" @click="$router.push('/uniInfo/main2')">Southern United States</el-menu-item>
-                        <el-menu-item index="1-1-2" @click="$router.push('/uniInfo/main2')">Western United States</el-menu-item>
-                    </el-submenu>
-
-                    <el-submenu index="1-2">
-                        <template slot="title"><span>Canada</span></template>
-                    </el-submenu>
-                </el-submenu>
-
-                <el-submenu index="2">
-                    <template slot="title"><span>Europe</span></template>
-
-                    <el-submenu index="2-1">
-                        <template slot="title"><span>Northern Europe</span></template>
-                        <el-menu-item index="2-1-1">Norway</el-menu-item>
-                        <el-menu-item index="2-1-2">Finland</el-menu-item>
-                    </el-submenu>
-
-                    <el-submenu index="2-2">
-                        <template slot="title"><span>Western Europe</span></template>
-                        <el-menu-item index="2-2-1">Germany</el-menu-item>
-                        <el-menu-item index="2-2-2">Netherlands</el-menu-item>
-                    </el-submenu> 
-
-                    <el-submenu index="2-3">
-                        <template slot="title"><span>Eastern Europe</span></template>
-                        <el-menu-item index="2-3-1">Hungary</el-menu-item>
-                        <el-menu-item index="2-3-2">Poland</el-menu-item>
-                    </el-submenu>
-
-                    <el-submenu index="2-4">
-                        <template slot="title"><span>Southern Europe</span></template>
-                        <el-menu-item index="2-4-1">Spain</el-menu-item>
-                        <el-menu-item index="2-4-2">Italy</el-menu-item>
-                    </el-submenu>
-                </el-submenu>
-
-                <el-submenu index="3">
-                    <template slot="title"><span>Asia</span></template>
-
-                    <el-submenu index="3-1">
-                        <template slot="title"><span>Hong Kong, China</span></template>
-                    </el-submenu>
-
-                    <el-submenu index="3-2">
-                        <template slot="title"><span>Singapore</span></template>
-                    </el-submenu>
-                    
-                    <el-submenu index="3-3">
-                        <template slot="title"><span>Korea</span></template>
-                    </el-submenu>
-
-                    <el-submenu index="3-4">
-                        <template slot="title"><span>Japan</span></template>
-                    </el-submenu>
-                </el-submenu>
-
-                <el-submenu index="4">
-                    <template slot="title"><span>Oceania</span></template>
-
-                    <el-submenu index="4-1">
-                        <template slot="title"><span>Australia</span></template>
-                    </el-submenu>
-
-                    <el-submenu index="4-2">
-                        <template slot="title"><span>New Zealand</span></template>
-                    </el-submenu> 
-                </el-submenu>
-                
+                <el-menu-item index="1" @click="$router.push('/uniInfo/main1')">北美洲</el-menu-item>
+                <el-menu-item index="2" @click="$router.push('/uniInfo/main2')">亚洲</el-menu-item>
+                <el-menu-item index="3" @click="$router.push('/uniInfo/main3')">欧洲</el-menu-item>
+                <el-menu-item index="4" @click="$router.push('/uniInfo/main4')">南美洲</el-menu-item>
+                <el-menu-item index="5" @click="$router.push('/uniInfo/main5')">大洋洲</el-menu-item>
+                <el-menu-item index="6" @click="$router.push('/uniInfo/main6')">非洲</el-menu-item>
             </el-menu>
             <nuxt-child></nuxt-child>
 
