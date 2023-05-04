@@ -5,7 +5,7 @@
 
       <!-- Welcome content -->
       <div class="welcome-content">
-        <div v-if="lang == 'zh'">
+        <div v-if="lang == 'zh'" class="zh-letter-spacing">
           <div class="welcome-heading">时空桥接无限可能</div>
           <div class="welcome-description">
             致力于分享世界各地 GIS 相关领域教育信息
@@ -27,7 +27,7 @@
           </div>
         </div>
         <!-- <div v-if="lang == 'zh'" class="welcome-heading">时空桥接无限可能</div> -->
-        <div v-if="lang == 'en'">
+        <div v-if="lang == 'en'" class=".en-letter-spacing">
           <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
           <div class="welcome-description">
             Empower the GIS-related education for the future
@@ -217,7 +217,7 @@
         <div class="sponsor-list">
           <div class="sponsor-card" @click="goUrl('https://maptable.com')">
             <b>Maptable</b>
-            <small>新一代空间数据协同工具</small>
+            <small> 新一代空间数据协同工具</small>
           </div>
           <div
             class="sponsor-card"
@@ -370,7 +370,6 @@ export default {
   font-weight: 800;
   font-size: 50px;
   line-height: 60px;
-  letter-spacing: 2px;
   color: #0073ff;
   /* 保持背景黑色阴影 */
   text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
@@ -379,7 +378,6 @@ export default {
 .welcome-description {
   margin-top: 15px;
   font-size: 20px;
-  letter-spacing: 2px;
   color: #ffffff;
   /* 保持背景黑色阴影 */
   text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
@@ -450,14 +448,12 @@ export default {
 }
 .intro-text-zh {
   line-height: 26px;
-  letter-spacing: 2px;
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
 }
 .intro-text-en {
   line-height: 26px;
-  letter-spacing: 1px;
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
@@ -490,7 +486,6 @@ export default {
   height: 2.5rem;
   font-size: 16px;
   text-align: center;
-  letter-spacing: normal;
   vertical-align: text-top;
 }
 .contact-content {
@@ -545,7 +540,6 @@ export default {
 }
 .sponsor-part {
   line-height: 26px;
-  letter-spacing: 2px;
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
@@ -573,5 +567,11 @@ export default {
 .sponsor-list {
   display: flex;
   justify-content: center;
+}
+.zh-letter-spacing {
+  letter-spacing: 2px;
+}
+.en-letter-spacing {
+  letter-spacing: 1px;
 }
 </style>
