@@ -365,14 +365,12 @@ export default {
 }
 .welcome-content {
   position: absolute;
-  left: calc((492 / 1440) * 100vw);
-  /* left: 93px; */
-  margin-left: -399px;
-  top: calc((427 / 1080) * 100vh);
-  /* top: 376px; */
-  margin-top: -136px;
-  width: 798px;
-  height: 272px;
+  left: 40%;
+  top: 25vh;
+  height: 25vh;
+  margin-left: -30%;
+  margin-right: 10%;
+  margin-top: -12.5vh;
 }
 .welcome-heading {
   font-style: normal;
@@ -395,10 +393,13 @@ export default {
 .welcome-buttons {
   margin-top: 39px;
   margin-bottom: 39px;
-  /* 保持背景黑色阴影 */
   text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
     0 0 80px #1f1f20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
+
 .explore-academic-recruiting {
   border-color: #ffffff;
   background-color: #ffffff;
@@ -582,5 +583,32 @@ export default {
 }
 .en-letter-spacing {
   letter-spacing: 1px;
+}
+@media (max-width: 768px) {
+  .welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
+  .explore-academic-recruiting {
+    border-color: #ffffff;
+    background-color: #ffffff;
+    color: #0073ff;
+    margin-bottom: 1rem;
+  }
+  .explore-job-recruiting {
+    border-color: #ffffff;
+    background-color: transparent;
+    color: #ffffff;
+    margin-left: 0 !important;
+    margin-bottom: 1rem;
+  }
+  .explore-programs {
+    border-color: #0073ff;
+    background-color: transparent;
+    color: #0073ff;
+    margin-left: 0 !important;
+    margin-bottom: 1rem;
+  }
 }
 </style>
