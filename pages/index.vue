@@ -565,6 +565,6 @@ export default {
 }
 .sponsor-list {
   display: flex;
-  justify-content: left;
+  justify-content: center;
 }
 </style>
