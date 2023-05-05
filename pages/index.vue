@@ -2,97 +2,111 @@
   <div class="main" @click.right.prevent @copy.prevent @paste.prevent>
     <div class="welcome-page">
       <map-background />
+
+      <!-- Welcome content -->
       <div class="welcome-content">
-        <div v-if="lang == 'zh'" class="welcome-heading">时空桥接无限可能</div>
-        <div v-if="lang == 'en'" class="welcome-heading">
-          Where GeoSpatial Thinking Shines
+        <div v-if="lang == 'zh'" class="zh-letter-spacing">
+          <div class="welcome-heading">时空桥接无限可能</div>
+          <div class="welcome-description">
+            致力于分享世界各地 GIS 相关领域教育信息
+          </div>
+          <div class="welcome-buttons">
+            <el-button
+              class="explore-academic-recruiting"
+              @click="goToPostList('academic')"
+              >招生信息</el-button
+            >
+            <el-button
+              class="explore-job-recruiting"
+              @click="goToPostList('job')"
+              >招聘信息</el-button
+            >
+            <el-button class="explore-programs" @click="goToUniversityList"
+              >院校指南</el-button
+            >
+          </div>
         </div>
-        <div v-if="lang == 'zh'" class="welcome-description">
-          致力于分享世界各地 GIS 相关领域教育信息
-        </div>
-        <div v-if="lang == 'en'" class="welcome-description">
-          Empower the GIS-related education for the future
-        </div>
-        <div v-if="lang == 'zh'" class="welcome-buttons">
-          <el-button
-            class="explore-academic-recruiting"
-            @click="goToPostList('academic')"
-            >招生信息</el-button
-          >
-          <el-button class="explore-job-recruiting" @click="goToPostList('job')"
-            >招聘信息</el-button
-          >
-          <el-button class="explore-programs" @click="goToUniversityList"
-            >院校指南</el-button
-          >
-        </div>
-        <div v-if="lang == 'en'" class="welcome-buttons">
-          <el-button
-            class="explore-academic-recruiting"
-            @click="goToPostList('academic')"
-            >Academic Recruiting</el-button
-          >
-          <el-button class="explore-job-recruiting" @click="goToPostList('job')"
-            >Job Recruiting</el-button
-          >
-          <el-button class="explore-programs" @click="goToUniversityList"
-            >School Instruction</el-button
-          >
+        <!-- <div v-if="lang == 'zh'" class="welcome-heading">时空桥接无限可能</div> -->
+        <div v-if="lang == 'en'" class=".en-letter-spacing">
+          <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
+          <div class="welcome-description">
+            Empower the GIS-related education for the future
+          </div>
+          <div class="welcome-buttons">
+            <el-button
+              class="explore-academic-recruiting"
+              @click="goToPostList('academic')"
+              >Academic Recruiting</el-button
+            >
+            <el-button
+              class="explore-job-recruiting"
+              @click="goToPostList('job')"
+              >Job Recruiting</el-button
+            >
+            <el-button class="explore-programs" @click="goToUniversityList"
+              >School Instruction</el-button
+            >
+          </div>
         </div>
       </div>
 
-      <div
-        v-if="lang == 'zh'"
-        class="contact-us"
-        @mouseover="showContactCard = true"
-        @mouseleave="showContactCard = false"
-      >
-        <transition name="trans-content">
-          <div v-if="showContactCard" class="contact-us-card">
-            <div class="contact-us-content">
-              <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
-            </div>
-            <div class="contact-us-content">加入微信社区</div>
-            <div class="contact-us-qrcode">
-              <img src="../components/BottomBar/imgs/wechat-qrcode.png" />
-            </div>
-          </div>
-        </transition>
-        <el-button type="info" round class="contact-us-button"
-          >联系我们 / 加入我们</el-button
+      <!-- Contact Us pop up card -->
+      <div>
+        <!-- ZH -->
+        <div
+          v-if="lang == 'zh'"
+          class="contact-us"
+          @mouseover="showContactCard = true"
+          @mouseleave="showContactCard = false"
         >
-      </div>
-
-      <div
-        v-if="lang == 'en'"
-        class="contact-us"
-        @mouseover="showContactCard = true"
-        @mouseleave="showContactCard = false"
-      >
-        <transition name="trans-content">
-          <div v-if="showContactCard" class="contact-us-card">
-            <div class="contact-us-content">
-              <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
+          <transition name="trans-content">
+            <div v-if="showContactCard" class="contact-us-card">
+              <div class="contact-us-content">
+                <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
+              </div>
+              <div class="contact-us-content">加入微信社区</div>
+              <div class="contact-us-qrcode">
+                <img src="../components/BottomBar/imgs/wechat-qrcode.png" />
+              </div>
             </div>
-            <div class="contact-us-content">Join our Whatsapp</div>
-            <div class="contact-us-qrcode">
-              <img src="../static/WhatsApp.png" />
-            </div>
-          </div>
-        </transition>
-        <el-button type="info" round class="contact-us-button"
-          >Contact Us / Join Us</el-button
+          </transition>
+          <el-button type="info" round class="contact-us-button"
+            >联系我们 / 加入我们</el-button
+          >
+        </div>
+        <!-- EN -->
+        <div
+          v-if="lang == 'en'"
+          class="contact-us"
+          @mouseover="showContactCard = true"
+          @mouseleave="showContactCard = false"
         >
+          <transition name="trans-content">
+            <div v-if="showContactCard" class="contact-us-card">
+              <div class="contact-us-content">
+                <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
+              </div>
+              <div class="contact-us-content">Join our Whatsapp</div>
+              <div class="contact-us-qrcode">
+                <img src="../static/WhatsApp.png" />
+              </div>
+            </div>
+          </transition>
+          <el-button type="info" round class="contact-us-button"
+            >Contact Us / Join Us</el-button
+          >
+        </div>
       </div>
     </div>
 
+    <!-- Project Introduction -->
     <div class="field">
       <div v-if="lang == 'zh'" class="introduce-page">
         <div class="intro-title">
           项目介绍
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text">{{ projectIntroZH }}</div>
+        <div class="intro-text-zh">{{ projectIntroZH }}</div>
         <div class="intro-tag">
           <div class="tag">{{ subProject[0] }}</div>
           <div class="tag">{{ subProject[1] }}</div>
@@ -107,7 +121,7 @@
           Project Introduction
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text">{{ projectIntroEN }}</div>
+        <div class="intro-text-en">{{ projectIntroEN }}</div>
         <div class="intro-tag">
           <div class="tag">{{ subProject[0] }}</div>
           <div class="tag">{{ subProject[1] }}</div>
@@ -118,11 +132,12 @@
       </div>
     </div>
 
+    <!-- Universities -->
     <div class="school">
       <div v-if="lang == 'zh'" class="intro-title">
         热门院校
         <hr class="short-horizontal-line" />
-        <div class="intro-text">
+        <div class="intro-text-zh">
           <div>
             <table class="uni-table">
               <tr>
@@ -132,7 +147,7 @@
                 <td class="uni-content-title"><b>大洋洲</b></td>
                 <td class="uni-content-title"><b>非洲</b></td>
               </tr>
-              <tr v-for="(n, index) in universitiesZH.asia.length" :key="index">
+              <tr v-for="(n, index) in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">{{ universitiesZH.asia[index] }}</td>
                 <!-- <td>{{ index }}</td> -->
                 <td class="uni-content">{{ universitiesZH.na[index] }}</td>
@@ -144,8 +159,12 @@
               </tr>
             </table>
             <div>
-              <a href="https://www.gisphere.net/" target="_blank"
-                ><p class="to-be-added">完整院校列表</p></a
+              <!-- <p class="to-be-added">完整院校列表</p> -->
+              <el-link
+                href="https://www.gisphere.net/"
+                target="_blank"
+                class="to-be-added"
+                >完整院校列表</el-link
               >
             </div>
           </div>
@@ -154,7 +173,7 @@
       <div v-if="lang == 'en'" class="intro-title">
         Popular Institutes
         <hr class="short-horizontal-line" />
-        <div class="intro-text">
+        <div class="intro-text-en">
           <div>
             <table class="uni-table">
               <tr>
@@ -164,41 +183,61 @@
                 <td class="uni-content"><b>Oceania</b></td>
                 <td class="uni-content"><b>Africa and South America</b></td>
               </tr>
-              <tr v-for="index in universitiesEN.asia.length" :key="index">
-                <td class="uni-content">{{ universitiesEN.asia[index] }}</td>
-                <td class="uni-content">{{ universitiesEN.na[index] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[index] }}</td>
-                <td class="uni-content">{{ universitiesEN.oceania[index] }}</td>
+              <tr v-for="index in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">
-                  {{ universitiesEN.africaAndLA[index] }}
+                  {{ universitiesEN.asia[index - 1] }}
+                </td>
+                <td class="uni-content">{{ universitiesEN.na[index - 1] }}</td>
+                <td class="uni-content">{{ universitiesEN.eu[index - 1] }}</td>
+                <td class="uni-content">
+                  {{ universitiesEN.oceania[index - 1] }}
+                </td>
+                <td class="uni-content">
+                  {{ universitiesEN.africaAndLA[index - 1] }}
                 </td>
               </tr>
             </table>
           </div>
           <div>
-            <a href="https://www.gisphere.net/" target="_blank"
-              ><p class="to-be-added">Full list of institutes</p></a
+            <el-link
+              href="https://www.gisphere.net/"
+              target="_blank"
+              class="to-be-added"
+              >Full list of institutes</el-link
             >
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Sponsor -->
     <div class="sponsor-part">
       <div class="introduce-page">
         <div class="intro-title">
-          {{ lang == 'zh'? '赞助商':'SPONSOR' }}
+          {{ lang == 'zh' ? '赞助商' : 'SPONSOR' }}
           <hr class="short-horizontal-line" />
         </div>
         <div class="sponsor-list">
           <div class="sponsor-card" @click="goUrl('https://maptable.com')">
             <b>Maptable</b>
-            <small>新一代空间数据协同工具</small>
+            <small>
+              {{
+                lang == 'zh'
+                  ? '新一代空间数据协同工具'
+                  : 'Next-Generation Spatial Data Analytics Platform'
+              }}
+            </small>
           </div>
-          <div class="sponsor-card" @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')">
+          <div
+            class="sponsor-card"
+            @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')"
+          >
             <b>Vision 留学</b>
           </div>
-          <div class="sponsor-card" @click="goUrl('mailto:gisphere@outlook.com')">
+          <div
+            class="sponsor-card"
+            @click="goUrl('mailto:gisphere@outlook.com')"
+          >
             <b v-if="lang == 'zh'">成为赞助商？</b>
             <small v-if="lang == 'zh'">联系 gisphere@outlook.com</small>
             <b v-if="lang == 'en'">Become Sponsor?</b>
@@ -239,6 +278,7 @@ import { mapState } from 'vuex'
 import { isMobile } from '@/utils/index'
 import { ProjectIntro } from '~/utils/ProjectIntro'
 import { universities } from '~/utils/Universities'
+
 export default {
   name: 'IndexPage',
   data() {
@@ -254,6 +294,17 @@ export default {
   },
   computed: {
     ...mapState({ lang: 'language' }),
+    maxUniversitiesListLength() {
+      return Math.max(
+        // Please make sure the number of universities in Chinese and in English
+        // are the same.
+        this.universitiesZH.asia.length,
+        this.universitiesZH.na.length,
+        this.universitiesZH.eu.length,
+        this.universitiesZH.oceania.length,
+        this.universitiesZH.africaAndLA.length
+      )
+    },
   },
   mounted() {
     if (isMobile()) {
@@ -277,7 +328,7 @@ export default {
     goToUniversityList() {
       window.location.href = 'https://www.gisphere.net'
       // 暂时不放出对外的入口，先进行内部测试
-      // this.$router.push('/uniInfo'); 
+      // this.$router.push('/uniInfo');
     },
     goUrl(url) {
       window.location.href = url
@@ -314,39 +365,41 @@ export default {
 }
 .welcome-content {
   position: absolute;
-  left: calc((492 / 1440) * 100vw);
-  /* left: 93px; */
-  margin-left: -399px;
-  top: calc((427 / 1080) * 100vh);
-  /* top: 376px; */
-  margin-top: -136px;
-  width: 798px;
-  height: 272px;
+  left: 40%;
+  top: 25vh;
+  height: 25vh;
+  margin-left: -30%;
+  margin-right: 10%;
+  margin-top: -12.5vh;
 }
 .welcome-heading {
   font-style: normal;
   font-weight: 800;
   font-size: 50px;
   line-height: 60px;
-  letter-spacing: 2px;
   color: #0073ff;
   /* 保持背景黑色阴影 */
-  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20,0 0 60px #1f1f20,0 0 80px #1f1f20
+  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
+    0 0 80px #1f1f20;
 }
 .welcome-description {
   margin-top: 15px;
   font-size: 20px;
-  letter-spacing: 2px;
   color: #ffffff;
   /* 保持背景黑色阴影 */
-  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20,0 0 60px #1f1f20,0 0 80px #1f1f20
+  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
+    0 0 80px #1f1f20;
 }
 .welcome-buttons {
   margin-top: 39px;
   margin-bottom: 39px;
-  /* 保持背景黑色阴影 */
-  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20,0 0 60px #1f1f20,0 0 80px #1f1f20
+  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
+    0 0 80px #1f1f20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
+
 .explore-academic-recruiting {
   border-color: #ffffff;
   background-color: #ffffff;
@@ -403,9 +456,14 @@ export default {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-.intro-text {
+.intro-text-zh {
   line-height: 26px;
-  letter-spacing: 2px;
+  color: #000000;
+  margin-left: 151.5px;
+  margin-right: 151.5px;
+}
+.intro-text-en {
+  line-height: 26px;
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
@@ -413,14 +471,14 @@ export default {
 .intro-tag {
   margin: 16px 151.5px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .tag {
   background-color: #dcdfe6;
   border-radius: 10px;
   height: 60px;
   line-height: 60px;
-  width: 180px;
+  width: 140px;
   font-size: medium;
   text-align: center;
 }
@@ -430,13 +488,15 @@ export default {
 }
 .uni-content-title {
   font-size: 24px;
-  text-align: left;
+  text-align: center;
   padding-bottom: 10px;
 }
 .uni-content {
   width: 20%;
+  height: 2.5rem;
   font-size: 16px;
-  text-align: left;
+  text-align: center;
+  vertical-align: text-top;
 }
 .contact-content {
   width: 50%;
@@ -484,17 +544,19 @@ export default {
   text-align: center;
   font-display: block;
   font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
 }
-.sponsor-part{
+.sponsor-part {
   line-height: 26px;
-  letter-spacing: 2px;
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
   margin-bottom: 100px;
   display: block;
 }
-.sponsor-card{
+.sponsor-card {
   background-color: #efefef;
   border-radius: 10px;
   height: 80px;
@@ -508,12 +570,45 @@ export default {
   cursor: pointer;
   transition: all 0.2s;
 }
-.sponsor-card:hover{
+.sponsor-card:hover {
   transform: translateY(-5px);
   background-color: #f6f4f4;
 }
 .sponsor-list {
   display: flex;
-  justify-content: left;
+  justify-content: center;
+}
+.zh-letter-spacing {
+  letter-spacing: 2px;
+}
+.en-letter-spacing {
+  letter-spacing: 1px;
+}
+@media (max-width: 768px) {
+  .welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
+  .explore-academic-recruiting {
+    border-color: #ffffff;
+    background-color: #ffffff;
+    color: #0073ff;
+    margin-bottom: 1rem;
+  }
+  .explore-job-recruiting {
+    border-color: #ffffff;
+    background-color: transparent;
+    color: #ffffff;
+    margin-left: 0 !important;
+    margin-bottom: 1rem;
+  }
+  .explore-programs {
+    border-color: #0073ff;
+    background-color: transparent;
+    color: #0073ff;
+    margin-left: 0 !important;
+    margin-bottom: 1rem;
+  }
 }
 </style>
