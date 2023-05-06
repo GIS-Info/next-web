@@ -104,7 +104,7 @@ export default {
             return [];
             }
             return this.universities.filter(
-                university => university.City === this.selectedCity && university.Continent === '欧洲'
+                university => university.City_Name_CN === this.selectedCity && university.Continent === '欧洲'
             );
         },
     },
