@@ -326,9 +326,11 @@ export default {
       }
     },
     goToUniversityList() {
-      window.location.href = 'https://www.gisphere.net'
+      // window.location.href = 'https://www.gisphere.net'
       // 暂时不放出对外的入口，先进行内部测试
-      // this.$router.push('/uniInfo');
+
+      //对外入口
+      this.$router.push('/uniInfo');
     },
     goUrl(url) {
       window.location.href = url
