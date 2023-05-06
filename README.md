@@ -1,5 +1,10 @@
 # gis-web-next
 
+GIS 留学指南网站 前端部分
+线上环境 [https://gisphere.info](https://gisphere.info)
+使用以下技术
+Vue2, Nuxt2(SSR), Element UI
+
 ## Build Setup
 
 ```bash
