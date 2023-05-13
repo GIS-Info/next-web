@@ -15,7 +15,8 @@
             (lang == 'zh' ? post.country_cn : post.country_en) || '-'
           }}</span>
           <span
-            >发布于 <b>{{ post.date || '未知时间' }}</b></span
+            >{{ lang == 'zh' ? '发布于' : 'Published on' }}
+            <b>{{ post.date || '未知时间' }}</b></span
           >
         </el-card>
       </div>
