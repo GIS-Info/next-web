@@ -158,7 +158,8 @@ export default {
   },
   head() {
     return {
-      title: this.postdata.title_cn,
+      title:
+        this.lang === 'en' ? this.postdata.title_en : this.postdata.title_cn,
     }
   },
   computed: {
