@@ -315,7 +315,7 @@ export default {
 /* content部分 */
 .post-content {
   padding-bottom: 60px;
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
   background: #ebeef5;
   border-radius: 0px;
@@ -324,8 +324,6 @@ export default {
 .content-title {
   position: relative;
   width: fit-content;
-  /* height: 32px; */
-  left: 68px;
   top: 20px;
   margin-bottom: 50px;
   font-style: normal;
@@ -338,7 +336,6 @@ export default {
   position: relative;
   width: fit-content;
   height: 20px;
-  left: 68px;
   margin: 5px 0;
   font-style: normal;
   font-weight: 700;
@@ -361,7 +358,6 @@ export default {
   /* 定位 */
   position: relative;
   float: left;
-  left: 68px;
   margin: 10px 15px 19px 0;
 }
 .dropdown-button {
@@ -409,8 +405,6 @@ export default {
 /* 其余文本 */
 .content-description {
   position: relative;
-  /* width: 600px; */
-  left: 68px;
   margin-top: 40px;
   font-style: normal;
   font-weight: 400;
