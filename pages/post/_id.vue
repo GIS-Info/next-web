@@ -315,9 +315,8 @@ export default {
 /* content部分 */
 .post-content {
   padding-bottom: 60px;
-  width: 1128px;
-  margin: auto;
-  top: 60px;
+  width: 80%;
+  margin: 0 auto;
   background: #ebeef5;
   border-radius: 0px;
   word-wrap: break-word;
@@ -325,7 +324,7 @@ export default {
 .content-title {
   position: relative;
   width: fit-content;
-  height: 32px;
+  /* height: 32px; */
   left: 68px;
   top: 20px;
   margin-bottom: 50px;
@@ -410,7 +409,7 @@ export default {
 /* 其余文本 */
 .content-description {
   position: relative;
-  width: 600px;
+  /* width: 600px; */
   left: 68px;
   margin-top: 40px;
   font-style: normal;
