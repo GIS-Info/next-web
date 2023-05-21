@@ -85,7 +85,7 @@ export default {
     computed: {
         groupedUniversities() {
             const groups = {};
-            this.universities.filter(university => university.Continent === '北美洲').forEach(university => {
+            this.universities.filter(university => university.Continent === '欧洲').forEach(university => {
                 if (!groups[university.Country]) {
                     groups[university.Country] = {};
                 }
@@ -104,7 +104,7 @@ export default {
             return [];
             }
             return this.universities.filter(
-                university => university.City_Name_CN === this.selectedCity && university.Continent === '北美洲'
+                university => university.City_Name_CN === this.selectedCity && university.Continent === '欧洲'
             );
         },
     },

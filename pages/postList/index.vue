@@ -2,7 +2,6 @@
   <!-- 此页面不做服务端渲染 -->
   <client-only>
     <el-main v-loading="loading" class="main">
-
       <!-- 暂时不显示 banner -->
       <!-- 中文banner -->
       <!--
@@ -97,18 +96,37 @@
     -->
 
       <div class="list">
-        <div v-for="post in postListData" :key="post.event_id" class="entry" @click="goPost(post.event_id)">
-          <div class="entry-title">{{ (lang == 'zh' ? post.title_cn : post.title_en) || '-' }}</div>
+        <div
+          v-for="post in postListData"
+          :key="post.event_id"
+          class="entry"
+          @click="goPost(post.event_id)"
+        >
+          <div class="entry-title">
+            {{ (lang == 'zh' ? post.title_cn : post.title_en) || '-' }}
+          </div>
           <div class="entry-content-brief">{{ post?.description || '-' }}</div>
           <div class="entry-bottom-flex">
-            <span>{{ (lang == 'zh' ? post.country_cn : post.country_en) || '-' }}</span>
-            <span>发布于 <b>{{ post.date || '未知时间' }}</b></span>
+            <span>{{
+              (lang == 'zh' ? post.country_cn : post.country_en) || '-'
+            }}</span>
+            <!-- <span>发布于 <b>{{ post.date || '未知时间' }}</b></span> -->
+            <!-- 改写上面这行代码为：如果是中文的时候就是 ‘发布于’，如果是英文的时候就是 ‘Published on’ -->
+            <span
+              >{{ lang == 'zh' ? '发布于' : 'Published on' }}
+              <b>{{ post.date || '未知时间' }}</b></span
+            >
           </div>
         </div>
 
-        <el-pagination 
-          background layout="prev, pager, next" :current-page="pageIndex" :total="totalCount"
-          :page-size="pageSize" @current-change="handlePageChange">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :current-page="pageIndex"
+          :total="totalCount"
+          :page-size="pageSize"
+          @current-change="handlePageChange"
+        >
         </el-pagination>
       </div>
 
@@ -125,22 +143,36 @@
 
       <!-- 中文filter -->
       <div v-if="lang == 'zh'" class="filter">
-        <div class="filter-title">按内容搜索
-          <hr>
+        <div class="filter-title">
+          按内容搜索
+          <hr />
         </div>
         <div>
-          <input v-model="searchText" type="text" class="search" @keyup.enter="queryBySearchtext()" />
+          <input
+            v-model="searchText"
+            type="text"
+            class="search"
+            @keyup.enter="queryBySearchtext()"
+          />
           <button class="button-search" @click="queryBySearchtext()">
-            <svg class="icon-search" viewBox="0 -3 20 20" xmlns="http://www.w3.org/2000/svg" height="19" width="19">
-              <path 
+            <svg
+              class="icon-search"
+              viewBox="0 -3 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              height="19"
+              width="19"
+            >
+              <path
                 fill-rule="evenodd"
                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"></path>
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </button>
         </div>
-        <div class="filter-title">按截止时间搜索
-          <hr>
+        <div class="filter-title">
+          按截止时间搜索
+          <hr />
         </div>
         <!-- <select class="filter-year">
           <option>2020年</option>
@@ -148,7 +180,13 @@
           <option>2022年</option>
         </select> -->
         <select v-model="selected" class="filter-year">
-          <option v-for="(option, index) in options" :key="index" :value="option.value">{{ option.text }}</option>
+          <option
+            v-for="(option, index) in options"
+            :key="index"
+            :value="option.value"
+          >
+            {{ option.text }}
+          </option>
         </select>
         <!-- <table class="by-month">
           <tr>
@@ -171,18 +209,23 @@
         <table class="by-month">
           <tr>
             <td v-for="month1 in months1" :key="month1">
-              <button class="button-month" @click="queryByDate(month)">{{ month }}月</button>
+              <button class="button-month" @click="queryByDate(month)">
+                {{ month }}月
+              </button>
             </td>
           </tr>
           <tr>
             <td v-for="month2 in months2" :key="month2">
-              <button class="button-month" @click="queryByDate(month)">{{ month }}月</button>
+              <button class="button-month" @click="queryByDate(month)">
+                {{ month }}月
+              </button>
             </td>
           </tr>
         </table>
 
-        <div class="filter-title">按专业领域搜索
-          <hr>
+        <div class="filter-title">
+          按专业领域搜索
+          <hr />
         </div>
         <table class="by-field">
           <tr>
@@ -205,22 +248,36 @@
 
       <!-- 英文filter -->
       <div v-if="lang == 'en'" class="filter">
-        <div class="filter-title">Search by Content
-          <hr>
+        <div class="filter-title">
+          Search by Content
+          <hr />
         </div>
         <div>
-          <input v-model="searchText" type="text" class="search" @keyup.enter="queryBySearchtext()" />
+          <input
+            v-model="searchText"
+            type="text"
+            class="search"
+            @keyup.enter="queryBySearchtext()"
+          />
           <button class="button-search" @click="queryBySearchtext()">
-            <svg class="icon-search" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" height="19" width="19">
+            <svg
+              class="icon-search"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              height="19"
+              width="19"
+            >
               <path
                 fill-rule="evenodd"
                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"></path>
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </button>
         </div>
-        <div class="filter-title">Search by Deadline
-          <hr>
+        <div class="filter-title">
+          Search by Deadline
+          <hr />
         </div>
         <select class="filter-year">
           <option>2020</option>
@@ -248,18 +305,23 @@
         <table class="by-month">
           <tr>
             <td v-for="i in 6" :key="i - 1">
-              <button class="button-month" @click="queryByDate(i)">{{ months[i - 1] }}</button>
+              <button class="button-month" @click="queryByDate(i)">
+                {{ months[i - 1] }}
+              </button>
             </td>
           </tr>
           <tr>
             <td v-for="i in 6" :key="i + 5">
-              <button class="button-month" @click="queryByDate(i + 6)">{{ months[i + 5] }}</button>
+              <button class="button-month" @click="queryByDate(i + 6)">
+                {{ months[i + 5] }}
+              </button>
             </td>
           </tr>
         </table>
 
-        <div class="filter-title">Search by Field
-          <hr>
+        <div class="filter-title">
+          Search by Field
+          <hr />
         </div>
         <table class="by-field">
           <tr>
@@ -279,13 +341,12 @@
           </tr>
         </table>
       </div>
-
     </el-main>
   </client-only>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 // import { options } from 'yargs';
 
 export default {
@@ -302,14 +363,31 @@ export default {
       },
       loading: true,
       selected: '2022',
-      
+
       months1: ['1', '2', '3', '4', '5', '6'], // 上半年
       months2: ['7', '8', '9', '10', '11', '12'], // 下半年
-      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // 英文界面
+      months: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ], // 英文界面
       date: '',
       month: '',
-      options: [{ text: '2020年', value: '2020' }, { text: '2021年', value: '2021' }, { text: '2022年', value: '2022' }]
-    };
+      options: [
+        { text: '2020年', value: '2020' },
+        { text: '2021年', value: '2021' },
+        { text: '2022年', value: '2022' },
+      ],
+    }
   },
   computed: {
     ...mapState({ lang: 'language' }),
@@ -318,123 +396,139 @@ export default {
     // 从url带入的查询类型
     this.filter.queryType = this.$route.query?.type
     // 加载列表数据
-    await this.getPostListData();
+    await this.getPostListData()
   },
   methods: {
     queryBySearchtext() {
-      if(this.month!=='') this.pageIndex=1; // 如果从月份搜索直接跳转到内容搜索，页面也应该重置为1
-      this.$axios.post('api/post_querystring', {
-        queryString: this.searchText,
-        pageIndex: this.pageIndex,
-        pageSize: this.pageSize
-      }).then(res => {
-        if (res?.data?.code === 0) {
-          // 前端做一个提醒以防后端没有数据
-          if (!res.data.data || res.data.data.length === 0) {
-            this.$message({
-              message: '没有相关信息',
-              type: 'error',
-              duration: 1000
-            });
+      if (this.month !== '') this.pageIndex = 1 // 如果从月份搜索直接跳转到内容搜索，页面也应该重置为1
+      this.$axios
+        .post('api/post_querystring', {
+          queryString: this.searchText,
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize,
+        })
+        .then((res) => {
+          if (res?.data?.code === 0) {
+            // 前端做一个提醒以防后端没有数据
+            if (!res.data.data || res.data.data.length === 0) {
+              this.$message({
+                message: '没有相关信息',
+                type: 'error',
+                duration: 1000,
+              })
+            }
+            // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+            this.postListData = res.data.data.map((i) => {
+              const l = { ...i }
+              l.description = i.description
+                .replace(/(<([^>]+)>)/g, '')
+                .replace(/\\n/g, '')
+              return l
+            })
+            this.totalCount = res.data.count
+          } else {
+            alert('请求错误: ' + res.msg)
           }
-          // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
-          this.postListData = res.data.data.map((i) => {
-            const l = {...i}
-            l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
-            return l;
-          });
-          this.totalCount = res.data.count;
-        } else {
-          alert('请求错误: ' + res.msg)
-        }
-      }).catch(error => {
-        alert(error);
-      })
+        })
+        .catch((error) => {
+          alert(error)
+        })
     },
     queryByDate(e) {
-      if(e!==this.month) this.pageIndex=1; // 如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
-      this.date = this.selected + '-' + e;
-      this.month = e;
-      this.$axios.get('api/post_closedate', {
-        params: {
-          year: this.selected, // 选择的年份
-          month: e, // 选择的月份
-          pageSize: this.pageSize,
-          pageIndex: this.pageIndex
-        }
-      }).then(res => {
-        if (res?.data?.code === 0) {
-          if (!res.data.data || res.data.data.length === 0) {
-            this.$message({
-              message: '没有相关信息',
-              type: 'error',
-              duration: 1000
-            });
+      if (e !== this.month) this.pageIndex = 1 // 如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
+      this.date = this.selected + '-' + e
+      this.month = e
+      this.$axios
+        .get('api/post_closedate', {
+          params: {
+            year: this.selected, // 选择的年份
+            month: e, // 选择的月份
+            pageSize: this.pageSize,
+            pageIndex: this.pageIndex,
+          },
+        })
+        .then((res) => {
+          if (res?.data?.code === 0) {
+            if (!res.data.data || res.data.data.length === 0) {
+              this.$message({
+                message: '没有相关信息',
+                type: 'error',
+                duration: 1000,
+              })
+            }
+            // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+            this.postListData = res.data.data.map((i) => {
+              const l = { ...i }
+              l.description = i.description
+                .replace(/(<([^>]+)>)/g, '')
+                .replace(/\\n/g, '')
+              return l
+            })
+            this.totalCount = res.data.count
+          } else {
+            alert('请求错误: ' + res.msg)
           }
-          // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
-          this.postListData = res.data.data.map((i) => {
-            const l = {...i}
-            l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
-            return l;
-          });
-          this.totalCount = res.data.count;
-        } else {
-          alert('请求错误: ' + res.msg)
-        }
-      }).catch(error => {
-        alert(error);
-      })
+        })
+        .catch((error) => {
+          alert(error)
+        })
     },
     goPost(id) {
-      this.$router.push('/post/' + id.toString());
+      this.$router.push('/post/' + id.toString())
     },
     goAddPost() {
-      this.$router.push('/addPost');
+      this.$router.push('/addPost')
     },
     getPostListData() {
-      this.loading = true;
-      return this.$axios.get('/api/post', {
-        params: {
-          pageSize: this.pageSize,
-          pageIndex: this.pageIndex,
-          // date:this.date//把按日期搜索合并在这里方便翻页的时候请求数据
-        }
-      }).then(res => {
-        if (res?.data?.code === 0) {
-          // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
-          this.postListData = res.data.data.map((i) => {
-            const l = {...i}
-            l.description = i.description.replace(/(<([^>]+)>)/g, "").replace(/\\n/g, "");
-            return l;
-          });
-          this.totalCount = res.data.count;
-        } else {
-          alert('请求错误: ' + res.msg)
-        }
-        this.loading = false
-      }).catch(error => {
-        alert(error);
-        this.loading = false
-      });
+      this.loading = true
+      return this.$axios
+        .get('/api/post', {
+          params: {
+            pageSize: this.pageSize,
+            pageIndex: this.pageIndex,
+            // date:this.date//把按日期搜索合并在这里方便翻页的时候请求数据
+          },
+        })
+        .then((res) => {
+          if (res?.data?.code === 0) {
+            // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+            this.postListData = res.data.data.map((i) => {
+              const l = { ...i }
+              l.description = i.description
+                .replace(/(<([^>]+)>)/g, '')
+                .replace(/\\n/g, '')
+              return l
+            })
+            this.totalCount = res.data.count
+          } else {
+            alert('请求错误: ' + res.msg)
+          }
+          this.loading = false
+        })
+        .catch((error) => {
+          alert(error)
+          this.loading = false
+        })
     },
     handlePageChange(i) {
-      this.pageIndex = i;
+      this.pageIndex = i
       if (this.date !== '') {
-        this.queryByDate(this.month);
+        this.queryByDate(this.month)
       } // 如果之前按照日期搜索成功了，那么记录下这个信息，用于翻页时的下次请求
-      else if (this.searchText !== '') this.queryBySearchtext();
-      else this.getPostListData(); // 否则正常翻页所有的数据
+      else if (this.searchText !== '') this.queryBySearchtext()
+      else this.getPostListData() // 否则正常翻页所有的数据
     },
     error(err) {
-      alert(err);
+      alert(err)
     },
-  }
+  },
 }
 </script>
 
 <style scoped>
 .main {
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   text-align: center;
   width: 100%;
   height: 100%;
@@ -448,7 +542,7 @@ export default {
   height: 50px;
   left: 0px;
   top: 0px;
-  background: #F5F7FA;
+  background: #f5f7fa;
   box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
   border-radius: 0px;
 }
@@ -463,7 +557,7 @@ export default {
   /* Button Feature */
   line-height: 20px;
   text-align: center;
-  background: #7CE3B3;
+  background: #7ce3b3;
   border-radius: 20px;
   border-width: 0px;
   padding: 5px 15px;
@@ -483,14 +577,14 @@ export default {
   display: inline-block;
   border-radius: 20px;
   font-size: 12px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #303133;
 }
 
 .dropdown-content a:hover {
-  box-shadow: 0px 0 15px #7CE3B3;
+  box-shadow: 0px 0 15px #7ce3b3;
   border-radius: 20px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .dropdown:hover .dropdown-content {
@@ -535,7 +629,8 @@ export default {
 
 .reset_button {
   /* Font and Color */
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -544,7 +639,7 @@ export default {
   /* Button Feature */
   line-height: 20px;
   text-align: center;
-  background: #E6A23C;
+  background: #e6a23c;
   border-radius: 20px;
   border-color: black;
   border-width: 0px;
@@ -564,7 +659,8 @@ export default {
 
 .addPost_button {
   /* Font and Color */
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -572,9 +668,9 @@ export default {
   color: rgba(48, 49, 51, 0.75);
   /* Button Feature */
   text-align: center;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 20px;
-  border-color: #7CE3B3;
+  border-color: #7ce3b3;
   border-width: 5px;
   padding: 0px 10px;
   cursor: pointer;
@@ -587,7 +683,7 @@ export default {
 }
 
 .addPost_button:hover {
-  background-color: #DCDFE6;
+  background-color: #dcdfe6;
 }
 
 .list {
@@ -602,7 +698,7 @@ export default {
   margin-bottom: 8px;
   display: flex;
   flex-direction: column;
-  background-color: #F5F7FA;
+  background-color: #f5f7fa;
   height: 65px;
   cursor: pointer;
   overflow: hidden;
@@ -655,18 +751,18 @@ export default {
   width: 40px;
   color: #909399;
   cursor: pointer;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transition: all 0.3s ease 0s;
   border-radius: 25px;
 }
 
 .button-page:hover {
-  background-color: #7CE3B3;
+  background-color: #7ce3b3;
   color: black;
 }
 
 .button-page:active {
-  box-shadow: 0px 0 15px #7CE3B3;
+  box-shadow: 0px 0 15px #7ce3b3;
 }
 
 .button-changePage {
@@ -704,10 +800,10 @@ export default {
   max-width: 500px;
   border-radius: 20px;
   outline: none;
-  border: 3px solid #7CE3B3;
+  border: 3px solid #7ce3b3;
   padding: 0 20px;
   color: #606266;
-  background: #FFFFFF;
+  background: #ffffff;
   margin-top: 20px;
 }
 
@@ -719,7 +815,7 @@ export default {
   border: 0;
   outline: none;
   cursor: pointer;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transition: all 0.3s ease 0s;
   margin-bottom: 50px;
 }
@@ -729,16 +825,16 @@ export default {
 }
 
 .filter-title hr {
-  background-color: #7CE3B3;
-  border: 1px solid #7CE3B3;
-  width: 35%
+  background-color: #7ce3b3;
+  border: 1px solid #7ce3b3;
+  width: 35%;
 }
 
 .filter-year {
   position: relative;
   top: 20px;
   left: 0px;
-  border: 0px solid #7CE3B3;
+  border: 0px solid #7ce3b3;
   padding: 5px;
   word-spacing: 30px;
 }
@@ -760,12 +856,12 @@ export default {
   width: 40px;
   color: #909399;
   cursor: pointer;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transition: all 0.3s ease 0s;
 }
 
 .button-month:hover {
-  background-color: #7CE3B3;
+  background-color: #7ce3b3;
   color: #303133;
 }
 
@@ -778,19 +874,19 @@ export default {
 }
 
 .button-field {
-  border-color: #DCDFE6;
+  border-color: #dcdfe6;
   border-width: 1px;
   border-radius: 20px;
   height: 30px;
   width: 120px;
   color: #909399;
   cursor: pointer;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transition: all 0.3s ease 0s;
 }
 
 .button-field:hover {
-  background-color: #7CE3B3;
+  background-color: #7ce3b3;
   color: #303133;
 }
 </style>
