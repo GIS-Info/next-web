@@ -2,10 +2,11 @@
   <div class="list">
     <div v-for="person in staffs" :key="person.name" class="card">
       <a class="imgBox" :href="person.link">
-        <img :src="person.img" />
+        <!-- 如果没有头像则填充默认头像 -->
+        <img :src="person.img || 'https://img1.imgtp.com/2023/05/21/huwS9y1u.png'" />
       </a>
       <a :href="person.link" class="name">{{ person.name }}</a>
-      <a :href="`mailto:${ person.email }`" class="email">{{ person.email }}</a>
+      <a v-if="person.email" :href="`mailto:${ person.email }`" class="email">{{ person.email }}</a>
     </div>
   </div>
 </template>
