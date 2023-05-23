@@ -76,7 +76,7 @@ export default {
 <style lang="less" scoped>
 .bg {
   width: 100%;
-  height: 40%;
+  height: 18.75rem;
   background: #dcdfe6;
   display: flex;
   flex-direction: column;
@@ -99,7 +99,6 @@ export default {
     margin: 0px 20% 0px 20%;
   }
   .links-container {
-    margin-top: -10px;
     text-align: center;
     .link {
       margin: 0px 10px 0px 10px;
