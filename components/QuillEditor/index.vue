@@ -19,7 +19,7 @@ export default {
       editorOption: {
             modules: {
                 toolbar: {
-                  container: ["background", "bold", "color", "italic", "link", "image", "video"],
+                  container: ["bold", "italic", "link", "image", "video"],
                   handlers: {
                     image: () => {
                       const range = this.myQuillEditor.getSelection();
