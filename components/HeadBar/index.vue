@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="title-div" @click="goHomePage">
-      <img class="logo" src="./logo.svg" />
+      <img class="logo" src="./logo.png" />
       <span class="title-text">GISphere</span>
     </div>
     <!-- 中文情况下的链接 -->
