@@ -183,12 +183,7 @@ export default {
     description() {
       // 将\n替换为<br/>
       return (
-        this.postdata?.description
-          ?.replace(/\\n/gm, '<br/>')
-          .replace(
-            /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/gm,
-            "<a href='$1$2'>$1$2</a>"
-          ) || ''
+        this.postdata?.description?.replace(/\\n/gm, '<br/>') || ''
       )
     },
   },
