@@ -44,8 +44,9 @@ export default {
       align-items: center;
       justify-content: center;
       img{
-        width: 120px;
-        height: 120px;
+        object-fit: contain;
+        max-width: 120px;
+        max-height: 120px;
         border-radius: 10px;
       }
     }
