@@ -43,8 +43,9 @@ export default {
       align-items: center;
       justify-content: center;
       img{
-        width: 20vw;
-        height: 20vw;
+        object-fit: contain;
+        max-width: 20vw;
+        max-height: 20vw;
         border-radius: 2vw;
       }
     }
