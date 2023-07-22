@@ -25,17 +25,17 @@
         <el-tab-pane label="GISalon 圆桌" name="gisalon">
           <satff-list :staffs="info.gisalon" />
         </el-tab-pane>
-        <el-tab-pane label="媒体组" name="media">
-          <satff-list :staffs="info.media" />
+        <el-tab-pane label="GISpread 媒体组" name="media">
+          <satff-list :staffs="info.gispread" />
         </el-tab-pane>
         <el-tab-pane label="宣传组" name="publicity">
           <satff-list :staffs="info.publicity" />
         </el-tab-pane>
-        <el-tab-pane label="设计组" name="design">
-          <satff-list :staffs="info.design" />
+        <el-tab-pane label="GIStudio 设计组" name="design">
+          <satff-list :staffs="info.gistudio" />
         </el-tab-pane>
-        <el-tab-pane label="访谈" name="interview">
-          <satff-list :staffs="info.interview" />
+        <el-tab-pane label="GIStory 访谈" name="interview">
+          <satff-list :staffs="info.gistory" />
         </el-tab-pane>
         <el-tab-pane label="alumni" name="alumni">
           <satff-list :staffs="info.alumni" />
