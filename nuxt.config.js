@@ -18,7 +18,7 @@ export default {
       { hid: 'keywords', name: 'keywords', content: 'GIS, 留学, GISphere' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' }],
     bodyAttrs: {
       style: 'margin: 0'
     }

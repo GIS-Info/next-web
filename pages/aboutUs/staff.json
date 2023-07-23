@@ -1,44 +1,767 @@
 {
-  "gisinfo": [
-    {"name": "叶山", "email": "yeshantulsa@hotmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/7e8c161f3ff798b5.png", "link": "https://www.ye-shan.com/"},
-    {"name": "张景源", "email": "kianzh@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/56d87131533dcc32.jpeg", "link": "http://sgis.site"},
-    {"name": "李八一", "email": "barryli081@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/dc197214cf5ba92b.jpeg", "link": "http://81city.top/"},
-    {"name": "苏昊睿", "email": "haoruisu@163.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/2dbd860286f492f2.png", "link": "https://github.com/ShelbertT"},
-    {"name": "马秀梅", "email": "1978862253@qq.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/0b889f4c72139cea.png", "link": ""},
-    {"name": "朱相怡", "email": "xiangyi.zhu@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/5175e85e734a928b.jpeg", "link": "https://github.com/Xiangyi-Zhu"},
-    {"name": "成诚", "email": "gaussc@sjtu.edu.cn", "img": "https://s3.bmp.ovh/imgs/2022/04/10/cd68b183c4a48532.jpeg", "link": "https://gaussc10032.github.io"},
-    {"name": "张心怡", "email": "zhangxinyi1110@163.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/d76ac82f84ee3521.jpeg", "link": "https://lunnyria.github.io/"},
-    {"name": "孙怡飞", "email": "dddoctorr612@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/d4314bcb58f4aaa5.jpeg", "link": ""},
-    {"name": "吴玉婷", "email": "349361652@qq.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/baa63530116fa115.jpg", "link": "https://github.com/yuting816"},
-    {"name": "陈鹏宇", "email": "andyphilharmonic@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/65011b490273e6b3.jpeg", "link": "https://github.com/spacecow-boy"},
-    {"name": "李川泽", "email": "li614243403@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/27e8a85cc5d75f93.jpeg", "link": "https://github.com/lee-chuanze"},
-    {"name": "张紫葳", "email": "ziweizhang96@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/08b16d71ac139685.jpeg", "link": ""},        
-    {"name": "周冰", "email": "bing_zhou_barrett@hotmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/c581f11df8079270.jpeg", "link": "https://spgbarrett.github.io/bing-zhou.io/"},        
-    {"name": "林熙哲", "email": "rayinnz1999@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/4000384f60eb3537.jpeg", "link": "https://github.com/RaysLinn"},        
-    {"name": "王轩昊", "email": "Xuanh.W@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/10ba45a4f3ae25c3.jpeg", "link": "https://github.com/Rainlv"},        
-    {"name": "彭建", "email": "pjwhusir@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/4b437562aeb04dfa.png", "link": "https://github.com/pengjeck"},        
-    {"name": "胡洛铭", "email": "huluoming98@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/10/2b78be43bec0914d.jpeg", "link": ""},
-    {"name": "周智杰", "email": "zhou-zj@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/11/5ba5bf666ca0a0bc.png", "link": "https://zjalexzhou.github.io/portfolio"},
-    {"name": "李秦家妹", "email": "l1075651504@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/11/b389c19870ee64b7.jpeg", "link": ""},
-    {"name": "孙婉莹", "email": "Wany.Sun@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/11/417ecc0aad6daf34.jpeg", "link": "https://github.com/YingLSCF"},
-    {"name": "李长斯", "email": "peland@163.com", "img": "https://s3.bmp.ovh/imgs/2023/01/17/ec4f978812c7613a.jpg", "link": "https://github.com/LArk-root"},
-    {"name": "冯国泉", "email": "guoquanfeng94@gmail.com", "img": "https://s3.bmp.ovh/imgs/2022/04/11/962890d0cfd1a35d.jpeg", "link": ""},
-    {"name": "顾芷宁", "email": "zhininggu@outlook.com", "img": "https://s3.bmp.ovh/imgs/2022/04/18/9e56cee187b71b36.jpeg", "link": ""},
-    {"name": "崔云鹤", "email": "yunhe.cui@uconn.edu", "img": "https://s3.bmp.ovh/imgs/2022/04/18/1ee00174c837c860.jpeg", "link": "https://github.com/yunhecui"},
-    {"name": "阎旭", "email": "nmgcfyx@126.com", "img": "https://s3.bmp.ovh/imgs/2022/04/18/92ec718a0d52a878.png", "link": ""},
-    {"name": "汪妮娜", "email": "", "img": "", "link": ""},
-    {"name": "刘玲", "email": "", "img": "", "link": ""},
-    {"name": "陈奕赫", "email": "", "img": "", "link": ""},
-    {"name": "陈彦冰", "email": "", "img": "", "link": ""},
-    {"name": "童馨仪", "email": "", "img": "", "link": ""},
-    {"name": "孙茂然", "email": "", "img": "", "link": ""},
-    {"name": "张晶睿", "email": "", "img": "", "link": ""}
+  "gisphere": [
+    {
+      "name": "郑安然",
+      "email": "anranzheng@ufl.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugyes1L5l1Ka7946TVoi9lz-120_120.jpeg",
+      "link": "https://anranz.netlify.app/"
+    },
+    {
+      "name": "顾弘开",
+      "email": "hongkai.gu@ugent.be",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui9HBIvQtFOm4rSwGGAz2Kc-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/hongkai-gu-bb4272117"
+    },
+    {
+      "name": "刘昱妍",
+      "email": "liuyuyan99629@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuijXs7tWQBHQa_J7-dBbD8M-120_120.jpeg",
+      "link": "www.linkedin.com/in/yuyan-liu-nus99629"
+    },
+    {
+      "name": "胡志韧",
+      "email": "zh443@cornell.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhBqiZpWYNO6or-xI4OJIa2-120_120.jpeg",
+      "link": "https://zhirenhu.weebly.com/"
+    },
+    {
+      "name": "刘昊坤",
+      "email": "eugeneliuhaokun@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugLqqVBkwlP25qeKJCSRFbB-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/haokun-liu-59900517b/"
+    },
+    {
+      "name": "崔云鹤",
+      "email": "yunhecui95@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuje_NLviQNBjr6lCqPC7RfA-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/yunhe-cui/"
+    },
+    {
+      "name": "孙怡飞",
+      "email": "dddoctorr612@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj3ESf0pkpI86PDmzfw5jXw-120_120.jpeg",
+      "link": "http://www.linkedin.com/in/yifei-sun-472084207"
+    },
+    {
+      "name": "邹昱明",
+      "email": "yzou76@GaTech.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujT5yMlHFxL6LKh6t4TGSgs-120_120.jpeg",
+      "link": "linkedin.com/in/ymaggiez/"
+    },
+    {
+      "name": "张心怡",
+      "email": "zhangxinyi1110@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhoFsdwpTJByIdM1zdkm5SM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "饶锦蒙",
+      "email": "jinmengrao@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujEwLMkoURKB7WzB4OVHnEN-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/jinmeng-rao-5b4438121/"
+    },
+    {
+      "name": "任泽茜",
+      "email": "zexiren@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujrB88zts1LXb29qdvCBJ58-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "李梦琪",
+      "email": "mengqi.li0907@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj_PVpt5O9DE4gw6B-obTJN-120_120.jpeg",
+      "link": "https://www.linkedin.cn/incareer/in/ACoAAD2Jl84Bhnh6mfhCbxbZI2IpOuTt6KK91mg"
+    },
+    {
+      "name": "卜仁豪",
+      "email": "burenhao@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui9drh_lvBDdL6s-bMlEOWv-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "田浩",
+      "email": "houhtien@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujiv65hgOhNhotKyuqsn8AL-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "闫雪",
+      "email": "yanxue171@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuioKk0iBm9E36islhvmjzoh-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "杨俊柳",
+      "email": "yangjunliu0413@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujVwB3F_UhE0KRGRl0RVWi4-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "周俊奕",
+      "email": "emilyz112@icloud.com",
+      "img": "",
+      "link": ""
+    }
   ],
-  "gisphere": [],
-  "gisource": [],
-  "gispace": [],
-  "gisalon": [],
-  "media": [],
-  "design": [],
-  "alumni": []
+  "gispace": [
+    {
+      "name": "刘昱妍",
+      "email": "liuyuyan99629@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuijXs7tWQBHQa_J7-dBbD8M-120_120.jpeg",
+      "link": "www.linkedin.com/in/yuyan-liu-nus99629"
+    },
+    {
+      "name": "周智杰",
+      "email": "zhou-zj@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugmHpWPUjJO2oIOvQgi9J0E-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "裴政皓",
+      "email": "pzhdsg@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui9el3w-opPY50nce-w_Une-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/zhenghao1999/"
+    },
+    {
+      "name": "胡志韧",
+      "email": "zh443@cornell.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhBqiZpWYNO6or-xI4OJIa2-120_120.jpeg",
+      "link": "https://zhirenhu.weebly.com/"
+    },
+    {
+      "name": "李思高",
+      "email": "sigao.li@ryerson.ca",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhP62bbftJDB5Zjq7dyr-Rz-120_120.jpeg",
+      "link": "https://www.sigaoli.com/"
+    }
+  ],
+  "gisinfo": [
+    {
+      "name": "陈彦冰",
+      "email": "dearyanbingchen@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj0bO7ya1hIPpcfC68wLzWo-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/yanbingc/"
+    },
+    {
+      "name": "陈鹏宇",
+      "email": "Pengyu-CHEN@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui13-r7D8pDPLaVsCX03oY6-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/pengyu-chen-a07973181/"
+    },
+    {
+      "name": "张景源",
+      "email": "kianzh@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj4EcKdqoJMVonNiDeEQ-67-120_120.png",
+      "link": "http://sgis.site"
+    },
+    {
+      "name": "周冰",
+      "email": "bing_zhou_barrett@hotmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui85cZauNhCSb7ZvzXYw5XM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "孙怡飞",
+      "email": "dddoctorr612@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj3ESf0pkpI86PDmzfw5jXw-120_120.jpeg",
+      "link": "http://www.linkedin.com/in/yifei-sun-472084207"
+    },
+    {
+      "name": "邹昱明",
+      "email": "yzou76@GaTech.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujT5yMlHFxL6LKh6t4TGSgs-120_120.jpeg",
+      "link": "linkedin.com/in/ymaggiez/"
+    },
+    {
+      "name": "张心怡",
+      "email": "zhangxinyi1110@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhoFsdwpTJByIdM1zdkm5SM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "李牧芊芊",
+      "email": "lmqq2201@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhcuH9bEblIfJ2Hd6LUF50H-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "叶山",
+      "email": "yeshantulsa@hotmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugqr9pNMLhNS4a5gsMS1rQN-120_120.jpeg",
+      "link": "https://yeshan-geo.github.io/"
+    },
+    {
+      "name": "王轩昊",
+      "email": "xuanh.w@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/61002778-120_120.jpg",
+      "link": "http://blog.rainna.xyz/about/"
+    },
+    {
+      "name": "林熙哲",
+      "email": "rayinnz1999@gmail.com ",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNug02LG4CB9Cx6hl62IaiF4_-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/xizhe-lin/"
+    },
+    {
+      "name": "李秦家妹",
+      "email": "l1075651504@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujwNryYRU5JYa2liuETxYL6-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/qinjiamei-li"
+    },
+    {
+      "name": "郑康予",
+      "email": "zkysfls@gmai.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "汪妮娜",
+      "email": "nw365@cornell.edu ",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujruSvM5ElKq6PEv4lvXWVP-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "李川泽",
+      "email": "li614243403@gmail.com ",
+      "img": "",
+      "link": "https://www.linkedin.com/in/chuanze-li-8a19991b9"
+    },
+    {
+      "name": "童馨仪",
+      "email": "tongxinyi0215@126.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugZXGbneNxE3Y1jdxHT_I1N-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "彭建",
+      "email": "pjwhusir@gmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "顾芷宁",
+      "email": "zhiningg@asu.edu",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "陈钰煊",
+      "email": "r3c0n11@protonmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "李长斯",
+      "email": "peland@163.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "陈潇",
+      "email": "xiaochen82028@gmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "岳皓宇",
+      "email": "yohaoyu@washington.edu ",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugAfbwUc-FHRKzPI7TqpH2b-120_120.jpeg",
+      "link": "yohaoyu.github.io "
+    },
+    {
+      "name": "孙茂然",
+      "email": "s.maoran@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugkDXOKMDVHKJwdBgcyoyB4-120_120.jpeg",
+      "link": "https://www.maoran.io/"
+    },
+    {
+      "name": "吴竹馨",
+      "email": "wuzhuxin0707@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugHXt5QL6lCr5MJdNnO_Jvh-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "孙婉莹",
+      "email": "wany.sun@outlook.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "刘羽杰",
+      "email": "liuyujie_geo_sysu@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhg5-R0_FFJn7REG2pS0ojp-120_120.jpeg",
+      "link": ""
+    }
+  ],
+  "gisalon": [
+    {
+      "name": "周冰",
+      "email": "bing_zhou_barrett@hotmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui85cZauNhCSb7ZvzXYw5XM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "侯策",
+      "email": "ce.hou.gis@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiS6KaKhnVGtKeDngdh47XO-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "岳璐妃",
+      "email": "yuelufei1999@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujykXF3IpFHjoRjSjZQc8Pg-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "王亦康",
+      "email": "yikang.wang.21@ucl.ac.uk",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiuKVAEVzxFN7Iq679LO4bW-120_120.jpeg",
+      "link": "https://yikang.site/"
+    },
+    {
+      "name": "郑安然",
+      "email": "anranzheng@ufl.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugyes1L5l1Ka7946TVoi9lz-120_120.jpeg",
+      "link": "https://anranz.netlify.app/"
+    },
+    {
+      "name": "康雨豪",
+      "email": "kkyyhh96@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj9ggiosNlIH4EdyrC6RJT--120_120.png",
+      "link": ""
+    },
+    {
+      "name": "焦元堃",
+      "email": "yuankunjiao@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiW9udMHotNQZTWJdFDLHNK-120_120.jpeg",
+      "link": "http://linkedin.com/in/yuankun-jiao"
+    },
+    {
+      "name": "林艺琳",
+      "email": "adelalin2000@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugD4V4Fs3xGE5wPgzki6uaT-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/yilin-lin-45299a216/"
+    },
+    {
+      "name": "王柯津",
+      "email": "wangkj_10@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhJHjeogAFIrK-LprFqfWnO-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "王克力",
+      "email": "keli.wang@tum.de",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugApyRgnMRGu6QAsKvsJA0m-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "刘心怡",
+      "email": "ciny0205@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuimRbN3l31Nm67SU5X51BiE-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "周珍琦",
+      "email": "zhenqizh@buffalo.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujwXL-m_8RD85-yEc8qit4N-120_120.jpeg",
+      "link": "http://ryanzhenqizhou.site/"
+    },
+    {
+      "name": "魏赞美",
+      "email": "204108712@qq.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiM0RXvX7xD5rh5LxeOGnQ6-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "刘佳英",
+      "email": "liuseven21@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujdY2Z7Db5DjqISy--9buWG-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/jiayingliu0721/"
+    },
+    {
+      "name": "刘志全",
+      "email": "quanquanquan@cug.edu.cn",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujiJjSJsBBMl4d0wo2JwSv_-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "许紫含",
+      "email": "2635878774@qq.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujLUFASdFlKNqvq3va-rXMp-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "唐明峰",
+      "email": "tmfhhxx@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugamSGGS6tOpYywwH3Z5CmH-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "彭晓蕾",
+      "email": "pengxiaolei@nwafu.edu.cn",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugCg35wuRNCiYXOmAnM11hP-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/xiaolei-peng-3996a4200/"
+    }
+  ],
+  "gispread": [
+    {
+      "name": "王亦康",
+      "email": "yikang.wang.21@ucl.ac.uk",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiuKVAEVzxFN7Iq679LO4bW-120_120.jpeg",
+      "link": "https://yikang.site/"
+    },
+    {
+      "name": "岳璐妃",
+      "email": "yuelufei1999@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujykXF3IpFHjoRjSjZQc8Pg-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "田雪萌",
+      "email": "tianxuemeng1211@hotmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "林艺琳",
+      "email": "adelalin2000@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugD4V4Fs3xGE5wPgzki6uaT-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/yilin-lin-45299a216/"
+    },
+    {
+      "name": "王柯津",
+      "email": "wangkj_10@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhJHjeogAFIrK-LprFqfWnO-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "王茹珊",
+      "email": "rushannwang@gmai.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujhTnwfgLVMbYS9Ex8ZRkWM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "周冰",
+      "email": "bing_zhou_barrett@hotmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui85cZauNhCSb7ZvzXYw5XM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "陈圣隆",
+      "email": "zensenlon@yeah.net",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuioE2Z0ezhDTodB7eqQLe5b-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "刘志全",
+      "email": "quanquanquan@cug.edu.cn",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujiJjSJsBBMl4d0wo2JwSv_-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "许紫含",
+      "email": "2635878774@qq.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujLUFASdFlKNqvq3va-rXMp-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "李弈尘",
+      "email": "2420879887@qq.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugRiAsvTt1NwqSivk92ck2L-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "李思语",
+      "email": "starry.sli@outlook.com",
+      "img": "",
+      "link": "https://www.linkedin.com/in/starrysiyuli/"
+    },
+    {
+      "name": "郭家乐",
+      "email": "jiale.guo@foxmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuh2180C4HNPR4P5OHgMPYZQ-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "张睿茜",
+      "email": "leisy.rzhang@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiCrWzL2IFDfIbEJvKWSwzT-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/leisy-zhang-276458220"
+    },
+    {
+      "name": "杨镇川",
+      "email": "zhenchuan.yang@link.cuhk.edu.hk",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhN4zeueTFBlrwNipoiD3_7-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "陈子馨",
+      "email": "reginachenzx@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugmuI48nWNJKLG03IVj25Y3-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "刘亦浥",
+      "email": "19991218.liuyiyi@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugg3_s2N2NFlqcypq2cHiDt-120_120.jpeg",
+      "link": ""
+    }
+  ],
+  "gisource": [
+    {
+      "name": "刘昊坤",
+      "email": "eugeneliuhaokun@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugLqqVBkwlP25qeKJCSRFbB-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/haokun-liu-59900517b/"
+    },
+    {
+      "name": "裴政皓",
+      "email": "pzhdsg@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui9el3w-opPY50nce-w_Une-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/zhenghao1999/"
+    },
+    {
+      "name": "李思高",
+      "email": "sigao.li@ryerson.ca",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhP62bbftJDB5Zjq7dyr-Rz-120_120.jpeg",
+      "link": "https://www.sigaoli.com/"
+    },
+    {
+      "name": "龙珏竹",
+      "email": "longjuezhu@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNug9yHZYOwFPLb7nelJZYnSb-120_120.jpeg",
+      "link": "https://www.linkedin.com/mwlite/in/珏竹-龙-265058227"
+    },
+    {
+      "name": "王茹珊",
+      "email": "rushannwang@gmai.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujhTnwfgLVMbYS9Ex8ZRkWM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "江雪",
+      "email": "xuejiang1998@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujh3Jfx0l1MDaPzvyyIgJ_1-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "任凯",
+      "email": "renkaigis@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui69W4HAnlI6YTgcq7ltzGq-120_120.jpeg",
+      "link": "https://renkaigis.cn"
+    },
+    {
+      "name": "殷雷坤",
+      "email": "leikuny@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj0bg08ERZPNJi6pGIQ4IiK-120_120.jpeg",
+      "link": "https://github.com/yin00406"
+    },
+    {
+      "name": "周俐宏",
+      "email": "lihongwinner@163.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuioAwlArhRFGIRwX6waTyv2-120_120.jpeg",
+      "link": ""
+    }
+  ],
+  "gistudio": [
+    {
+      "name": "王克力",
+      "email": "keli.wang@tum.de",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugApyRgnMRGu6QAsKvsJA0m-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "刘佳英",
+      "email": "liuseven21@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujdY2Z7Db5DjqISy--9buWG-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/jiayingliu0721/"
+    },
+    {
+      "name": "周智杰",
+      "email": "zhou-zj@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugmHpWPUjJO2oIOvQgi9J0E-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "崔云鹤",
+      "email": "yunhecui95@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuje_NLviQNBjr6lCqPC7RfA-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/yunhe-cui/"
+    },
+    {
+      "name": "周冰",
+      "email": "bing_zhou_barrett@hotmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui85cZauNhCSb7ZvzXYw5XM-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "李八一",
+      "email": "barryli081@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujuUV0Rg2RGP4w3d86IS5WT-120_120.jpeg",
+      "link": "http://81city.top/"
+    },
+    {
+      "name": "王雨",
+      "email": "yuw9707@gmail.com",
+      "img": "",
+      "link": ""
+    }
+  ],
+  "publicity": [
+    {
+      "name": "周智杰",
+      "email": "zhou-zj@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugmHpWPUjJO2oIOvQgi9J0E-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "郑凌炜",
+      "email": "lingwei.zheng@link.cuhk.edu.hk",
+      "img": "",
+      "link": "https://lwzheng.owlstown.net/"
+    },
+    {
+      "name": "陈可天",
+      "email": "chenketian@keio.jp",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujxn9VZsc9OK4278JfY2vTn-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/ketian-chen-a5ba811b4/"
+    },
+    {
+      "name": "焦元堃",
+      "email": "yuankunjiao@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiW9udMHotNQZTWJdFDLHNK-120_120.jpeg",
+      "link": "http://linkedin.com/in/yuankun-jiao"
+    },
+    {
+      "name": "林艺琳",
+      "email": "adelalin2000@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugD4V4Fs3xGE5wPgzki6uaT-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/yilin-lin-45299a216/"
+    },
+    {
+      "name": "王世琦",
+      "email": "wsq_star@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNughQjhwk-NGpqKxic9qIKqF-120_120.jpeg",
+      "link": "https://blog.1314.io/"
+    },
+    {
+      "name": "孙怡飞",
+      "email": "dddoctorr612@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj3ESf0pkpI86PDmzfw5jXw-120_120.jpeg",
+      "link": "http://www.linkedin.com/in/yifei-sun-472084207"
+    },
+    {
+      "name": "徐子钰",
+      "email": "sammmxu0206@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujWjEqmYORGqqrbK7hLNP0N-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "魏嘉伟",
+      "email": "authurwei@foxmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "王阳",
+      "email": "wangyang991026@163.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "林天舒",
+      "email": "tlin52@buffalo.edu",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "叶心怡",
+      "email": "13651362897@163.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "张欣格",
+      "email": "ssee0132@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhYn_HE8bdIsac4RpmuCSmg-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "张杰琳",
+      "email": "zhangjielin1027@nwafu.edu.cn",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiPE3kmxYtODq7jaYi7uUhd-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "赵健铭",
+      "email": "jmzhao29@gmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "徐予桐",
+      "email": "yutongxu1013@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNug78x-zg85P95BjvPB0HHJP-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "陈梦滢",
+      "email": "chenmy.crace@gmail.com",
+      "img": "",
+      "link": ""
+    }
+  ],
+  "gistory": [
+    {
+      "name": "侯策",
+      "email": "ce.hou.gis@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiS6KaKhnVGtKeDngdh47XO-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "许晋文",
+      "email": "xujinwen93@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuiogNS_rYFAcYWIVIcrLg6d-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/jinwen-xu"
+    },
+    {
+      "name": "周智杰",
+      "email": "zhou-zj@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugmHpWPUjJO2oIOvQgi9J0E-120_120.png",
+      "link": ""
+    }
+
+  ],
+  "alumni": [
+    {
+      "name": "戴劭勍",
+      "email": "GISer1993DSQ@gmail.com ",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuh6fr9lZoxAep7mq2ysRVK5-120_120.jpeg",
+      "link": "http://gisersqdai.top/mycv/"
+    },
+    {
+      "name": "李瑶",
+      "email": "yaoli_sofia@163.com ",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNug2kq9wZOxMO6Jzbjtbg_0C-120_120.jpeg",
+      "link": ""
+    },
+    {
+      "name": "孙运娟",
+      "email": "SUNYUNJUAN12@126.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugt3avc0aBKX5cnnd0_wTEr-120_120.png",
+      "link": ""
+    },
+    {
+      "name": "叶翔",
+      "email": "",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "廖倩儒",
+      "email": "",
+      "img": "",
+      "link": ""
+    }
+  ]
 }

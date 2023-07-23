@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 
 const state = {
-  language: 'zh', // ['zh', 'en'] 语言
+  language: 'en', // ['zh', 'en'] 语言
   userToken: undefined,
   isSuperUser: false,
   userInfo: {},

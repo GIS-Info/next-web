@@ -1,4 +1,3 @@
-<!-- todo: 图片大小压缩，或上传到第三方存储 -->
 <template>
 <client-only>
   <div class="container">
@@ -70,7 +69,6 @@
           </el-select>
         </el-form-item>
         <el-form-item label="正文" required>
-          <!-- <el-input v-model="form.detail" type="textarea" :rows="17" placeholder=""></el-input> -->
           <!-- vue-quill-editor 富文本编辑器 -->
           <QuillEditor :content.sync="form.description" />
         </el-form-item>
