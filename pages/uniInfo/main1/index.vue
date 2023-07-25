@@ -4,17 +4,13 @@
             <el-menu text-color="#000000" @open="handleOpen" @close="handleClose" @select="handSelect">
                 <h2 class="tt" @click="$router.push('/uniInfo')">院校指南</h2>
 
-                <el-submenu v-for="(cities, country) in groupedUniversities" :key="country" :index="country">
+                <el-menu-item v-for="country in uniqueCountryNames" :key="country" :index="country"
+                    @click="selectedCountry = country">
                     <template slot="title">
                         <span>{{ country }}</span>
                     </template>
+                </el-menu-item>
 
-                    <el-menu-item v-for="(universities, city) in cities" :key="city" :index="city" @click.native="selectedCity = city">
-                        <template slot="title">
-                            <span>{{ city }}</span>
-                        </template>
-                    </el-menu-item>
-                </el-submenu>
             </el-menu>
 
             <nuxt-child> </nuxt-child>
@@ -22,7 +18,7 @@
             <el-container class="main">
 
                 <el-main>
-                    <el-collapse @change="handleChange" v-for="university in filteredUniversities" :key="university.id">
+                    <!-- <el-collapse @change="handleChange" v-for="university in universities" :key="university.id">
                         <el-collapse-item :title="university.University_Name_CN">
                             <el-descriptions :column="1">
                                 <el-descriptions-item label="Country">{{ university.Country }}</el-descriptions-item>
@@ -30,6 +26,22 @@
                                     university.University_Abbr }}</el-descriptions-item>
                                 <el-descriptions-item label="Description">{{
                                     university.Description_CN }}</el-descriptions-item>
+                                <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
+                                <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
+                            </el-descriptions>
+                        </el-collapse-item>
+                    </el-collapse> -->
+                    <el-collapse v-model="activeNames">
+                        <el-collapse-item v-for="university in universities" :key="university.id" :name="university.id">
+                            <template #title>
+                                {{ university.University_Name_CN }}
+                            </template>
+                            <el-descriptions :column="1">
+                                <el-descriptions-item label="Country">{{ university.Country }}</el-descriptions-item>
+                                <el-descriptions-item label="Abbreviation">{{ university.University_Abbr
+                                }}</el-descriptions-item>
+                                <el-descriptions-item label="Description">{{ university.Description_CN
+                                }}</el-descriptions-item>
                                 <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
                                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
                             </el-descriptions>
@@ -49,21 +61,16 @@ export default {
 
     async fetch() {
         try {
-            const universitiesRes = await this.$axios.get('/api/post/universities/');
-            const citiesRes = await this.$axios.get('/api/post/cities/');
-            const countriesRes = await this.$axios.get('/api/post/countries/');
-            const cities = citiesRes.data;
-            const countries = countriesRes.data;
-            this.universities = universitiesRes.data.map(university => {
-                const city = cities.find(c => c.City_Name_EN === university.City);
-                const country = city? countries.find(c => c.Country_Name_CN === city.Country) : null;
-                return {
-                    ...university,
-                    City_Name_CN: city ? city.City_Name_CN : '',
-                    Country: city ? city.Country : '',
-                    Continent: country ? country.Continent : '',
-                }
-            });
+            const continent = '北美洲'; // replace this with the actual value
+            const continentRes = await this.$axios.get(`/api/uniInfo/get_continent_data/${continent}`);
+            this.universities = continentRes.data;
+            this.activeNames = this.universities.map(university => university.id);
+            console.log("hhhhhh:");
+            console.log(this.universities);
+            const countryNames = continentRes.data.map(row => row.Country);
+            this.uniqueCountryNames = [...new Set(countryNames)];
+            console.log(this.uniqueCountryNames);
+
         } catch (error) {
             console.error(error);
             this.$router.push('/error');
@@ -73,43 +80,20 @@ export default {
     data() {
         return {
             universities: [],
-            selectedCity: null,
+            uniqueCountryNames: [],
+            selectedCountry: null,
+            activeNames: [],
         };
     },
 
     created() {
-        console.log(this.universities);
+        // console.log(this.universities);
+        this.fetchUniversities();
+        // this.activeNames = this.universities.map(university => university.id);
     },
-
-
     computed: {
-        groupedUniversities() {
-            const groups = {};
-            this.universities.filter(university => university.Continent === '北美洲').forEach(university => {
-                if (!groups[university.Country]) {
-                    groups[university.Country] = {};
-                }
-                if (!groups[university.Country][university.City_Name_CN]) {
-                    groups[university.Country][university.City_Name_CN] = [];
-                }
-                // console.log("OK");
-                groups[university.Country][university.City_Name_CN].push(university);
 
-            });
-            return groups;
-
-        },
-        filteredUniversities() {
-            if (!this.selectedCity) {
-            return [];
-            }
-            return this.universities.filter(
-                university => university.City_Name_CN === this.selectedCity && university.Continent === '北美洲'
-            );
-        },
     },
-
-
 
     serverMiddleware: ['~/middleware/proxy'],
 
@@ -125,6 +109,18 @@ export default {
         },
         handleChange(activeNames) {
             console.log('Changed collapse items:', activeNames);
+        },
+        async fetchUniversities() {
+            if (this.selectedCountry) {
+                const countryRes = await this.$axios.get(`/api/uniInfo/get_country_data/${this.selectedCountry}`);
+                this.universities = countryRes.data;
+                this.activeNames = this.universities.map(university => university.id);
+            }
+        },
+    },
+    watch: {
+        selectedCountry() {
+            this.fetchUniversities();
         },
     },
     name: "Aside",
