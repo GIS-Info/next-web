@@ -34,15 +34,13 @@
                     <el-collapse v-model="activeNames">
                         <el-collapse-item v-for="university in universities" :key="university.id" :name="university.id">
                             <template #title>
-                                {{ university.University_Name_CN }}
+                                {{ (lang == 'zh' ? university.University_Name_CN : university.University_Name_EN) || university.University_Name_CN || university.University_Name_EN }}
                             </template>
                             <el-descriptions :column="1">
-                                <el-descriptions-item label="Country">{{ university.Country }}</el-descriptions-item>
-                                <el-descriptions-item label="Abbreviation">{{ university.University_Abbr
-                                }}</el-descriptions-item>
-                                <el-descriptions-item label="Description">{{ university.Description_CN
-                                }}</el-descriptions-item>
-                                <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
+                                <el-descriptions-item :label="lang == 'zh' ? '国家' : 'Country'">{{ university.Country }}</el-descriptions-item>
+                                <el-descriptions-item :label="lang == 'zh' ? '缩写' : 'Abbreviation'">{{ university.University_Abbr}}</el-descriptions-item>
+                                <el-descriptions-item :label="lang == 'zh' ? '简介' : 'Description'">{{ (lang == 'zh' ? university.Description_CN : university.Description_EN) || university.Description_CN || university.Description_EN}}</el-descriptions-item>
+                                <el-descriptions-item :label="lang == 'zh' ? '部门' : 'Unit'">{{ (lang == 'zh' ? university.Unit_CN : university.Unit_EN) || university.Unit_CN || university.Unit_EN}}</el-descriptions-item>
                                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
                             </el-descriptions>
                         </el-collapse-item>
@@ -57,6 +55,7 @@
            
 
 <script>
+import { mapState } from 'vuex'
 export default {
 
     async fetch() {
@@ -85,14 +84,13 @@ export default {
             activeNames: [],
         };
     },
-
+    computed: {
+    ...mapState({ lang: 'language' }),
+    },
     created() {
         // console.log(this.universities);
         this.fetchUniversities();
         // this.activeNames = this.universities.map(university => university.id);
-    },
-    computed: {
-
     },
 
     serverMiddleware: ['~/middleware/proxy'],

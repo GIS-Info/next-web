@@ -326,10 +326,7 @@ export default {
       }
     },
     goToUniversityList() {
-      // window.location.href = 'https://www.gisphere.net'
-      // 暂时不放出对外的入口，先进行内部测试
-
-      //对外入口
+      // 对外入口
       this.$router.push('/uniInfo');
     },
     goUrl(url) {
@@ -343,15 +340,6 @@ export default {
 </script>
 
 <style scoped>
-/* 
-  // 禁止选中文字的css解决办法
-  * { 
-  -webkit-user-select: none;  
-  -moz-user-select: none;  
-  -ms-user-select: none;  
-  -o-user-select: none;  
-  user-select: none; 
-} */
 .main {
   width: 100%;
   height: 100%;
