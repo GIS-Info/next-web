@@ -8,22 +8,22 @@
         @select="handSelect"
       >
         <h2 @click="$router.push('/uniInfo')">院校指南</h2>
-        <el-menu-item index="1" @click="$router.push('/uniInfo/main1')"
+        <el-menu-item index="1" @click="$router.push('/uniInfo/main/north-america')"
           >北美洲</el-menu-item
         >
-        <el-menu-item index="2" @click="$router.push('/uniInfo/main2')"
+        <el-menu-item index="2" @click="$router.push('/uniInfo/main/asia')"
           >亚洲</el-menu-item
         >
-        <el-menu-item index="3" @click="$router.push('/uniInfo/main3')"
+        <el-menu-item index="3" @click="$router.push('/uniInfo/main/europe')"
           >欧洲</el-menu-item
         >
-        <el-menu-item index="4" @click="$router.push('/uniInfo/main4')"
+        <el-menu-item index="4" @click="$router.push('/uniInfo/main/south-america')"
           >南美洲</el-menu-item
         >
-        <el-menu-item index="5" @click="$router.push('/uniInfo/main5')"
+        <el-menu-item index="5" @click="$router.push('/uniInfo/main/oceania')"
           >大洋洲</el-menu-item
         >
-        <el-menu-item index="6" @click="$router.push('/uniInfo/main6')"
+        <el-menu-item index="6" @click="$router.push('/uniInfo/main/africa')"
           >非洲</el-menu-item
         >
       </el-menu>
