@@ -12,7 +12,7 @@
     </div>
     <!-- 英文情况下的链接 -->
     <div v-if="lang == 'en'" class="links-div">
-      <div class="link" @click="goHomePage">About</div>
+      <div class="link" @click="goAboutUs">About</div>
       <div class="link" @click="goManagePage">Login (Admin Only)</div>
       <div class="link" @click="setLanguage('zh')">切换中文</div>
     </div>

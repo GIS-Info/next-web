@@ -26,7 +26,6 @@
             >
           </div>
         </div>
-        <!-- <div v-if="lang == 'zh'" class="welcome-heading">时空桥接无限可能</div> -->
         <div v-if="lang == 'en'" class=".en-letter-spacing">
           <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
           <div class="welcome-description">
