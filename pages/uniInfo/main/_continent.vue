@@ -2,7 +2,7 @@
   <div>
     <el-container style="height:max-content; border: 1px solid #eee">
       <el-menu text-color="#000000" @open="handleOpen" @close="handleClose" @select="handSelect">
-        <h2 class="tt" @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
+        <h2 class="tt" @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'School Instruction' }}</h2>
         <el-menu-item 
           v-for="country in uniqueCountryNames" 
           :key="country" 
