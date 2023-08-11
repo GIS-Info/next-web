@@ -43,7 +43,7 @@
               >Job Recruiting</el-button
             >
             <el-button class="explore-programs" @click="goToUniversityList"
-              >School Instruction</el-button
+              >Institutions</el-button
             >
           </div>
         </div>
