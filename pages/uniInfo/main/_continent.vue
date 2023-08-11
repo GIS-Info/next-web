@@ -3,9 +3,9 @@
     <el-container style="height:max-content; border: 1px solid #eee">
       <el-menu text-color="#000000" @open="handleOpen" @close="handleClose" @select="handSelect">
         <h2 class="tt" @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'School Instruction' }}</h2>
-        <el-menu-item 
-          v-for="country in uniqueCountryNames" 
-          :key="country" 
+        <el-menu-item
+          v-for="country in uniqueCountryNames"
+          :key="country"
           :index="country"
           @click="selectedCountry = country">
           <template slot="title">
@@ -20,10 +20,11 @@
             <el-collapse-item :title="university.University_Name_CN">
               <el-descriptions :column="1">
                 <el-descriptions-item label="Country">{{ university.Country }}</el-descriptions-item>
+                <el-descriptions-item label="Country">{{ university.City }}</el-descriptions-item>
                 <el-descriptions-item label="Abbreviation">{{ university.University_Abbr }}</el-descriptions-item>
-                <el-descriptions-item label="Description">{{ university.Description_CN }}</el-descriptions-item>
                 <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
+                <el-descriptions-item label="Description">{{ university.Description_CN }}</el-descriptions-item>
               </el-descriptions>
             </el-collapse-item>
           </el-collapse> -->
@@ -34,10 +35,11 @@
               </template>
               <el-descriptions :column="1">
                 <el-descriptions-item :label="lang == 'zh' ? '国家' : 'Country'">{{ university.Country }}</el-descriptions-item>
+                <el-descriptions-item :label="lang == 'zh' ? '城市' : 'City'">{{ university.City }}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '缩写' : 'Abbreviation'">{{ university.University_Abbr}}</el-descriptions-item>
-                <el-descriptions-item :label="lang == 'zh' ? '简介' : 'Description'">{{ (lang == 'zh' ? university.Description_CN : university.Description_EN) || university.Description_CN || university.Description_EN}}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '部门' : 'Unit'">{{ (lang == 'zh' ? university.Unit_CN : university.Unit_EN) || university.Unit_CN || university.Unit_EN}}</el-descriptions-item>
                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
+                <el-descriptions-item :label="lang == 'zh' ? '简介' : 'Description'">{{ (lang == 'zh' ? university.Description_CN : university.Description_EN) || university.Description_CN || university.Description_EN}}</el-descriptions-item>
               </el-descriptions>
             </el-collapse-item>
           </el-collapse>
