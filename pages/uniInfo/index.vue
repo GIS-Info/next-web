@@ -21,20 +21,27 @@
           </h3>
           <h2><i class="el-icon-user-solid"></i>社区</h2>
           <h3>
-            为了方便大家交流，我们创办了GISphere留学指南微信公众号，定期邀请在世界各地留学或访学的朋友们分享他们的留学/访学申请经验，以及在海外留学/访学中工作与生活的经历、体验和感悟，帮助小伙伴们有的放矢，提高申请成功率，了解海外工作和生活方方面面信息。同时，我们也会定期整理和发布有关各类会议讲座和论文投稿的各类学术信息，助力大家的学术发展。请扫页脚二维码关注我们的GISphere公众号。
+
+          {{ lang == 'zh' ? '为了方便大家交流，我们创办了GISphere留学指南微信公众号，定期邀请在世界各地留学或访学的朋友们分享他们的留学/访学申请经验，以及在海外留学/访学中工作与生活的经历、体验和感悟，帮助小伙伴们有的放矢，提高申请成功率，了解海外工作和生活方方面面信息。同时，我们也会定期整理和发布有关各类会议讲座和论文投稿的各类学术信息，助力大家的学术发展。请扫页脚二维码关注我们的GISphere公众号。' : 'GISphere maintains an active presence across several social media platforms, such as Twitter, LinkedIn, YouTube, WeChat, Bilibili, and Zhihu, among others. Furthermore, we also have a WhatsApp community. We consistently arrange online events under the banner of the GISalon series, fostering direct engagement among GIS students, emerging professors, and other experts spanning the globe. These gatherings offer a platform to discuss and exchange learning encounters, career guidance, industry-related perspectives, and a wealth of professional insights within the diverse realm of GIS. To learn more, please visit the About page.' }}
+
             <br />
             <br />
             <p style="font-weight: bold">
               <i class="el-icon-info"></i>
-              关注公众号后可以加入GISpace留学微信群。
-            
+
+              {{ lang == 'zh' ? '关注公众号后可以加入GISpace留学微信群。' : 'The QR code for joining the WhatsApp community is in the bottom right corner of the home page.' }}
+
             </p>
             微信群是GIS及相关专业的海外学生学者的高质量活跃交流平台，尤其欢迎一年内有出国出境意向的GIS相关专业小伙伴加入。因群里人数较多，目前需要管理员手动发送邀请链接。请扫页脚二维码关注我们的GISphere公众号，并在后台留言“留学群”，可添加管理员好友并获得入群邀请链接。
             <br />
             <br />
-            本指南由志愿者在业余时间完成，由于时间精力所限，难免有疏漏，内容仅供参考。指南将长期维护更新，若有更正、建议和补充，欢迎在这里留言。也欢迎更多的有志者一同参与维护这个项目！指南中各院校排名不分先后。如果需要了解学校的综合排名等情况，请查询THE、QS、USNews、ARWU等权威排名。
+
+            {{ lang == 'zh' ? '本指南由志愿者在业余时间完成，由于时间精力所限，难免有疏漏，内容仅供参考。指南将长期维护更新，若有更正、建议和补充，欢迎在这里留言。也欢迎更多的有志者一同参与维护这个项目！指南中各院校排名不分先后。如果需要了解学校的综合排名等情况，请查询THE、QS、USNews、ARWU等权威排名。' : 'GISphere operates as a non-profit platform, meticulously crafted and maintained by a dedicated group of volunteers during their spare time. Given the limitations in both time and resources, it is possible that the content on this site might have occasional omissions. However, our commitment to continuously uphold and improve this website remains unwavering. If you stumble upon any errors or have valuable suggestions, do not hesitate to reach out to us at gisphere@outlook.com. Moreover, we warmly welcome more volunteers to join our cause! it is important to highlight that our platform exclusively features institutions providing graduate degree programs in GIS and related fields. Notably, we do not evaluate their teaching or research capacities. The institution rankings found on this website are presented without any specific order. For information on the academic rankings of these institutions, we recommend referring to some well-known university rankings like THE, QS, USNews, ARWU, and so on.' }}
+
             <br />
-            信息提供者及参与编辑的志愿者名单见下方的“作者名单”。
+            {{ lang == 'zh' ? '信息提供者及参与编辑的志愿者名单见下方的作者名单。' : 'Names of authors and developers of this guide are shown below in the Contributor section.' }}
+
+
             <br />
             <br />
             <p style="font-weight: bold">
@@ -71,18 +78,21 @@
           <el-collapse>
             <el-collapse-item title="内容编辑：" name="2">
               <div>
-                戴劭勍，段晨曦，黄馨可，康雨豪，李皓宸，李肖，刘昊坤，刘昱妍，饶锦蒙，任泽茜，童馨仪，叶山，叶翔，岳远紊，张晶睿，张景源，朱春武
+
+              {{ lang == 'zh' ? '戴劭勍，段晨曦，黄馨可，康雨豪，李皓宸，李肖，刘昊坤，刘昱妍，饶锦蒙，任泽茜，童馨仪，叶山，叶翔，岳远紊，张晶睿，张景源，朱春武，陈彦冰' : 'Kang Yuhao, Ye Shan, Liu Haokun, Zhang Jingyuan, Dai Shaoqing, Duan Chenxi, Huang Xinke, Li Haochen, Li Xiao, Liu Yuyan, Rao Jinmeng, Ren Zexi, Tong Xinyi, Ye Xiang, Yue Yuandian, Zhang Jingrui, Zhu Chunwu, Chen Yanbing' }}
+
               </div>
             </el-collapse-item>
           </el-collapse>
 
           <el-collapse>
-            <el-collapse-item title="网站建设：" name="3">
-              <div>刘昊坤，叶山，叶翔，康雨豪，张景源，饶锦蒙</div>
+
+            <el-collapse-item title="Website managers" name="3">
+              <div>{{ lang == 'zh' ? '叶山，张景源，陈鹏宇，陈彦冰（网站开发组名单请参见关于我们页面）' : 'Ye Shan, Zhang Jingyuan, Chen Pengyu, Chen Yanbing (for the complete list of developers of this site, please refer to the About page)' }}</div>
             </el-collapse-item>
           </el-collapse>
+          <h3>{{ lang == 'zh' ? '再次衷心感谢所有作者的辛苦付出！' : 'We sincerely thank all the authors and volunteers for their efforts!' }}</h3>
 
-          <h3>再次衷心感谢所有作者的辛苦付出！</h3>
         </el-main>
       </el-container>
     </el-container>
