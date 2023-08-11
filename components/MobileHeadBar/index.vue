@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="title-div" @click="goHomePage">
-      <img class="logo" src="./logo.svg" />
+      <img class="logo" src="./logo.png" />
       <span class="title-text">GISphere</span>
     </div>
     <!-- 中文情况下的链接 -->
@@ -11,7 +11,7 @@
     </div>
     <!-- 英文情况下的链接 -->
     <div v-if="lang == 'en'" class="links-div">
-      <div class="link" @click="goHomePage">About</div>
+      <div class="link" @click="goAboutUs">About</div>
       <div class="link" @click="setLanguage('zh')">切换中文</div>
     </div>
   </div>
