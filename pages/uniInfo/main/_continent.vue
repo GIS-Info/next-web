@@ -2,7 +2,7 @@
   <div>
     <el-container style="height:max-content; border: 1px solid #eee">
       <el-menu text-color="#000000" @open="handleOpen" @close="handleClose" @select="handSelect">
-        <h2 class="tt" @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'School Instruction' }}</h2>
+        <h2 class="tt" @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
         <el-menu-item
           v-for="country in uniqueCountryNames"
           :key="country"
@@ -20,7 +20,7 @@
             <el-collapse-item :title="university.University_Name_CN">
               <el-descriptions :column="1">
                 <el-descriptions-item label="Country">{{ university.Country }}</el-descriptions-item>
-                <el-descriptions-item label="Country">{{ university.City }}</el-descriptions-item>
+                <el-descriptions-item label="City">{{ university.City }}</el-descriptions-item>
                 <el-descriptions-item label="Abbreviation">{{ university.University_Abbr }}</el-descriptions-item>
                 <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
