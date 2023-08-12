@@ -3,10 +3,10 @@
     <el-container style="border: 1px solid #eee">
       <el-menu text-color="#000000" >
         <h2 @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
-        <el-menu-item index="1" @click="$router.push('/uniInfo/main/north-america')">{{ lang == 'zh' ? '北美洲' : 'North-America' }}</el-menu-item>
+        <el-menu-item index="1" @click="$router.push('/uniInfo/main/north-america')">{{ lang == 'zh' ? '北美洲' : 'North America' }}</el-menu-item>
         <el-menu-item index="2" @click="$router.push('/uniInfo/main/asia')">{{ lang == 'zh' ? '亚洲' : 'Asia' }}</el-menu-item>
         <el-menu-item index="3" @click="$router.push('/uniInfo/main/europe')">{{ lang == 'zh' ? '欧洲' : 'Europe' }}</el-menu-item>
-        <el-menu-item index="4" @click="$router.push('/uniInfo/main/south-america')">{{ lang == 'zh' ? '南美洲' : 'South-America' }}</el-menu-item>
+        <el-menu-item index="4" @click="$router.push('/uniInfo/main/south-america')">{{ lang == 'zh' ? '南美洲' : 'South America' }}</el-menu-item>
         <el-menu-item index="5" @click="$router.push('/uniInfo/main/oceania')">{{ lang == 'zh' ? '大洋洲' : 'Oceania' }}</el-menu-item>
         <el-menu-item index="6" @click="$router.push('/uniInfo/main/africa')">{{ lang == 'zh' ? '非洲' : 'Africa' }}</el-menu-item>
       </el-menu>
@@ -16,7 +16,6 @@
         <el-main>
           <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GIS-Info Institution Guide' }}</strong></h1>
           <h3>
-
             {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，最新版本更新时间为2021年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'This School Instruction Project was launched in September 2019, and the latest version will be updated in September 2021, aiming to provide timely and comprehensive information on global GIS and related professional colleges. The information is provided by current students, recently graduated alumni or young teachers from prestigious schools of GIS and urban planning and other related majors around the world. We hope this guide can provide help and support for GIS-related professional friends who intend to study abroad.' }}
           </h3>
           <h2><i class="el-icon-user-solid"></i>{{ lang == 'zh' ? '社区' : 'GISphere in media' }}</h2>
