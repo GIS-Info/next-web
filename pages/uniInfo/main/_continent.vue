@@ -20,7 +20,7 @@
             <el-collapse-item :title="university.University_Name_CN">
               <el-descriptions :column="1">
                 <el-descriptions-item label="Country">{{ university.Country_CN }}</el-descriptions-item>
-                <el-descriptions-item label="City">{{ university.City_Cn }}</el-descriptions-item>
+                <el-descriptions-item label="City">{{ university.City_CN }}</el-descriptions-item>
                 <el-descriptions-item label="Abbreviation">{{ university.University_Abbr }}</el-descriptions-item>
                 <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
@@ -35,7 +35,7 @@
               </template>
               <el-descriptions :column="1">
                 <el-descriptions-item :label="lang == 'zh' ? '国家' : 'Country'">{{ (lang == 'zh' ? university.Country_CN : university.Country_EN) || university.Country_CN || university.Country_EN}}</el-descriptions-item>
-                <el-descriptions-item :label="lang == 'zh' ? '城市' : 'City'">{{ (lang == 'zh' ? university.City : university.City_EN) || university.City_CN || university.City_EN}}</el-descriptions-item>
+                <el-descriptions-item :label="lang == 'zh' ? '城市' : 'City'">{{ (lang == 'zh' ? university.City_CN : university.City) || university.City_CN || university.City}}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '缩写' : 'Abbreviation'">{{ university.University_Abbr}}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '部门' : 'Unit'">{{ (lang == 'zh' ? university.Unit_CN : university.Unit_EN) || university.Unit_CN || university.Unit_EN}}</el-descriptions-item>
                 <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
