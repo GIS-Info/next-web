@@ -34,7 +34,7 @@
                 {{ (lang == 'zh' ? university.University_Name_CN : university.University_Name_EN) || university.University_Name_CN || university.University_Name_EN }}
               </template>
               <el-descriptions :column="1">
-                <el-descriptions-item :label="lang == 'zh' ? '国家' : 'Country'">{{ university.Country }}</el-descriptions-item>
+                <!-- <el-descriptions-item :label="lang == 'zh' ? '国家' : 'Country'">{{ university.Country }}</el-descriptions-item> -->
                 <el-descriptions-item :label="lang == 'zh' ? '城市' : 'City'">{{ university.City }}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '缩写' : 'Abbreviation'">{{ university.University_Abbr}}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '部门' : 'Unit'">{{ (lang == 'zh' ? university.Unit_CN : university.Unit_EN) || university.Unit_CN || university.Unit_EN}}</el-descriptions-item>
