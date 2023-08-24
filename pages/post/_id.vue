@@ -26,7 +26,7 @@
         发布时间: <span class="normal">{{ postdata.date || '-' }}</span>
       </h4>
       <h4 class="content-detail">
-        院校名称:
+        机构名称:
         <span class="normal">{{ postdata.university_cn || '-' }}</span>
       </h4>
       <h4 class="content-detail">
@@ -78,7 +78,7 @@
         <span class="normal">{{ postdata.date || 'unknown' }}</span>
       </h4>
       <h4 class="content-detail">
-        School:
+        Organization:
         <span class="normal">{{ postdata.university_en || 'unknown' }}</span>
       </h4>
       <h4 class="content-detail">
