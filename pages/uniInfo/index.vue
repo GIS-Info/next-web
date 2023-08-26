@@ -44,8 +44,11 @@
             <br />
             <br />
             <p style="font-weight: bold">
-              <i class="el-icon-menu"></i>{{ lang == 'zh' ? '历史版本：' : 'Old version: ' }}
-              https://gis-info.github.io/ (Updated 2020/09)
+              <a :href="lang == 'zh' ? 'https://gis-info.github.io/' : 'https://gis-info.github.io/'">
+                <i class="el-icon-menu"></i>
+                {{ lang == 'zh' ? '历史版本：' : 'Old version: ' }}
+                https://gis-info.github.io/ (Updated 2020/09)
+              </a>
             </p>
 
           </h3>
