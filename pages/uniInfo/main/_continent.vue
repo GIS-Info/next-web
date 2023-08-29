@@ -16,29 +16,16 @@
       <nuxt-child> </nuxt-child>
       <el-container class="main">
         <el-main>
-          <!-- <el-collapse @change="handleChange" v-for="university in universities" :key="university.id">
-            <el-collapse-item :title="university.University_Name_CN">
-              <el-descriptions :column="1">
-                <el-descriptions-item label="Country">{{ university.Country }}</el-descriptions-item>
-                <el-descriptions-item label="City">{{ university.City }}</el-descriptions-item>
-                <el-descriptions-item label="Abbreviation">{{ university.University_Abbr }}</el-descriptions-item>
-                <el-descriptions-item label="Unit">{{ university.Unit_CN }}</el-descriptions-item>
-                <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
-                <el-descriptions-item label="Description">{{ university.Description_CN }}</el-descriptions-item>
-              </el-descriptions>
-            </el-collapse-item>
-          </el-collapse> -->
           <el-collapse v-model="activeNames">
             <el-collapse-item v-for="university in universities" :key="university.id" :name="university.id">
               <template #title>
                 {{ (lang == 'zh' ? university.University_Name_CN : university.University_Name_EN) || university.University_Name_CN || university.University_Name_EN }}
               </template>
               <el-descriptions :column="1">
-                <!-- <el-descriptions-item :label="lang == 'zh' ? '国家' : 'Country'">{{ university.Country }}</el-descriptions-item> -->
                 <el-descriptions-item :label="lang == 'zh' ? '城市' : 'City'">{{ university.City }}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '缩写' : 'Abbreviation'">{{ university.University_Abbr}}</el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '部门' : 'Unit'">{{ (lang == 'zh' ? university.Unit_CN : university.Unit_EN) || university.Unit_CN || university.Unit_EN}}</el-descriptions-item>
-                <el-descriptions-item label="URL">{{ university.URL }}</el-descriptions-item>
+                <el-descriptions-item label="URL"><a :href="university.URL">{{ university.URL }}</a></el-descriptions-item>
                 <el-descriptions-item :label="lang == 'zh' ? '简介' : 'Description'">{{ (lang == 'zh' ? university.Description_CN : university.Description_EN) || university.Description_CN || university.Description_EN}}</el-descriptions-item>
               </el-descriptions>
             </el-collapse-item>
