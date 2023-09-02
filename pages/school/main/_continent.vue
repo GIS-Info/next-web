@@ -2,7 +2,7 @@
   <div>
     <el-container style="height:max-content; border: 1px solid #eee">
       <el-menu text-color="#000000" @open="handleOpen" @close="handleClose" @select="handSelect">
-        <h2 class="tt" @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
+        <h2 class="tt" @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
         <el-menu-item
           v-for="country in uniqueCountryNames"
           :key="country"
@@ -13,7 +13,6 @@
           </template>
         </el-menu-item>
       </el-menu>
-      <nuxt-child> </nuxt-child>
       <el-container class="main">
         <el-main>
           <el-collapse v-model="activeNames">
@@ -59,7 +58,7 @@ export default {
           'africa': '非洲',
       }
       const continentName = continentMap[continent]
-      const continentRes = await this.$axios.get(`/api/uniInfo/get_continent_data/${continentName}`);
+      const continentRes = await this.$axios.get(`/api/school/get_continent_data/${continentName}`);
       console.log('continentRes', continentRes);
       this.universities = continentRes.data;
       this.activeNames = this.universities.map(university => university.id);
@@ -97,7 +96,7 @@ export default {
     },
     async fetchUniversities() {
       if (this.selectedCountry) {
-        const countryRes = await this.$axios.get(`/api/uniInfo/get_country_data/${this.selectedCountry}`);
+        const countryRes = await this.$axios.get(`/api/school/get_country_data/${this.selectedCountry}`);
         this.universities = countryRes.data;
         this.activeNames = this.universities.map(university => university.id);
       }

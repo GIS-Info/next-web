@@ -2,15 +2,14 @@
   <div>
     <el-container style="border: 1px solid #eee">
       <el-menu text-color="#000000" >
-        <h2 @click="$router.push('/uniInfo')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
-        <el-menu-item index="1" @click="$router.push('/uniInfo/main/north-america')">{{ lang == 'zh' ? '北美洲' : 'North America' }}</el-menu-item>
-        <el-menu-item index="2" @click="$router.push('/uniInfo/main/asia')">{{ lang == 'zh' ? '亚洲' : 'Asia' }}</el-menu-item>
-        <el-menu-item index="3" @click="$router.push('/uniInfo/main/europe')">{{ lang == 'zh' ? '欧洲' : 'Europe' }}</el-menu-item>
-        <el-menu-item index="4" @click="$router.push('/uniInfo/main/south-america')">{{ lang == 'zh' ? '南美洲' : 'South America' }}</el-menu-item>
-        <el-menu-item index="5" @click="$router.push('/uniInfo/main/oceania')">{{ lang == 'zh' ? '大洋洲' : 'Oceania' }}</el-menu-item>
-        <el-menu-item index="6" @click="$router.push('/uniInfo/main/africa')">{{ lang == 'zh' ? '非洲' : 'Africa' }}</el-menu-item>
+        <h2 @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
+        <el-menu-item index="1" @click="$router.push('/school/main/north-america')">{{ lang == 'zh' ? '北美洲' : 'North America' }}</el-menu-item>
+        <el-menu-item index="2" @click="$router.push('/school/main/asia')">{{ lang == 'zh' ? '亚洲' : 'Asia' }}</el-menu-item>
+        <el-menu-item index="3" @click="$router.push('/school/main/europe')">{{ lang == 'zh' ? '欧洲' : 'Europe' }}</el-menu-item>
+        <el-menu-item index="4" @click="$router.push('/school/main/south-america')">{{ lang == 'zh' ? '南美洲' : 'South America' }}</el-menu-item>
+        <el-menu-item index="5" @click="$router.push('/school/main/oceania')">{{ lang == 'zh' ? '大洋洲' : 'Oceania' }}</el-menu-item>
+        <el-menu-item index="6" @click="$router.push('/school/main/africa')">{{ lang == 'zh' ? '非洲' : 'Africa' }}</el-menu-item>
       </el-menu>
-      <nuxt-child></nuxt-child>
 
       <el-container class="main">
         <el-main>
@@ -55,31 +54,13 @@
           <h3>
             {{ lang == 'zh' ? '下面是撰写条目或提供院校信息的作者名单。按姓氏拼音排序。为保护隐私，我们不公开作者的单位信息。部分作者为匿名作者，故在此未予列出。' : 'Below is a list of authors who wrote entries or provided information about one or more institutions. Some authors are anonymous and therefore not listed here. Per the local custom, Chinese surnames are written before the given names.' }}
           </h3>
-
-          <el-collapse>
-            <el-collapse-item title="Content providers" name="1">
-              <div>
-                {{ lang == 'zh' ? '安云琪，曹伟辰，曹彦佳，陈焕发，陈可天，陈彦冰，陈龙，陈茜，陈艺宽，陈昱，程敬宜，崔楠，崔文聪，戴劭勍，董维川, 杜新浩，杜瑶，段晨曦，段牧溪，范宜伦，费庆源，冯晓睿，冯瑶，付圣，高鹏，高芸雅，郭晨，郭科宇，郭雪蕊，韩笑，何畅，何旭，何伊伊，胡昊，胡吉林，胡英杰，胡于杰，黄冠，黄佳玮，黄谦夏，黄啸，黄馨可，贾东启，康雨豪，赖佳梦，李八一，李博文，李浩，李皓宸，李佳，李俊安，李良，李缅因，李清华，李烁，李小江，李艺，李元翔，李子奇，李子升，连婷，梁晓帆，廖倩儒，林熙哲，刘年华，刘启亮，刘若葳，刘雯，刘晓健，刘欣宜，刘昱妍，刘振宇，刘卓明，卢加宁，栾辉，吕方正，马超，马擎宇，马宇驰，买庚辰，孟凡林，穆野，庞真，彭倩，乔天，屈光耘，冉泉，饶锦蒙，饶婧，任泽茜，石霞，司云瑞，宋秋然，宋万营，苏辰雨，孙一璠，谭孟荀，谭晓悦，唐安琪，童馨仪，王海明，王邃，王瑶莉，卫贺兰，魏辛源，吴迪，吴秋生，吴欣皓，谢雨潭，邢进，徐芳洁，徐浩文，徐佳智，徐雅雯，许子清，薛凯，晏澍虹，杨家鑫，杨梅，杨庭方，杨莹丽，杨源譞，叶山，叶翔，易健，于曼竹，于婉灵，袁振东，岳远紊，曾可欣，翟寻，张帆，张晶睿，张婧祎，张景源，张兰，张蔚行，张雅璇，张颖，章静，赵家彦，赵群山，赵雨潇，周泓，周建雄，周璐，周瑞，朱春武，朱飞宇，邹倩倩' : 'An Yunqi, Cao Weichen, Cao Yanjia, Chen Huanfa, Chen Long, Chen Xi, Chen Yikuan, Chen Yu, Cheng Jingyi, Chen Ketian, Chen Yanbing, Cui Nan, Cui Wencong, Dai Shaoqing, Dong Weichuan, Du Xinhao, Du Yao, Duan Chenxi, Duan Muxi, Fan Yilun, Fei Qingyuan, Feng Xiaorui, Feng Yao, Fu Sheng, Gao Peng, Gao Yunya, Guo Chen, Guo Keyu, Guo Xuerui, Han Xiaoxiao, He Chang, He Xu, He Yiyi, Hu Hao, Hu Jilin, Hu Yingjie, Hu Yujie, Huang Guan. Huang Jiawei, Huang Qianxia, Huang Xiao, Huang Xinke, Jia Dongqi, Kang Yuhao, Lai Jiameng, Li Bayi, Li Bowen, Li Hao, Li Haochen, Li Jia, Li Junan, Li Liang, Li Maine, Li Qinghua, Li Shuo, Li Xiaojiang, Li Yi, Li Yuanxiang, Li Ziqi, Li Zisheng, Lian Ting, Liang Xiaofan, Liao Qianru, Lin Xizhe, Liu Nianhua, Liu Qiliang, Liu Ruowei, Liu Wen, Liu Xiaojian, Liu Xinyi, Liu Yuyan, Liu Zhenyu. Liu Zhuoming, Lu Jianing, Luan Hui, Lu Fangzheng, Ma Chao, Ma Qingyu, Ma Yuchi, Buy Gengchen, Meng Fanlin, Mu Ye, Pang Zhen, Peng Qian, Qiao Tian, Qu Guangye, Ran Quan, Rao Jinmeng, Rao Jing, Ren Zexie, Shi Xia, Si Yunrui, Song Qiuran, Song Wanying, Su Chenyu, Sun Yifen, Tan Mengxun, Tan Xiaoyue, Tang Anqi, Tong Xinyi, Wang Haiming, Wang Profound, Wang Yaoli, Wei Helan, Wei Xinyuan, Wu Di, Wu Qiusheng. Wu Xinhao, Xie Yutan, Xing Jin, Xu Fangjie, Xu Haowen, Xu Jiazhi, Xu Yawen, Xu Ziqing, Xue Kai, Yan Shuhong, Yang Jiaxin, Yang Mei, Yang Tingfang, Yang Yingli, Yang Yuanxuan, Ye Shan, Ye Xiang, Yi Jian, Yu Manzhu, Yu Wanling, Yuan Zhendong, Yue Yuandian, Zeng Kexin, Zhai Xun, Zhang Fan, Zhang Jingrui, Zhang Jingyi, Zhang Jingyuan, Zhang Lan, Zhang Weixing, Zhang Yaxuan, Zhang Ying, Zhang Jing, Zhao Jiayan, Zhao Qunshan, Zhao Yuxiao, Zhou Hong, Zhou Jianxiong, Zhou Lu, Zhou Rui, Zhu Chunwu, Zhu Feiyu, Zou Qianqian, Sajjad Muhammad, Donald A. Friend, Dipto Sarkar, Anthony Robinson, Filip Biljecki, Mehdi Chachar, Jason VanHorn, Abel Cerecero, F. Antonio Medrano, Mallory Sagehorn, Ana Villa, Elias Lago, Raj Mahavir, Yassine Zehaf, Youssef Bahja, Nate Deanna, Sergen Ozyakup, Dani Abbasi, Adamou Gudina, Or Caspi, Ryan Galbraith, Ricardo Barros Lourenço' }}
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-
-          <el-collapse>
-            <el-collapse-item title="Editors" name="2">
-              <div>
-
-              {{ lang == 'zh' ? '戴劭勍，段晨曦，黄馨可，康雨豪，李皓宸，李肖，刘昊坤，刘昱妍，饶锦蒙，任泽茜，童馨仪，叶山，叶翔，岳远紊，张晶睿，张景源，朱春武，陈彦冰' : 'Kang Yuhao, Ye Shan, Liu Haokun, Zhang Jingyuan, Dai Shaoqing, Duan Chenxi, Huang Xinke, Li Haochen, Li Xiao, Liu Yuyan, Rao Jinmeng, Ren Zexi, Tong Xinyi, Ye Xiang, Yue Yuandian, Zhang Jingrui, Zhu Chunwu, Chen Yanbing' }}
-
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-
-          <el-collapse>
-
-            <el-collapse-item title="Website managers" name="3">
-              <div>{{ lang == 'zh' ? '叶山，张景源，陈鹏宇，陈彦冰（网站开发组名单请参见关于我们页面）' : 'Ye Shan, Zhang Jingyuan, Chen Pengyu, Chen Yanbing (for the complete list of developers of this site, please refer to the About page)' }}</div>
-            </el-collapse-item>
-          </el-collapse>
+          <h4>Content providers</h4>
+            Yunqi An(安云琪), Weichen Cao(曹伟辰), Yanjia Cao(曹彦佳), Huanfa Chen(陈焕发), Long Chen(陈龙), Xi Chen(陈茜), Yikuan Chen(陈艺宽), Yu Chen(陈昱), Ketian Chen(陈可天), Yanbing Chen(陈彦冰), Jingyi Cheng(程敬宜), Nan Cui(崔楠), Wencong Cui(崔文聪), Shaoqing Dai(戴劭勍), Weichuan Dong(董维川), Xinhao Du(杜新浩), Yao Du(杜瑶), Chenxi Duan(段晨曦), Muxi Duan(段牧溪), Yilun Fan(范宜伦), Qingyuan Fei(费庆源), Xiaorui Feng(冯晓睿), Yao Feng(冯瑶), Sheng Fu(付圣), Peng Gao(高鹏), Yunya Gao(高芸雅), Chen Guo(郭晨), Keyu Guo(郭科宇), Xuerui Guo(郭雪蕊), Xiao Han(韩笑), Chang He(何畅), Xu He(何旭), Yiyi He(何伊伊), Hao Hu(胡昊), Jilin Hu(胡吉林), Yingjie Hu(胡英杰), Yujie Hu(胡于杰), Guan Huang(黄冠), Jiawei Huang(黄佳玮), Qianxia Huang(黄谦夏), Xiao Huang(黄啸), Xinke Huang(黄馨可), Dongqi Jiang(贾东启), Yuhao Kang(康雨豪), Jiameng Lai(赖佳梦), Bayi Li(李八一), Bowen Li(李博文), Hao Li(李浩), Haochen Li(李皓宸), Jia Li(李佳), Junan Li(李俊安), Liang Li(李良), Maine Li(李缅因), Qinghua Li(李清华), Shuo Li(李烁), Xiaojiang Li(李小江), Yi Li(李艺), Yuanxiang Li(李元翔), Ziqi Li(李子奇), Zisheng Li(李子升), Ting Lian(连婷), Xiaofan Liang(梁晓帆), Qianru Liao(廖倩儒), Xizhe Lin(林熙哲), Nianhua Liu(刘年华), Qiliang Liu(刘启亮), Ruowei Liu(刘若葳), Wen Liu(刘雯), Xiaojian Liu(刘晓健), Xinyi Liu(刘欣宜), Yuyan Liu(刘昱妍), Zhenyu Liu(刘振宇). Zhuoming Liu(刘卓明), Jianing Lu(卢加宁), Hui Luan(栾辉), Fangzheng Lyu(吕方正), Chao Ma(马超), Qingyu Ma(马擎宇), Yuchi Ma(马宇驰), Gengchen Mai(买庚辰), Fanlin Meng(孟凡林), Ye Mu(穆野), Zhen Pang(庞真), Qian Peng(彭倩), Tian Qiao(乔天), Guangyun Qu(屈光耘), Quan Ran(冉泉), Jinmeng Rao(饶锦蒙), Jing Rao(饶婧), Zexie Ren(任泽茜), Xia Shi(石霞), Yunrui Si(司云瑞), Qiuran Song(宋秋然), Wanying Song(宋万营), Chenyu Su(苏辰雨), Yifen Sun(孙一璠), Mengxun Tan(谭孟荀), Xiaoyue Tan(谭晓悦), Anqi Tang(唐安琪), Xinyi Tong(童馨仪), Haiming Wang(王海明), Sui Wang(王邃), Yaoli Wang(王瑶莉), Helan Wei(卫贺兰), Xinyuan Wei(魏辛源), Di Wu(吴迪), Qiusheng Wu(吴秋生), Xinhao Wu(吴欣皓), Yutan Xie(谢雨潭), Jin Xing(邢进), Fangjie Xu(徐芳洁), Haowen Xu(徐浩文), Jiazhi Xu(徐佳智), Yawen Xu(徐雅雯), Ziqing Xu(许子清), Kai Xue(薛凯), Shuhong Yan(晏澍虹), Jiaxin Yang(杨家鑫), Mei Yang(杨梅), Tingfang Yang(杨庭方), Yingli Yang(杨莹丽), Yuanxuan Yang(杨源譞), Shan Ye(叶山), Xiang Ye(叶翔), Jian Yi(易健), Manzhu Yu(于曼竹), Wanling Yu(于婉灵), Zhendong Yuan(袁振东), Yuanwen Yue(岳远紊), Kexin Zeng(曾可欣), Xun Zhai(翟寻), Fan Zhang(张帆), Jingrui Zhang(张晶睿), Jingyi Zhang(张婧祎), Jingyuan Zhang(张景源), Lan Zhang(张兰), Weixing Zhang(张蔚行), Yaxuan Zhang(张雅璇), Ying Zhang(张颖), Jing Zhang(章静), Jiayan Zhao(赵家彦), Qunshan Zhao(赵群山), Yuxiao Zhao(赵雨潇), Hong Zhou(周泓), Jianxiong Zhou(周建雄), Lu Zhou(周璐), Rui Zhou(周瑞), Chunwu Zhu(朱春武), Feiyu Zhu(朱飞宇), Qianqian Zou(邹倩倩), Sajjad Muhammad, Donald A. Friend, Dipto Sarkar, Anthony Robinson, Filip Biljecki, Mehdi Chachar, Jason VanHorn, Abel Cerecero, F. Antonio Medrano, Mallory Sagehorn, Ana Villa, Elias Lago, Raj Mahavir, Yassine Zehaf, Youssef Bahja, Nate Deanna, Sergen Ozyakup, Dani Abbasi, Adamou Gudina, Or Caspi, Ryan Galbraith, Ricardo Barros Lourenço
+          <h4>Editors</h4>
+            Yuhao Kang(康宇豪), Shan Ye(叶山), Haokun Liu(刘昊坤), Jingyuan Zhang(张景源), Shaoqing Dai(戴劭勍), Chenxi Duan(段晨曦), Xinke Huang(黄馨可), Haochen Li(李皓宸), Xiao Li(李肖), Yuyan Liu(刘昱妍), Jinmeng Rao(饶锦蒙), Zexi Ren(任泽茜), Xinyi Tong(童馨仪), Xiang Ye(叶翔), Yuanwen Yue(岳远紊), Jingrui Zhang(张晶睿), Chunwu Zhu(朱春武), Yanbing Chen(陈彦冰)
+          <h4>Editors</h4>
+            Shan Ye(叶山), Jingyuan Zhang(张景源), Pengyu Chen(陈鹏宇), Chen Yanbing(陈彦冰)
+            {{ lang == 'zh' ? '（网站开发组名单请参见关于我们页面）' : '(for the complete list of developers of this site, please refer to the About page)'}}
           <h3>{{ lang == 'zh' ? '再次衷心感谢所有作者的辛苦付出！' : 'We sincerely thank all the authors and volunteers for their efforts!' }}</h3>
 
         </el-main>
@@ -135,6 +116,7 @@ export default {
   max-width: 1200px;
   padding: 40px 20px;
   box-sizing: border-box;
+  line-height: 1.5;
 }
 h1 {
   font-size: 60px;
