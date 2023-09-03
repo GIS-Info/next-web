@@ -326,7 +326,7 @@ export default {
     },
     goToUniversityList() {
       // 对外入口
-      this.$router.push('/uniInfo');
+      this.$router.push('/school');
     },
     goUrl(url) {
       window.location.href = url

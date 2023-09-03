@@ -7,12 +7,12 @@
     <!-- 中文情况下的链接 -->
     <div v-if="lang == 'zh'" class="links-div">
       <div class="link" @click="goAboutUs">关于我们</div>
-      <div class="link" @click="setLanguage('en')">English</div>
+      <div class="link" @click="setGlobalLanguage('en')">English</div>
     </div>
     <!-- 英文情况下的链接 -->
     <div v-if="lang == 'en'" class="links-div">
       <div class="link" @click="goAboutUs">About</div>
-      <div class="link" @click="setLanguage('zh')">切换中文</div>
+      <div class="link" @click="setGlobalLanguage('zh')">切换中文</div>
     </div>
   </div>
 </template>
@@ -22,8 +22,14 @@ export default {
   computed: {
     ...mapState({lang: 'language'}),
   },
+  mounted() {
+    const query=JSON.parse(JSON.stringify(this.$route.query))
+    if(query?.lang && query?.lang !== this.lang){
+      this.setGlobalLanguage(query?.lang)
+    }
+  },
   methods: {
-    ...mapMutations([  
+    ...mapMutations([
         'setLanguage',
     ]),
     goHomePage(){
@@ -31,6 +37,12 @@ export default {
     },
     goAboutUs(){
       this.$router.push('/mobile/aboutUs')
+    },
+    setGlobalLanguage(lang) {
+      const query=JSON.parse(JSON.stringify(this.$route.query))
+      query.lang=lang
+      this.$router.replace({ path: this.$route.path, query })
+      this.setLanguage(lang);
     }
   }
 }
