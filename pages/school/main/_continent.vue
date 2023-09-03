@@ -58,7 +58,7 @@ export default {
           'africa': '非洲',
       }
       const continentName = continentMap[continent]
-      const continentRes = await this.$axios.get(`/api/school/get_continent_data/${continentName}`);
+      const continentRes = await this.$axios.get(`/api/uniInfo/get_continent_data/${continentName}`);
       console.log('continentRes', continentRes);
       this.universities = continentRes.data;
       this.activeNames = this.universities.map(university => university.id);
@@ -96,7 +96,7 @@ export default {
     },
     async fetchUniversities() {
       if (this.selectedCountry) {
-        const countryRes = await this.$axios.get(`/api/school/get_country_data/${this.selectedCountry}`);
+        const countryRes = await this.$axios.get(`/api/uniInfo/get_country_data/${this.selectedCountry}`);
         this.universities = countryRes.data;
         this.activeNames = this.universities.map(university => university.id);
       }
