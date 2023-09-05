@@ -175,11 +175,11 @@
           <hr />
         </div>
         <!-- <select class="filter-year">
-          <option>2020年</option>
-          <option>2021年</option>
-          <option>2022年</option>
+          <option>2023</option>
+          <option>2022</option>
         </select> -->
-        <select v-model="selected" class="filter-year">
+
+        <select v-model="selected" class="filter-year" @change="handleYearChange">
           <option
             v-for="(option, index) in options"
             :key="index"
@@ -209,15 +209,15 @@
         <table class="by-month">
           <tr>
             <td v-for="month1 in months1" :key="month1">
-              <button class="button-month" @click="queryByDate(month)">
-                {{ month }}月
+              <button class="button-month" @click="queryByDate(month1)">
+                {{ month1 }}月
               </button>
             </td>
           </tr>
           <tr>
             <td v-for="month2 in months2" :key="month2">
-              <button class="button-month" @click="queryByDate(month)">
-                {{ month }}月
+              <button class="button-month" @click="queryByDate(month2)">
+                {{ month2 }}月
               </button>
             </td>
           </tr>
@@ -279,9 +279,8 @@
           Search by Deadline
           <hr />
         </div>
-        <select class="filter-year">
-          <option>2020</option>
-          <option>2021</option>
+        <select class="filter-year" @change="handleYearChange">
+          <option>2023</option>
           <option>2022</option>
         </select>
         <!-- <table class="by-month">
@@ -362,7 +361,7 @@ export default {
         queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
       },
       loading: true,
-      selected: '2022',
+      selected: '2023',
 
       months1: ['1', '2', '3', '4', '5', '6'], // 上半年
       months2: ['7', '8', '9', '10', '11', '12'], // 下半年
@@ -383,9 +382,8 @@ export default {
       date: '',
       month: '',
       options: [
-        { text: '2020年', value: '2020' },
-        { text: '2021年', value: '2021' },
-        { text: '2022年', value: '2022' },
+        { text: '2023', value: '2023' }, // 中文版选项
+        { text: '2022', value: '2022' }, // 中文版选项
       ],
     }
   },
@@ -436,7 +434,8 @@ export default {
     },
     queryByDate(e) {
       if (e !== this.month) this.pageIndex = 1 // 如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
-      this.date = this.selected + '-' + e
+      const dateParam = this.selected + '-' + (e < 10 ? '0' + e : e);
+      this.date = dateParam;
       this.month = e
       this.$axios
         .get('api/post_closedate', {
@@ -451,7 +450,7 @@ export default {
           if (res?.data?.code === 0) {
             if (!res.data.data || res.data.data.length === 0) {
               this.$message({
-                message: '没有相关信息',
+                message: 'without related information',
                 type: 'error',
                 duration: 1000,
               })
@@ -466,7 +465,7 @@ export default {
             })
             this.totalCount = res.data.count
           } else {
-            alert('请求错误: ' + res.msg)
+            alert('request error: ' + res.msg)
           }
         })
         .catch((error) => {
@@ -518,6 +517,22 @@ export default {
       else if (this.searchText !== '') this.queryBySearchtext()
       else this.getPostListData() // 否则正常翻页所有的数据
     },
+
+    // pengyu--添加年份更换
+    async handleYearChange() {
+        // 当年份切换时，重置页面索引为 1
+        this.pageIndex = 1;
+        await this.$nextTick(); // 添加短暂的延迟，等待数据重置完成
+        // 调用查询方法，传递新的年份
+        if (this.date !== '') {
+          this.queryByDate(this.month);
+        } else if (this.searchText !== '') {
+          this.queryBySearchtext();
+        } else {
+          await this.getPostListData(); // 重新获取帖子列表
+        }
+      },
+
     error(err) {
       alert(err)
     },
