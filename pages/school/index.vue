@@ -46,18 +46,13 @@
         {{ lang == 'zh' ? '（网站开发组名单请参见关于我们页面）' : '(for the complete list of developers of this site, please refer to the About page)'}}
       <h3>{{ lang == 'zh' ? '再次衷心感谢所有作者的辛苦付出！' : 'We sincerely thank all the authors and volunteers for their efforts!' }}</h3>
       <div v-for="continent in Object.keys(continents)" :key="continent">
-        <h1 :id="`continent:${continent}`">{{ (lang == 'zh' ? continents[continent] : continent) || (continents[continent] || continent || '-') }}</h1>
+        <h2 :id="`continent:${continent}`">{{ (lang == 'zh' ? continents[continent] : continent) || (continents[continent] || continent || '-') }}</h2>
         <div v-if="continentToCountry[continent]">
           <div v-for="country in Object.keys(continentToCountry[continent])" :key="country">
-            <h2 :id="`country:${country}`">{{ (lang == 'zh' ? countries[country] : country) || (countries[country] || country || '-') }}</h2>
+            <h3 :id="`country:${country}`">{{ (lang == 'zh' ? countries[country] : country) || (countries[country] || country || '-') }}</h3>
             <div v-if="countryToSchool[country]">
               <div v-for="school in Object.keys(countryToSchool[country])" :key="school">
-                <h3 :id="`school:${school}`">{{ (lang == 'zh' ? schools[school]?.U_Name_CN : schools[school]?.U_Name_EN) || (schools[school]?.U_Name_CN || schools[school]?.U_Name_EN || '-') }}</h3>
-                <div v-if="schoolToPeople[school]">
-                  <div v-for="people in Object.keys(schoolToPeople[school])" :key="people">
-                    <h4>{{  (lang == 'zh' ? schoolToPeople[school][people]?.P_Name_CN : schoolToPeople[school][people]?.P_Name_EN) }}</h4>
-                  </div>
-                </div>
+                <SchoolCard :school="schools[school]" :people="schoolToPeople[school]" />
               </div>
             </div>
           </div>
@@ -69,9 +64,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import SchoolCard from './components/SchoolCard'
 
 export default {
   name: 'School',
+  components: {
+    SchoolCard,
+  },
   data() {
     return {
       rawData: [],
