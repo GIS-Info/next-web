@@ -280,16 +280,21 @@
         </select>
         <!-- <table class="by-month">
           <tr>
-            <td><button class="button-field" @click="filterByLabel('gis')">GIScience</button></td>
-            <td><button class="button-field" @click="filterByLabel('rs')">Remote Sensing</button></td>
-            <td><button class="button-field" @click="filterByLabel('physical_geo')">Physical Geography</button></td>
+            <td><button class="button-month">Jan</button></td>
+            <td><button class="button-month">Feb</button></td>
+            <td><button class="button-month">Mar</button></td>
+            <td><button class="button-month">Apr</button></td>
+            <td><button class="button-month">May</button></td>
+            <td><button class="button-month">Jun</button></td>
           </tr>
           <tr>
-            <td><button class="button-field" @click="filterByLabel('human_geo')">HumanGeography</button></td>
-            <td><button class="button-field" @click="filterByLabel('urban')">Urban Planing</button></td>
-            <td><button class="button-field" @click="filterByLabel('gnss')">GNSS</button></td>
+            <td><button class="button-month">Jul</button></td>
+            <td><button class="button-month">Aug</button></td>
+            <td><button class="button-month">Sep</button></td>
+            <td><button class="button-month">Oct</button></td>
+            <td><button class="button-month">Nov</button></td>
+            <td><button class="button-month">Dec</button></td>
           </tr>
-
         </table> -->
         <table class="by-month">
           <tr>
@@ -314,19 +319,16 @@
         </div>
         <table class="by-field">
           <tr>
-            <td><button class="button-field">Spatial Analysis</button></td>
-            <td><button class="button-field">Remote Sensing</button></td>
-            <td><button class="button-field">Geology</button></td>
+            <td><button class="button-field" @click="filterByLabel('gis')">GIScience</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">Remote Sensing</button></td>
           </tr>
           <tr>
-            <td><button class="button-field">Urban Informatics</button></td>
-            <td><button class="button-field">Urban Planning</button></td>
-            <td><button class="button-field">Cartography</button></td>
+            <td><button class="button-field" @click="filterByLabel('physical_geo')">Physical Geography</button></td>
+            <td><button class="button-field" @click="filterByLabel('human_geo')">Human Geography</button></td>
           </tr>
           <tr>
-            <td><button class="button-field">Oblique 3D</button></td>
-            <td><button class="button-field">CloudGIS</button></td>
-            <td><button class="button-field">Visualization</button></td>
+            <td><button class="button-field" @click="filterByLabel('urban')">Urban Planing</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">GNSS</button></td>
           </tr>
         </table>
       </div>
@@ -914,8 +916,8 @@ export default {
   border-color: #dcdfe6;
   border-width: 1px;
   border-radius: 20px;
-  height: 30px;
-  width: 120px;
+  height: 39px;
+  width: 148px;
   color: #909399;
   cursor: pointer;
   background-color: #ffffff;
