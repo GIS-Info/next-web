@@ -229,19 +229,14 @@
         </div>
         <table class="by-field">
           <tr>
-            <td><button class="button-field">空间分析</button></td>
-            <td><button class="button-field">遥感</button></td>
-            <td><button class="button-field">地质</button></td>
+            <td><button class="button-field" @click="filterByLabel('gis')">地理信息科学</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">遥感</button></td>
+            <td><button class="button-field" @click="filterByLabel('physical_geo')">自然地理学</button></td>
           </tr>
           <tr>
-            <td><button class="button-field">智慧城市</button></td>
-            <td><button class="button-field">城市规划</button></td>
-            <td><button class="button-field">制图</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-field">倾斜3D</button></td>
-            <td><button class="button-field">云GIS</button></td>
-            <td><button class="button-field">可视化</button></td>
+            <td><button class="button-field" @click="filterByLabel('human_geo')">人文地理学</button></td>
+            <td><button class="button-field" @click="filterByLabel('urban')">城市规划</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">卫星导航</button></td>
           </tr>
         </table>
       </div>
@@ -324,19 +319,16 @@
         </div>
         <table class="by-field">
           <tr>
-            <td><button class="button-field">Spatial Analysis</button></td>
-            <td><button class="button-field">Remote Sensing</button></td>
-            <td><button class="button-field">Geology</button></td>
+            <td><button class="button-field" @click="filterByLabel('gis')">GIScience</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">Remote Sensing</button></td>
           </tr>
           <tr>
-            <td><button class="button-field">Urban Informatics</button></td>
-            <td><button class="button-field">Urban Planning</button></td>
-            <td><button class="button-field">Cartography</button></td>
+            <td><button class="button-field" @click="filterByLabel('physical_geo')">Physical Geography</button></td>
+            <td><button class="button-field" @click="filterByLabel('human_geo')">Human Geography</button></td>
           </tr>
           <tr>
-            <td><button class="button-field">Oblique 3D</button></td>
-            <td><button class="button-field">CloudGIS</button></td>
-            <td><button class="button-field">Visualization</button></td>
+            <td><button class="button-field" @click="filterByLabel('urban')">Urban Planing</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">GNSS</button></td>
           </tr>
         </table>
       </div>
@@ -533,6 +525,38 @@ export default {
         }
       },
 
+    // pengyu--添加根据专业筛选功能
+    filterByLabel(label) {
+        // 发送请求给后端，按标签筛选帖子
+        this.$axios
+          .get('api/post_major', {
+            params: {
+              label: label,
+              pageIndex: this.pageIndex,
+              pageSize: this.pageSize,
+            },
+          })
+          .then((res) => {
+            // 处理后端返回的数据
+            if (res?.data?.code === 0) {
+              // 更新帖子列表和总数
+              this.postListData = res.data.data.map((i) => {
+                const l = { ...i };
+                l.description = i.description
+                  .replace(/(<([^>]+)>)/g)
+                  .replace(/\\n/g);
+                return l;
+              });
+              this.totalCount = res.data.count;
+            } else {
+              alert('request error: ' + res.msg);
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
+    },
+    
     error(err) {
       alert(err)
     },
@@ -892,8 +916,8 @@ export default {
   border-color: #dcdfe6;
   border-width: 1px;
   border-radius: 20px;
-  height: 30px;
-  width: 120px;
+  height: 39px;
+  width: 148px;
   color: #909399;
   cursor: pointer;
   background-color: #ffffff;
