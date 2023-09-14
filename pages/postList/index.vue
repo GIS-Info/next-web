@@ -236,7 +236,7 @@
           <tr>
             <td><button class="button-field" @click="filterByLabel('human_geo')">人文地理学</button></td>
             <td><button class="button-field" @click="filterByLabel('urban')">城市规划</button></td>
-            <td><button class="button-field" @click="filterByLabel('gnss')">卫星导航</button></td>
+            <td><button class="button-field" @click="filterByLabel('rs')">卫星导航</button></td>
           </tr>
         </table>
       </div>
