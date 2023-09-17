@@ -1,10 +1,32 @@
 <template>
   <el-container class="container">
-    <el-menu text-color="#000000" >
+    <el-menu text-color="#000000" class="menu" unique-opened :collapse-transition="false">
       <h2 @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
+        <!--
         <el-menu-item v-for="continent in Object.keys(continents)" :key="continent" :index="continent" @click="goAnchor(`continent:${continent}`)">
             {{ lang == 'zh' ? continents[continent] : continent }}
         </el-menu-item>
+        -->
+        <el-submenu v-for="continent in Object.keys(continents)" :key="`continent:${continent}`" :index="`continent:${continent}`">
+          <template slot="title">
+            <div class="menu-item" @click="goAnchor(`continent:${continent}`)">
+              <i class="el-icon-location"></i>
+              <span>{{ lang == 'zh' ? continents[continent] : continent }}</span>
+            </div>
+          </template>
+          <el-submenu v-for="country in Object.keys(continentToCountry[continent] || {})" :key="`country:${country}`" :index="`country:${country}`">
+            <template slot="title">
+              <div class="menu-item" @click="goAnchor(`country:${country}`)">
+                {{ (lang == 'zh' ? countries[country] : country) || (countries[country] || country || '-') }}
+              </div>
+            </template>
+            <el-menu-item v-for="school in Object.keys(countryToSchool[country] || {})" :key="school" :index="`school:${schools[school]?.U_Name_EN}`">
+              <div class="menu-item" @click="goAnchor(`school:${schools[school]?.U_Name_EN}`)">
+                {{ (lang == 'zh' ? schools[school]?.U_Name_CN : schools[school]?.U_Name_EN) || (schools[school]?.U_Name_CN || schools[school]?.U_Name_EN || '-') }}
+              </div>
+            </el-menu-item>
+          </el-submenu>
+        </el-submenu>
     </el-menu>
 
     <el-main class="main">
@@ -172,7 +194,7 @@ export default {
 
 <style scoped>
 .el-menu {
-  width: 15%;
+  width: 30%;
   text-align: center;
 }
 .main {
@@ -194,5 +216,13 @@ el-collapse-item:hover {
 .container{
   border: 1px solid #eee;
   height: 100%;
+}
+
+.menu{
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.menu-item{
+  text-align: left;
 }
 </style>
