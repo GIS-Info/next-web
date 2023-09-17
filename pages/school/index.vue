@@ -1,6 +1,6 @@
 <template>
   <el-container class="container">
-    <el-menu text-color="#000000" class="menu" unique-opened :collapse-transition="false">
+    <el-menu text-color="#000000" class="menu" unique-opened :collapse-transition=false>
       <h2 @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
         <!--
         <el-menu-item v-for="continent in Object.keys(continents)" :key="continent" :index="continent" @click="goAnchor(`continent:${continent}`)">
@@ -92,6 +92,7 @@ import SchoolCard from './components/SchoolCard'
 
 export default {
   name: 'School',
+  fetchKey: 'SchoolInfo',
   components: {
     SchoolCard,
   },

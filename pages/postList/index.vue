@@ -531,7 +531,7 @@ export default {
         this.$axios
           .get('api/post_major', {
             params: {
-              label: label,
+              label,
               pageIndex: this.pageIndex,
               pageSize: this.pageSize,
             },
