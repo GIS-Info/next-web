@@ -1,10 +1,8 @@
 <template>
   <div class="bg">
     <div class="copyright">
-      <h2 class="copyright-title">Copyright 版权</h2>
+      <h2 class="copyright-title">Copyright</h2>
       <p class="copyright-content">
-        本文档遵循CC BY-NC 4.0许可，如需非商业转载或修改，请给出署名；商业转载
-        请务必联系作者获得授权。<br />
         This work is licensed under a
         <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="blank"
           >Creative Commons Attribution-NonCommercial 4.0 International
@@ -56,7 +54,7 @@
         "
       >
         <img class="img" src="./imgs/wechat.png" />
-        GISphere 留学指南
+        WeChat Public
         <transition name="popup">
           <div v-if="showWechatPopup" class="popup">
             <img class="qr-img" src="./imgs/wechat-qrcode.png" />
@@ -77,7 +75,7 @@
          "
       >
         <img class="img" src="./imgs/whatsapp.png" />
-              Whatsapp
+          Whatsapp
          <transition name="popup">
             <div v-if="showWhatsapptPopup" class="popup">
                 <img class="qr-img" src="./imgs/whatsapp-qrcode.png" />
