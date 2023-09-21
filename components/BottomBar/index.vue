@@ -24,7 +24,7 @@
         <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>. <br />
       </p>
     </div>
-    <div class="content">GISphere@2022</div>
+    <div class="content">GISphere@2023</div>
     <div class="links-container">
       <a class="link" href="https://github.com/GIS-Info">
         <img class="img" src="./imgs/github.png" />
@@ -37,6 +37,10 @@
       <a class="link" href="mailto:gisphere@outlook.com">
         <img class="img" src="./imgs/email.png" />
         gisphere@outlook.com
+      </a>
+      <a class="link" href="https://twitter.com/GISphereGuide">
+         <img class="img" src="./imgs/x.png" />
+        GISphereGuide
       </a>
       <a
         class="link"
@@ -59,6 +63,27 @@
           </div>
         </transition>
       </a>
+      <a
+         class="link"
+         @mouseover="
+            () => {
+            showWhatsapptPopup = true
+            }
+         "
+         @mouseleave="
+            () => {
+            showWhatsapptPopup = false
+            }
+         "
+      >
+        <img class="img" src="./imgs/whatsapp.png" />
+              Whatsapp
+         <transition name="popup">
+            <div v-if="showWhatsapptPopup" class="popup">
+                <img class="qr-img" src="./imgs/whatsapp-qrcode.png" />
+            </div>
+         </transition>
+      </a>
     </div>
   </div>
 </template>
@@ -68,6 +93,7 @@ export default {
   data() {
     return {
       showWechatPopup: false,
+      showWhatsapptPopup: false,
     }
   },
 }
