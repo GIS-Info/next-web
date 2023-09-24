@@ -1,10 +1,8 @@
 <template>
   <div class="bg">
     <div class="copyright">
-      <h2 class="copyright-title">Copyright 版权</h2>
+      <h2 class="copyright-title">Copyright</h2>
       <p class="copyright-content">
-        本文档遵循CC BY-NC 4.0许可，如需非商业转载或修改，请给出署名；商业转载
-        请务必联系作者获得授权。<br />
         This work is licensed under a
         <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="blank"
           >Creative Commons Attribution-NonCommercial 4.0 International
@@ -24,7 +22,7 @@
         <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>. <br />
       </p>
     </div>
-    <div class="content">GISphere@2022</div>
+    <div class="content">GISphere@2023</div>
     <div class="links-container">
       <a class="link" href="https://github.com/GIS-Info">
         <img class="img" src="./imgs/github.png" />
@@ -37,6 +35,10 @@
       <a class="link" href="mailto:gisphere@outlook.com">
         <img class="img" src="./imgs/email.png" />
         gisphere@outlook.com
+      </a>
+      <a class="link" href="https://twitter.com/GISphereGuide">
+         <img class="img" src="./imgs/x.png" />
+        GISphereGuide
       </a>
       <a
         class="link"
@@ -52,12 +54,33 @@
         "
       >
         <img class="img" src="./imgs/wechat.png" />
-        GISphere 留学指南
+        WeChat Public
         <transition name="popup">
           <div v-if="showWechatPopup" class="popup">
             <img class="qr-img" src="./imgs/wechat-qrcode.png" />
           </div>
         </transition>
+      </a>
+      <a
+         class="link"
+         @mouseover="
+            () => {
+            showWhatsapptPopup = true
+            }
+         "
+         @mouseleave="
+            () => {
+            showWhatsapptPopup = false
+            }
+         "
+      >
+        <img class="img" src="./imgs/whatsapp.png" />
+          Whatsapp
+         <transition name="popup">
+            <div v-if="showWhatsapptPopup" class="popup">
+                <img class="qr-img" src="./imgs/whatsapp-qrcode.png" />
+            </div>
+         </transition>
       </a>
     </div>
   </div>
@@ -68,6 +91,7 @@ export default {
   data() {
     return {
       showWechatPopup: false,
+      showWhatsapptPopup: false,
     }
   },
 }
