@@ -3,6 +3,7 @@
     
     <div slot="header">
       <b :id="`school:${school?.U_Name_EN}`">{{ (lang == 'zh' ? school?.U_Name_CN : school?.U_Name_EN) || (school?.U_Name_CN || school?.U_Name_EN || '-') }}</b>
+      <a v-if="lang == 'en' && school?.U_Lat && school?.U_Lon" :href="`https://maps.google.com/?q=${school?.U_Lat},${school?.U_Lon}`"><i class="el-icon-location-outline"></i></a>
     </div>
     {{ lang == 'zh' ? '城市: ' : 'City: ' }} {{ (lang == 'zh' ? school?.C_Name_CN : school?.U_City) || (school?.C_Name_CN || school?.U_City || '-') }}
     <br/>
@@ -12,7 +13,8 @@
     <br/>
     {{ 'URL: ' }} <a :href="school?.U_URL">{{ school?.U_URL || '-' }}</a>
     <br/>
-    {{ lang == 'zh' ? '简介: ' : 'Description: ' }} {{ (lang == 'zh' ? school?.Description_CN : school?.Description_EN) || (school?.Description_CN || school?.Description_EN || '-') }}
+    {{ lang == 'zh' ? '简介: ' : 'Description: ' }}
+    <span v-html="(lang == 'zh' ? school?.Description_CN : school?.Description_EN) || (school?.Description_CN || school?.Description_EN || '-')"></span>
     <div v-if="people">
       <div v-for="p in Object.keys(people)" :key="p">
         <!-- 老师信息 -->

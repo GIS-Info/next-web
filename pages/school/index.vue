@@ -32,17 +32,23 @@
     <el-main class="main">
       <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GIS-Info Institution Guide' }}</strong></h1>
         {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，最新版本更新时间为2021年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'This School Instruction Project was launched in September 2019, and the latest version will be updated in September 2021, aiming to provide timely and comprehensive information on global GIS and related professional colleges. The information is provided by current students, recently graduated alumni or young teachers from prestigious schools of GIS and urban planning and other related majors around the world. We hope this guide can provide help and support for GIS-related professional friends who intend to study abroad.' }}
-      <p style="font-weight: bold"><i class="el-icon-user-solid"></i>{{ lang == 'zh' ? '社区' : 'GISphere in media' }}</p>
+      <br/>
+      <br/>
+        <b><i class="el-icon-s-opportunity"></i>
+        {{ lang == 'zh' ? '社区' : 'GISphere in media' }}</b>
+      <br />
       <p v-if=" lang == 'zh'">
         为了方便大家交流，我们创办了GISphere留学指南微信公众号，定期邀请在世界各地留学或访学的朋友们分享他们的留学/访学申请经验，以及在海外留学/访学中工作与生活的经历、体验和感悟，帮助小伙伴们有的放矢，提高申请成功率，了解海外工作和生活方方面面信息。同时，我们也会定期整理和发布有关各类会议讲座和论文投稿的各类学术信息，助力大家的学术发展。请扫首页页脚二维码关注我们的GISphere公众号。
       </p>
       <p v-else>
         GISphere maintains an active presence across several social media platforms, such as <a href="https://twitter.com/GISphereGuide">Twitter</a>, <a href="https://www.linkedin.com/company/gisphere/">LinkedIn</a>, <a href="https://www.youtube.com/@gisphere">YouTube</a>, WeChat, <a href="https://space.bilibili.com/1043870260">Bilibili</a>, and <a href="https://www.zhihu.com/people/gisphere">Zhihu</a>, among others. Furthermore, we also have a WhatsApp community. We consistently arrange online events under the banner of the GISalon series, fostering direct engagement among GIS students, emerging professors, and other experts spanning the globe. These gatherings offer a platform to discuss and exchange learning encounters, career guidance, industry-related perspectives, and a wealth of professional insights within the diverse realm of GIS. To learn more, please visit the About page.
       </p>
-      <p style="font-weight: bold">
-        <i class="el-icon-info"></i>
+      <b>
+        <i class="el-icon-s-help"></i>
         {{ lang == 'zh' ? '关注公众号后可以加入GISpace留学微信群。' : 'The QR code for joining the WhatsApp community is in the bottom right corner of the home page.' }}
-      </p>
+      </b>
+      <br/>
+      <br/>
       {{ lang == 'zh' ? '微信群是GIS及相关专业的海外学生学者的高质量活跃交流平台，尤其欢迎一年内有出国出境意向的GIS相关专业小伙伴加入。因群里人数较多，目前需要管理员手动发送邀请链接。请扫首页页脚二维码关注我们的GISphere公众号，并在后台留言“留学群”，可添加管理员好友并获得入群邀请链接。' : 'Feel free to give our Twitter account a follow. We frequently share updates about graduate opportunities in GIS and related fields, along with information about global conferences and competitions that are relevant. This type of information will also be accessible through the Academic Recruiting section on our website.' }}
       <br />
       <br />
@@ -50,13 +56,15 @@
       <br />
       {{ lang == 'zh' ? '信息提供者及参与编辑的志愿者名单见下方的作者名单。' : 'Names of authors and developers of this guide are shown below in the Contributor section.' }}
       <br />
-      <br />
       <p style="font-weight: bold">
-        <i class="el-icon-menu"></i>{{ lang == 'zh' ? '历史版本：' : 'Old version: ' }}
+        <i class="el-icon-menu"></i>
+        {{ lang == 'zh' ? '历史版本：' : 'Old version: ' }}
         <a href="https://gis-info.github.io/">https://gis-info.github.io/</a> (Updated 2020/09)
       </p>
-      <h2><i class="el-icon-s-opportunity"></i>{{ lang == 'zh' ? '版权' : 'Copyright' }}</h2>
+      <h2><i class="el-icon-s-check"></i>{{ lang == 'zh' ? '版权' : 'Copyright' }}</h2>
       {{ lang == 'zh' ? '本文档遵循CC BY-NC 4.0许可，如需非商业转载或修改，请给出署名；商业转载' : 'This guide is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License' }}
+      <h2><i class="el-icon-info"></i>{{ lang == 'zh' ? '提示' : 'Tips' }}</h2>
+      {{ lang == 'zh' ? `本文档包含 ${Object.keys(countries)?.length} 个国家的 ${Object.keys(schools)?.length} 条院校信息，可以通过页面 Ctrl + F 快速检索` : `This document contains information of ${Object.keys(schools)?.length} institutions in ${Object.keys(countries)?.length} countries, which can be quickly retrieved by pressing Ctrl + F on the page` }}
       <h2><i class="el-icon-s-custom"></i>{{ lang == 'zh' ? '作者名单' : 'Contributors' }}</h2>
         {{ lang == 'zh' ? '下面是撰写条目或提供院校信息的作者名单。按姓氏拼音排序。为保护隐私，我们不公开作者的单位信息。部分作者为匿名作者，故在此未予列出。' : 'Below is a list of authors who wrote entries or provided information about one or more institutions. Some authors are anonymous and therefore not listed here. Per the local custom, Chinese surnames are written before the given names.' }}
       <h4>Content providers</h4>
@@ -205,6 +213,7 @@ export default {
   line-height: 1.5;
   height: 100%;
   overflow: auto;
+  scroll-behavior: smooth;
 }
 
 strong {
@@ -222,6 +231,7 @@ el-collapse-item:hover {
 .menu{
   overflow-y: auto;
   overflow-x: hidden;
+  resize: horizontal;
 }
 .menu-item{
   text-align: left;
