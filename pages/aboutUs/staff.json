@@ -43,12 +43,6 @@
       "link": "http://www.linkedin.com/in/yifei-sun-472084207"
     },
     {
-      "name": "邹昱明",
-      "email": "yzou76@GaTech.edu",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujT5yMlHFxL6LKh6t4TGSgs-120_120.jpeg",
-      "link": "linkedin.com/in/ymaggiez/"
-    },
-    {
       "name": "张心怡",
       "email": "zhangxinyi1110@163.com",
       "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhoFsdwpTJByIdM1zdkm5SM-120_120.jpeg",
@@ -762,6 +756,12 @@
       "email": "",
       "img": "",
       "link": ""
+    },
+    {
+      "name": "邹昱明",
+      "email": "yzou76@GaTech.edu",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujT5yMlHFxL6LKh6t4TGSgs-120_120.jpeg",
+      "link": "linkedin.com/in/ymaggiez/"
     }
   ]
 }
