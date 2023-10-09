@@ -1,5 +1,5 @@
 <template>
-  <Main lang="en" />
+  <Main lang="zh" />
 </template>
 
 <script>
@@ -7,8 +7,8 @@ import { mapState } from 'vuex'
 import Main from './components/Main'
 
 export default {
-  name: 'School',
-  fetchKey: 'SchoolInfo',
+  name: 'SchoolZh',
+  fetchKey: 'SchoolInfoZh',
   components: {
     Main,
   },
@@ -21,14 +21,14 @@ export default {
   },
   watch: {
     lang(val){
-      if(val === 'zh'){
-        this.$router.push('/school/zh');
+      if(val === 'en'){
+        this.$router.push('/school');
       }
     }
   },
   mounted() {
-    if(this.lang === 'zh') {
-      this.$router.push('/school/zh');
+    if(this.lang === 'en') {
+      this.$router.push('/school');
     }
   },
   methods: {},

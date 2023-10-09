@@ -28,7 +28,7 @@
           <el-tag v-if="people[p]?.P_GIS === '1'" size="small">GIS</el-tag>
           <el-tag v-if="people[p]?.P_RS === '1'" size="small">RS</el-tag>
           <el-tag v-if="people[p]?.P_GNSS === '1'" size="small">GNSS</el-tag>
-          <el-tag v-for="t in splitInterests(people[p]?.P_Research_Interests)" :key="t" style="margin-right: 6px" size="small">{{ t }}</el-tag>
+          <el-tag v-for="(t, index) in splitInterests(people[p]?.P_Research_Interests)" :key="t + index" class="custom-tag" size="small">{{ t }}</el-tag>
         </p>
       </div>
     </div>
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   props: {
     school: {
@@ -47,14 +46,16 @@ export default {
       type: Object,
       default: () => (null),
     },
+    lang: {
+      type: String,
+      default: 'en'
+    }
   },
   data() {
     return {
     };
   },
-  computed: {
-    ...mapState({ lang: 'language' }),
-  },
+  computed: {},
   methods: {
     splitInterests(interests) {
       if(!interests){
@@ -72,5 +73,8 @@ export default {
 <style scoped>
 .card{
   margin-bottom: 30px;
+}
+.custom-tag{
+  margin-right: 6px
 }
 </style>

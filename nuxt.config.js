@@ -93,15 +93,17 @@ export default {
       const urls = [
         '/postList',
         '/aboutUs',
-        '/school'
+        '/school',
+        '/school/zh'
       ];
       // 帖子页面的路由
       const { data } = await axios.get('https://gisphere.info/api/post');
-      const count = data.count;
-      for(let index = 1; index <= count; index ++){
-        urls.push(`/post/${index}`);
-        urls.push(`/mobile/post/${index}`);
-      }
+      data?.forEach((d)=>{
+        urls.push(`/post/${d.event_id}`);
+        urls.push(`/mobile/post/${d.event_id}`);
+        urls.push(`/post/${d.event_id}?lang=zh`);
+        urls.push(`/mobile/post/${d.event_id}?lang=zh`);
+      })
       return urls;
     }
   }
