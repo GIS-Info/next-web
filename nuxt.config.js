@@ -92,7 +92,8 @@ export default {
     routes: async () => {
       const urls = [
         '/postList',
-        '/aboutUs'
+        '/aboutUs',
+        '/school'
       ];
       // 帖子页面的路由
       const { data } = await axios.get('https://gisphere.info/api/post');
