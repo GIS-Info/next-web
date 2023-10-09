@@ -2,11 +2,6 @@
   <el-container class="container">
     <el-menu text-color="#000000" class="menu" unique-opened :collapse-transition=false>
       <h2 @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
-        <!--
-        <el-menu-item v-for="continent in Object.keys(continents)" :key="continent" :index="continent" @click="goAnchor(`continent:${continent}`)">
-            {{ lang == 'zh' ? continents[continent] : continent }}
-        </el-menu-item>
-        -->
         <el-submenu v-for="continent in Object.keys(continents)" :key="`continent:${continent}`" :index="`continent:${continent}`">
           <template slot="title">
             <div class="menu-item" @click="goAnchor(`continent:${continent}`)">
