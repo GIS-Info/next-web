@@ -25,6 +25,7 @@
           <el-tag v-if="people[p]?.P_Physical_Geography === '1'" size="small">{{ lang == 'zh' ? '自然地理' : 'Physical Geography' }}</el-tag>
           <el-tag v-if="people[p]?.P_Human_Geography === '1'" size="small">{{ lang == 'zh' ? '人文地理' : 'Human Geography' }}</el-tag>
           <el-tag v-if="people[p]?.P_Urban_Planning === '1'" size="small">{{ lang == 'zh' ? '规划' : 'Urban Planning' }}</el-tag>
+          <el-tag v-if="people[p]?.P_Transportation === '1'" size="small">{{ lang == 'zh' ? '交通' : 'Transportation' }}</el-tag>
           <el-tag v-if="people[p]?.P_GIS === '1'" size="small">GIS</el-tag>
           <el-tag v-if="people[p]?.P_RS === '1'" size="small">RS</el-tag>
           <el-tag v-if="people[p]?.P_GNSS === '1'" size="small">GNSS</el-tag>
