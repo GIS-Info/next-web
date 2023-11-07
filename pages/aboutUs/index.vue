@@ -52,18 +52,20 @@
         </el-tab-pane>
       </el-tabs>
       <h2>成员地图</h2>
-      <div id="staffmap" class="staffmap"></div>
+      <staffMap :staffs="1"></staffMap>
     </div>
   </div>
 </template>
 
 <script>
 import satffList from './components/staffList.vue'
+import staffMap from './components/staffMap.vue'
 import staffInfo from './staff.json'
 import { isMobile } from '@/utils/index'
 export default {
   components: {
     satffList,
+    staffMap,
   },
   data() {
     return {
@@ -99,10 +101,6 @@ h2 {
     max-width: 1200px;
     padding: 40px 20px;
     box-sizing: border-box;
-  }
-  .staffmap {
-    width: 100%;
-    height: 30%;
   }
 }
 </style>
