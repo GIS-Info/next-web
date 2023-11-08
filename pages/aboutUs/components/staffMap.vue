@@ -21,10 +21,10 @@ export default {
           // 监测到 staffs 参数变化时重新加载图层
 
           this.RemoveLayers()
-          console.log(this._data.map.getSource('staff'))
-          console.log(newStaffs)
+          //   console.log(this._data.map.getSource('staff'))
+          //   console.log(newStaffs)
           this.LoadLayers(newStaffs)
-          console.log(this._data.map.getSource('staff'))
+          //   console.log(this._data.map.getSource('staff'))
         }
       },
       immediate: true, // 立即执行监听
