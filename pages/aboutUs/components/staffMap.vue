@@ -19,10 +19,9 @@ export default {
       handler(newStaffs) {
         if (this._data.map) {
           // 监测到 staffs 参数变化时重新加载图层
+          console.log('detect param change, remove layer!')
+          this.RemoveLayers(newStaffs)
 
-          this.RemoveLayers()
-          //   console.log(this._data.map.getSource('staff'))
-          //   console.log(newStaffs)
           this.LoadLayers(newStaffs)
           //   console.log(this._data.map.getSource('staff'))
         }
@@ -47,14 +46,33 @@ export default {
       this.LoadLayers(this.staffs) // 初始化时加载图层
       this.SetPopup(map)
     },
-    RemoveLayers() {
+    RemoveLayers(staffdata) {
       if (this._data.map.getSource('staff')) {
         this._data.map.removeLayer('staff_location')
         this._data.map.removeSource('staff')
       }
+      // this.LoadLayers(this.staff)
+      // test
+      console.log('now add source again')
+      console.log(staffdata)
+      this._data.map.addSource('staff', {
+        type: 'geojson',
+        data: staffdata,
+      })
+      this._data.map.addLayer({
+        id: 'staff_location',
+        type: 'circle',
+        source: 'staff',
+        paint: {
+          'circle-color': '#4264fb',
+          'circle-radius': 6,
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#ffffff',
+        },
+      })
     },
     LoadLayers(staffdata) {
-      if (!this._data.map) return // 防止地图未初始化时执行
+      // if (!this._data.map) return // 防止地图未初始化时执行
 
       this._data.map.on('load', () => {
         this._data.map.addSource('staff', {
