@@ -222,7 +222,11 @@ export default {
       let copyTxt = ''
       e.preventDefault() // 取消默认的复制事件
       copyTxt = window.getSelection(0).toString()
-      copyTxt = `${copyTxt}\n\n________________\n作者：GISphere\n原文：${window.location.href}\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。`
+      const urlPattern = /^\s*(?:(http|https|ftp):\/\/)?((?:[\w-]+\.)+[a-z0-9]+)((?:\/[^/?#]*)+)?(\?[^#]+)?(#.+)?$/i
+      const emailPattern = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+      if(!urlPattern.test(copyTxt) && !emailPattern.test(copyTxt)){
+        copyTxt = `${copyTxt}\n\n________________\n作者：GISphere\n原文：${window.location.href}\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。`
+      }
       const clipboardData = e.clipboardData || window.clipboardData
       clipboardData.setData('text', copyTxt)
     },
