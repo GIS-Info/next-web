@@ -60,7 +60,6 @@
 <script>
 import satffList from './components/staffList.vue'
 import staffMap from './components/staffMap.vue'
-import staffInfo from './staff.json'
 import staffGeoInfo from './staff_geom.json'
 import { isMobile } from '@/utils/index'
 export default {
@@ -71,7 +70,6 @@ export default {
   data() {
     return {
       tab: 'gisinfo',
-      info: staffInfo,
       geoinfo: staffGeoInfo,
       lang: 'en',
     }
