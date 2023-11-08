@@ -52,7 +52,7 @@
         </el-tab-pane>
       </el-tabs>
       <h2>成员地图</h2>
-      <staffMap :staffs="1"></staffMap>
+      <staffMap :staffs="currentStaff"></staffMap>
     </div>
   </div>
 </template>
@@ -61,6 +61,7 @@
 import satffList from './components/staffList.vue'
 import staffMap from './components/staffMap.vue'
 import staffInfo from './staff.json'
+import staffGeoInfo from './staff_geom.json'
 import { isMobile } from '@/utils/index'
 export default {
   components: {
@@ -71,7 +72,22 @@ export default {
     return {
       tab: 'gisinfo',
       info: staffInfo,
+      geoinfo: staffGeoInfo,
+      lang: 'en',
     }
+  },
+  computed: {
+    currentStaff: {
+      get() {
+        return this.geoinfo[this.tab]
+      },
+      set() {},
+    },
+  },
+  watch: {
+    tab(newTab) {
+      this.currentStaff = this.geoinfo[newTab]
+    },
   },
   mounted() {
     if (isMobile()) {
