@@ -34,6 +34,18 @@
         {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，最新版本更新时间为2021年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'This School Instruction Project was launched in September 2019, and the latest version will be updated in September 2021, aiming to provide timely and comprehensive information on global GIS and related professional colleges. The information is provided by current students, recently graduated alumni or young teachers from prestigious schools of GIS and urban planning and other related majors around the world. We hope this guide can provide help and support for GIS-related professional friends who intend to study abroad.' }}
       <br/>
       <br/>
+      
+      <!-- Embed Map -->
+      <div class="map-container">
+        <iframe
+          src="https://maptable.com/s/m/d344uyaa85j4?loc=11.54,39.23,2.00z"
+          width="78%"
+          height="400"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <br/>
         <b><i class="el-icon-s-opportunity"></i>
         {{ lang == 'zh' ? '社区' : 'GISphere in media' }}</b>
       <br />
@@ -266,5 +278,10 @@ el-collapse-item:hover {
 }
 .menu-item{
   text-align: left;
+}
+
+.map-container {
+  text-align: center;
+  margin-top: 20px; /* Adjust as needed */
 }
 </style>
