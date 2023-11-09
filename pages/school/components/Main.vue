@@ -37,13 +37,7 @@
       
       <!-- Embed Map -->
       <div class="map-container">
-        <iframe
-          src="https://maptable.com/s/m/d344uyaa85j4?loc=11.54,39.23,2.00z"
-          width="78%"
-          height="400"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <iframe width="90%" height="450" frameborder="0" id="maptableEmbedMap" src="https://maptable.com/s/embed/d344uyaa85j4?loc=10.55,8.59,7.53z" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <br/>
         <b><i class="el-icon-s-opportunity"></i>
