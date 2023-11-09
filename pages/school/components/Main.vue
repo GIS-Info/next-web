@@ -23,21 +23,6 @@
           </el-submenu>
         </el-submenu>
     </el-menu>
-
-    <style>
-      .map-container {
-        text-align: center;
-      }
-    
-      .map-iframe {
-        width: 70%;
-        height: 400px;
-      }
-    </style>
-    
-    <div class="map-container">
-        <iframe width="78%" height="450" frameborder="0" id="maptableEmbedMap" src="https://maptable.com/s/embed/d344uyaa85j4?loc=10.55,8.59,7.53z" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
     
     <el-main class="main">
       <el-row>
