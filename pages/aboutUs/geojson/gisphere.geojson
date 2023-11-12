@@ -1,0 +1,176 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "id": "0",
+            "type": "Feature",
+            "properties": {
+                "name": "郑安然",
+                "email": "anranzheng@ufl.edu",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugyes1L5l1Ka7946TVoi9lz-120_120.jpeg",
+                "link": "https://anranz.netlify.app/",
+                "edu_degree": "博士在读",
+                "current_place": "佛罗里达大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -82.34826699999999,
+                    29.647456
+                ]
+            }
+        },
+        {
+            "id": "1",
+            "type": "Feature",
+            "properties": {
+                "name": "顾弘开",
+                "email": "hongkai.gu@ugent.be",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNui9HBIvQtFOm4rSwGGAz2Kc-120_120.jpeg",
+                "link": "https://www.linkedin.com/in/hongkai-gu-bb4272117",
+                "edu_degree": "博士在读",
+                "current_place": "根特大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    3.7267615000000003,
+                    51.0453395
+                ]
+            }
+        },
+        {
+            "id": "3",
+            "type": "Feature",
+            "properties": {
+                "name": "胡志韧",
+                "email": "zh443@cornell.edu",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhBqiZpWYNO6or-xI4OJIa2-120_120.jpeg",
+                "link": "https://zhirenhu.weebly.com/",
+                "edu_degree": "博士在读",
+                "current_place": "康奈尔大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -76.4833295,
+                    42.447363499999994
+                ]
+            }
+        },
+        {
+            "id": "4",
+            "type": "Feature",
+            "properties": {
+                "name": "刘昊坤",
+                "email": "eugeneliuhaokun@gmail.com",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugLqqVBkwlP25qeKJCSRFbB-120_120.jpeg",
+                "link": "https://www.linkedin.com/in/haokun-liu-59900517b/",
+                "edu_degree": "博士在读",
+                "current_place": "洛桑大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    6.64254575,
+                    46.526103125
+                ]
+            }
+        },
+        {
+            "id": "7",
+            "type": "Feature",
+            "properties": {
+                "name": "张心怡",
+                "email": "zhangxinyi1110@163.com",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhoFsdwpTJByIdM1zdkm5SM-120_120.jpeg",
+                "link": "",
+                "edu_degree": "硕士在读",
+                "current_place": "南京大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    118.7755345,
+                    32.055186
+                ]
+            }
+        },
+        {
+            "id": "10",
+            "type": "Feature",
+            "properties": {
+                "name": "李梦琪",
+                "email": "mengqi.li0907@gmail.com",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj_PVpt5O9DE4gw6B-obTJN-120_120.jpeg",
+                "link": "https://www.linkedin.cn/incareer/in/ACoAAD2Jl84Bhnh6mfhCbxbZI2IpOuTt6KK91mg",
+                "edu_degree": "硕士在读",
+                "current_place": "苏黎世大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.548363,
+                    47.3748005
+                ]
+            }
+        },
+        {
+            "id": "12",
+            "type": "Feature",
+            "properties": {
+                "name": "田浩",
+                "email": "houhtien@gmail.com",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujiv65hgOhNhotKyuqsn8AL-120_120.jpeg",
+                "link": "",
+                "edu_degree": "博士在读",
+                "current_place": "德州农工大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -95.90614500000001,
+                    33.242213
+                ]
+            }
+        },
+        {
+            "id": "13",
+            "type": "Feature",
+            "properties": {
+                "name": "闫雪",
+                "email": "yanxue171@gmail.com",
+                "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuioKk0iBm9E36islhvmjzoh-120_120.jpeg",
+                "link": "",
+                "edu_degree": "博士在读",
+                "current_place": "亚利桑那州立大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111.93319149999999,
+                    33.4209125
+                ]
+            }
+        },
+        {
+            "id": "15",
+            "type": "Feature",
+            "properties": {
+                "name": "周俊奕",
+                "email": "emilyz112@icloud.com",
+                "img": "",
+                "link": "",
+                "edu_degree": "硕士在读",
+                "current_place": "宾夕法尼亚大学"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.191259,
+                    39.9492625
+                ]
+            }
+        }
+    ]
+}
