@@ -17,6 +17,7 @@
               >招生信息</el-button
             >
             <el-button
+              v-if="false"
               class="explore-job-recruiting"
               @click="goToPostList('job')"
               >招聘信息</el-button
@@ -38,6 +39,7 @@
               >Academic Recruiting</el-button
             >
             <el-button
+              v-if="false"
               class="explore-job-recruiting"
               @click="goToPostList('job')"
               >Job Recruiting</el-button
@@ -48,6 +50,8 @@
           </div>
         </div>
       </div>
+
+      <el-button class="white-book-button explore-job-recruiting" round @click="$router.push('/white-book')">{{ lang == 'zh' ? 'GISphere 留学指南 · 大数据报告白皮书' : 'GISphere Global Admission Annual Review' }}</el-button>
 
       <!-- Contact Us pop up card -->
       <div>
@@ -69,9 +73,7 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" round class="contact-us-button"
-            >联系我们 / 加入我们</el-button
-          >
+          <el-button type="info" round class="contact-us-button">联系我们 / 加入我们</el-button>
         </div>
         <!-- EN -->
         <div
@@ -599,5 +601,10 @@ export default {
     margin-left: 0 !important;
     margin-bottom: 1rem;
   }
+}
+.white-book-button{
+  position: absolute;
+  bottom: 60px;
+  right: 260px;
 }
 </style>
