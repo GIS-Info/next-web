@@ -87,7 +87,7 @@ export default {
     path: '/sitemap.xml',
     hostname: 'https://gisphere.info/',
     exclude: ['**'],
-    cacheTime: 1000, // * 60 * 60 * 6, //  更新频率
+    cacheTime: 1000 * 60 * 60, // 更新频率
     routes: () => {
       const urls = [
         '',
