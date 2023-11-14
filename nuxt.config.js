@@ -88,7 +88,7 @@ export default {
     hostname: 'https://gisphere.info/',
     exclude: ['**'],
     cacheTime: 1000 * 60 * 60, // 更新频率
-    routes: () => {
+    routes: async () => {
       const urls = [
         '',
         '/postList',
@@ -98,8 +98,8 @@ export default {
         '/white-book',
       ];
       // 帖子页面的路由
-      const { data } = axios.get('https://gisphere.info/api/post?pageSize=99999&pageIndex=1');
-      data?.data?.forEach((d)=>{
+      const res = await axios.get('https://gisphere.info/api/post?pageSize=99999&pageIndex=1')
+      res?.data?.data?.forEach((d)=>{
         urls.push(`/post/${d.event_id}`);
         urls.push(`/mobile/post/${d.event_id}`);
         urls.push(`/post/${d.event_id}?lang=zh`);
