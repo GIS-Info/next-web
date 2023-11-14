@@ -86,18 +86,20 @@ export default {
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://gisphere.info/',
-    exclude: [],
-    // cacheTime: 60 * 60 * 6, //  更新频率
-    // generate: false,
-    routes: async () => {
+    exclude: ['**'],
+    cacheTime: 1000, // * 60 * 60 * 6, //  更新频率
+    routes: () => {
       const urls = [
+        '',
         '/postList',
         '/aboutUs',
         '/school',
-        '/school/zh'
+        '/school/zh',
+        '/white-book',
+        '/xx'
       ];
       // 帖子页面的路由
-      const { data } = await axios.get('https://gisphere.info/api/post');
+      const { data } = axios.get('https://gisphere.info/api/post?pageSize=99999&pageIndex=1');
       data?.forEach((d)=>{
         urls.push(`/post/${d.event_id}`);
         urls.push(`/mobile/post/${d.event_id}`);
