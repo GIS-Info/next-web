@@ -19,6 +19,18 @@
         <b>GISalon 圆桌讨论</b> 和学长学姐“零距离”聊聊留学和职业发展那些事儿
       </p>
       <h2>团队成员</h2>
+      <div class="map-container">
+        <iframe
+          id="maptable_AboutUs"
+          width="90%"
+          height="450"
+          frameborder="0"
+          :src="mapinfo[tab]"
+          allowfullscreen="true"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
       <el-tabs v-model="tab">
         <el-tab-pane label="GIS-Info 网站" name="gisinfo">
           <satff-list :staffs="info.gisinfo" />
@@ -51,42 +63,47 @@
           <satff-list :staffs="info.alumni" />
         </el-tab-pane>
       </el-tabs>
-      <h2>成员地图</h2>
-      <staffMap :staffs="currentStaff"></staffMap>
     </div>
   </div>
 </template>
 
 <script>
 import satffList from './components/staffList.vue'
-import staffMap from './components/staffMap.vue'
-import staffGeoInfo from './staff_geom.json'
+import staffInfo from './staff.json'
 import { isMobile } from '@/utils/index'
 export default {
   components: {
     satffList,
-    staffMap,
   },
   data() {
     return {
       tab: 'gisinfo',
-      geoinfo: staffGeoInfo,
+      info: staffInfo,
       lang: 'en',
+      mapinfo: {
+        gisinfo:
+          'https://maptable.com/s/embed/d3qjbxkuornk?loc=32.36,20.11,2.00z',
+        gisalon:
+          'https://maptable.com/s/embed/d3qkcdxa86bk?loc=38.17,9.24,2.00z',
+        gisource:
+          'https://maptable.com/s/embed/d3qkrxdviy2o?loc=35.48,18.53,2.00z',
+        gispace:
+          'https://maptable.com/s/embed/d3ql8ozd8dmo?loc=41.89,-82.36,2.00z',
+        alumni:
+          'https://maptable.com/s/embed/d3qlgyu6uww0?loc=28.04,22.95,2.00z',
+        gisphere:
+          'https://maptable.com/s/embed/d3qmlc99gcg0?loc=40.35,3.42,2.00z',
+        media: 'https://maptable.com/s/embed/d3qmyncqcrgg?loc=29.10,9.01,2.00z',
+        interview:
+          'https://maptable.com/s/embed/d3qna9hggx6o?loc=31.32,12.86,2.00z',
+        design:
+          'https://maptable.com/s/embed/d3qnk40onhfk?loc=39.76,-43.16,2.00z',
+        publicity:
+          'https://maptable.com/s/embed/d3qnrqdl5x4w?loc=39.32,17.31,2.00z',
+      },
     }
   },
-  computed: {
-    currentStaff: {
-      get() {
-        return this.geoinfo[this.tab]
-      },
-      set() {},
-    },
-  },
-  watch: {
-    tab(newTab) {
-      this.currentStaff = this.geoinfo[newTab]
-    },
-  },
+
   mounted() {
     if (isMobile()) {
       this.$router.push('/mobile' + this.$router.currentRoute.path)
@@ -115,6 +132,11 @@ h2 {
     max-width: 1200px;
     padding: 40px 20px;
     box-sizing: border-box;
+  }
+  .map-container {
+    text-align: center;
+    margin-top: 20px; /* Adjust as needed */
+    margin-bottom: 20px;
   }
 }
 </style>
