@@ -79,7 +79,6 @@ export default {
     return {
       tab: 'gisinfo',
       info: staffInfo,
-      lang: 'en',
       mapinfo: {
         gisinfo:
           'https://maptable.com/s/embed/d3qjbxkuornk?loc=32.36,20.11,2.00z',
