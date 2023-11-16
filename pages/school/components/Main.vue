@@ -37,7 +37,7 @@
       
       <!-- Embed Map -->
       <div class="map-container">
-        <iframe width="90%" height="450" frameborder="0" id="maptableEmbedMap" src="https://maptable.com/s/embed/d344uyaa85j4?loc=10.55,8.59,7.53z" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe width="93%" height="450" frameborder="0" id="maptableEmbedMap" src="https://maptable.com/s/embed/d344uyaa85j4?loc=15.25,52.63,2.48z" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <br/>
         <b><i class="el-icon-s-opportunity"></i>
