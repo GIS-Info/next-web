@@ -390,6 +390,7 @@ export default {
   border: solid 2px #2c3aaa;
   width: 220px;
   height: 50px;
+  font-size: 16px;
 }
 .explore-academic-recruiting {
 }
