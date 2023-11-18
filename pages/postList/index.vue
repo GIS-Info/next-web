@@ -2,99 +2,6 @@
   <!-- 此页面不做服务端渲染 -->
   <client-only>
     <el-main v-loading="loading" class="main">
-      <!-- 暂时不显示 banner -->
-      <!-- 中文banner -->
-      <!--
-    <div v-if="lang =='zh'" class="page-banner">
-
-      <div class="dropdown level">
-        <button class="dropdown-button">职位层次 &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">博士</a>
-          <a href="#">硕士</a>
-          <a href="#">本科</a>
-        </div>
-      </div>
-
-      <div class="dropdown loc">
-        <button class="dropdown-button">国家及地区 &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">美国</a>
-          <a href="#">中国香港</a>
-          <a href="#">德国</a>
-        </div>
-      </div>
-
-
-      <div class="dropdown start-term">
-        <button class="dropdown-button"> 开始时间 &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">春季 (学期制)</a>
-          <a href="#">春季 (学季制)</a>
-          <a href="#">夏季 (学期制)</a>
-        </div>
-      </div>
-      <div class="dropdown uni">
-        <button class="dropdown-button">学校 &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">伊利诺伊大学香槟分校</a>
-          <a href="#">纽约大学</a>
-          <a href="#">哥伦比亚大学</a>
-        </div>
-      </div>
-
-
-      <button class="reset_button">重置</button>
-      <button class="addPost_button" @click="goAddPost">添加招聘</button>
-    </div>
-    -->
-
-      <!-- 英文banner -->
-      <!--
-    <div v-if="lang =='en'" class="page-banner">
-
-      <div class="dropdown level">
-        <button class="dropdown-button">Level &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">Ph.D.</a>
-          <a href="#">Master</a>
-          <a href="#">Bachelor</a>
-        </div>
-      </div>
-
-      <div class="dropdown loc">
-        <button class="dropdown-button">Country / Region &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">United States</a>
-          <a href="#">Hongkong,China</a>
-          <a href="#">Germany</a>
-        </div>
-      </div>
-
-
-
-      <div class="dropdown start-term">
-        <button class="dropdown-button"> Start Term &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">Spring (Semester)</a>
-          <a href="#">Spring (Quarter)</a>
-          <a href="#">Summer (Semester)</a>
-        </div>
-      </div>
-
-      <div class="dropdown uni">
-        <button class="dropdown-button">University &#9660;</button>
-        <div class="dropdown-content">
-          <a href="#">University of Illinois, Urbana-Champaign</a>
-          <a href="#">New York University</a>
-          <a href="#">Columbia University</a>
-        </div>
-      </div>
-      <button class="reset_button">Reset</button>
-      <button class="addPost_button" @click="goAddPost">Add Post</button>
-    </div>
-    -->
-
       <div class="list">
         <div
           v-for="post in postListData"
@@ -110,7 +17,6 @@
             <span>{{
               (lang == 'zh' ? post.country_cn : post.country_en) || '-'
             }}</span>
-            <!-- <span>发布于 <b>{{ post.date || '未知时间' }}</b></span> -->
             <!-- 改写上面这行代码为：如果是中文的时候就是 ‘发布于’，如果是英文的时候就是 ‘Published on’ -->
             <span
               >{{ lang == 'zh' ? '发布于' : 'Published on' }}
@@ -129,17 +35,6 @@
         >
         </el-pagination>
       </div>
-
-      <!-- 页码 中英文-->
-      <!--
-    <div class="page-div">
-      <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>上一页</strong></button>
-      <button class="button-changePage" v-if="lang =='en'" @click="goPrevPage"><strong>PREV</strong></button>
-      <button class="button-page">1</button>
-      <button class="button-changePage" v-if="lang =='en'" @click="goNextPage"><strong>NEXT</strong></button>
-      <button class="button-changePage" v-if="lang =='zh'" @click="goPrevPage"><strong>下一页</strong></button>
-    </div>
-    -->
 
       <!-- 中文filter -->
       <div v-if="lang == 'zh'" class="filter">
@@ -188,24 +83,6 @@
             {{ option.text }}
           </option>
         </select>
-        <!-- <table class="by-month">
-          <tr>
-            <td><button class="button-month" id='1' @click="queryByDate($event)">1月</button></td>
-            <td><button class="button-month" @click="queryByDate('02')">2月</button></td>
-            <td><button class="button-month" @click="queryByDate('03')">3月</button></td>
-            <td><button class="button-month" @click="queryByDate('04')">4月</button></td>
-            <td><button class="button-month" @click="queryByDate('05')">5月</button></td>
-            <td><button class="button-month" @click="queryByDate('06')">6月</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-month" @click="queryByDate('07')">7月</button></td>
-            <td><button class="button-month" @click="queryByDate('08')">8月</button></td>
-            <td><button class="button-month" @click="queryByDate('09')">9月</button></td>
-            <td><button class="button-month" @click="queryByDate('10')">10月</button></td>
-            <td><button class="button-month" @click="queryByDate('11')">11月</button></td>
-            <td><button class="button-month" @click="queryByDate('12')">12月</button></td>
-          </tr>
-        </table> -->
         <table class="by-month">
           <tr>
             <td v-for="month1 in months1" :key="month1">
@@ -278,24 +155,6 @@
           <option>2023</option>
           <option>2022</option>
         </select>
-        <!-- <table class="by-month">
-          <tr>
-            <td><button class="button-month">Jan</button></td>
-            <td><button class="button-month">Feb</button></td>
-            <td><button class="button-month">Mar</button></td>
-            <td><button class="button-month">Apr</button></td>
-            <td><button class="button-month">May</button></td>
-            <td><button class="button-month">Jun</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-month">Jul</button></td>
-            <td><button class="button-month">Aug</button></td>
-            <td><button class="button-month">Sep</button></td>
-            <td><button class="button-month">Oct</button></td>
-            <td><button class="button-month">Nov</button></td>
-            <td><button class="button-month">Dec</button></td>
-          </tr>
-        </table> -->
         <table class="by-month">
           <tr>
             <td v-for="i in 6" :key="i - 1">
@@ -338,7 +197,6 @@
 
 <script>
 import { mapState } from 'vuex'
-// import { options } from 'yargs';
 
 export default {
   name: 'PostList',
@@ -596,7 +454,7 @@ export default {
   /* Button Feature */
   line-height: 20px;
   text-align: center;
-  background: #7ce3b3;
+  background: #53389e;
   border-radius: 20px;
   border-width: 0px;
   padding: 5px 15px;
@@ -621,7 +479,7 @@ export default {
 }
 
 .dropdown-content a:hover {
-  box-shadow: 0px 0 15px #7ce3b3;
+  box-shadow: 0px 0 15px #53389e;
   border-radius: 20px;
   background-color: #ffffff;
 }
@@ -709,7 +567,7 @@ export default {
   text-align: center;
   background: #ffffff;
   border-radius: 20px;
-  border-color: #7ce3b3;
+  border-color: #53389e;
   border-width: 5px;
   padding: 0px 10px;
   cursor: pointer;
@@ -747,7 +605,7 @@ export default {
 }
 
 .entry:hover {
-  box-shadow: 0px 0 4px #70a28b;
+  box-shadow: 0px 0 2px #53389e;
 }
 
 .entry-title {
@@ -796,12 +654,12 @@ export default {
 }
 
 .button-page:hover {
-  background-color: #7ce3b3;
+  background-color: #53389e;
   color: black;
 }
 
 .button-page:active {
-  box-shadow: 0px 0 15px #7ce3b3;
+  box-shadow: 0px 0 15px #53389e;
 }
 
 .button-changePage {
@@ -839,7 +697,7 @@ export default {
   max-width: 500px;
   border-radius: 20px;
   outline: none;
-  border: 3px solid #7ce3b3;
+  border: 3px solid #53389e;
   padding: 0 20px;
   color: #606266;
   background: #ffffff;
@@ -864,8 +722,8 @@ export default {
 }
 
 .filter-title hr {
-  background-color: #7ce3b3;
-  border: 1px solid #7ce3b3;
+  background-color: #53389e;
+  border: 1px solid #53389e;
   width: 35%;
 }
 
@@ -873,7 +731,7 @@ export default {
   position: relative;
   top: 20px;
   left: 0px;
-  border: 0px solid #7ce3b3;
+  border: 0px solid #53389e;
   padding: 5px;
   word-spacing: 30px;
 }
@@ -900,8 +758,8 @@ export default {
 }
 
 .button-month:hover {
-  background-color: #7ce3b3;
-  color: #303133;
+  background-color: #53389e;
+  color: #ffffff;
 }
 
 .by-field {
@@ -925,7 +783,7 @@ export default {
 }
 
 .button-field:hover {
-  background-color: #7ce3b3;
-  color: #303133;
+  background-color: #53389e;
+  color: #fff;
 }
 </style>
