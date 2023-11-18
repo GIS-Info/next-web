@@ -1,12 +1,10 @@
 <template>
   <div class="background">
-
-    <section class="error-container">
-      <span>4</span>
-      <span><span class="screen-reader-text">0</span></span>
-      <span>4</span>
-    </section>
-    <div class="desc">Oops! Lost in Space</div>
+    <div class="desc">
+      <p>Error</p>
+      <p>页面出现错误，这可能是由于您的设备不受支持，请尝试通过 PC 浏览器访问本站</p>
+      <p>There is an error on the page. This may be because your device is not supported. Please try to access this site through a PC browser.</p>
+    </div>
     <button class="home" @click="goHome">Go Back Home</button>
 
   </div>
@@ -44,15 +42,13 @@
     .background {
     background-color: #303133;
     height:100%;
-  
   }
     .desc {
     font-family: 'Catamaran', sans-serif;
-    font-size: 50px;
+    font-size: 20px;
     text-shadow: 0 0 0.5em #0ae642, 0 0 0.2em #5c5c5c;
     color: #fefefe;
     position: absolute;
-    left: 39%;
     
   }
     .error-container {

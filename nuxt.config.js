@@ -7,7 +7,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
 
   head: {
-    title: 'GIS 留学指南',
+    title: 'GISphere | GIS 留学指南',
     htmlAttrs: {
       lang: 'en'
     },
