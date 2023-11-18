@@ -102,6 +102,11 @@ export default {
       },
     }
   },
+  head() {
+    return {
+      title: 'GISphere | 关于我们',
+    }
+  },
 
   mounted() {
     if (isMobile()) {

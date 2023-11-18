@@ -29,7 +29,13 @@ export default {
       jsonData,
     }
   },
-  async fetch() {},
+  async fetch() { },
+  head() {
+    return {
+      title: 'GISphere | ' +
+        this.lang === 'en' ? 'Global Admission Annual Review' : '留学指南-大数据报告白皮书',
+    }
+  },
   computed: {
     ...mapState({ lang: 'language' }),
   },

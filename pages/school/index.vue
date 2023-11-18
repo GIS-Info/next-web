@@ -16,6 +16,11 @@ export default {
     return {}
   },
   async fetch() {},
+  head() {
+    return {
+      title: 'GISphere | Institution Guide',
+    }
+  },
   computed: {
     ...mapState({ lang: 'language' }),
   },

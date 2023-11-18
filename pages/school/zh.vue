@@ -15,7 +15,12 @@ export default {
   data() {
     return {}
   },
-  async fetch() {},
+  async fetch() { },
+  head() {
+    return {
+      title: 'GISphere | GIS 留学院校指南',
+    }
+  },
   computed: {
     ...mapState({ lang: 'language' }),
   },

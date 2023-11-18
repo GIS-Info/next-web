@@ -289,6 +289,11 @@ export default {
       universitiesEN: universities.en,
     }
   },
+  head() {
+    return {
+      title: 'GISphere'
+    }
+  },
   computed: {
     ...mapState({ lang: 'language' }),
     maxUniversitiesListLength() {

@@ -47,11 +47,17 @@ export default {
     satffList,
   },
   layout: 'mobile',
+
   data() {
     return {
       tab: 'gisinfo',
       info: staffInfo
     };
+  },
+  head() {
+    return {
+      title: 'GISphere | 关于我们',
+    }
   },
 }
 </script>

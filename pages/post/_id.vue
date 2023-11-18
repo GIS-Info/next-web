@@ -158,7 +158,7 @@ export default {
   },
   head() {
     return {
-      title:
+      title: 'GISphere | ' +
         this.lang === 'en' ? this.postdata.title_en : this.postdata.title_cn,
     }
   },

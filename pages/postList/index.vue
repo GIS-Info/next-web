@@ -237,6 +237,11 @@ export default {
       ],
     }
   },
+  head() {
+    return {
+      title: 'GISphere | 资讯',
+    }
+  },
   computed: {
     ...mapState({ lang: 'language' }),
   },
