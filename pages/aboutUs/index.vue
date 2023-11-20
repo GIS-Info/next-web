@@ -28,7 +28,6 @@
           :src="mapinfo[tab]"
           allowfullscreen="true"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
       <el-tabs v-model="tab">
