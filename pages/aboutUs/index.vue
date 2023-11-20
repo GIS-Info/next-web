@@ -1,37 +1,6 @@
 <template>
   <div class="container">
     <div class="main">
-<<<<<<< HEAD
-      <h2>{{ lang == 'zh' ? '关于我们' : 'About Us' }}</h2>
-      <p>
-        GISphere
-        是一个公益项目，由一批在全球不同院校从事地理信息及相关领域科研工作的中国青年学生学者于2019年9月提供一个分享世界各地GIS相关研究生项目、导师和学术前沿信息的在线平台，促进不同国家/地区的GIS相关院校与学生之间的交流、教育与发生的纠纷是合作，共同推动GIS学科和相关产业的发展。目前，旗下子项目包括：
-      </p>
-      <p><b>GIS-Info 网站</b> 全面介绍海外 GIS 相关院校、专业及老师信息</p>
-      <p>
-        <b>GISphere 公众号</b> 分享海外院校GIS相关专业学生的申请经验及就读体验
-      </p>
-      <p>
-        <b>GISource 环球资讯速递</b>
-        实时发布最新海外院校GIS相关硕士、博士等招生信息
-      </p>
-      <p><b>GISpace 社区讨论群</b> 为GIS相关专业的海外学者和学生提供交流平台</p>
-      <p>
-        <b>GISalon 圆桌讨论</b> 和学长学姐“零距离”聊聊留学和职业发展那些事儿
-      </p>
-      <h2>团队成员</h2>
-      <div class="map-container">
-        <iframe
-          id="maptable_AboutUs"
-          width="90%"
-          height="450"
-          frameborder="0"
-          :src="mapinfo[tab]"
-          allowfullscreen="true"
-          loading="lazy"
-        ></iframe>
-      </div>
-=======
     <section>
         <h1>About GISphere</h1>
             <li style="font-size: larger;">
