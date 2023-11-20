@@ -71,7 +71,6 @@
     </section>
 
       <h2>Team Member</h2>
->>>>>>> 31c0cacd2e42b77e2d83bb4e25d02d89f2923462
       <el-tabs v-model="tab">
         <el-tab-pane label="GIS-Info Website" name="gisinfo">
           <satff-list :staffs="info.gisinfo" />
