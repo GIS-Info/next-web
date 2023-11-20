@@ -589,7 +589,7 @@ export default {
   right: 260px;
   border: solid 2px #2c3aaa;
   color: #2c3aaa;
-  background-color: transparent;
+  background-color: rgba(255,255,255,0.5);
 }
 .white-book-button:hover {
   color: #fff;
