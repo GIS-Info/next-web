@@ -71,6 +71,18 @@
     </section>
 
       <h2>Team Member</h2>
+        <div class="map-container">
+        <iframe
+          id="maptable_AboutUs"
+          width="90%"
+          height="450"
+          frameborder="0"
+          :src="mapinfo[tab]"
+          allowfullscreen="true"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
       <el-tabs v-model="tab">
         <el-tab-pane label="GIS-Info Website" name="gisinfo">
           <satff-list :staffs="info.gisinfo" />
