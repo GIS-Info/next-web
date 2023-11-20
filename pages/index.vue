@@ -12,17 +12,17 @@
           </div>
           <div class="welcome-buttons">
             <el-button
-              class="explore-academic-recruiting"
+              type="primary"
+              class="big-button explore-academic-recruiting"
               @click="goToPostList('academic')"
               >招生信息</el-button
             >
             <el-button
               v-if="false"
-              class="explore-job-recruiting"
               @click="goToPostList('job')"
               >招聘信息</el-button
             >
-            <el-button class="explore-programs" @click="goToUniversityList"
+            <el-button class="big-button explore-programs" @click="goToUniversityList"
               >院校指南</el-button
             >
           </div>
@@ -34,25 +34,23 @@
           </div>
           <div class="welcome-buttons">
             <el-button
-              class="explore-academic-recruiting"
+              type="primary"
+              class="big-button explore-academic-recruiting"
               @click="goToPostList('academic')"
               >Academic Recruiting</el-button
             >
             <el-button
               v-if="false"
-              class="explore-job-recruiting"
               @click="goToPostList('job')"
               >Job Recruiting</el-button
             >
-            <el-button class="explore-programs" @click="goToUniversityList"
+            <el-button class="big-button explore-programs" @click="goToUniversityList"
               >Institutions</el-button
             >
           </div>
         </div>
       </div>
-
       <el-button class="white-book-button explore-job-recruiting" round @click="$router.push('/white-book')">{{ lang == 'zh' ? 'GISphere 留学指南 · 大数据报告白皮书' : 'GISphere Global Admission Annual Review' }}</el-button>
-
       <!-- Contact Us pop up card -->
       <div>
         <!-- ZH -->
@@ -73,7 +71,7 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" round class="contact-us-button">联系我们 / 加入我们</el-button>
+          <el-button type="info" style="border: solid 2px #ffffff00;" round>联系我们 / 加入我们</el-button>
         </div>
         <!-- EN -->
         <div
@@ -93,9 +91,7 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" round class="contact-us-button"
-            >Contact Us / Join Us</el-button
-          >
+          <el-button type="info" round style="border: solid 2px #ffffff00;">Contact Us / Join Us</el-button>
         </div>
       </div>
     </div>
@@ -293,6 +289,11 @@ export default {
       universitiesEN: universities.en,
     }
   },
+  head() {
+    return {
+      title: 'GISphere'
+    }
+  },
   computed: {
     ...mapState({ lang: 'language' }),
     maxUniversitiesListLength() {
@@ -368,7 +369,7 @@ export default {
   font-weight: 800;
   font-size: 50px;
   line-height: 60px;
-  color: #0073ff;
+  color: #ffffff;
   /* 保持背景黑色阴影 */
   text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
     0 0 80px #1f1f20;
@@ -390,32 +391,21 @@ export default {
   flex-direction: row;
   align-items: center;
 }
-
-.explore-academic-recruiting {
-  border-color: #ffffff;
-  background-color: #ffffff;
-  color: #0073ff;
+.big-button{
+  border: solid 2px #2c3aaa;
+  width: 220px;
+  height: 50px;
+  font-size: 16px;
 }
-.explore-job-recruiting {
-  border-color: #ffffff;
-  background-color: transparent;
-  color: #ffffff;
+.explore-academic-recruiting {
 }
 .explore-programs {
-  border-color: #0073ff;
-  background-color: transparent;
-  color: #0073ff;
+  color: #2c3aaa;
 }
-.explore-academic-recruiting:active,
-.explore-academic-recruiting:hover,
-.explore-job-recruiting:active,
-.explore-job-recruiting:hover,
-.explore-programs:active,
-.explore-programs:hover {
-  border-color: #0073ff;
-  background-color: #0073ff;
+.big-button:hover {
+  background-color: #53389e;
   color: #ffffff;
-  transition: 300ms ease-in-out;
+  transition: 100ms ease-in-out;
 }
 .contact-us {
   position: absolute;
@@ -425,25 +415,16 @@ export default {
 .contact-us-card {
   background-color: transparent;
 }
-.contact-us-button {
-  background-color: #909399;
-  border-color: transparent;
-}
-.contact-us-button:active,
-.contact-us-button:hover {
-  background-color: #c0c4cc;
-  transition: 300ms ease-in-out;
-}
 .intro-title {
   text-align: center;
   font-size: 40px;
-  color: #0073ff;
+  color: #2c3aaa;
   margin-top: 32px;
 }
 .short-horizontal-line {
   width: 5%;
   height: 2px;
-  background-color: #0073ff;
+  background-color: #2c3aaa;
   margin-top: 16px;
   margin-bottom: 16px;
 }
@@ -495,7 +476,7 @@ export default {
   text-align: center;
 }
 .contact-us-content {
-  background-color: #909399;
+  background-color: #fff;
   border-radius: 30px;
   height: 40px;
   width: 171.68px;
@@ -505,7 +486,7 @@ export default {
   margin-bottom: 5px;
 }
 .contact-us-qrcode {
-  background-color: #909399;
+  background-color: #fff;
   border-radius: 20px;
   height: 171.68px;
   width: 171.68px;
@@ -531,7 +512,7 @@ export default {
   margin-bottom: 64px;
 }
 .to-be-added {
-  color: #0073ff;
+  color: #2c3aaa;
   text-align: center;
   font-display: block;
   font-size: 16px;
@@ -584,7 +565,7 @@ export default {
   .explore-academic-recruiting {
     border-color: #ffffff;
     background-color: #ffffff;
-    color: #0073ff;
+    color: #2c3aaa;
     margin-bottom: 1rem;
   }
   .explore-job-recruiting {
@@ -595,9 +576,9 @@ export default {
     margin-bottom: 1rem;
   }
   .explore-programs {
-    border-color: #0073ff;
+    border-color: #28292a;
     background-color: transparent;
-    color: #0073ff;
+    color: #2c3aaa;
     margin-left: 0 !important;
     margin-bottom: 1rem;
   }
@@ -606,5 +587,12 @@ export default {
   position: absolute;
   bottom: 60px;
   right: 260px;
+  border: solid 2px #2c3aaa;
+  color: #2c3aaa;
+  background-color: transparent;
+}
+.white-book-button:hover {
+  color: #fff;
+  background-color: #53389e;
 }
 </style>
