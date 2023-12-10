@@ -70,7 +70,7 @@
       <h2><i class="el-icon-s-check"></i>{{ lang == 'zh' ? '版权' : 'Copyright' }}</h2>
       {{ lang == 'zh' ? '本文档遵循CC BY-NC 4.0许可，如需非商业转载或修改，请给出署名；商业转载' : 'This guide is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License' }}
       <h2><i class="el-icon-info"></i>{{ lang == 'zh' ? '提示' : 'Tips' }}</h2>
-      {{ lang == 'zh' ? `本文档包含 ${Object.keys(countries)?.length} 个国家的 ${Object.keys(schools)?.length} 条院校信息，可以通过页面 Ctrl + F 快速检索` : `This document contains information of ${Object.keys(schools)?.length} institutions in ${Object.keys(countries)?.length} countries, which can be quickly retrieved by pressing Ctrl + F on the page` }}
+      {{ lang == 'zh' ? `本文档包含 ${Object.keys(countries)?.length} 个国家和地区的 ${Object.keys(schools)?.length} 条院校信息，可以通过页面 Ctrl + F （Mac 设备为 cmd + F）快速检索` : `This document contains information of ${Object.keys(schools)?.length} institutions in ${Object.keys(countries)?.length} countries, which can be quickly retrieved by pressing Ctrl + F (or cmd + F on Mac) on the page` }}
       <h2><i class="el-icon-s-custom"></i>{{ lang == 'zh' ? '作者名单' : 'Contributors' }}</h2>
         {{ lang == 'zh' ? '下面是撰写条目或提供院校信息的作者名单。按姓氏拼音排序。为保护隐私，我们不公开作者的单位信息。部分作者为匿名作者，故在此未予列出。' : 'Below is a list of authors who wrote entries or provided information about one or more institutions. Some authors are anonymous and therefore not listed here. Per the local custom, Chinese surnames are written before the given names.' }}
       <h4>Content providers</h4>
