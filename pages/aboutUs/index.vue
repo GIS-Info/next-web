@@ -39,7 +39,7 @@
                 providing valuable perspectives for aspiring students. As well as bi-week GISource newsletter, GIStory articles, and more.
             </li>
             <li style="font-size: 16px;">
-                <strong>GISpace:</strong> Community discussion groups on WeChat and WhatsApp </a> that serve
+                <strong>GISpace:</strong> Community discussion groups on WeChat and WhatsApp that serve
                 as a platform for interaction among overseas scholars and students in GIS-related fields.
             </li>
             <li style="font-size: 16px;">
@@ -48,7 +48,7 @@
                     <li style="font-size: 16px;">
                         Wang, Y., Kang, Y., Liu, H., Hou, C., Zhou, B., Ye, S., Liu, Y., Rao, J., Pei, Z., Ye, X., & Gao, S. (2023).
                         Choosing GIS graduate programs from afar: Chinese students' perspectives.
-                        <em>Transactions in GIS, 27, 450–475.</em>
+                        <em>Transactions in GIS, 27, 450-475.</em>
                         <a href="https://doi.org/10.1111/tgis.13037">Link to the paper</a>
                     </li>
                     <li style="font-size: 16px;">More research papers coming soon.</li>
