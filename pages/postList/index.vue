@@ -37,9 +37,9 @@
       </div>
 
       <!-- 中文filter -->
-      <div v-if="lang == 'zh'" class="filter">
+      <div class="filter">
         <div class="filter-title">
-          按内容搜索
+          {{lang == 'zh' ? "按内容搜索" : "Search By Content"}}
           <hr />
         </div>
         <div>
@@ -66,13 +66,9 @@
           </button>
         </div>
         <div class="filter-title">
-          按截止时间搜索
+          {{lang == 'zh' ? "按截止时间搜索" : "Search by Deadline" }}
           <hr />
         </div>
-        <!-- <select class="filter-year">
-          <option>2023</option>
-          <option>2022</option>
-        </select> -->
 
         <select v-model="selected" class="filter-year" @change="handleYearChange">
           <option
@@ -83,7 +79,7 @@
             {{ option.text }}
           </option>
         </select>
-        <table class="by-month">
+        <table v-if="lang == 'zh'" class="by-month">
           <tr>
             <td v-for="month1 in months1" :key="month1">
               <button class="button-month" @click="queryByDate(month1)">
@@ -99,63 +95,7 @@
             </td>
           </tr>
         </table>
-
-        <div class="filter-title">
-          按专业领域搜索
-          <hr />
-        </div>
-        <table class="by-field">
-          <tr>
-            <td><button class="button-field" @click="filterByLabel('gis')">地理信息科学</button></td>
-            <td><button class="button-field" @click="filterByLabel('rs')">遥感</button></td>
-            <td><button class="button-field" @click="filterByLabel('physical_geo')">自然地理学</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-field" @click="filterByLabel('human_geo')">人文地理学</button></td>
-            <td><button class="button-field" @click="filterByLabel('urban')">城市规划</button></td>
-            <td><button class="button-field" @click="filterByLabel('rs')">卫星导航</button></td>
-          </tr>
-        </table>
-      </div>
-
-      <!-- 英文filter -->
-      <div v-if="lang == 'en'" class="filter">
-        <div class="filter-title">
-          Search by Content
-          <hr />
-        </div>
-        <div>
-          <input
-            v-model="searchText"
-            type="text"
-            class="search"
-            @keyup.enter="queryBySearchtext()"
-          />
-          <button class="button-search" @click="queryBySearchtext()">
-            <svg
-              class="icon-search"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              height="19"
-              width="19"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <div class="filter-title">
-          Search by Deadline
-          <hr />
-        </div>
-        <select class="filter-year" @change="handleYearChange">
-          <option>2023</option>
-          <option>2022</option>
-        </select>
-        <table class="by-month">
+        <table v-else class="by-month">
           <tr>
             <td v-for="i in 6" :key="i - 1">
               <button class="button-month" @click="queryByDate(i)">
@@ -171,25 +111,18 @@
             </td>
           </tr>
         </table>
-
         <div class="filter-title">
-          Search by Field
+          {{lang == 'zh' ? "按专业领域搜索" : "Search by Field" }}
           <hr />
         </div>
-        <table class="by-field">
-          <tr>
-            <td><button class="button-field" @click="filterByLabel('gis')">GIScience</button></td>
-            <td><button class="button-field" @click="filterByLabel('rs')">Remote Sensing</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-field" @click="filterByLabel('physical_geo')">Physical Geography</button></td>
-            <td><button class="button-field" @click="filterByLabel('human_geo')">Human Geography</button></td>
-          </tr>
-          <tr>
-            <td><button class="button-field" @click="filterByLabel('urban')">Urban Planing</button></td>
-            <td><button class="button-field" @click="filterByLabel('rs')">GNSS</button></td>
-          </tr>
-        </table>
+        <div class="by-field">
+          <button class="button-field" @click="filterByLabel('gis')">{{lang == 'zh' ? '地理信息科学' : 'GIScience'}}</button>
+          <button class="button-field" @click="filterByLabel('rs')">{{lang == 'zh' ? '遥感' : 'Remote Sensing'}}</button>
+          <button class="button-field" @click="filterByLabel('physical_geo')">{{lang == 'zh' ? '自然地理学' : 'Physical Geography'}}</button>
+          <button class="button-field" @click="filterByLabel('human_geo')">{{lang == 'zh' ? '人文地理学' : 'Human Geography'}}</button>
+          <button class="button-field" @click="filterByLabel('urban')">{{lang == 'zh' ? '城市规划' : 'Urban Planing'}}</button>
+          <button class="button-field" @click="filterByLabel('rs')">{{lang == 'zh' ? '卫星导航' : 'GNSS'}}</button>
+        </div>
       </div>
     </el-main>
   </client-only>
@@ -212,7 +145,6 @@ export default {
       },
       loading: true,
       selected: '2023',
-
       months1: ['1', '2', '3', '4', '5', '6'], // 上半年
       months2: ['7', '8', '9', '10', '11', '12'], // 下半年
       months: [
@@ -681,10 +613,10 @@ export default {
 }
 
 .filter {
-  position: fixed;
-  top: 150px;
+  position: relative;
+  top: 50px;
   left: 60%;
-  width: 30%;
+  width: 40%;
 }
 
 .filter-title {
@@ -712,7 +644,6 @@ export default {
 .button-search {
   margin-left: -50px;
   border-radius: 20px;
-  height: 30px;
   width: 40px;
   border: 0;
   outline: none;
@@ -757,6 +688,7 @@ export default {
   height: 35px;
   width: 40px;
   color: #909399;
+  border-radius: 10%;
   cursor: pointer;
   background-color: #ffffff;
   transition: all 0.3s ease 0s;
@@ -769,26 +701,27 @@ export default {
 
 .by-field {
   position: relative;
-  left: 10%;
-  right: 10%;
-  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  left: 3%;
   top: 20px;
+
+  .button-field {
+    flex: 1 0 27%;
+    margin: 1.5%;
+    border-color: #dcdfe6;
+    border-width: 1px;
+    border-radius: 20px;
+    height: 39px;
+    color: #909399;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: all 0.3s ease 0s;
+  }
+  .button-field:hover {
+    background-color: #53389e;
+    color: #fff;
+  }
 }
 
-.button-field {
-  border-color: #dcdfe6;
-  border-width: 1px;
-  border-radius: 20px;
-  height: 39px;
-  width: 148px;
-  color: #909399;
-  cursor: pointer;
-  background-color: #ffffff;
-  transition: all 0.3s ease 0s;
-}
-
-.button-field:hover {
-  background-color: #53389e;
-  color: #fff;
-}
 </style>
