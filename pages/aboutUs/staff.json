@@ -155,18 +155,6 @@
       "link": ""
     },
     {
-      "name": "孙怡飞",
-      "email": "dddoctorr612@gmail.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj3ESf0pkpI86PDmzfw5jXw-120_120.jpeg",
-      "link": "http://www.linkedin.com/in/yifei-sun-472084207"
-    },
-    {
-      "name": "张心怡",
-      "email": "zhangxinyi1110@163.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhoFsdwpTJByIdM1zdkm5SM-120_120.jpeg",
-      "link": ""
-    },
-    {
       "name": "李牧芊芊",
       "email": "lmqq2201@163.com",
       "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhcuH9bEblIfJ2Hd6LUF50H-120_120.jpeg",
@@ -177,12 +165,6 @@
       "email": "yeshantulsa@hotmail.com",
       "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugqr9pNMLhNS4a5gsMS1rQN-120_120.jpeg",
       "link": "https://yeshan-geo.github.io/"
-    },
-    {
-      "name": "王轩昊",
-      "email": "xuanh.w@outlook.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/61002778-120_120.jpg",
-      "link": "http://blog.rainna.xyz/about/"
     },
     {
       "name": "林熙哲",
@@ -209,39 +191,9 @@
       "link": ""
     },
     {
-      "name": "李川泽",
-      "email": "li614243403@gmail.com ",
-      "img": "",
-      "link": "https://www.linkedin.com/in/chuanze-li-8a19991b9"
-    },
-    {
       "name": "童馨仪",
       "email": "tongxinyi0215@126.com",
       "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNugZXGbneNxE3Y1jdxHT_I1N-120_120.jpeg",
-      "link": ""
-    },
-    {
-      "name": "彭建",
-      "email": "pjwhusir@gmail.com",
-      "img": "",
-      "link": ""
-    },
-    {
-      "name": "顾芷宁",
-      "email": "zhiningg@asu.edu",
-      "img": "",
-      "link": ""
-    },
-    {
-      "name": "陈钰煊",
-      "email": "r3c0n11@protonmail.com",
-      "img": "",
-      "link": ""
-    },
-    {
-      "name": "李长斯",
-      "email": "peland@163.com",
-      "img": "",
       "link": ""
     },
     {
@@ -721,6 +673,42 @@
 
   ],
   "alumni": [
+    {
+      "name": "李川泽",
+      "email": "li614243403@gmail.com ",
+      "img": "",
+      "link": "https://www.linkedin.com/in/chuanze-li-8a19991b9"
+    },
+    {
+      "name": "彭建",
+      "email": "pjwhusir@gmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "顾芷宁",
+      "email": "zhiningg@asu.edu",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "陈钰煊",
+      "email": "r3c0n11@protonmail.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "李长斯",
+      "email": "peland@163.com",
+      "img": "",
+      "link": ""
+    },
+    {
+      "name": "王轩昊",
+      "email": "xuanh.w@outlook.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/61002778-120_120.jpg",
+      "link": "http://blog.rainna.xyz/about/"
+    },
     {
       "name": "戴劭勍",
       "email": "GISer1993DSQ@gmail.com ",
