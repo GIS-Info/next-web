@@ -138,11 +138,11 @@
           <div>
             <table class="uni-table">
               <tr>
-                <td class="uni-content-title"><b>亚洲</b></td>
-                <td class="uni-content-title"><b>北美</b></td>
-                <td class="uni-content-title"><b>欧洲</b></td>
-                <td class="uni-content-title"><b>大洋洲</b></td>
-                <td class="uni-content-title"><b>非洲</b></td>
+                <td class="uni-content-title"><b>亚洲</b><el-divider/></td>
+                <td class="uni-content-title"><b>北美</b><el-divider/></td>
+                <td class="uni-content-title"><b>欧洲</b><el-divider/></td>
+                <td class="uni-content-title"><b>大洋洲</b><el-divider/></td>
+                <td class="uni-content-title"><b>非洲</b><el-divider/></td>
               </tr>
               <tr v-for="(n, index) in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">{{ universitiesZH.asia[index] }}</td>
@@ -174,11 +174,11 @@
           <div>
             <table class="uni-table">
               <tr>
-                <td class="uni-content"><b>Asia</b></td>
-                <td class="uni-content"><b>North America</b></td>
-                <td class="uni-content"><b>Europe</b></td>
-                <td class="uni-content"><b>Oceania</b></td>
-                <td class="uni-content"><b>Africa and South America</b></td>
+                <td class="uni-content-title"><b>Asia</b><el-divider/></td>
+                <td class="uni-content-title"><b>North America</b><el-divider/></td>
+                <td class="uni-content-title"><b>Europe</b><el-divider/></td>
+                <td class="uni-content-title"><b>Oceania</b><el-divider/></td>
+                <td class="uni-content-title"><b>Africa and South America</b><el-divider/></td>
               </tr>
               <tr v-for="index in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">
@@ -397,8 +397,6 @@ export default {
   height: 50px;
   font-size: 16px;
 }
-.explore-academic-recruiting {
-}
 .explore-programs {
   color: #2c3aaa;
 }
@@ -426,7 +424,7 @@ export default {
   height: 2px;
   background-color: #2c3aaa;
   margin-top: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .intro-text-zh {
   line-height: 26px;
@@ -459,16 +457,20 @@ export default {
   width: 100%;
 }
 .uni-content-title {
-  font-size: 24px;
+  font-size: 1.15rem;
   text-align: center;
-  padding-bottom: 10px;
+  /* margin-bottom: 100px; */
 }
 .uni-content {
   width: 20%;
   height: 2.5rem;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
-  vertical-align: text-top;
+}
+.el-divider {
+  height: 2px;
+  width: 3rem;
+  margin: 0.25rem auto;
 }
 .contact-content {
   width: 50%;
@@ -518,7 +520,7 @@ export default {
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
-  margin: 0;
+  margin-top: 0.8rem;
 }
 .sponsor-part {
   line-height: 26px;
