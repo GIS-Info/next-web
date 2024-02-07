@@ -13,12 +13,6 @@
       "link": "https://www.linkedin.com/in/hongkai-gu-bb4272117"
     },
     {
-      "name": "刘昱妍",
-      "email": "liuyuyan99629@gmail.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuijXs7tWQBHQa_J7-dBbD8M-120_120.jpeg",
-      "link": "www.linkedin.com/in/yuyan-liu-nus99629"
-    },
-    {
       "name": "胡志韧",
       "email": "zh443@cornell.edu",
       "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhBqiZpWYNO6or-xI4OJIa2-120_120.jpeg",
@@ -31,28 +25,10 @@
       "link": "https://www.linkedin.com/in/haokun-liu-59900517b/"
     },
     {
-      "name": "崔云鹤",
-      "email": "yunhecui95@gmail.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuje_NLviQNBjr6lCqPC7RfA-120_120.jpeg",
-      "link": "https://www.linkedin.com/in/yunhe-cui/"
-    },
-    {
       "name": "孙怡飞",
       "email": "dddoctorr612@gmail.com",
       "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuj3ESf0pkpI86PDmzfw5jXw-120_120.jpeg",
       "link": "http://www.linkedin.com/in/yifei-sun-472084207"
-    },
-    {
-      "name": "张心怡",
-      "email": "zhangxinyi1110@163.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNuhoFsdwpTJByIdM1zdkm5SM-120_120.jpeg",
-      "link": ""
-    },
-    {
-      "name": "饶锦蒙",
-      "email": "jinmengrao@gmail.com",
-      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujEwLMkoURKB7WzB4OVHnEN-120_120.jpeg",
-      "link": "https://www.linkedin.com/in/jinmeng-rao-5b4438121/"
     },
     {
       "name": "任泽茜",
@@ -109,14 +85,14 @@
       "link": ""
     },
     {
-      "name": "阚伟宁",
-      "email": "weiningkan@gmail.com",
+      "name": "罗逸云",
+      "email": "lu0y2020@outlook.com",
       "img": "",
       "link": ""
     },
     {
-      "name": "罗逸云",
-      "email": "lu0y2020@outlook.com",
+      "name": "肖望昊",
+      "email": "wanghao.xiao@ugent.be",
       "img": "",
       "link": ""
     }
@@ -879,6 +855,18 @@
 
   ],
   "alumni": [
+    {
+      "name": "饶锦蒙",
+      "email": "jinmengrao@gmail.com",
+      "img": "https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/compressed/AgAAESEJNujEwLMkoURKB7WzB4OVHnEN-120_120.jpeg",
+      "link": "https://www.linkedin.com/in/jinmeng-rao-5b4438121/"
+    },
+    {
+      "name": "阚伟宁",
+      "email": "weiningkan@gmail.com",
+      "img": "",
+      "link": ""
+    },
     {
       "name": "李川泽",
       "email": "li614243403@gmail.com ",
