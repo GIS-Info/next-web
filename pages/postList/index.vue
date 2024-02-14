@@ -28,7 +28,7 @@
         <el-pagination
           background
           layout="prev, pager, next"
-          :current-page="pageIndex"
+          :current-page="queryParams.pageIndex"
           :total="totalCount"
           :page-size="pageSize"
           @current-change="handlePageChange"
@@ -36,20 +36,21 @@
         </el-pagination>
       </div>
 
-      <!-- 中文filter -->
+      <!-- filter -->
       <div class="filter">
+        <button class="button-reset" @click="resetQueryParams">{{lang == 'en' ? 'Reset search criteria' : '重置搜索条件'}}</button>
         <div class="filter-title">
           {{lang == 'zh' ? "按内容搜索" : "Search By Content"}}
           <hr />
         </div>
         <div>
           <input
-            v-model="searchText"
+            v-model="queryString"
             type="text"
             class="search"
-            @keyup.enter="queryBySearchtext()"
+            @keyup.enter="handleTextChange()"
           />
-          <button class="button-search" @click="queryBySearchtext()">
+          <button class="button-search" @click="handleTextChange()">
             <svg
               class="icon-search"
               viewBox="0 -3 20 20"
@@ -69,59 +70,28 @@
           {{lang == 'zh' ? "按截止时间搜索" : "Search by Deadline" }}
           <hr />
         </div>
-
-        <select v-model="selected" class="filter-year" @change="handleYearChange">
-          <option
-            v-for="(option, index) in options"
-            :key="index"
-            :value="option.value"
-          >
-            {{ option.text }}
-          </option>
-        </select>
-        <table v-if="lang == 'zh'" class="by-month">
-          <tr>
-            <td v-for="month1 in months1" :key="month1">
-              <button class="button-month" @click="queryByDate(month1)">
-                {{ month1 }}月
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td v-for="month2 in months2" :key="month2">
-              <button class="button-month" @click="queryByDate(month2)">
-                {{ month2 }}月
-              </button>
-            </td>
-          </tr>
-        </table>
-        <table v-else class="by-month">
-          <tr>
-            <td v-for="i in 6" :key="i - 1">
-              <button class="button-month" @click="queryByDate(i)">
-                {{ months[i - 1] }}
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td v-for="i in 6" :key="i + 5">
-              <button class="button-month" @click="queryByDate(i + 6)">
-                {{ months[i + 5] }}
-              </button>
-            </td>
-          </tr>
-        </table>
+        <div class="by-date">
+          <el-date-picker
+            v-model="date"
+            type="month"
+            :editable="true"
+            :placeholder="lang === 'zh' ? '选择月' : 'Select Month'"
+            value-format="yyyy-M"
+            @change="handleDateChange"
+            >
+          </el-date-picker>
+        </div>
         <div class="filter-title">
           {{lang == 'zh' ? "按专业领域搜索" : "Search by Field" }}
           <hr />
         </div>
         <div class="by-field">
-          <button class="button-field" @click="filterByLabel('gis')">{{lang == 'zh' ? '地理信息科学' : 'GIScience'}}</button>
-          <button class="button-field" @click="filterByLabel('rs')">{{lang == 'zh' ? '遥感' : 'Remote Sensing'}}</button>
-          <button class="button-field" @click="filterByLabel('physical_geo')">{{lang == 'zh' ? '自然地理学' : 'Physical Geography'}}</button>
-          <button class="button-field" @click="filterByLabel('human_geo')">{{lang == 'zh' ? '人文地理学' : 'Human Geography'}}</button>
-          <button class="button-field" @click="filterByLabel('urban')">{{lang == 'zh' ? '城市规划' : 'Urban Planing'}}</button>
-          <button class="button-field" @click="filterByLabel('rs')">{{lang == 'zh' ? '卫星导航' : 'GNSS'}}</button>
+          <button class="button-field" @click="handleLabelChange('gis')">{{lang == 'zh' ? '地理信息科学' : 'GIScience'}}</button>
+          <button class="button-field" @click="handleLabelChange('rs')">{{lang == 'zh' ? '遥感' : 'Remote Sensing'}}</button>
+          <button class="button-field" @click="handleLabelChange('physical_geo')">{{lang == 'zh' ? '自然地理学' : 'Physical Geography'}}</button>
+          <button class="button-field" @click="handleLabelChange('human_geo')">{{lang == 'zh' ? '人文地理学' : 'Human Geography'}}</button>
+          <button class="button-field" @click="handleLabelChange('urban')">{{lang == 'zh' ? '城市规划' : 'Urban Planing'}}</button>
+          <button class="button-field" @click="handleLabelChange('rs')">{{lang == 'zh' ? '卫星导航' : 'GNSS'}}</button>
         </div>
       </div>
     </el-main>
@@ -137,36 +107,16 @@ export default {
     return {
       postListData: [],
       pageIndex: 1,
-      searchText: '',
+      queryString: '',
       pageSize: 7,
       totalCount: 0,
       filter: {
         queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
       },
-      loading: true,
-      selected: '2023',
-      months1: ['1', '2', '3', '4', '5', '6'], // 上半年
-      months2: ['7', '8', '9', '10', '11', '12'], // 下半年
-      months: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ], // 英文界面
       date: '',
-      month: '',
-      options: [
-        { text: '2023', value: '2023' }, // 中文版选项
-        { text: '2022', value: '2022' }, // 中文版选项
-      ],
+      label: '',
+      queryParams: {},
+      loading: true,  
     }
   },
   head() {
@@ -178,93 +128,94 @@ export default {
     ...mapState({ lang: 'language' }),
   },
   async mounted() {
-    // 从url带入的查询类型
-    this.filter.queryType = this.$route.query?.type
-    // 加载列表数据
-    await this.getPostListData()
+    // 第一次访问加载全部列表数据，否则按照之前的搜索状态请求数据
+    const storedQueryParams = sessionStorage.getItem('queryParams')
+
+    if (storedQueryParams !== null && storedQueryParams !== undefined) {
+      this.queryParams = {...JSON.parse(storedQueryParams)}
+      await this.queryByParams(this.queryParams)
+    }
+    else {
+      // 从url带入的查询类型
+      this.filter.queryType = this.$route.query?.type
+      await this.queryByParams()
+    }
   },
   methods: {
-    queryBySearchtext() {
-      if (this.month !== '') this.pageIndex = 1 // 如果从月份搜索直接跳转到内容搜索，页面也应该重置为1
-      this.$axios
-        .post('api/post_querystring', {
-          queryString: this.searchText,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize,
-        })
-        .then((res) => {
-          if (res?.data?.code === 0) {
-            // 前端做一个提醒以防后端没有数据
-            if (!res.data.data || res.data.data.length === 0) {
-              this.$message({
-                message: '没有相关信息',
-                type: 'error',
-                duration: 1000,
-              })
-            }
-            // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
-            this.postListData = res.data.data.map((i) => {
-              const l = { ...i }
-              l.description = i.description
-                .replace(/(<([^>]+)>)/g, '')
-                .replace(/\\n/g, '')
-              return l
-            })
-            this.totalCount = res.data.count
-          } else {
-            alert('请求错误: ' + res.msg)
-          }
-        })
-        .catch((error) => {
-          alert(error)
-        })
+    // 还原搜索条件，展示完整初始列表
+    async resetQueryParams() {
+      await this.queryByParams()
+      // 清除搜索条件
+      this.queryParams = {}
+      this.queryString  = ''
+      sessionStorage.removeItem('queryParams')
     },
-    queryByDate(e) {
-      if (e !== this.month) this.pageIndex = 1 // 如果在原来的月份基础上跳转到另一个月，那么页数应该从1开始
-      const dateParam = this.selected + '-' + (e < 10 ? '0' + e : e);
-      this.date = dateParam;
-      this.month = e
-      this.$axios
-        .get('api/post_closedate', {
-          params: {
-            year: this.selected, // 选择的年份
-            month: e, // 选择的月份
-            pageSize: this.pageSize,
-            pageIndex: this.pageIndex,
-          },
-        })
-        .then((res) => {
-          if (res?.data?.code === 0) {
-            if (!res.data.data || res.data.data.length === 0) {
-              this.$message({
-                message: 'without related information',
-                type: 'error',
-                duration: 1000,
-              })
-            }
-            // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
-            this.postListData = res.data.data.map((i) => {
-              const l = { ...i }
-              l.description = i.description
-                .replace(/(<([^>]+)>)/g, '')
+    // 搜索框
+    handleTextChange() {
+      this.$set(this.queryParams, 'queryString', this.queryString)
+      this.queryByParams(this.queryParams);
+    },
+    // 日期选择
+    handleDateChange() {
+      if(this.date) {
+        const parts = this.date.split('-');
+        // 提取年份和月份部分
+        const year = parts[0]
+        const month = parts[1]
+        this.$set(this.queryParams, 'month', month)
+        this.$set(this.queryParams, 'year', year)
+        this.queryByParams(this.queryParams)
+      }
+    },
+    // 标签选择
+    handleLabelChange(label) {
+      this.$set(this.queryParams, 'label', label);
+      this.queryByParams(this.queryParams)
+    },
+    // 翻页
+    handlePageChange(i) {
+      this.queryParams = {...this.queryParams, pageIndex : i}
+      this.queryByParams(this.queryParams)
+    },
+    // 更新搜索状态到sessionStorage
+    updateQueryParams() {
+      const storedQueryParams = JSON.stringify(this.queryParams)
+      sessionStorage.setItem('queryParams', storedQueryParams)
+    },
+    // 有条件的搜索请求
+    queryByParams(params = {}) {
+      this.loading = true
+      this.$axios.post('api/post_by_params', params)
+      .then(res => {
+        // 处理后端返回的数据
+        if (res?.data?.code === 0) {
+          // 更新帖子列表和总数
+          this.postListData = res.data.data.map((i) => {
+            const l = { ...i }
+            l.description = l.description
+                .replace(/<\/?[^>]+(>|$)/g, '')
                 .replace(/\\n/g, '')
-              return l
-            })
-            this.totalCount = res.data.count
-          } else {
-            alert('request error: ' + res.msg)
-          }
-        })
-        .catch((error) => {
-          alert(error)
-        })
+            return l
+          })
+          this.totalCount = res.data.count
+        } else {
+          alert('request error: ' + res.msg)
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      })
+      this.loading = false
     },
     goPost(id) {
       this.$router.push('/post/' + id.toString())
+      // 用户跳转出去的时候保存页面状态
+      this.updateQueryParams()
     },
     goAddPost() {
       this.$router.push('/addPost')
     },
+    // 完整列表请求
     getPostListData() {
       this.loading = true
       return this.$axios
@@ -280,9 +231,12 @@ export default {
             // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
             this.postListData = res.data.data.map((i) => {
               const l = { ...i }
-              l.description = i.description
-                .replace(/(<([^>]+)>)/g, '')
-                .replace(/\\n/g, '')
+              // l.description = i.description
+              //   .replace(/(<([^>]+)>)/g, '')
+              //   .replace(/\\n/g, '')
+              l.description = l.description
+                .replace(/^<p>|<\/p>$/g, '')
+                .replace(/\\n/g, ''); // 去除 \n 字符
               return l
             })
             this.totalCount = res.data.count
@@ -295,65 +249,6 @@ export default {
           alert(error)
           this.loading = false
         })
-    },
-    handlePageChange(i) {
-      this.pageIndex = i
-      if (this.date !== '') {
-        this.queryByDate(this.month)
-      } // 如果之前按照日期搜索成功了，那么记录下这个信息，用于翻页时的下次请求
-      else if (this.searchText !== '') this.queryBySearchtext()
-      else this.getPostListData() // 否则正常翻页所有的数据
-    },
-
-    // pengyu--添加年份更换
-    async handleYearChange() {
-        // 当年份切换时，重置页面索引为 1
-        this.pageIndex = 1;
-        await this.$nextTick(); // 添加短暂的延迟，等待数据重置完成
-        // 调用查询方法，传递新的年份
-        if (this.date !== '') {
-          this.queryByDate(this.month);
-        } else if (this.searchText !== '') {
-          this.queryBySearchtext();
-        } else {
-          await this.getPostListData(); // 重新获取帖子列表
-        }
-      },
-
-    // pengyu--添加根据专业筛选功能
-    filterByLabel(label) {
-        // 发送请求给后端，按标签筛选帖子
-        this.$axios
-          .get('api/post_major', {
-            params: {
-              label,
-              pageIndex: this.pageIndex,
-              pageSize: this.pageSize,
-            },
-          })
-          .then((res) => {
-            // 处理后端返回的数据
-            if (res?.data?.code === 0) {
-              // 更新帖子列表和总数
-              this.postListData = res.data.data.map((i) => {
-                const l = { ...i };
-                l.description = i.description
-                  .replace(/(<([^>]+)>)/g)
-                  .replace(/\\n/g);
-                return l;
-              });
-              this.totalCount = res.data.count;
-            } else {
-              alert('request error: ' + res.msg);
-            }
-          })
-          .catch((error) => {
-            alert(error);
-          });
-    },
-    
-    error(err) {
-      alert(err)
     },
   },
 }
@@ -368,156 +263,6 @@ export default {
   height: 100%;
   background-color: rgb(241, 241, 241);
   position: relative;
-}
-
-.page-banner {
-  position: absolute;
-  width: 100%;
-  height: 50px;
-  left: 0px;
-  top: 0px;
-  background: #f5f7fa;
-  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
-  border-radius: 0px;
-}
-
-.dropdown-button {
-  /* Font and Color */
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  font-weight: bold;
-  color: rgba(48, 49, 51, 0.75);
-  /* Button Feature */
-  line-height: 20px;
-  text-align: center;
-  background: #53389e;
-  border-radius: 20px;
-  border-width: 0px;
-  padding: 5px 15px;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  z-index: 1;
-}
-
-.dropdown-content a {
-  width: 100px;
-  margin-top: 5px;
-  padding: 10px 16px;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 20px;
-  font-size: 12px;
-  background-color: #ffffff;
-  color: #303133;
-}
-
-.dropdown-content a:hover {
-  box-shadow: 0px 0 15px #53389e;
-  border-radius: 20px;
-  background-color: #ffffff;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropdown-button {
-  background-color: #42d791;
-}
-
-.level {
-  position: absolute;
-  width: 150px;
-  height: 25px;
-  left: 8%;
-  top: 10px;
-}
-
-.loc {
-  position: absolute;
-  width: 150px;
-  height: 25px;
-  left: 20%;
-  top: 10px;
-}
-
-.start-term {
-  position: absolute;
-  width: 150px;
-  height: 25px;
-  left: 30%;
-  top: 10px;
-}
-
-.uni {
-  position: absolute;
-  width: 150px;
-  height: 25px;
-  left: 40%;
-  top: 10px;
-}
-
-.reset_button {
-  /* Font and Color */
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  font-weight: bold;
-  color: rgba(48, 49, 51, 0.75);
-  /* Button Feature */
-  line-height: 20px;
-  text-align: center;
-  background: #e6a23c;
-  border-radius: 20px;
-  border-color: black;
-  border-width: 0px;
-  padding: 0px 10px;
-  cursor: pointer;
-  /* Position */
-  position: absolute;
-  width: 100px;
-  height: 25px;
-  right: 15%;
-  top: 10px;
-}
-
-.reset_button:hover {
-  background-color: #ed9005;
-}
-
-.addPost_button {
-  /* Font and Color */
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  font-weight: bold;
-  color: rgba(48, 49, 51, 0.75);
-  /* Button Feature */
-  text-align: center;
-  background: #ffffff;
-  border-radius: 20px;
-  border-color: #53389e;
-  border-width: 5px;
-  padding: 0px 10px;
-  cursor: pointer;
-  /* Position */
-  position: absolute;
-  width: 100px;
-  height: 25px;
-  right: 40%;
-  top: 10px;
-}
-
-.addPost_button:hover {
-  background-color: #dcdfe6;
 }
 
 .list {
@@ -569,48 +314,6 @@ export default {
   justify-content: space-between;
 }
 
-.page-div {
-  position: absolute;
-  top: 900px;
-  left: 10%;
-  width: 50%;
-  padding-bottom: 50px;
-}
-
-.button-page {
-  border-width: 0px;
-  margin: 5px;
-  padding: 0px;
-  height: 40px;
-  width: 40px;
-  color: #909399;
-  cursor: pointer;
-  background-color: #ffffff;
-  transition: all 0.3s ease 0s;
-  border-radius: 25px;
-}
-
-.button-page:hover {
-  background-color: #53389e;
-  color: black;
-}
-
-.button-page:active {
-  box-shadow: 0px 0 15px #53389e;
-}
-
-.button-changePage {
-  border-width: 0px;
-  color: #909399;
-  cursor: pointer;
-  background-color: none;
-  transition: all 0.3s ease 0s;
-  border-radius: 25px;
-}
-
-.button-changePage:hover {
-  font-size: 15px;
-}
 
 .filter {
   position: relative;
@@ -640,7 +343,21 @@ export default {
   background: #ffffff;
   margin-top: 20px;
 }
-
+.button-reset {
+    margin: 4.5%;
+    padding: 4%;
+    border-color: #dcdfe6;
+    border-width: 1px;
+    border-radius: 20px;
+    color: #909399;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: all 0.3s ease 0s;
+  }
+  .button-reset:hover {
+    background-color: #53389e;
+    color: #fff;
+  }
 .button-search {
   margin-left: -50px;
   border-radius: 20px;
@@ -672,31 +389,18 @@ export default {
   word-spacing: 30px;
 }
 
-.by-month {
-  position: relative;
+.by-date {
+  display: flex;
+  justify-content: center;
+  /* position: relative;
   top: 20px;
   width: 80%;
   left: 10%;
-  right: 10%;
-  margin-bottom: 50px;
-}
-
-.button-month {
-  border-width: 0px;
-  margin: 5px;
-  padding: 0px;
-  height: 35px;
-  width: 40px;
-  color: #909399;
-  border-radius: 10%;
-  cursor: pointer;
-  background-color: #ffffff;
-  transition: all 0.3s ease 0s;
-}
-
-.button-month:hover {
-  background-color: #53389e;
-  color: #ffffff;
+  right: 10%; */
+  margin: 30px 0 50px 0;
+  /* .by-date > div {
+    border: 0px solid #53389e !important;
+  } */
 }
 
 .by-field {
@@ -723,5 +427,8 @@ export default {
     color: #fff;
   }
 }
-
+.button-clicked {
+  background-color: #53389e;
+  color: #fff;
+}
 </style>
