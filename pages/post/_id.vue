@@ -22,19 +22,23 @@
     <!-- 中文情况下 -->
     <div v-if="lang == 'zh'" id="content" class="post-content">
       <h1 class="content-title">{{ postdata.title_cn || '-' }}</h1>
-      <h4 class="content-detail">
+      <h3 class="content-detail">
+        <i class="el-icon-date"></i>
         发布时间: <span class="normal">{{ postdata.date || '-' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-school"></i>
         机构名称:
         <span class="normal">{{ postdata.university_cn || '-' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-location-information"></i>
         地理位置: <span class="normal">{{ postdata.country_cn || '-' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-collection-tag"></i>
         岗位类型: <span class="normal">{{ postdata.job_cn || '-' }}</span>
-      </h4>
+      </h3>
       <!-- 如果招聘状态为true，则css为active -->
       <!--
       <div class="content-detail">招聘状态: <span :class="postdata.still_open == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
@@ -63,9 +67,8 @@
         </div>
       </div>
       -->
-
       <div class="content-description">
-        <h4>职位描述</h4>
+        <h3>职位描述</h3>
         <div v-html="description"></div>
       </div>
     </div>
@@ -73,21 +76,25 @@
     <!-- 英文情况下 -->
     <div v-if="lang == 'en'" class="post-content">
       <h1 class="content-title">{{ postdata.title_en || 'unknown' }}</h1>
-      <h4 class="content-detail">
+      <h3 class="content-detail">
+        <i class="el-icon-date"></i>
         Publish Date:
         <span class="normal">{{ postdata.date || 'unknown' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-school"></i>
         Organization:
         <span class="normal">{{ postdata.university_en || 'unknown' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-location-information"></i>
         Location:
         <span class="normal">{{ postdata.country_en || 'unknown' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-collection-tag"></i>
         Type: <span class="normal">{{ postdata.job_en || 'unknown' }}</span>
-      </h4>
+      </h3>
       <!-- 如果招聘状态为true，则css为active -->
       <!--
       <div class="content-detail">Status: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusEN }}</span></div>
@@ -117,7 +124,7 @@
       </div>
       -->
       <div class="content-description">
-        <h4>Job Description</h4>
+        <h3>Job Description</h3>
         <div v-html="description"></div>
       </div>
     </div>
@@ -238,7 +245,7 @@ export default {
 .main-container {
   width: 100%;
   height: 100%;
-  background: #ebeef5;
+  background: #f1f1f1;
   text-align: center;
   position: absolute;
 }
@@ -250,7 +257,7 @@ export default {
   height: 60px;
   left: 0px;
   top: 0px;
-  background: #e4e7ed;
+  background: #f1f1f1;
   box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
   border-radius: 4px;
 }
@@ -316,8 +323,9 @@ export default {
 .post-content {
   padding-bottom: 60px;
   width: 60%;
+  max-width: 1000px;
   margin: 0 auto;
-  background: #ebeef5;
+  background: #f1f1f1;
   border-radius: 0px;
   word-wrap: break-word;
 }
@@ -411,5 +419,8 @@ export default {
   line-height: 20px;
   text-align: left;
   color: rgba(48, 49, 51, 0.9);
+  font-size: 18px;
+  line-height: 30px;
+  border-top: #636569 solid 1px;
 }
 </style>

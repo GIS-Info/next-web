@@ -14,9 +14,9 @@
           </div>
           <div class="entry-content-brief">{{ post?.description || '-' }}</div>
           <div class="entry-bottom-flex">
-            <span>{{
+            <span><b>{{
               (lang == 'zh' ? post.country_cn : post.country_en) || '-'
-            }}</span>
+            }}</b></span>
             <!-- 改写上面这行代码为：如果是中文的时候就是 ‘发布于’，如果是英文的时候就是 ‘Published on’ -->
             <span
               >{{ lang == 'zh' ? '发布于' : 'Published on' }}
@@ -546,14 +546,14 @@ export default {
 }
 
 .entry-title {
-  font-size: 16px;
+  font-size: 18px;
   height: 35px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .entry-content-brief {
-  font-size: 10px;
+  font-size: 14px;
   height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -564,7 +564,7 @@ export default {
   height: 20px;
   display: flex;
   flex-direction: row;
-  font-size: 10px;
+  font-size: 14px;
   color: #909399;
   justify-content: space-between;
 }
