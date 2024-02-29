@@ -279,14 +279,14 @@
           <el-input v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item
-          label="姓 ( first name )"
+          label="名 ( first name )"
           :rules="[
             { required: true, message: '请输入 ( Please enter your first name. )', trigger: 'blur' },
           ]">
           <el-input v-model="form.firstName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item
-          label="名 ( last name )"
+          label="姓 ( last name )"
           :rules="[
             { required: true, message: '请输入 ( Please enter your last name. )', trigger: 'blur' },
           ]">
@@ -396,7 +396,8 @@ export default {
       })
       .catch(err => {
         this.$message.error(err);
-      })
+      });
+      
     },
   },
 }
