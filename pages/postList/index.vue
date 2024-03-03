@@ -86,12 +86,12 @@
           <hr />
         </div>
         <div class="by-field">
-          <button class="button-field" @click="handleLabelChange('gis')">{{lang == 'zh' ? '地理信息科学' : 'GIScience'}}</button>
-          <button class="button-field" @click="handleLabelChange('rs')">{{lang == 'zh' ? '遥感' : 'Remote Sensing'}}</button>
-          <button class="button-field" @click="handleLabelChange('physical_geo')">{{lang == 'zh' ? '自然地理学' : 'Physical Geography'}}</button>
-          <button class="button-field" @click="handleLabelChange('human_geo')">{{lang == 'zh' ? '人文地理学' : 'Human Geography'}}</button>
-          <button class="button-field" @click="handleLabelChange('urban')">{{lang == 'zh' ? '城市规划' : 'Urban Planing'}}</button>
-          <button class="button-field" @click="handleLabelChange('rs')">{{lang == 'zh' ? '卫星导航' : 'GNSS'}}</button>
+          <el-button round class="button-field" @click="handleLabelChange('gis')">{{lang == 'zh' ? '地理信息科学' : 'GIScience'}}</el-button>
+          <el-button class="button-field" @click="handleLabelChange('rs')">{{lang == 'zh' ? '遥感' : 'Remote Sensing'}}</el-button>
+          <el-button class="button-field" @click="handleLabelChange('physical_geo')">{{lang == 'zh' ? '自然地理学' : 'Physical Geography'}}</el-button>
+          <el-button class="button-field" @click="handleLabelChange('human_geo')">{{lang == 'zh' ? '人文地理学' : 'Human Geography'}}</el-button>
+          <el-button class="button-field" @click="handleLabelChange('urban')">{{lang == 'zh' ? '城市规划' : 'Urban Planing'}}</el-button>
+          <el-button class="button-field" @click="handleLabelChange('rs')">{{lang == 'zh' ? '卫星导航' : 'GNSS'}}</el-button>
         </div>
       </div>
     </el-main>
@@ -102,155 +102,156 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'PostList',
-  data() {
-    return {
-      postListData: [],
-      pageIndex: 1,
-      queryString: '',
-      pageSize: 7,
-      totalCount: 0,
-      filter: {
-        queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
-      },
-      date: '',
-      label: '',
-      queryParams: {},
-      loading: true,  
-    }
-  },
-  head() {
-    return {
-      title: 'GISphere | 资讯',
-    }
-  },
-  computed: {
-    ...mapState({ lang: 'language' }),
-  },
-  async mounted() {
-    // 第一次访问加载全部列表数据，否则按照之前的搜索状态请求数据
-    const storedQueryParams = sessionStorage.getItem('queryParams')
-
-    if (storedQueryParams !== null && storedQueryParams !== undefined) {
-      this.queryParams = {...JSON.parse(storedQueryParams)}
-      await this.queryByParams(this.queryParams)
-    }
-    else {
-      // 从url带入的查询类型
-      this.filter.queryType = this.$route.query?.type
-      await this.queryByParams()
-    }
-  },
-  methods: {
-    // 还原搜索条件，展示完整初始列表
-    async resetQueryParams() {
-      await this.queryByParams()
-      // 清除搜索条件
-      this.queryParams = {}
-      this.queryString  = ''
-      sessionStorage.removeItem('queryParams')
+    name: 'PostList',
+    data() {
+        return {
+            postListData: [],
+            pageIndex: 1,
+            queryString: '',
+            pageSize: 7,
+            totalCount: 0,
+            filter: {
+                queryType: '', // 从url带入的查询类型 ['academic', 'business', '']
+            },
+            date: '',
+            label: '',
+            queryParams: {},
+            loading: true,
+        };
     },
-    // 搜索框
-    handleTextChange() {
-      this.$set(this.queryParams, 'queryString', this.queryString)
-      this.queryByParams(this.queryParams);
+    head() {
+        return {
+            title: 'GISphere | 资讯',
+        };
     },
-    // 日期选择
-    handleDateChange() {
-      if(this.date) {
-        const parts = this.date.split('-');
-        // 提取年份和月份部分
-        const year = parts[0]
-        const month = parts[1]
-        this.$set(this.queryParams, 'month', month)
-        this.$set(this.queryParams, 'year', year)
-        this.queryByParams(this.queryParams)
-      }
+    computed: {
+        ...mapState({ lang: 'language' }),
     },
-    // 标签选择
-    handleLabelChange(label) {
-      this.$set(this.queryParams, 'label', label);
-      this.queryByParams(this.queryParams)
-    },
-    // 翻页
-    handlePageChange(i) {
-      this.queryParams = {...this.queryParams, pageIndex : i}
-      this.queryByParams(this.queryParams)
-    },
-    // 更新搜索状态到sessionStorage
-    updateQueryParams() {
-      const storedQueryParams = JSON.stringify(this.queryParams)
-      sessionStorage.setItem('queryParams', storedQueryParams)
-    },
-    // 有条件的搜索请求
-    queryByParams(params = {}) {
-      this.loading = true
-      this.$axios.post('api/post_by_params', params)
-      .then(res => {
-        // 处理后端返回的数据
-        if (res?.data?.code === 0) {
-          // 更新帖子列表和总数
-          this.postListData = res.data.data.map((i) => {
-            const l = { ...i }
-            l.description = l.description
-                .replace(/<\/?[^>]+(>|$)/g, '')
-                .replace(/\\n/g, '')
-            return l
-          })
-          this.totalCount = res.data.count
-        } else {
-          alert('request error: ' + res.msg)
+    async mounted() {
+        // 第一次访问加载全部列表数据，否则按照之前的搜索状态请求数据
+        const storedQueryParams = sessionStorage.getItem('queryParams');
+        if (storedQueryParams !== null && storedQueryParams !== undefined) {
+            this.queryParams = { ...JSON.parse(storedQueryParams) };
+            await this.queryByParams(this.queryParams);
         }
-      })
-      .catch((error) => {
-        alert(error);
-      })
-      this.loading = false
+        else {
+            // 从url带入的查询类型
+            this.filter.queryType = this.$route.query?.type;
+            await this.queryByParams();
+        }
     },
-    goPost(id) {
-      this.$router.push('/post/' + id.toString())
-      // 用户跳转出去的时候保存页面状态
-      this.updateQueryParams()
-    },
-    goAddPost() {
-      this.$router.push('/addPost')
-    },
-    // 完整列表请求
-    getPostListData() {
-      this.loading = true
-      return this.$axios
-        .get('/api/post', {
-          params: {
-            pageSize: this.pageSize,
-            pageIndex: this.pageIndex,
-            // date:this.date//把按日期搜索合并在这里方便翻页的时候请求数据
-          },
-        })
-        .then((res) => {
-          if (res?.data?.code === 0) {
-            // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
-            this.postListData = res.data.data.map((i) => {
-              const l = { ...i }
-              // l.description = i.description
-              //   .replace(/(<([^>]+)>)/g, '')
-              //   .replace(/\\n/g, '')
-              l.description = l.description
-                .replace(/^<p>|<\/p>$/g, '')
-                .replace(/\\n/g, ''); // 去除 \n 字符
-              return l
+    methods: {
+        // 还原搜索条件，展示完整初始列表
+        async resetQueryParams() {
+            await this.queryByParams();
+            // 清除搜索条件
+            this.queryParams = {};
+            this.queryString = '';
+            sessionStorage.removeItem('queryParams');
+        },
+        // 搜索框
+        handleTextChange() {
+            this.$set(this.queryParams, 'queryString', this.queryString);
+            this.queryByParams(this.queryParams);
+        },
+        // 日期选择
+        handleDateChange() {
+            if (this.date) {
+                const parts = this.date.split('-');
+                // 提取年份和月份部分
+                const year = parts[0];
+                const month = parts[1];
+                this.$set(this.queryParams, 'month', month);
+                this.$set(this.queryParams, 'year', year);
+                this.queryByParams(this.queryParams);
+            }
+        },
+        // 标签选择
+        handleLabelChange(label) {
+            this.$set(this.queryParams, 'label', label);
+            this.queryByParams(this.queryParams);
+        },
+        // 翻页
+        handlePageChange(i) {
+            this.queryParams = { ...this.queryParams, pageIndex: i };
+            this.queryByParams(this.queryParams);
+        },
+        // 更新搜索状态到sessionStorage
+        updateQueryParams() {
+            const storedQueryParams = JSON.stringify(this.queryParams);
+            sessionStorage.setItem('queryParams', storedQueryParams);
+        },
+        // 有条件的搜索请求
+        queryByParams(params = {}) {
+            this.loading = true;
+            this.$axios.post('api/post_by_params', params)
+                .then(res => {
+                // 处理后端返回的数据
+                if (res?.data?.code === 0) {
+                    // 更新帖子列表和总数
+                    this.postListData = res.data.data.map((i) => {
+                        const l = { ...i };
+                        l.description = l.description
+                            .replace(/<\/?[^>]+(>|$)/g, '')
+                            .replace(/\\n/g, '');
+                        return l;
+                    });
+                    this.totalCount = res.data.count;
+                }
+                else {
+                    alert('request error: ' + res.msg);
+                }
             })
-            this.totalCount = res.data.count
-          } else {
-            alert('请求错误: ' + res.msg)
-          }
-          this.loading = false
-        })
-        .catch((error) => {
-          alert(error)
-          this.loading = false
-        })
+                .catch((error) => {
+                alert(error);
+            });
+            this.loading = false;
+        },
+        goPost(id) {
+            this.$router.push('/post/' + id.toString());
+            // 用户跳转出去的时候保存页面状态
+            this.updateQueryParams();
+        },
+        goAddPost() {
+            this.$router.push('/addPost');
+        },
+        // 完整列表请求
+        getPostListData() {
+            this.loading = true;
+            return this.$axios
+                .get('/api/post', {
+                params: {
+                    pageSize: this.pageSize,
+                    pageIndex: this.pageIndex,
+                    // date:this.date//把按日期搜索合并在这里方便翻页的时候请求数据
+                },
+            })
+                .then((res) => {
+                if (res?.data?.code === 0) {
+                    // 把后端传回的data存到此文件的postdata中，将description字段从html转字符串
+                    this.postListData = res.data.data.map((i) => {
+                        const l = { ...i };
+                        // l.description = i.description
+                        //   .replace(/(<([^>]+)>)/g, '')
+                        //   .replace(/\\n/g, '')
+                        l.description = l.description
+                            .replace(/^<p>|<\/p>$/g, '')
+                            .replace(/\\n/g, ''); // 去除 \n 字符
+                        return l;
+                    });
+                    this.totalCount = res.data.count;
+                }
+                else {
+                    alert('请求错误: ' + res.msg);
+                }
+                this.loading = false;
+            })
+                .catch((error) => {
+                alert(error);
+                this.loading = false;
+            });
+        },
     },
-  },
 }
 </script>
 
