@@ -38,7 +38,7 @@
 
       <!-- filter -->
       <div class="filter">
-        <button class="button-reset" @click="resetQueryParams">{{lang == 'en' ? 'Reset search criteria' : '重置搜索条件'}}</button>
+        <el-button class="button-reset" @click="resetQueryParams">{{lang == 'en' ? 'Reset search criteria' : '重置搜索条件'}}</el-button>
         <div class="filter-title">
           {{lang == 'zh' ? "按内容搜索" : "Search By Content"}}
           <hr />
