@@ -432,4 +432,7 @@ export default {
   background-color: #53389e;
   color: #fff;
 }
+::v-deep .el-input--suffix .el-input__inner {
+    border-radius: 20px;
+}
 </style>
