@@ -189,9 +189,16 @@ export default {
     },
     description() {
       // 将\n替换为<br/>
-      return (
-        this.postdata?.description?.replace(/\\n/gm, '<br/>') || ''
-      )
+      let descriptionData = this.postdata?.description || '';
+
+      descriptionData = descriptionData.replace(/\\n/g, '<br/>');
+
+      // 使用正则表达式查找URL，将其替换为<a>标签
+      descriptionData = descriptionData.replace(/(https?:\/\/[^\s<]+)/g, function(url) {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
+
+      return descriptionData;
     },
   },
 
