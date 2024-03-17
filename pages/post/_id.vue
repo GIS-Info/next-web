@@ -191,10 +191,23 @@ export default {
       }
     },
     description() {
+      // console.log("description log:", this.postdata.description);
       // 将\n替换为<br/>
-      return (
-        this.postdata?.description?.replace(/\\n/gm, '<br/>') || ''
-      )
+      let descriptionData = this.postdata?.description || '';
+
+      descriptionData = descriptionData.replace(/\\n/g, '<br/>');
+
+      // 使用正则表达式查找URL，将其替换为<a>标签
+      descriptionData = descriptionData.replace(/(https?:\/\/[^\s<]+)/g, function(url) {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
+
+      // 将邮件地址转换为mailto链接
+      descriptionData = descriptionData.replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi, function(email) {
+        return `<a href="mailto:${email}">${email}</a>`;
+      });
+
+      return descriptionData;
     },
   },
 
