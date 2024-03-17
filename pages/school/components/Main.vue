@@ -141,24 +141,24 @@ export default {
         {en: 'Transportation', zh: '交通'},
       ],
       selectedTags: [],
-      loading: false,
+      loading: true,
     }
   },
   /**
    * 使用 fetch 方法是为了服务端渲染，参考 https://nuxtjs.org/docs/features/data-fetching
    */
   async fetch() {
-  // 向后端发起请求
-  await this.$axios
-    .get('/api/schools')
-    .then((res) => {
-      this.setData(res);
-    })
-    .catch((error) => {
-      console.log('err', error)
-      // 跳转到error界面
-      this.$router.push('/error')
-    })
+    // 向后端发起请求
+    await this.$axios
+      .get('/api/schools')
+      .then((res) => {
+        this.setData(res);
+      })
+      .catch((error) => {
+        console.log('err', error)
+        // 跳转到error界面
+        this.$router.push('/error')
+      })
   },
   computed: {},
   watch: {
@@ -215,6 +215,7 @@ export default {
       this.countryToSchool = countryToSchool;
       this.schools = schools;
       this.schoolToPeople = schoolToPeople;
+      this.loading = false;
     },
     goAnchor(hash) {
       window.location.hash=hash

@@ -112,7 +112,7 @@ export default {
 <style lang="less" scoped>
 .bg {
   width: 100%;
-  height: auto;
+  height: 250px;
   background: #dcdfe6;
   display: flex;
   flex-direction: column;

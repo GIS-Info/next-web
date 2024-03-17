@@ -128,6 +128,9 @@
         <div v-html="description"></div>
       </div>
     </div>
+
+    <bottom-bar />
+
   </div>
 </template>
 
@@ -243,11 +246,15 @@ export default {
 
 <style scoped>
 .main-container {
-  width: 100%;
   height: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
   background: #f1f1f1;
   text-align: center;
-  position: absolute;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto; 
 }
 
 /* header部分 */
@@ -321,6 +328,7 @@ export default {
 
 /* content部分 */
 .post-content {
+  padding-top: 80px;
   padding-bottom: 60px;
   width: 60%;
   max-width: 1000px;

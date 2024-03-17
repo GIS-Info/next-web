@@ -46,6 +46,9 @@
         <div v-html="description"></div>
       </div>
     </div>
+
+    <img class="intro-img" src="https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/GISphereIntro.jpg" />
+
   </div>
 </template>
 
@@ -125,7 +128,7 @@ export default {
 }
 
 .post-content {
-  padding-bottom: 60px;
+  padding-bottom: 20px;
   width: 100%;
   top: 60px;
   background: #ebeef5;
@@ -164,5 +167,8 @@ export default {
   line-height: 20px;
   text-align: left;
   color: rgba(48, 49, 51, 0.9);
+}
+.intro-img{
+  width: 90%;
 }
 </style>
