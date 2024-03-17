@@ -98,33 +98,18 @@
 
     <!-- Project Introduction -->
     <div class="field">
-      <div v-if="lang == 'zh'" class="introduce-page">
+      <div class="introduce-page">
         <div class="intro-title">
-          项目介绍
+          {{ lang == 'zh' ? '项目介绍' : 'Project Introduction' }}
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text-zh">{{ projectIntroZH }}</div>
+        <div class="intro-text-zh">{{ lang == 'zh' ? projectIntroZH : projectIntroEN }}</div>
         <div class="intro-tag">
-          <div class="tag">{{ subProject[0] }}</div>
-          <div class="tag">{{ subProject[1] }}</div>
-          <div class="tag">{{ subProject[2] }}</div>
-          <div class="tag">{{ subProject[3] }}</div>
-          <div class="tag">{{ subProject[4] }}</div>
-        </div>
-      </div>
-
-      <div v-if="lang == 'en'" class="introduce-page">
-        <div class="intro-title">
-          Project Introduction
-          <hr class="short-horizontal-line" />
-        </div>
-        <div class="intro-text-en">{{ projectIntroEN }}</div>
-        <div class="intro-tag">
-          <div class="tag">{{ subProject[0] }}</div>
-          <div class="tag">{{ subProject[1] }}</div>
-          <div class="tag">{{ subProject[2] }}</div>
-          <div class="tag">{{ subProject[3] }}</div>
-          <div class="tag">{{ subProject[4] }}</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>-Info</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>phere</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>ource</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>pace</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>alon</div>
         </div>
       </div>
     </div>
@@ -161,8 +146,7 @@
                 href="https://www.gisphere.net/"
                 target="_blank"
                 class="to-be-added"
-                >完整院校列表</el-link
-              >
+                >完整院校列表</el-link>
             </div>
           </div>
         </div>
@@ -316,7 +300,6 @@ export default {
       showContactCard: false,
       projectIntroZH: ProjectIntro[0],
       projectIntroEN: ProjectIntro[1],
-      subProject: ['GIS-Info', 'GISphere', 'GISource', 'GISpace', 'GISalon'],
       universitiesZH: universities.zh,
       universitiesEN: universities.en,
       form: {
@@ -507,13 +490,16 @@ export default {
   justify-content: space-evenly;
 }
 .tag {
-  background-color: #dcdfe6;
   border-radius: 10px;
-  height: 60px;
-  line-height: 60px;
-  width: 140px;
-  font-size: medium;
+  height: 50px;
+  line-height: 50px;
+  width: 200px;
+  border: solid 2px #2c3aaa;
+  font-size: 20px;
   text-align: center;
+  font-style: oblique;
+  background: linear-gradient(120deg,#ffffff, #ffffff 89%, #c5c9e3 89%, #c5c9e3 90%, #ffffff 90%,#ffffff 94%, #c5c9e3 94%, #c5c9e3 95%, #ffffff 95%);
+  font-weight: 800;
 }
 .uni-table {
   border-collapse: collapse;
