@@ -164,6 +164,9 @@ export default {
   watch: {
   },
   mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   },
   methods: {
     setData(res){
