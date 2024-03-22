@@ -328,7 +328,7 @@ export default {
 
 /* content部分 */
 .post-content {
-  padding-top: 80px;
+  padding-top: 60px;
   padding-bottom: 60px;
   width: 60%;
   max-width: 1000px;
