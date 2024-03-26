@@ -63,7 +63,8 @@ export default {
       if(!interests){
         return []
       }
-      const str = interests.replaceAll('.',',').replaceAll(';',',')
+      // 规范内容组研究方向格式
+      const str = interests.replaceAll('.',',').replaceAll(';',',').replaceAll('；',',').replaceAll('、',',')
       const arr = str.split(',').map((i)=>(i.trim())).filter((i)=>(i?.length>0 && i!== ' '))
       return arr;
     }
