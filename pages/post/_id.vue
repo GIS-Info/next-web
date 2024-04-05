@@ -22,19 +22,23 @@
     <!-- 中文情况下 -->
     <div v-if="lang == 'zh'" id="content" class="post-content">
       <h1 class="content-title">{{ postdata.title_cn || '-' }}</h1>
-      <h4 class="content-detail">
+      <h3 class="content-detail">
+        <i class="el-icon-date"></i>
         发布时间: <span class="normal">{{ postdata.date || '-' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-school"></i>
         机构名称:
         <span class="normal">{{ postdata.university_cn || '-' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-location-information"></i>
         地理位置: <span class="normal">{{ postdata.country_cn || '-' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-collection-tag"></i>
         岗位类型: <span class="normal">{{ postdata.job_cn || '-' }}</span>
-      </h4>
+      </h3>
       <!-- 如果招聘状态为true，则css为active -->
       <!--
       <div class="content-detail">招聘状态: <span :class="postdata.still_open == true ? 'active' : 'normal'">{{ getStatusCN }}</span></div>
@@ -63,9 +67,8 @@
         </div>
       </div>
       -->
-
       <div class="content-description">
-        <h4>职位描述</h4>
+        <h3>职位描述</h3>
         <div v-html="description"></div>
       </div>
     </div>
@@ -73,21 +76,25 @@
     <!-- 英文情况下 -->
     <div v-if="lang == 'en'" class="post-content">
       <h1 class="content-title">{{ postdata.title_en || 'unknown' }}</h1>
-      <h4 class="content-detail">
+      <h3 class="content-detail">
+        <i class="el-icon-date"></i>
         Publish Date:
         <span class="normal">{{ postdata.date || 'unknown' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-school"></i>
         Organization:
         <span class="normal">{{ postdata.university_en || 'unknown' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-location-information"></i>
         Location:
         <span class="normal">{{ postdata.country_en || 'unknown' }}</span>
-      </h4>
-      <h4 class="content-detail">
+      </h3>
+      <h3 class="content-detail">
+        <i class="el-icon-collection-tag"></i>
         Type: <span class="normal">{{ postdata.job_en || 'unknown' }}</span>
-      </h4>
+      </h3>
       <!-- 如果招聘状态为true，则css为active -->
       <!--
       <div class="content-detail">Status: <span :class="postdata.status == true ? 'active' : 'normal'">{{ getStatusEN }}</span></div>
@@ -117,10 +124,13 @@
       </div>
       -->
       <div class="content-description">
-        <h4>Job Description</h4>
+        <h3>Job Description</h3>
         <div v-html="description"></div>
       </div>
     </div>
+
+    <bottom-bar />
+
   </div>
 </template>
 
@@ -158,7 +168,7 @@ export default {
   },
   head() {
     return {
-      title:
+      title: 'GISphere | ' +
         this.lang === 'en' ? this.postdata.title_en : this.postdata.title_cn,
     }
   },
@@ -181,10 +191,23 @@ export default {
       }
     },
     description() {
+      // console.log("description log:", this.postdata.description);
       // 将\n替换为<br/>
-      return (
-        this.postdata?.description?.replace(/\\n/gm, '<br/>') || ''
-      )
+      let descriptionData = this.postdata?.description || '';
+
+      descriptionData = descriptionData.replace(/\\n/g, '<br/>');
+
+      // 使用正则表达式查找URL，将其替换为<a>标签
+      descriptionData = descriptionData.replace(/(https?:\/\/[^\s<]+)/g, function(url) {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
+
+      // 将邮件地址转换为mailto链接
+      descriptionData = descriptionData.replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi, function(email) {
+        return `<a href="mailto:${email}">${email}</a>`;
+      });
+
+      return descriptionData;
     },
   },
 
@@ -222,7 +245,11 @@ export default {
       let copyTxt = ''
       e.preventDefault() // 取消默认的复制事件
       copyTxt = window.getSelection(0).toString()
-      copyTxt = `${copyTxt}\n\n________________\n作者：GISphere\n原文：${window.location.href}\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。`
+      const urlPattern = /^\s*(?:(http|https|ftp):\/\/)?((?:[\w-]+\.)+[a-z0-9]+)((?:\/[^/?#]*)+)?(\?[^#]+)?(#.+)?$/i
+      const emailPattern = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+      if(!urlPattern.test(copyTxt) && !emailPattern.test(copyTxt)){
+        copyTxt = `${copyTxt}\n\n________________\n作者：GISphere\n原文：${window.location.href}\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。`
+      }
       const clipboardData = e.clipboardData || window.clipboardData
       clipboardData.setData('text', copyTxt)
     },
@@ -232,11 +259,15 @@ export default {
 
 <style scoped>
 .main-container {
-  width: 100%;
   height: 100%;
-  background: #ebeef5;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  background: #f1f1f1;
   text-align: center;
-  position: absolute;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto; 
 }
 
 /* header部分 */
@@ -246,7 +277,7 @@ export default {
   height: 60px;
   left: 0px;
   top: 0px;
-  background: #e4e7ed;
+  background: #f1f1f1;
   box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.12);
   border-radius: 4px;
 }
@@ -310,10 +341,12 @@ export default {
 
 /* content部分 */
 .post-content {
+  padding-top: 80px;
   padding-bottom: 60px;
   width: 60%;
+  max-width: 1000px;
   margin: 0 auto;
-  background: #ebeef5;
+  background: #f1f1f1;
   border-radius: 0px;
   word-wrap: break-word;
 }
@@ -407,5 +440,8 @@ export default {
   line-height: 20px;
   text-align: left;
   color: rgba(48, 49, 51, 0.9);
+  font-size: 18px;
+  line-height: 30px;
+  border-top: #636569 solid 1px;
 }
 </style>

@@ -29,7 +29,8 @@
           <el-tag v-if="people[p]?.P_GIS === '1'" size="small">GIS</el-tag>
           <el-tag v-if="people[p]?.P_RS === '1'" size="small">RS</el-tag>
           <el-tag v-if="people[p]?.P_GNSS === '1'" size="small">GNSS</el-tag>
-          <el-tag v-for="(t, index) in splitInterests(people[p]?.P_Research_Interests)" :key="t + index" class="custom-tag" size="small">{{ t }}</el-tag>
+          <!-- 下面这个是为了在中文版中国大陆学校显示中文研究方向修改的，中文版其余学校还是显示英文研究方向。如果后续全部换成中文那么修改此处代码 -->
+          <el-tag v-for="(t, index) in splitInterests(lang == 'zh' && people[p].P_Research_Interests_CN !== null ? people[p]?.P_Research_Interests_CN : people[p]?.P_Research_Interests)" :key="t + index" class="custom-tag" size="small">{{ t }}</el-tag>
         </p>
       </div>
     </div>

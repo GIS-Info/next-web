@@ -1,5 +1,13 @@
 <template>
   <div class="default-container">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CZVFCBGBQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8CZVFCBGBQ');
+    </script>
     <head-bar class="default-head"/>
     <div class="default-main">
       <nuxt />

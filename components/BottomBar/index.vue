@@ -40,6 +40,18 @@
          <img class="img" src="./imgs/x.png" />
         GISphereGuide
       </a>
+      <a class="link" href="https://www.youtube.com/@gisphere">
+         <img class="img" src="./imgs/youtube.png" />
+        Youtube GISalon
+      </a>
+      <a class="link" href="https://space.bilibili.com/1043870260">
+         <img class="img" src="./imgs/bilibili.png" />
+        Bilibili GISalon
+      </a>
+      <a class="link" href="https://www.zhihu.com/people/gisphere">
+         <img class="img" src="./imgs/zhihu.png" />
+        GISphere
+      </a>
       <a
         class="link"
         @mouseover="
@@ -100,17 +112,17 @@ export default {
 <style lang="less" scoped>
 .bg {
   width: 100%;
-  height: 18.75rem;
+  height: 300px;
   background: #dcdfe6;
   display: flex;
   flex-direction: column;
   .content {
     width: 100%;
-    height: 64px;
-    line-height: 64px;
+    height: 50px;
+    line-height: 50px;
     font-style: normal;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 22px;
     text-align: center;
     color: #303133;
   }
@@ -118,19 +130,21 @@ export default {
     text-align: center;
   }
   .copyright-content {
-    text-align: center;
+    text-align: left;
     font-size: 12px;
     margin: 0px 20% 0px 20%;
   }
   .links-container {
     text-align: center;
+    padding: 0px 100px 30px 100px;
     .link {
       margin: 0px 10px 0px 10px;
-      font-size: 10px;
+      font-size: 16px;
       color: #303133;
       cursor: pointer;
       text-decoration: none;
       position: relative;
+      white-space:nowrap;
       .img {
         height: 16px;
         transform: translateY(3px);

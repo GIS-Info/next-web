@@ -12,16 +12,17 @@
           </div>
           <div class="welcome-buttons">
             <el-button
-              class="explore-academic-recruiting"
+              type="primary"
+              class="big-button explore-academic-recruiting"
               @click="goToPostList('academic')"
               >招生信息</el-button
             >
             <el-button
-              class="explore-job-recruiting"
+              v-if="false"
               @click="goToPostList('job')"
               >招聘信息</el-button
             >
-            <el-button class="explore-programs" @click="goToUniversityList"
+            <el-button class="big-button explore-programs" @click="goToUniversityList"
               >院校指南</el-button
             >
           </div>
@@ -33,28 +34,30 @@
           </div>
           <div class="welcome-buttons">
             <el-button
-              class="explore-academic-recruiting"
+              type="primary"
+              class="big-button explore-academic-recruiting"
               @click="goToPostList('academic')"
               >Academic Recruiting</el-button
             >
             <el-button
-              class="explore-job-recruiting"
+              v-if="false"
               @click="goToPostList('job')"
               >Job Recruiting</el-button
             >
-            <el-button class="explore-programs" @click="goToUniversityList"
+            <el-button class="big-button explore-programs" @click="goToUniversityList"
               >Institutions</el-button
             >
           </div>
         </div>
       </div>
-
-      <!-- Contact Us pop up card -->
-      <div>
+      <!-- Functional Buttons -->
+      <div class="functional-buttons">
+        <el-button class="white-book-button" round @click="dialogFormVisible = true">{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe' }}</el-button>
+        <el-button class="white-book-button explore-job-recruiting" round @click="$router.push('/white-book')">{{ lang == 'zh' ? 'GISphere 留学指南 · 大数据报告白皮书' : 'GISphere Global Admission Annual Review' }}</el-button>
+        <!-- Contact Us pop up card -->
         <!-- ZH -->
         <div
           v-if="lang == 'zh'"
-          class="contact-us"
           @mouseover="showContactCard = true"
           @mouseleave="showContactCard = false"
         >
@@ -69,14 +72,11 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" round class="contact-us-button"
-            >联系我们 / 加入我们</el-button
-          >
+          <el-button type="info" class="contact-us" round>联系我们 / 加入我们</el-button>
         </div>
         <!-- EN -->
         <div
           v-if="lang == 'en'"
-          class="contact-us"
           @mouseover="showContactCard = true"
           @mouseleave="showContactCard = false"
         >
@@ -91,42 +91,25 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" round class="contact-us-button"
-            >Contact Us / Join Us</el-button
-          >
+          <el-button type="info" round class="contact-us">Contact Us / Join Us</el-button>
         </div>
       </div>
     </div>
 
     <!-- Project Introduction -->
     <div class="field">
-      <div v-if="lang == 'zh'" class="introduce-page">
+      <div class="introduce-page">
         <div class="intro-title">
-          项目介绍
+          {{ lang == 'zh' ? '项目介绍' : 'Project Introduction' }}
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text-zh">{{ projectIntroZH }}</div>
+        <div class="intro-text-zh">{{ lang == 'zh' ? projectIntroZH : projectIntroEN }}</div>
         <div class="intro-tag">
-          <div class="tag">{{ subProject[0] }}</div>
-          <div class="tag">{{ subProject[1] }}</div>
-          <div class="tag">{{ subProject[2] }}</div>
-          <div class="tag">{{ subProject[3] }}</div>
-          <div class="tag">{{ subProject[4] }}</div>
-        </div>
-      </div>
-
-      <div v-if="lang == 'en'" class="introduce-page">
-        <div class="intro-title">
-          Project Introduction
-          <hr class="short-horizontal-line" />
-        </div>
-        <div class="intro-text-en">{{ projectIntroEN }}</div>
-        <div class="intro-tag">
-          <div class="tag">{{ subProject[0] }}</div>
-          <div class="tag">{{ subProject[1] }}</div>
-          <div class="tag">{{ subProject[2] }}</div>
-          <div class="tag">{{ subProject[3] }}</div>
-          <div class="tag">{{ subProject[4] }}</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>-Info</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>phere</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>ource</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>pace</div>
+          <div class="tag"><span style="color: #7944dd;">GIS</span>alon</div>
         </div>
       </div>
     </div>
@@ -140,11 +123,11 @@
           <div>
             <table class="uni-table">
               <tr>
-                <td class="uni-content-title"><b>亚洲</b></td>
-                <td class="uni-content-title"><b>北美</b></td>
-                <td class="uni-content-title"><b>欧洲</b></td>
-                <td class="uni-content-title"><b>大洋洲</b></td>
-                <td class="uni-content-title"><b>非洲</b></td>
+                <td class="uni-content-title"><b>亚洲</b><el-divider/></td>
+                <td class="uni-content-title"><b>北美</b><el-divider/></td>
+                <td class="uni-content-title"><b>欧洲</b><el-divider/></td>
+                <td class="uni-content-title"><b>大洋洲</b><el-divider/></td>
+                <td class="uni-content-title"><b>非洲</b><el-divider/></td>
               </tr>
               <tr v-for="(n, index) in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">{{ universitiesZH.asia[index] }}</td>
@@ -163,8 +146,7 @@
                 href="https://www.gisphere.net/"
                 target="_blank"
                 class="to-be-added"
-                >完整院校列表</el-link
-              >
+                >完整院校列表</el-link>
             </div>
           </div>
         </div>
@@ -176,11 +158,11 @@
           <div>
             <table class="uni-table">
               <tr>
-                <td class="uni-content"><b>Asia</b></td>
-                <td class="uni-content"><b>North America</b></td>
-                <td class="uni-content"><b>Europe</b></td>
-                <td class="uni-content"><b>Oceania</b></td>
-                <td class="uni-content"><b>Africa and South America</b></td>
+                <td class="uni-content-title"><b>Asia</b><el-divider/></td>
+                <td class="uni-content-title"><b>North America</b><el-divider/></td>
+                <td class="uni-content-title"><b>Europe</b><el-divider/></td>
+                <td class="uni-content-title"><b>Oceania</b><el-divider/></td>
+                <td class="uni-content-title"><b>Africa and South America</b><el-divider/></td>
               </tr>
               <tr v-for="index in maxUniversitiesListLength" :key="index">
                 <td class="uni-content">
@@ -269,6 +251,37 @@
         >
       </span>
     </el-dialog>
+    <el-dialog title="订阅 ( Subscribe )" :visible.sync="dialogFormVisible" :modal-append-to-body="false" :top="'17vh'">
+      <el-form :model="form">
+        <el-form-item
+          label="邮箱 ( email )"
+          prop="email"
+          :rules="[
+            { required: true, message: '请输入邮箱地址 ( Please enter your email address. )', trigger: 'blur' },
+            { type: 'email', message: '请输入正确的邮箱地址 ( Please enter a valid email address. )', trigger: ['blur', 'change'] }
+          ]">
+          <el-input v-model="form.email"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="名 ( first name )"
+          :rules="[
+            { required: true, message: '请输入 ( Please enter your first name. )', trigger: 'blur' },
+          ]">
+          <el-input v-model="form.firstName" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="姓 ( last name )"
+          :rules="[
+            { required: true, message: '请输入 ( Please enter your last name. )', trigger: 'blur' },
+          ]">
+          <el-input v-model="form.lastName" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleFormSubmit">提 交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -283,12 +296,22 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      dialogFormVisible: false,
       showContactCard: false,
       projectIntroZH: ProjectIntro[0],
       projectIntroEN: ProjectIntro[1],
-      subProject: ['GIS-Info', 'GISphere', 'GISource', 'GISpace', 'GISalon'],
       universitiesZH: universities.zh,
       universitiesEN: universities.en,
+      form: {
+        email:'',
+        firstName: '',
+        lastName: '',
+      },
+    }
+  },
+  head() {
+    return {
+      title: 'GISphere'
     }
   },
   computed: {
@@ -334,6 +357,31 @@ export default {
     disableCopy(e) {
       e.preventDefault()
     },
+    // 提交订阅邮件的请求
+    handleFormSubmit() {
+      this.dialogFormVisible = false;
+      const form = this.form;
+
+      // 构造个人信息和邮件列表标签
+      const params = {
+        first_name: form.firstName,
+        last_name: form.lastName,
+        email: form.email,
+        mailing_list_slug: 'test'
+      };
+
+      this.$axios.post('api/subscribe', params)
+      .then(res => {
+        this.$message({
+          message: res.data.message,
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.$message.error(err);
+      });
+      
+    },
   },
 }
 </script>
@@ -366,7 +414,7 @@ export default {
   font-weight: 800;
   font-size: 50px;
   line-height: 60px;
-  color: #0073ff;
+  color: #ffffff;
   /* 保持背景黑色阴影 */
   text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
     0 0 80px #1f1f20;
@@ -388,62 +436,41 @@ export default {
   flex-direction: row;
   align-items: center;
 }
-
-.explore-academic-recruiting {
-  border-color: #ffffff;
-  background-color: #ffffff;
-  color: #0073ff;
-}
-.explore-job-recruiting {
-  border-color: #ffffff;
-  background-color: transparent;
-  color: #ffffff;
+.big-button{
+  border: solid 2px #2c3aaa;
+  width: 220px;
+  height: 50px;
+  font-size: 17px;
+  font-weight: 100;
 }
 .explore-programs {
-  border-color: #0073ff;
-  background-color: transparent;
-  color: #0073ff;
+  color: #2c3aaa;
 }
-.explore-academic-recruiting:active,
-.explore-academic-recruiting:hover,
-.explore-job-recruiting:active,
-.explore-job-recruiting:hover,
-.explore-programs:active,
-.explore-programs:hover {
-  border-color: #0073ff;
-  background-color: #0073ff;
+.big-button:hover {
+  background-color: #53389e;
   color: #ffffff;
-  transition: 300ms ease-in-out;
+  transition: 100ms ease-in-out;
 }
 .contact-us {
-  position: absolute;
-  bottom: 60px;
-  right: 60px;
+  margin-left: 10px;
+  border: solid 2px #ffffff00;
 }
 .contact-us-card {
   background-color: transparent;
-}
-.contact-us-button {
-  background-color: #909399;
-  border-color: transparent;
-}
-.contact-us-button:active,
-.contact-us-button:hover {
-  background-color: #c0c4cc;
-  transition: 300ms ease-in-out;
+  margin-left: 10px;
 }
 .intro-title {
   text-align: center;
   font-size: 40px;
-  color: #0073ff;
+  color: #2c3aaa;
   margin-top: 32px;
 }
 .short-horizontal-line {
   width: 5%;
   height: 2px;
-  background-color: #0073ff;
+  background-color: #2c3aaa;
   margin-top: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .intro-text-zh {
   line-height: 26px;
@@ -463,29 +490,36 @@ export default {
   justify-content: space-evenly;
 }
 .tag {
-  background-color: #dcdfe6;
   border-radius: 10px;
-  height: 60px;
-  line-height: 60px;
-  width: 140px;
-  font-size: medium;
+  height: 50px;
+  line-height: 50px;
+  width: 200px;
+  border: solid 2px #2c3aaa;
+  font-size: 20px;
   text-align: center;
+  font-style: oblique;
+  background: linear-gradient(120deg,#ffffff, #ffffff 89%, #c5c9e3 89%, #c5c9e3 90%, #ffffff 90%,#ffffff 94%, #c5c9e3 94%, #c5c9e3 95%, #ffffff 95%);
+  font-weight: 800;
 }
 .uni-table {
   border-collapse: collapse;
   width: 100%;
 }
 .uni-content-title {
-  font-size: 24px;
+  font-size: 1.15rem;
   text-align: center;
-  padding-bottom: 10px;
+  /* margin-bottom: 100px; */
 }
 .uni-content {
   width: 20%;
   height: 2.5rem;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
-  vertical-align: text-top;
+}
+.el-divider {
+  height: 2px;
+  width: 3rem;
+  margin: 0.25rem auto;
 }
 .contact-content {
   width: 50%;
@@ -493,7 +527,7 @@ export default {
   text-align: center;
 }
 .contact-us-content {
-  background-color: #909399;
+  background-color: #fff;
   border-radius: 30px;
   height: 40px;
   width: 171.68px;
@@ -503,11 +537,11 @@ export default {
   margin-bottom: 5px;
 }
 .contact-us-qrcode {
-  background-color: #909399;
+  background-color: #fff;
   border-radius: 20px;
   height: 171.68px;
   width: 171.68px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .contact-us-qrcode > img {
   width: 80%;
@@ -529,13 +563,13 @@ export default {
   margin-bottom: 64px;
 }
 .to-be-added {
-  color: #0073ff;
+  color: #2c3aaa;
   text-align: center;
   font-display: block;
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
-  margin: 0;
+  margin-top: 0.8rem;
 }
 .sponsor-part {
   line-height: 26px;
@@ -582,7 +616,7 @@ export default {
   .explore-academic-recruiting {
     border-color: #ffffff;
     background-color: #ffffff;
-    color: #0073ff;
+    color: #2c3aaa;
     margin-bottom: 1rem;
   }
   .explore-job-recruiting {
@@ -593,11 +627,30 @@ export default {
     margin-bottom: 1rem;
   }
   .explore-programs {
-    border-color: #0073ff;
+    border-color: #28292a;
     background-color: transparent;
-    color: #0073ff;
+    color: #2c3aaa;
     margin-left: 0 !important;
     margin-bottom: 1rem;
   }
+}
+.white-book-button{
+  margin-left: 10px;
+  border: solid 2px #2c3aaa;
+  color: #2c3aaa;
+  background-color: rgba(255,255,255,0.5);
+}
+.white-book-button:hover {
+  color: #fff;
+  background-color: #53389e;
+}
+.functional-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 60px;
+  right: 60px;
 }
 </style>

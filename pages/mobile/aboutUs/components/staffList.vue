@@ -2,7 +2,7 @@
   <div class="list">
     <div v-for="person in staffs" :key="person.name" class="card">
       <a class="imgBox" :href="person.link">
-        <img :src="person.img || 'https://img1.imgtp.com/2023/05/21/huwS9y1u.png'" />
+        <img :src="person.img || 'https://gisphere-1254220474.cos.ap-hongkong.myqcloud.com/teammate-avatars/230701/%E7%94%A8%E6%88%B7.png'" />
       </a>
       <a :href="person.link" class="name">{{ person.name }}</a>
       <a :href="`mailto:${ person.email }`" class="email">{{ person.email }}</a>

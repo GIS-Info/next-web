@@ -5,7 +5,7 @@
           <circle v-for=" y in line" :key='`${xindex}-${y}`' cx="0" :cy="y" r="0.3" fill="#404144">
               <animate
                 attributeName="fill"
-                values="#404144;#404144;#404144;#606266;#404144;#404144;#404144;"
+                values="#404144;#404144;#404144;#f7c800;#404144;#404144;#404144;"
                 dur="4s"
                 :begin="`${(xindex/160)*4}s`"
                 repeatCount="indefinite"
@@ -42,7 +42,7 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background-color: #1f1f20;
+  background-color: rgb(231, 231, 233);
   position: absolute;
   top: 0px;
   z-index: -1;
