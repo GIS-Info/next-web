@@ -32,9 +32,27 @@
     </el-row>
       <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GISphere Guide' }}</strong></h1>
         {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，最新版本更新时间为2021年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'Launched in September 2019, the GISphere Guide Project continues to be actively updated, with the most recent version as of April 2023. Information for the guide is collected from current students, recent graduates, and young faculty involved in GIS-related programs from around the globe. Our goal is to offer current and comprehensive information to help students applying to GIS graduate programs.' }}
-      <br/>
-      <br/>
-      
+      <!-- Statistics Section -->
+      <el-row class="statistics-section">
+        <el-col :span="8">
+          <div class="statistic">
+            <div class="statistic-number" id="total-schools">{{ totalSchools }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '院校数量' : 'Total Schools' }}</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="statistic">
+            <div class="statistic-number" id="total-countries">{{ totalCountries }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '国家和地区数量' : 'Total Countries and Regions' }}</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="statistic">
+            <div class="statistic-number" id="total-professors">{{ totalProfessors }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '教授数量' : 'Total Professors' }}</div>
+          </div>
+        </el-col>
+      </el-row>
       <!-- Embed Map -->
       <div class="map-container">
         <iframe id="maptableEmbedMap" width="93%" height="450" frameborder="0"  src="https://maptable.com/s/embed/d344uyaa85j4?loc=15.25,52.63,2.48z" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -116,6 +134,10 @@ export default {
   },
   data() {
     return {
+      loading: true,
+      totalSchools: 480,
+      totalCountries: 96,
+      totalProfessors: 2065,
       rawData: [],
       // 查找表
       continents: {
@@ -141,7 +163,6 @@ export default {
         {en: 'Transportation', zh: '交通'},
       ],
       selectedTags: [],
-      loading: true,
     }
   },
   /**
@@ -167,6 +188,9 @@ export default {
     setTimeout(() => {
       this.loading = false;
     }, 2000);
+    this.animateValue('total-schools', 0, this.totalSchools, 2000);
+    this.animateValue('total-countries', 0, this.totalCountries, 2000);
+    this.animateValue('total-professors', 0, this.totalProfessors, 2000);
   },
   methods: {
     setData(res){
@@ -219,6 +243,22 @@ export default {
       this.schools = schools;
       this.schoolToPeople = schoolToPeople;
       this.loading = false;
+    },
+    animateValue(id, start, end, duration) {
+      const obj = document.getElementById(id); // 使用 const 代替 let
+      let current = start; // 当前值初始化为起始值
+      const range = end - start; // 计算范围，使用 const 代替 let
+      const increment = end > start ? 1 : -1; // 增量，决定是递增还是递减，使用 const 代替 let
+      const stepTime = Math.abs(Math.floor(duration / range)); // 计算每一步的时间间隔，使用 const 代替 let
+
+      // 创建定时器
+      const timer = setInterval(() => { // 使用 const 代替 let
+        current += increment; // 更新当前值
+        obj.textContent = current; // 更新DOM元素的文本内容
+        if (current === end) { // 使用严格相等运算符 ===
+          clearInterval(timer);
+        }
+      }, stepTime);
     },
     goAnchor(hash) {
       window.location.hash=hash
@@ -282,4 +322,30 @@ el-collapse-item:hover {
   text-align: center;
   margin-top: 20px; /* Adjust as needed */
 }
+.statistics-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.statistic {
+  padding: 20px;
+}
+
+.statistic-number {
+  font-size: 3em; /* 调整字体大小 */
+  font-family: 'Roboto', sans-serif; /* 使用现代字体 */
+  color: #1a4986; /* 字体颜色 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 添加阴影效果 */
+  transition: transform 0.2s; /* 添加过渡效果 */
+}
+
+.statistic-label {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.statistic-number:hover {
+  transform: scale(1.1); /* 鼠标悬停时放大 */
+}
+
 </style>
