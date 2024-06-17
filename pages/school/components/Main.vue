@@ -248,16 +248,17 @@ export default {
       const obj = document.getElementById(id); // 使用 const 代替 let
       let current = start; // 当前值初始化为起始值
       const range = end - start; // 计算范围，使用 const 代替 let
-      const increment = end > start ? 1 : -1; // 增量，决定是递增还是递减，使用 const 代替 let
-      const stepTime = Math.abs(Math.floor(duration / range)); // 计算每一步的时间间隔，使用 const 代替 let
-
+      const increment = Math.max(Math.floor(range / 100), 1); // 增量，决定是递增还是递减，使用 const 代替 let
+      const stepTime = Math.max(Math.abs(Math.floor(duration / (range / increment))), 20); // 计算每一步的时间间隔，使用 const 代替 let
+    
       // 创建定时器
       const timer = setInterval(() => { // 使用 const 代替 let
         current += increment; // 更新当前值
-        obj.textContent = current; // 更新DOM元素的文本内容
-        if (current === end) { // 使用严格相等运算符 ===
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+          current = end; // 确保最终值为目标值
           clearInterval(timer);
         }
+        obj.textContent = current; // 更新DOM元素的文本内容
       }, stepTime);
     },
     goAnchor(hash) {
