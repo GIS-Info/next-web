@@ -30,11 +30,29 @@
           <el-checkbox-button v-for="tag in tags" :key="tag.en" :label="tag.en">{{ tag[lang] }}</el-checkbox-button>
         </el-checkbox-group>
     </el-row>
-      <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GIS-Info Institution Guide' }}</strong></h1>
-        {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，最新版本更新时间为2021年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'This School Instruction Project was launched in September 2019, and the latest version will be updated in September 2021, aiming to provide timely and comprehensive information on global GIS and related professional colleges. The information is provided by current students, recently graduated alumni or young teachers from prestigious schools of GIS and urban planning and other related majors around the world. We hope this guide can provide help and support for GIS-related professional friends who intend to study abroad.' }}
-      <br/>
-      <br/>
-      
+      <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GISphere Guide' }}</strong></h1>
+        {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，最新版本更新时间为2021年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'Launched in September 2019, the GISphere Guide Project continues to be actively updated, with the most recent version as of April 2023. Information for the guide is collected from current students, recent graduates, and young faculty involved in GIS-related programs from around the globe. Our goal is to offer current and comprehensive information to help students applying to GIS graduate programs.' }}
+      <!-- Statistics Section -->
+      <el-row class="statistics-section">
+        <el-col :span="8">
+          <div class="statistic">
+            <div class="statistic-number" id="total-schools">{{ totalSchools }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '院校数量' : 'Total Schools' }}</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="statistic">
+            <div class="statistic-number" id="total-countries">{{ totalCountries }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '国家和地区数量' : 'Total Countries and Regions' }}</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="statistic">
+            <div class="statistic-number" id="total-professors">{{ totalProfessors }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '教授数量' : 'Total Professors' }}</div>
+          </div>
+        </el-col>
+      </el-row>
       <!-- Embed Map -->
       <div class="map-container">
         <iframe id="maptableEmbedMap" width="93%" height="450" frameborder="0"  src="https://maptable.com/s/embed/d344uyaa85j4?loc=15.25,52.63,2.48z" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -70,7 +88,7 @@
       <h2><i class="el-icon-s-check"></i>{{ lang == 'zh' ? '版权' : 'Copyright' }}</h2>
       {{ lang == 'zh' ? '本文档遵循CC BY-NC 4.0许可，如需非商业转载或修改，请给出署名；商业转载' : 'This guide is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License' }}
       <h2><i class="el-icon-info"></i>{{ lang == 'zh' ? '提示' : 'Tips' }}</h2>
-      {{ lang == 'zh' ? `本文档包含 ${Object.keys(countries)?.length} 个国家和地区的 ${Object.keys(schools)?.length} 条院校信息，可以通过页面 Ctrl + F （Mac 设备为 cmd + F）快速检索` : `This document contains information of ${Object.keys(schools)?.length} institutions in ${Object.keys(countries)?.length} countries, which can be quickly retrieved by pressing Ctrl + F (or cmd + F on Mac) on the page` }}
+      {{ lang == 'zh' ? `本文档包含400多个院校的超过550个专业院系超过2000条导师的信息。其中包含导师以及课题组具体的研究方向（例如GIS，RS，城市交通等）。可以通过页面 Ctrl + F 快速检索` : `GISphere Guide includes profiles of over 2,000 tenured-track faculty from 550+ departments within 400+ academic institutions. These faculty members specialize in a range of fields, including Geographic Information Science (GIS), Global Navigation Satellite Systems (GNSS), Remote Sensing (RS), physical geography, human geography, urban planning and transportation. You can quickly retrieve information by pressing Ctrl + F (or Cmd + F on Mac) on the webpage.` }}
       <h2><i class="el-icon-s-custom"></i>{{ lang == 'zh' ? '作者名单' : 'Contributors' }}</h2>
         {{ lang == 'zh' ? '下面是撰写条目或提供院校信息的作者名单。按姓氏拼音排序。为保护隐私，我们不公开作者的单位信息。部分作者为匿名作者，故在此未予列出。' : 'Below is a list of authors who wrote entries or provided information about one or more institutions. Some authors are anonymous and therefore not listed here. Per the local custom, Chinese surnames are written before the given names.' }}
       <h4>Content providers</h4>
@@ -116,6 +134,10 @@ export default {
   },
   data() {
     return {
+      loading: true,
+      totalSchools: 480,
+      totalCountries: 96,
+      totalProfessors: 2065,
       rawData: [],
       // 查找表
       continents: {
@@ -141,7 +163,6 @@ export default {
         {en: 'Transportation', zh: '交通'},
       ],
       selectedTags: [],
-      loading: true,
     }
   },
   /**
@@ -167,6 +188,9 @@ export default {
     setTimeout(() => {
       this.loading = false;
     }, 2000);
+    this.animateValue('total-schools', 0, this.totalSchools, 2000);
+    this.animateValue('total-countries', 0, this.totalCountries, 2000);
+    this.animateValue('total-professors', 0, this.totalProfessors, 2000);
   },
   methods: {
     setData(res){
@@ -219,6 +243,23 @@ export default {
       this.schools = schools;
       this.schoolToPeople = schoolToPeople;
       this.loading = false;
+    },
+    animateValue(id, start, end, duration) {
+      const obj = document.getElementById(id); // 使用 const 代替 let
+      let current = start; // 当前值初始化为起始值
+      const range = end - start; // 计算范围，使用 const 代替 let
+      const increment = Math.max(Math.floor(range / 100), 1); // 增量，决定是递增还是递减，使用 const 代替 let
+      const stepTime = Math.max(Math.abs(Math.floor(duration / (range / increment))), 20); // 计算每一步的时间间隔，使用 const 代替 let
+    
+      // 创建定时器
+      const timer = setInterval(() => { // 使用 const 代替 let
+        current += increment; // 更新当前值
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+          current = end; // 确保最终值为目标值
+          clearInterval(timer);
+        }
+        obj.textContent = current; // 更新DOM元素的文本内容
+      }, stepTime);
     },
     goAnchor(hash) {
       window.location.hash=hash
@@ -282,4 +323,30 @@ el-collapse-item:hover {
   text-align: center;
   margin-top: 20px; /* Adjust as needed */
 }
+.statistics-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.statistic {
+  padding: 20px;
+}
+
+.statistic-number {
+  font-size: 3em; /* 调整字体大小 */
+  font-family: 'Roboto', sans-serif; /* 使用现代字体 */
+  color: #1a4986; /* 字体颜色 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 添加阴影效果 */
+  transition: transform 0.2s; /* 添加过渡效果 */
+}
+
+.statistic-label {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.statistic-number:hover {
+  transform: scale(1.1); /* 鼠标悬停时放大 */
+}
+
 </style>
