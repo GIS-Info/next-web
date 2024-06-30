@@ -96,6 +96,7 @@ export default {
         '/school',
         '/school/zh',
         '/white-book',
+        '/feedback'
       ];
       // 帖子页面的路由
       const res = await axios.get('https://gisphere.info/api/post?pageSize=99999&pageIndex=1')

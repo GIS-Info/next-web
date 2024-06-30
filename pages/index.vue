@@ -25,6 +25,9 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >院校指南</el-button
             >
+            <el-button class="big-button explore-programs" @click="goToForum"
+              >讨论区</el-button
+            >
           </div>
         </div>
         <div v-if="lang == 'en'" class=".en-letter-spacing">
@@ -46,6 +49,9 @@
             >
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >Institutions</el-button
+            >
+            <el-button class="big-button explore-programs" @click="goToForum"
+              >Forum (in Chinese)</el-button
             >
           </div>
         </div>
@@ -351,6 +357,9 @@ export default {
       // 对外入口
       this.$router.push('/school');
     },
+    goToForum() { 
+      window.location.href = 'https://forum.gisphere.info'
+    },
     goUrl(url) {
       window.location.href = url
     },
@@ -441,7 +450,7 @@ export default {
   width: 220px;
   height: 50px;
   font-size: 17px;
-  font-weight: 100;
+  font-weight: 400;
 }
 .explore-programs {
   color: #2c3aaa;
