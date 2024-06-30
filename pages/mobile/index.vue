@@ -13,15 +13,18 @@
           <div class="welcome-buttons">
             <el-button
               type="primary"
-              class="big-button"
+              class="big-button-zh"
               @click="goToPostList('academic')"
               >招生信息</el-button
             >
             <el-button v-if="false" @click="goToPostList('job')"
               >招聘信息</el-button
             >
-            <el-button class="big-button" @click="goToUniversityList"
+            <el-button class="big-button-zh" @click="goToUniversityList"
               >院校指南</el-button
+            >
+            <el-button class="big-button-zh" @click="goToForum"
+              >讨论区</el-button
             >
           </div>
         </div>
@@ -42,6 +45,9 @@
             >
             <el-button class="big-button" @click="goToUniversityList"
               >Institutions</el-button
+            >
+            <el-button class="big-button" @click="goToForum"
+              >Forum</el-button
             >
           </div>
         </div>
@@ -300,16 +306,9 @@ export default {
       projectIntroEN: ProjectIntro[1],
       universitiesZH: universities.zh,
       universitiesEN: universities.en,
-      currentSection: 0,
-      scrollTimeout: null,
+      lastTouchY: 0,
+      isTouching: false,
     }
-  },
-  mounted() {
-    window.addEventListener('wheel', this.handleScroll)
-  },
-  beforeDestroy() {
-    window.removeEventListener('wheel', this.handleScroll)
-    if (this.scrollTimeout) clearTimeout(this.scrollCanTimeout)
   },
   computed: {
     ...mapState({ lang: 'language' }),
@@ -332,6 +331,13 @@ export default {
       return this.lang === 'zh' ? this.universitiesZH : this.universitiesEN
     },
   },
+  mounted() {
+    window.addEventListener('wheel', this.handleScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('wheel', this.handleScroll)
+    if (this.scrollTimeout) clearTimeout(this.scrollCanTimeout)
+  },
   methods: {
     goToPostList(type) {
       this.$router.push({
@@ -341,6 +347,9 @@ export default {
     },
     goToUniversityList() {
       this.$router.push('/school')
+    },
+    goToForum() { 
+      window.location.href = 'https://forum.gisphere.info'
     },
     // 提交订阅邮件的请求
     handleFormSubmit() {
@@ -365,20 +374,39 @@ export default {
           this.$message.error(err)
         })
     },
-    handleScroll(event) {
-      event.preventDefault()
+    handleTouchStart(event) {
+      this.lastTouchY = event.touches[0].clientY
+      this.isTouching = true
+    },
+    handleTouchMove(event) {
+      if (!this.isTouching) return
+
+      const currentTouchY = event.touches[0].clientY
+      const direction = currentTouchY > this.lastTouchY ? -1 : 1
+      this.lastTouchY = currentTouchY
+
+      // 节流滚动调整
       clearTimeout(this.scrollTimeout)
       this.scrollTimeout = setTimeout(() => {
-        this.adjustScrollPosition()
+        this.adjustScrollPosition(direction)
       }, 100)
     },
-    adjustScrollPosition() {
+    handleTouchEnd() {
+      this.isTouching = false
+    },
+    adjustScrollPosition(direction) {
       const viewportHeight = window.innerHeight
-      const scrollPosition = window.pageYOffset
+      const scrollPosition = window.pageYOffset + direction * viewportHeight
+
       if (scrollPosition >= 2 * viewportHeight) {
         // 如果滚动位置超过200vh，停止自动定位
         return
       }
+      if (scrollPosition < 0) {
+        // 如果滚动位置低于0vh，停止自动定位
+        return
+      }
+
       const targetSection = Math.round(scrollPosition / viewportHeight)
       this.scrollToSection(targetSection)
     },
@@ -441,10 +469,14 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.big-button-zh {
+  border: solid 2px #2c3aaa;
+  font-size: 16px;
+}
 .big-button {
   border: solid 2px #2c3aaa;
-  height: 50px;
-  font-size: 16px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .functional-buttons {
@@ -454,7 +486,7 @@ export default {
   align-items: flex-end;
   position: absolute;
   width: 80%;
-  bottom: 40px;
+  bottom: 3vh;
   right: 0;
   left: 0;
   margin: 0 auto;
@@ -481,7 +513,6 @@ export default {
 .introduce-page {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 .intro-tag {
   height: 45vh;
@@ -489,7 +520,6 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 5vh;
 }
 .tag {
   border-radius: 10px;
@@ -523,7 +553,6 @@ export default {
 
 .intro-title {
   text-align: center;
-  font-size: 40px;
   color: #2c3aaa;
 }
 .short-horizontal-line {
@@ -537,7 +566,6 @@ export default {
 .school-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 .uni-wrapper {
   width: 80%;
@@ -580,7 +608,7 @@ export default {
   background-color: #efefef;
   border-radius: 10px;
   height: 50px;
-  width: 70%;
+  width: 75%;
   display: flex;
   flex-direction: column;
   align-items: center;
