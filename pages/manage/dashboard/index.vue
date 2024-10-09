@@ -2,6 +2,10 @@
   <div class="main">
     <div class="menu">
       <div class="button-list">
+        <a class="button" href="https://gisphere.info/db_update/" style="font-size: 14px; text-decoration: none;">
+          <div class="button-text" style="font-size: 18px;">数据库更新</div>
+          <div class="button-expansion"></div>
+        </a>
         <div class="button" @click="setView('dataPanel')">
           数据
           <div :class="`button-expansion${currentView === 'dataPanel'?' button-expansion-active':''}`"></div>
