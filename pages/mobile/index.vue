@@ -67,8 +67,8 @@
         <el-button
           class="white-book-button"
           round
-          @click="dialogFormVisible = true"
-          >{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe' }}</el-button
+           @click="goToMailingList"
+          >{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe to Email' }}</el-button
         >
         <!-- Contact Us pop up card -->
         <el-dialog
@@ -350,6 +350,9 @@ export default {
     },
     goToForum() { 
       window.location.href = 'https://forum.gisphere.info'
+    },
+    goToMailingList() {
+      window.open('https://mailchi.mp/da300ab42ac5/gisphere', '_blank');
     },
     // 提交订阅邮件的请求
     handleFormSubmit() {
