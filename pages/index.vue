@@ -58,7 +58,7 @@
       </div>
       <!-- Functional Buttons -->
       <div class="functional-buttons">
-        <el-button class="white-book-button" round @click="dialogFormVisible = true">{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe' }}</el-button>
+        <el-button class="white-book-button" round @click="goToMailingList">{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe' }}  </el-button>
         <el-button class="white-book-button explore-job-recruiting" round @click="$router.push('/white-book')">{{ lang == 'zh' ? 'GISphere 留学指南 · 大数据报告白皮书' : 'GISphere Global Admission Annual Review' }}</el-button>
         <!-- Contact Us pop up card -->
         <!-- ZH -->
@@ -365,6 +365,9 @@ export default {
     },
     disableCopy(e) {
       e.preventDefault()
+    },
+    goToMailingList() {
+      window.open('https://mailchi.mp/da300ab42ac5/gisphere', '_blank');
     },
     // 提交订阅邮件的请求
     handleFormSubmit() {
