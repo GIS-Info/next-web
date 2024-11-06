@@ -4,7 +4,7 @@
       <h2 @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
         <el-submenu v-for="continent in Object.keys(continents)" :key="`continent:${continent}`" :index="`continent:${continent}`">
           <template slot="title">
-            <div class="menu-item" @click="goAnchor(`continent:${continent}`)">
+            <div class="menu-item" @click="handleInstitutionsClick(continent)">
               <i class="el-icon-location"></i>
               <span>{{ lang == 'zh' ? continents[continent] : continent }}</span>
             </div>
@@ -148,6 +148,8 @@ export default {
         Africa: '非洲',
         'North America': '北美洲',
       },
+      // 记录被点过的大陆目录，防止重复请求
+      continentsClicked: new Set(),
       continentToCountry: {},
       countries: {},
       countryToSchool: {},
@@ -171,7 +173,8 @@ export default {
   async fetch() {
     // 向后端发起请求
     await this.$axios
-      .get('/api/schools')
+      // 首屏先请求亚洲院校数据，优化首屏速度
+      .get('/api/schools?continent=Asia')
       .then((res) => {
         this.setData(res);
       })
@@ -179,7 +182,7 @@ export default {
         console.log('err', error)
         // 跳转到error界面
         this.$router.push('/error')
-      })
+      });
   },
   computed: {},
   watch: {
@@ -279,6 +282,31 @@ export default {
         this.$router.push('/error')
       })
     },
+    // 用户点击菜单时才请求响应数据
+    handleInstitutionsClick(continent) {
+      // 如果已经点击过，直接返回，不发起请求
+      if (this.continentsClicked.has(continent)) {
+        return;
+      }
+
+      // 如果没有点击过，执行请求并将 continent 添加到已点击集合中
+      this.continentsClicked.add(continent);
+
+      this.loading = true;
+      this.goAnchor(`continent:${continent}`);
+      this.$axios
+      // 只请求点击continent对应院校数据
+      .get(`/api/schools?continent=${continent}`)
+      .then((res) => {
+        this.setData(res);
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.log('err', error)
+        // 跳转到error界面
+        this.$router.push('/error')
+      })
+    }
   },
 }
 </script>
