@@ -194,10 +194,14 @@ export default {
     this.animateValue('total-schools', 0, this.totalSchools, 2000);
     this.animateValue('total-countries', 0, this.totalCountries, 2000);
     this.animateValue('total-professors', 0, this.totalProfessors, 2000);
+
+    // 首次请求Asia数据后，防止点击目录后重复请求
+    this.continentsClicked.add('Asia');
   },
   methods: {
     setData(res){
-      this.rawData = res.data || [];
+      // 每次追加新的大洲数据
+      this.rawData = this.rawData.concat(res.data || []);
       const continentToCountry = {
         Asia: {},
         Europe: {},
