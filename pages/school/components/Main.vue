@@ -273,12 +273,9 @@ export default {
         obj.textContent = current; // 更新DOM元素的文本内容
       }, stepTime);
     },
-    // goAnchor(hash) {
-    //   window.location.hash=hash;
-    //   console.log(window.location.hash);
-    // }, 
     goAnchor(hash) {
-      this.$nextTick(() => {  // 确保 DOM 更新完成后再滚动
+      // 确保 DOM 更新完成后再滚动
+      this.$nextTick(() => {
         const element = document.getElementById(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
@@ -304,11 +301,9 @@ export default {
     },
     // 用户点击菜单时才请求响应数据
     handleInstitutionsClick(continent) {
-      console.log(continent)
       // 如果已经点击过，直接返回，不发起请求
       if (this.continentsClicked.has(continent)) {
         this.goAnchor(`continent:${continent}`);
-        console.log('dianjidianji')
         return;
       }
 
