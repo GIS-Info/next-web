@@ -1,6 +1,6 @@
 <template>
   <el-container v-loading="loading" class="container">
-    <el-menu text-color="#000000" class="menu" unique-opened :collapse-transition=false>
+    <el-menu text-color="#000000" class="menu" :default-active="activeMenu" unique-opened :collapse-transition=false>
       <h2 @click="$router.push('/school')">{{ lang == 'zh' ? '院校指南' : 'Institutions' }}</h2>
         <el-submenu v-for="continent in Object.keys(continents)" :key="`continent:${continent}`" :index="`continent:${continent}`">
           <template slot="title">
@@ -139,6 +139,7 @@ export default {
       totalCountries: 96,
       totalProfessors: 2065,
       rawData: [],
+
       // 查找表
       continents: {
         Asia: '亚洲',
@@ -148,8 +149,12 @@ export default {
         Africa: '非洲',
         'North America': '北美洲',
       },
+
       // 记录被点过的大陆目录，防止重复请求
       continentsClicked: new Set(),
+
+      // 当前选中的菜单项，防止点击菜单后状态不更新
+      activeMenu: '',
       continentToCountry: {},
       countries: {},
       countryToSchool: {},
@@ -269,8 +274,16 @@ export default {
       }, stepTime);
     },
     goAnchor(hash) {
-      window.location.hash=hash
-    },  
+      // 确保 DOM 更新完成后再滚动
+      this.$nextTick(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          console.warn('Element not found:', hash);
+        }
+      });
+    },
     // 标签选择发生变化
     tagSelectHandler(v) {
       this.loading = true;
@@ -290,6 +303,7 @@ export default {
     handleInstitutionsClick(continent) {
       // 如果已经点击过，直接返回，不发起请求
       if (this.continentsClicked.has(continent)) {
+        this.goAnchor(`continent:${continent}`);
         return;
       }
 
@@ -297,13 +311,16 @@ export default {
       this.continentsClicked.add(continent);
 
       this.loading = true;
-      this.goAnchor(`continent:${continent}`);
       this.$axios
       // 只请求点击continent对应院校数据
       .get(`/api/schools?continent=${continent}`)
       .then((res) => {
         this.setData(res);
         this.loading = false;
+
+        // 设置当前活动的菜单项
+        this.activeMenu = `continent:${continent}`;
+        this.goAnchor(`continent:${continent}`);
       })
       .catch((error) => {
         console.log('err', error)
