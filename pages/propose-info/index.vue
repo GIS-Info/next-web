@@ -10,7 +10,7 @@
             <option value="school">School Updates</option>
             <option value="professor">Professor Updates</option>
             <option value="recruitment">Recruitment Updates (PhD/Masters)</option>
-            <option value="competition">Paper Competitions/Meetings</option>
+            <option value="competition">Paper Competitions/Conferences/etc</option>
           </select>
         </div>
         <div class="form-group">
@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import emailjs from 'emailjs-com';
-
 export default {
   name: 'ProposeInformation',
   data() {
@@ -43,30 +41,35 @@ export default {
   },
   methods: {
     async submitProposal() {
+      // Validate required fields
       if (!this.proposalCategory || !this.proposalText.trim()) {
         this.feedbackMessage = 'Please select a category and enter your proposal details.';
         return;
       }
 
-      // Configure the email template parameters
-      const templateParams = {
-        proposal_category: this.proposalCategory,
-        proposal_text: this.proposalText,
-        to_email: 'gisphere@outlook.com'
-      };
-
       try {
-        // Send the email using EmailJS
-        const result = await emailjs.send(
-          'YOUR_SERVICE_ID',    // Replace with your EmailJS service ID
-          'YOUR_TEMPLATE_ID',   // Replace with your EmailJS template ID
-          templateParams,
-          'YOUR_USER_ID'        // Replace with your EmailJS user ID (public key)
-        );
-        console.log(result.text);
-        this.feedbackMessage = 'Your proposal has been sent successfully!';
-        this.proposalCategory = '';
-        this.proposalText = '';
+        // Prepare proposal data to send
+        const proposalData = {
+          to: 'gisphere@outlook.com',
+          subject: `New Proposal Submission - ${this.proposalCategory}`,
+          content: this.proposalText,
+          category: this.proposalCategory
+        };
+
+        // Send a POST request to your backend endpoint
+        const response = await fetch('/api/send-proposal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(proposalData)
+        });
+
+        if (response.ok) {
+          this.feedbackMessage = 'Your proposal has been sent successfully!';
+          this.proposalCategory = '';
+          this.proposalText = '';
+        } else {
+          this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
+        }
       } catch (error) {
         console.error('Error sending proposal:', error);
         this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
@@ -141,6 +144,7 @@ p {
   color: #333;
 }
 
+/* Additional global styles that might be used elsewhere */
 .pdf {
   width: 100%;
   height: 70vh;
