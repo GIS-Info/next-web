@@ -2,6 +2,17 @@
   <div class="main-container">
     <div class="content">
       <h2>Propose Information</h2>
+      
+      <!-- Category Selection -->
+      <label for="category">Select a Category:</label>
+      <select v-model="selectedCategory" @change="updateProposalText">
+        <option value="">-- Select a Category --</option>
+        <option value="school">Updates about Schools</option>
+        <option value="professor">Updates about Professors</option>
+        <option value="position">Updates about PhD/M.S/M.A/Intern Positions</option>
+      </select>
+
+      <!-- Proposal Input -->
       <form @submit.prevent="submitProposal">
         <div class="time-line">
           <textarea
@@ -12,6 +23,7 @@
         </div>
         <button type="submit">Submit Proposal</button>
       </form>
+
       <p v-if="feedbackMessage">{{ feedbackMessage }}</p>
     </div>
   </div>
@@ -22,11 +34,23 @@ export default {
   name: 'ProposeInformation',
   data() {
     return {
+      selectedCategory: '',
       proposalText: '',
       feedbackMessage: ''
     };
   },
   methods: {
+    updateProposalText() {
+      if (this.selectedCategory === 'school') {
+        this.proposalText = "I would like to propose an update regarding recent changes in schools, such as curriculum updates, new policies, or administrative changes.";
+      } else if (this.selectedCategory === 'professor') {
+        this.proposalText = "I would like to share updates about a professor, such as recent publications, research projects, or achievements.";
+      } else if (this.selectedCategory === 'position') {
+        this.proposalText = "I would like to propose an update about PhD/M.S/M.A/Internship opportunities, including new positions, application deadlines, or funding availability.";
+      } else {
+        this.proposalText = "";
+      }
+    },
     async submitProposal() {
       if (!this.proposalText.trim()) {
         this.feedbackMessage = 'Please enter a proposal before submitting.';
@@ -47,6 +71,7 @@ export default {
         if (response.ok) {
           this.feedbackMessage = 'Your proposal has been sent successfully!';
           this.proposalText = '';
+          this.selectedCategory = '';
         } else {
           this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
         }
@@ -115,6 +140,15 @@ p {
   margin-top: 10px;
   font-size: 1rem;
   color: #333;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .pdf {
