@@ -1,21 +1,22 @@
 <template>
   <div class="main-container">
     <div class="content">
-      <h2>Propose Information</h2>
-      
-      <!-- Category Selection -->
-      <label for="category">Select a Category:</label>
-      <select v-model="selectedCategory" @change="updateProposalText">
-        <option value="">-- Select a Category --</option>
-        <option value="school">Updates about Schools</option>
-        <option value="professor">Updates about Professors</option>
-        <option value="position">Updates about PhD/M.S/M.A/Intern Positions</option>
-      </select>
-
-      <!-- Proposal Input -->
+      <h2>Submit Your Proposal</h2>
       <form @submit.prevent="submitProposal">
-        <div class="time-line">
+        <div class="form-group">
+          <label for="proposalCategory">Proposal Category:</label>
+          <select id="proposalCategory" v-model="proposalCategory" required>
+            <option disabled value="">Select a category</option>
+            <option value="school">School Updates</option>
+            <option value="professor">Professor Updates</option>
+            <option value="recruitment">Recruitment Updates (PhD/Masters)</option>
+            <option value="competition">Paper Competitions/Conferences/etc</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="proposalText">Details:</label>
           <textarea
+            id="proposalText"
             v-model="proposalText"
             placeholder="Type your proposal here..."
             required
@@ -23,7 +24,6 @@
         </div>
         <button type="submit">Submit Proposal</button>
       </form>
-
       <p v-if="feedbackMessage">{{ feedbackMessage }}</p>
     </div>
   </div>
@@ -34,44 +34,39 @@ export default {
   name: 'ProposeInformation',
   data() {
     return {
-      selectedCategory: '',
+      proposalCategory: '',
       proposalText: '',
       feedbackMessage: ''
     };
   },
   methods: {
-    updateProposalText() {
-      if (this.selectedCategory === 'school') {
-        this.proposalText = "I would like to propose an update regarding recent changes in schools, such as curriculum updates, new policies, or administrative changes.";
-      } else if (this.selectedCategory === 'professor') {
-        this.proposalText = "I would like to share updates about a professor, such as recent publications, research projects, or achievements.";
-      } else if (this.selectedCategory === 'position') {
-        this.proposalText = "I would like to propose an update about PhD/M.S/M.A/Internship opportunities, including new positions, application deadlines, or funding availability.";
-      } else {
-        this.proposalText = "";
-      }
-    },
     async submitProposal() {
-      if (!this.proposalText.trim()) {
-        this.feedbackMessage = 'Please enter a proposal before submitting.';
+      // Validate required fields
+      if (!this.proposalCategory || !this.proposalText.trim()) {
+        this.feedbackMessage = 'Please select a category and enter your proposal details.';
         return;
       }
 
       try {
+        // Prepare proposal data to send
+        const proposalData = {
+          to: 'gisphere@outlook.com',
+          subject: `New Proposal Submission - ${this.proposalCategory}`,
+          content: this.proposalText,
+          category: this.proposalCategory
+        };
+
+        // Send a POST request to your backend endpoint
         const response = await fetch('/api/send-proposal', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: 'gisphere@outlook.com',
-            subject: 'New Proposal Submission',
-            content: this.proposalText
-          })
+          body: JSON.stringify(proposalData)
         });
 
         if (response.ok) {
           this.feedbackMessage = 'Your proposal has been sent successfully!';
+          this.proposalCategory = '';
           this.proposalText = '';
-          this.selectedCategory = '';
         } else {
           this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
         }
@@ -105,21 +100,28 @@ export default {
   text-align: left;
 }
 
-.time-line {
-  border-left: 10px solid #a08202;
-  padding-left: 30px;
-  padding-bottom: 30px;
-  margin-bottom: 100px;
+.form-group {
+  margin-bottom: 20px;
 }
 
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+select,
 textarea {
   width: 100%;
-  height: 150px;
-  margin-bottom: 10px;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 150px;
 }
 
 button {
@@ -142,15 +144,7 @@ p {
   color: #333;
 }
 
-select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
+/* Additional global styles that might be used elsewhere */
 .pdf {
   width: 100%;
   height: 70vh;
