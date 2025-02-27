@@ -22,7 +22,10 @@
             required
           ></textarea>
         </div>
-        <button type="submit">Submit Proposal</button>
+        <button type="submit" :disabled="isSubmitting" class="submit-button">
+          <span v-if="!isSubmitting">Submit Proposal</span>
+          <span v-else>Submitting...</span>
+        </button>
       </form>
       <p v-if="feedbackMessage">{{ feedbackMessage }}</p>
     </div>
@@ -36,28 +39,32 @@ export default {
     return {
       proposalCategory: '',
       proposalText: '',
-      feedbackMessage: ''
+      feedbackMessage: '',
+      isSubmitting: false
     };
   },
   methods: {
     async submitProposal() {
+      // Prevent multiple submissions
+      if (this.isSubmitting) return;
+
       // Validate required fields
       if (!this.proposalCategory || !this.proposalText.trim()) {
         this.feedbackMessage = 'Please select a category and enter your proposal details.';
         return;
       }
 
+      this.isSubmitting = true;
+
       try {
         // Prepare proposal data to send
         const proposalData = {
-          to: 'gisphere@outlook.com',
-          subject: `New Proposal Submission - ${this.proposalCategory}`,
-          content: this.proposalText,
-          category: this.proposalCategory
+          category: this.proposalCategory,
+          content: this.proposalText
         };
 
         // Send a POST request to your backend endpoint
-        const response = await fetch('/api/send-proposal', {
+        const response = await fetch('/api/send-proposal/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(proposalData)
@@ -73,6 +80,8 @@ export default {
       } catch (error) {
         console.error('Error sending proposal:', error);
         this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
+      } finally {
+        this.isSubmitting = false;
       }
     }
   }
@@ -102,6 +111,26 @@ export default {
 
 .form-group {
   margin-bottom: 20px;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #409eff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:disabled {
+  background-color: #a0cfff;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.submit-button:not(:disabled):hover {
+  background-color: #66b1ff;
 }
 
 label {
