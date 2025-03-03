@@ -32,8 +32,9 @@
   </div>
 </template>
 
-
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'ProposeInformation',
   data() {
@@ -44,27 +45,28 @@ export default {
       isSubmitting: false
     };
   },
+  computed: {
+    ...mapState({ lang: 'language' }) // Ensure language is managed globally
+  },
   methods: {
     async submitProposal() {
-      // Prevent multiple submissions
       if (this.isSubmitting) return;
 
-      // Validate required fields
       if (!this.proposalCategory || !this.proposalText.trim()) {
-        this.feedbackMessage = 'Please select a category and enter your proposal details.';
+        this.feedbackMessage = this.lang === 'zh'
+          ? '请选择类别并输入您的提案内容。'
+          : 'Please select a category and enter your proposal details.';
         return;
       }
 
       this.isSubmitting = true;
 
       try {
-        // Prepare proposal data to send
         const proposalData = {
           category: this.proposalCategory,
           content: this.proposalText
         };
 
-        // Send a POST request to your backend endpoint
         const response = await fetch('/api/send-proposal/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -72,15 +74,21 @@ export default {
         });
 
         if (response.ok) {
-          this.feedbackMessage = 'Your proposal has been sent successfully!';
+          this.feedbackMessage = this.lang === 'zh'
+            ? '您的提案已成功提交！'
+            : 'Your proposal has been sent successfully!';
           this.proposalCategory = '';
           this.proposalText = '';
         } else {
-          this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
+          this.feedbackMessage = this.lang === 'zh'
+            ? '提交过程中出现错误，请稍后重试。'
+            : 'There was an error sending your proposal. Please try again later.';
         }
       } catch (error) {
         console.error('Error sending proposal:', error);
-        this.feedbackMessage = 'There was an error sending your proposal. Please try again later.';
+        this.feedbackMessage = this.lang === 'zh'
+          ? '提交过程中出现错误，请稍后重试。'
+          : 'There was an error sending your proposal. Please try again later.';
       } finally {
         this.isSubmitting = false;
       }
@@ -172,20 +180,5 @@ p {
   margin-top: 10px;
   font-size: 1rem;
   color: #333;
-}
-
-/* Additional global styles that might be used elsewhere */
-.pdf {
-  width: 100%;
-  height: 70vh;
-}
-
-a {
-  text-decoration: none;
-  color: rgb(60, 101, 166);
-}
-
-a:hover {
-  background-color: rgb(198, 212, 235);
 }
 </style>
