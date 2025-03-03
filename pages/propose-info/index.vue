@@ -1,36 +1,37 @@
 <template>
   <div class="main-container">
     <div class="content">
-      <h2>Submit Your Proposal</h2>
+      <h2>{{ lang === 'zh' ? '提交您的提案' : 'Submit Your Proposal' }}</h2>
       <form @submit.prevent="submitProposal">
         <div class="form-group">
-          <label for="proposalCategory">Proposal Category:</label>
+          <label for="proposalCategory">{{ lang === 'zh' ? '提案类别:' : 'Proposal Category:' }}</label>
           <select id="proposalCategory" v-model="proposalCategory" required>
-            <option disabled value="">Select a category</option>
-            <option value="school">School Updates</option>
-            <option value="professor">Professor Updates</option>
-            <option value="recruitment">Recruitment Updates (PhD/Masters)</option>
-            <option value="competition">Paper Competitions/Conferences/etc</option>
+            <option disabled value="">{{ lang === 'zh' ? '请选择类别' : 'Select a category' }}</option>
+            <option value="school">{{ lang === 'zh' ? '院校动态' : 'School Updates' }}</option>
+            <option value="professor">{{ lang === 'zh' ? '教授动态' : 'Professor Updates' }}</option>
+            <option value="recruitment">{{ lang === 'zh' ? '招生招聘 (博士/硕士)' : 'Recruitment Updates (PhD/Masters)' }}</option>
+            <option value="competition">{{ lang === 'zh' ? '论文竞赛/会议等' : 'Paper Competitions/Conferences/etc' }}</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="proposalText">Details:</label>
+          <label for="proposalText">{{ lang === 'zh' ? '详细内容:' : 'Details:' }}</label>
           <textarea
             id="proposalText"
             v-model="proposalText"
-            placeholder="Type your proposal here..."
+            :placeholder="lang === 'zh' ? '请输入您的提案内容...' : 'Type your proposal here...'"
             required
           ></textarea>
         </div>
         <button type="submit" :disabled="isSubmitting" class="submit-button">
-          <span v-if="!isSubmitting">Submit Proposal</span>
-          <span v-else>Submitting...</span>
+          <span v-if="!isSubmitting">{{ lang === 'zh' ? '提交提案' : 'Submit Proposal' }}</span>
+          <span v-else>{{ lang === 'zh' ? '提交中...' : 'Submitting...' }}</span>
         </button>
       </form>
       <p v-if="feedbackMessage">{{ feedbackMessage }}</p>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
