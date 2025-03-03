@@ -25,6 +25,9 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >院校指南</el-button
             >
+            <el-button class="big-button explore-programs" @click="goToProposeInfo">
+              提交信息</el-button>
+
             <el-button class="big-button explore-programs" @click="goToForum"
               >讨论区</el-button
             >
@@ -50,6 +53,8 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >Institutions</el-button
             >
+            <el-button class="big-button explore-programs" @click="goToProposeInfo">
+              Propose Info</el-button>
             <el-button class="big-button explore-programs" @click="goToForum"
               >Forum (in Chinese)</el-button
             >
@@ -356,6 +361,10 @@ export default {
     goToUniversityList() {
       // 对外入口
       this.$router.push('/school');
+    },
+
+    goToProposeInfo() {
+      this.$router.push('/propose-info');
     },
     goToForum() { 
       window.location.href = 'https://forum.gisphere.info'
