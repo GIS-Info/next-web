@@ -1,10 +1,15 @@
 <template>
   <div class="main-container">
     <div class="content">
-      <h2>{{ lang === 'zh' ? '提交您的提案' : 'Submit Your Proposal' }}</h2>
+      <h2>{{ lang === 'zh' ? '帮我们更新GISphere信息～' : 'Help Us Keep GISphere Information Accurate and Up-to-Date!' }}</h2>
+      <div>
+        <p>{{ lang === 'zh' ? '我们认可我们的数据可能不是最新的，且有些数据可能缺失或有时有错误，特别是在某些区域或机构。' : 'We acknowledge that some of our data might not be fully up-to-date, and there may be missing entries or occasional errors in our dataset, particularly in certain regions or institutions.' }}</p>
+        <p>{{ lang === 'zh' ? '您的贡献是维持GISphere信息准确和完整的基础。如果您发现错误或不准确的信息，或者如果您有额外的数据可以分享，请在这里提交您的修正。' : 'Your contributions are invaluable in improving the accuracy and completeness of GISphere. If you notice incorrect or outdated information, or if you have additional data to share, please submit your corrections here.' }}</p>
+        <p>{{ lang === 'zh' ? '我们真诚地欢迎您的支持！' : 'We truly appreciate your effort in keeping GISphere a reliable resource. Our team will review and verify the submitted updates as soon as possible and get back to you if needed. Thank you for your support!' }}</p>
+      </div>
       <form @submit.prevent="submitProposal">
         <div class="form-group">
-          <label for="proposalCategory">{{ lang === 'zh' ? '提案类别:' : 'Proposal Category:' }}</label>
+          <label for="proposalCategory">{{ lang === 'zh' ? '更新类别:' : 'What would you like to update?' }}</label>
           <select id="proposalCategory" v-model="proposalCategory" required>
             <option disabled value="">{{ lang === 'zh' ? '请选择类别' : 'Select a category' }}</option>
             <option value="school">{{ lang === 'zh' ? '院校动态' : 'School Updates' }}</option>
@@ -18,12 +23,12 @@
           <textarea
             id="proposalText"
             v-model="proposalText"
-            :placeholder="lang === 'zh' ? '请输入您的提案内容...' : 'Type your proposal here...'"
+            :placeholder="lang === 'zh' ? '请输入您的提案内容...' : 'Describe the necessary correction or new information here...'"
             required
           ></textarea>
         </div>
         <button type="submit" :disabled="isSubmitting" class="submit-button">
-          <span v-if="!isSubmitting">{{ lang === 'zh' ? '提交提案' : 'Submit Proposal' }}</span>
+          <span v-if="!isSubmitting">{{ lang === 'zh' ? '提交更新' : 'Submit Update' }}</span>
           <span v-else>{{ lang === 'zh' ? '提交中...' : 'Submitting...' }}</span>
         </button>
       </form>

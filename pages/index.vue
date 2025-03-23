@@ -25,9 +25,6 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >院校指南</el-button
             >
-            <el-button class="big-button explore-programs" @click="goToProposeInfo">
-              提交信息</el-button>
-
             <el-button class="big-button explore-programs" @click="goToForum"
               >讨论区</el-button
             >
@@ -36,7 +33,7 @@
         <div v-if="lang == 'en'" class=".en-letter-spacing">
           <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
           <div class="welcome-description">
-            Empower the GIS-related education for the future
+            Empower GIScience and Geography education for the future
           </div>
           <div class="welcome-buttons">
             <el-button
@@ -51,10 +48,8 @@
               >Job Recruiting</el-button
             >
             <el-button class="big-button explore-programs" @click="goToUniversityList"
-              >Institutions</el-button
+              >GISphere Guide</el-button
             >
-            <el-button class="big-button explore-programs" @click="goToProposeInfo">
-              Propose Info</el-button>
             <el-button class="big-button explore-programs" @click="goToForum"
               >Forum (in Chinese)</el-button
             >
@@ -111,16 +106,64 @@
     <div class="field">
       <div class="introduce-page">
         <div class="intro-title">
-          {{ lang == 'zh' ? '项目介绍' : 'Project Introduction' }}
+          {{ lang == 'zh' ? '项目介绍' : 'About Us' }}
           <hr class="short-horizontal-line" />
         </div>
-        <div class="intro-text-zh">{{ lang == 'zh' ? projectIntroZH : projectIntroEN }}</div>
-        <div class="intro-tag">
+        <!-- <div class="intro-tag">
           <div class="tag"><span style="color: #7944dd;">GIS</span>-Info</div>
           <div class="tag"><span style="color: #7944dd;">GIS</span>phere</div>
           <div class="tag"><span style="color: #7944dd;">GIS</span>ource</div>
           <div class="tag"><span style="color: #7944dd;">GIS</span>pace</div>
           <div class="tag"><span style="color: #7944dd;">GIS</span>alon</div>
+        </div> -->
+        <div class="intro-text-zh">{{ lang == 'zh' ? projectIntroZH : projectIntroEN }}</div>
+        
+        <!-- Our Mission Section -->
+        <div class="intro-title" style="margin-top: 40px;">
+          {{ lang == 'zh' ? '我们的使命' : 'Our Mission' }}
+          <hr class="short-horizontal-line" />
+        </div>
+        <div class="intro-text-zh">
+          <p>
+            At GISphere, we are committed to democratizing access to Geographic Information Science (GIS) education worldwide. Established 
+            in 2019 by a group of forward-thinking Chinese students and scholars, our platform strives to break barriers in GIS education by 
+            promoting open access to information, fostering academic collaboration, and bridging the gap between research and industry.
+          </p>
+          <p>
+            We believe that knowledge should be freely shared, and by providing a centralized hub for GIS-related resources, academic 
+            opportunities, and professional networking, we aim to empower students, researchers, and professionals across the globe. Our 
+            ultimate goal is to cultivate a dynamic, inclusive, and innovative GIS community that drives progress in both academia and industry.
+          </p>
+        </div>
+        
+        <!-- Our Journey Section -->
+        <div class="intro-title" style="margin-top: 40px;">
+          {{ lang == 'zh' ? '我们的旅程' : 'Our Journey' }}
+          <hr class="short-horizontal-line" />
+        </div>
+        <div class="intro-text-zh">
+          <p>
+            GISphere started as a platform dedicated to publishing GIS-related articles and social media content in Chinese, specifically designed to 
+            support Chinese students seeking accessible geospatial education. Over time, we have grown beyond linguistic and regional boundaries, 
+            evolving into a global initiative that connects scholars, educators, and professionals across diverse backgrounds.
+          </p>
+          <p>
+            Through continuous growth and expansion, our team has developed a range of initiatives to support GIS education, career development, 
+            and academic networking:
+          </p>
+          <ul class="initiatives-list">
+            <li><span class="initiative-highlight">GISphere Guide</span> - Our flagship database, providing comprehensive information on GIS and Geography institutions and graduate programs across more than 80 countries.</li>
+            <li><span class="initiative-highlight">GISalon</span> - A series of engaging roundtable discussions offering students valuable insights into graduate study experiences, academic pathways, and career development. Recordings are 
+              available on YouTube (English) and Bilibili (Chinese).</li>
+            <li><span class="initiative-highlight">GISource</span> - A global news service delivering up-to-date information on GIS-related master’s and doctoral program admissions, as well as academic and industry hiring opportunities 
+              worldwide.</li>
+            <li><span class="initiative-highlight">GISphere  WeChat Official Account</span> - A hub for sharing application experiences, study insights, and professional advice from GIS students and experts worldwide. Additionally, we publish a biweekly GISource newsletter, GIStory articles, and more.</li>
+            <li><span class="initiative-highlight">GISpace</span> - A vibrant community discussion platform on WhatsApp and WeChat, fostering peer connections and knowledge-sharing among GIS enthusiasts.</li>
+            <li><span class="initiative-highlight">Social Media</span> - Sharing the latest GIS-related news, trends, and updates across social media platforms including X (Twitter), WhatsApp, Zhihu, and Rednotes.</li>
+          </ul>
+          <p>
+            As GISphere continues to grow, we remain dedicated to enriching the GIS education ecosystem by expanding resources, facilitating collaborations, and making GIS knowledge more accessible worldwide.
+          </p>
         </div>
       </div>
     </div>
@@ -162,51 +205,13 @@
           </div>
         </div>
       </div>
-      <div v-if="lang == 'en'" class="intro-title">
-        Popular Institutes
-        <hr class="short-horizontal-line" />
-        <div class="intro-text-en">
-          <div>
-            <table class="uni-table">
-              <tr>
-                <td class="uni-content-title"><b>Asia</b><el-divider/></td>
-                <td class="uni-content-title"><b>North America</b><el-divider/></td>
-                <td class="uni-content-title"><b>Europe</b><el-divider/></td>
-                <td class="uni-content-title"><b>Oceania</b><el-divider/></td>
-                <td class="uni-content-title"><b>Africa and South America</b><el-divider/></td>
-              </tr>
-              <tr v-for="index in maxUniversitiesListLength" :key="index">
-                <td class="uni-content">
-                  {{ universitiesEN.asia[index - 1] }}
-                </td>
-                <td class="uni-content">{{ universitiesEN.na[index - 1] }}</td>
-                <td class="uni-content">{{ universitiesEN.eu[index - 1] }}</td>
-                <td class="uni-content">
-                  {{ universitiesEN.oceania[index - 1] }}
-                </td>
-                <td class="uni-content">
-                  {{ universitiesEN.africaAndLA[index - 1] }}
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <el-link
-              href="https://www.gisphere.net/"
-              target="_blank"
-              class="to-be-added"
-              >Full list of institutes</el-link
-            >
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Sponsor -->
     <div class="sponsor-part">
       <div class="introduce-page">
         <div class="intro-title">
-          {{ lang == 'zh' ? '赞助商' : 'SPONSOR' }}
+          {{ lang == 'zh' ? '赞助商' : 'SPONSORS' }}
           <hr class="short-horizontal-line" />
         </div>
         <div class="sponsor-list">
@@ -224,7 +229,7 @@
             class="sponsor-card"
             @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')"
           >
-            <b>Vision 留学</b>
+            <b>Vision Edu</b>
           </div>
           <div
             class="sponsor-card"
@@ -232,7 +237,7 @@
           >
             <b v-if="lang == 'zh'">成为赞助商？</b>
             <small v-if="lang == 'zh'">联系 gisphere@outlook.com</small>
-            <b v-if="lang == 'en'">Become Sponsor?</b>
+            <b v-if="lang == 'en'">Become Our Sponsor?</b>
             <small v-if="lang == 'en'">mail to gisphere@outlook.com</small>
           </div>
         </div>
@@ -300,7 +305,6 @@
 import { mapState } from 'vuex'
 import { isMobile } from '@/utils/index'
 import { ProjectIntro } from '~/utils/ProjectIntro'
-import { universities } from '~/utils/Universities'
 
 export default {
   name: 'IndexPage',
@@ -311,8 +315,6 @@ export default {
       showContactCard: false,
       projectIntroZH: ProjectIntro[0],
       projectIntroEN: ProjectIntro[1],
-      universitiesZH: universities.zh,
-      universitiesEN: universities.en,
       form: {
         email:'',
         firstName: '',
@@ -361,10 +363,6 @@ export default {
     goToUniversityList() {
       // 对外入口
       this.$router.push('/school');
-    },
-
-    goToProposeInfo() {
-      this.$router.push('/propose-info');
     },
     goToForum() { 
       window.location.href = 'https://forum.gisphere.info'
@@ -430,6 +428,46 @@ export default {
   margin-right: 10%;
   margin-top: -12.5vh;
 }
+.uni-content {
+  width: 20%;
+  height: 2.5rem;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* 新增样式 */
+.initiatives-list {
+  margin: 20px 0 30px 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.initiatives-list li {
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.initiatives-list li:before {
+  content: "•";
+  color: #2c3aaa;
+  font-size: 20px;
+  position: absolute;
+  left: 0;
+  top: -2px;
+}
+
+.initiative-highlight {
+  color: #7944dd;
+  font-weight: 600;
+  font-style: oblique;
+}
+
+.intro-text-zh p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
 .welcome-heading {
   font-style: normal;
   font-weight: 800;
@@ -463,6 +501,8 @@ export default {
   height: 50px;
   font-size: 17px;
   font-weight: 400;
+  /* 覆盖默认字体 */
+  font-family: 'Montserrat', sans-serif !important;
 }
 .explore-programs {
   color: #2c3aaa;
@@ -628,6 +668,24 @@ export default {
 .en-letter-spacing {
   letter-spacing: 1px;
 }
+
+/* 响应式调整比例 */
+@media (max-width: 1920px) {
+  .welcome-content {
+    transform: scale(1.3);
+  }
+}
+@media (max-width: 1600px) {
+  .welcome-content {
+    transform: scale(1.2);
+  }
+}
+@media (max-width: 1440px) {
+  .welcome-content {
+    transform: scale(1.1);
+  }
+}
+
 @media (max-width: 768px) {
   .welcome-buttons {
     display: flex;

@@ -18,7 +18,10 @@ export default {
       { hid: 'keywords', name: 'keywords', content: 'GIS, 留学, GISphere' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [{ rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' }],
+    link: [
+      { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap' }
+    ],
     bodyAttrs: {
       style: 'margin: 0'
     }

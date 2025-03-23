@@ -4,25 +4,24 @@
       <h2 class="copyright-title">Copyright</h2>
       <p class="copyright-content">
         This work is licensed under a
-        <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="blank"
-          >Creative Commons Attribution-NonCommercial 4.0 International
-          License</a
-        >. <br />
+        <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="blank">
+          Creative Commons Attribution-NonCommercial 4.0 International License
+        </a>.
         This project is supported by a group of scholars who have studied or
         worked in GIS-related departments around the world. We want to say thank
         you to all of those who provided school information and/or worked on
-        managing this project as volunteers. <br />
+        managing this project as volunteers.
         Please feel free to leave a message in
-        <a href="https://github.com/gisphere/gisphere.github.io" target="blank"
-          >this GitHub issue</a
-        >
+        <a href="https://github.com/gisphere/gisphere.github.io" target="blank">
+          this GitHub issue
+        </a>
         if you find any errors or have any suggestions. We welcome more
         volunteers to join this project to help maintain and develop the guide.
         Please feel free to contact us via
-        <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>. <br />
+        <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>.
       </p>
     </div>
-    <div class="content">GISphere@2023</div>
+    <div class="content">GISphere@2025</div>
     <div class="links-container">
       <a class="link" href="https://github.com/GIS-Info">
         <img class="img" src="./imgs/github.png" />
@@ -132,7 +131,7 @@ export default {
   .copyright-content {
     text-align: left;
     font-size: 12px;
-    margin: 0px 20% 0px 20%;
+    margin: 0px 20%;
   }
   .links-container {
     text-align: center;
