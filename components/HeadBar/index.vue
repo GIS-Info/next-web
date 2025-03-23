@@ -1,20 +1,22 @@
 <template>
   <div class="container">
-    <div class="title-div" @click="goHomePage">
+    <div class="title-div" @click="goPageByRouteName('')">
       <img class="logo" src="./logo.png" />
       <span class="title-text">GISphere</span>
     </div>
     <!-- 中文情况下的链接 -->
     <div v-if="lang == 'zh'" class="links-div">
-      <div class="link" @click="goAboutUs">关于我们</div>
-      <div class="link" @click="goManagePage">管理员登录</div>
+      <div class="link" @click="goPageByRouteName('aboutUs')">关于我们</div>
+      <div class="link" @click="goPageByRouteName('propose-info')">填写建议</div>
       <div class="link" @click="setGlobalLanguage('en')">English</div>
+      <div class="link" @click="goPageByRouteName('manage/dashboard')">管理员登录</div>
     </div>
     <!-- 英文情况下的链接 -->
     <div v-if="lang == 'en'" class="links-div">
-      <div class="link" @click="goAboutUs">About</div>
-      <div class="link" @click="goManagePage">Login (Admin Only)</div>
-      <div class="link" @click="setGlobalLanguage('zh')">切换中文</div>
+      <div class="link" @click="goPageByRouteName('aboutUs')">About</div>
+      <div class="link" @click="goPageByRouteName('propose-info')">SuggestEdit</div>
+      <div class="link" @click="setGlobalLanguage('zh')">Language</div>
+      <div class="link" @click="goPageByRouteName('manage/dashboard')">Login (Admin Only)</div>
     </div>
   </div>
 </template>
@@ -34,14 +36,8 @@ export default {
     ...mapMutations([  
         'setLanguage',
     ]),
-    goHomePage(){
-      this.$router.push('/')
-    },
-    goManagePage(){
-      this.$router.push('/manage/dashboard')
-    },
-    goAboutUs(){
-      this.$router.push('/aboutUs')
+    goPageByRouteName(name){
+      this.$router.push(`/${name}`)
     },
     setGlobalLanguage(lang) {
       const query=JSON.parse(JSON.stringify(this.$route.query))

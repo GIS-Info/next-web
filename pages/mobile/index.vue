@@ -126,71 +126,8 @@
       </div>
     </div>
 
-    <!-- Universities and Sponsor -->
+    <!-- Sponsor -->
     <div class="school-page">
-      <h1 class="intro-title">
-        {{ lang === 'zh' ? '热门院校' : 'Popular Institutes' }}
-        <hr class="short-horizontal-line" />
-      </h1>
-      <el-collapse class="uni-wrapper">
-        <el-collapse-item :title="lang === 'zh' ? '亚洲' : 'Asia'" name="asia">
-          <div class="uni-list">
-            <div v-for="uni in universitiesList.asia" :key="uni">
-              <div class="uni-list-tag">{{ uni }}</div>
-            </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          :title="lang === 'zh' ? '北美' : 'North America'"
-          name="northAmerica"
-        >
-          <div class="uni-list">
-            <div v-for="uni in universitiesList.na" :key="uni">
-              <div class="uni-list-tag">{{ uni }}</div>
-            </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          :title="lang === 'zh' ? '欧洲' : 'Europe'"
-          name="europe"
-        >
-          <div class="uni-list">
-            <div v-for="uni in universitiesList.eu" :key="uni">
-              <div class="uni-list-tag">{{ uni }}</div>
-            </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          :title="lang === 'zh' ? '大洋洲' : 'Oceania'"
-          name="oceania"
-        >
-          <div class="uni-list">
-            <div v-for="uni in universitiesList.oceania" :key="uni">
-              <div class="uni-list-tag">{{ uni }}</div>
-            </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          :title="lang === 'zh' ? '非洲' : 'Africa and South America'"
-          name="africa"
-        >
-          <div class="uni-list">
-            <div v-for="uni in universitiesList.africaAndLA" :key="uni">
-              <div class="uni-list-tag">{{ uni }}</div>
-            </div>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-      <el-link
-        href="https://www.gisphere.net/"
-        target="_blank"
-        class="to-be-added"
-        >{{
-          lang === 'zh' ? '完整院校列表' : 'Full list of institutes'
-        }}</el-link
-      >
-
-      <!-- Sponsor -->
       <div class="sponsor-part">
         <h1 class="intro-title">
           {{ lang == 'zh' ? '赞助商' : 'SPONSOR' }}
@@ -289,7 +226,6 @@
 <script>
 import { mapState } from 'vuex'
 import { ProjectIntro } from '~/utils/ProjectIntro'
-import { universities } from '~/utils/Universities'
 export default {
   name: 'MobileIndexPage',
   layout: 'mobile',
@@ -304,8 +240,6 @@ export default {
       showContactCard: false,
       projectIntroZH: ProjectIntro[0],
       projectIntroEN: ProjectIntro[1],
-      universitiesZH: universities.zh,
-      universitiesEN: universities.en,
       lastTouchY: 0,
       isTouching: false,
     }
@@ -314,21 +248,6 @@ export default {
     ...mapState({ lang: 'language' }),
     contactUsTitle() {
       return this.lang === 'zh' ? '联系我们' : 'Contact Us'
-    },
-    maxUniversitiesListLength() {
-      return Math.max(
-        // Please make sure the number of universities in Chinese and in English
-        // are the same.
-        this.universitiesZH.asia.length,
-        this.universitiesZH.na.length,
-        this.universitiesZH.eu.length,
-        this.universitiesZH.oceania.length,
-        this.universitiesZH.africaAndLA.length
-      )
-    },
-    universitiesList() {
-      // 筛选中英文学校列表
-      return this.lang === 'zh' ? this.universitiesZH : this.universitiesEN
     },
   },
   mounted() {
