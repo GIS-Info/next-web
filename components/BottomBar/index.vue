@@ -135,7 +135,8 @@ export default {
   }
   .links-container {
     text-align: center;
-    padding: 0px 100px 30px 100px;
+    width: 750px;
+    margin: 0 auto;
     .link {
       margin: 0px 10px 0px 10px;
       font-size: 16px;
