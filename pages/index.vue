@@ -2,7 +2,7 @@
   <div class="main" @click.right.prevent @copy.prevent @paste.prevent>
     <div class="welcome-page">
       <map-background />
-
+ 
       <!-- Welcome content -->
       <div class="welcome-content">
         <div v-if="lang == 'zh'" class="zh-letter-spacing">
