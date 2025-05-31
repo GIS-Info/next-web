@@ -135,9 +135,9 @@ export default {
   data() {
     return {
       loading: true,
-      totalSchools: 480,
+      totalSchools: 562,
       totalCountries: 96,
-      totalProfessors: 2065,
+      totalProfessors: 2101,
       rawData: [],
 
       // 查找表
