@@ -25,9 +25,11 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >院校指南</el-button
             >
+            <!--
             <el-button class="big-button explore-programs" @click="goToForum"
               >讨论区</el-button
             >
+            -->
           </div>
         </div>
         <div v-if="lang == 'en'" class=".en-letter-spacing">
@@ -50,9 +52,11 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >GISphere Guide</el-button
             >
+            <!--
             <el-button class="big-button explore-programs" @click="goToForum"
               >Forum (in Chinese)</el-button
             >
+            -->
           </div>
         </div>
       </div>
