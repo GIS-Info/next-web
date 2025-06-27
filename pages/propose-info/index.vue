@@ -26,6 +26,17 @@
             :placeholder="lang === 'zh' ? '请输入您的提案内容...' : 'Describe the necessary correction or new information here...'"
             required
           ></textarea>
+          <!-- 邮箱输入框 -->
+          <div class="form-group">
+            <label for="feedbackEmail">{{ lang === 'zh' ? '邮箱:' : 'Email:' }}</label>
+            <input
+              id="feedbackEmail"
+              v-model="feedbackEmail"
+              type="email"
+              :placeholder="lang === 'zh' ? '请输入您的邮箱（便于我们反馈）' : 'Enter your email for feedback'"
+              class="email-input"
+            />
+        </div>
         </div>
         <button type="submit" :disabled="isSubmitting" class="submit-button">
           <span v-if="!isSubmitting">{{ lang === 'zh' ? '提交更新' : 'Submit Update' }}</span>
@@ -46,57 +57,96 @@ export default {
     return {
       proposalCategory: '',
       proposalText: '',
+      feedbackEmail: '',
       feedbackMessage: '',
-      isSubmitting: false
+      isSubmitting: false,
+      submitTimeout: null
     };
   },
   computed: {
     ...mapState({ lang: 'language' }) // Ensure language is managed globally
   },
   methods: {
-    async submitProposal() {
+    submitProposal() {
+      // 防止重复提交
       if (this.isSubmitting) return;
+      
+      // 清除之前的超时
+      if (this.submitTimeout) {
+        clearTimeout(this.submitTimeout);
+      }
 
+      // 校验类别和内容
       if (!this.proposalCategory || !this.proposalText.trim()) {
         this.feedbackMessage = this.lang === 'zh'
           ? '请选择类别并输入您的提案内容。'
           : 'Please select a category and enter your proposal details.';
         return;
       }
+      
+      // 内容长度限制 (5000字符)
+      if (this.proposalText.length > 5000) {
+        this.feedbackMessage = this.lang === 'zh'
+          ? '提案内容过长，请限制在5000字符以内。'
+          : 'Proposal content too long. Please limit to 5000 characters.';
+        return;
+      }
+
+      // 校验邮箱
+      if (!this.feedbackEmail) {
+        this.feedbackMessage = this.lang === 'zh'
+          ? '请输入您的邮箱。'
+          : 'Please enter your email.';
+        return;
+      }
+      // 更严格的邮箱验证正则表达式
+      const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailReg.test(this.feedbackEmail)) {
+        this.feedbackMessage = this.lang === 'zh'
+          ? '邮箱格式不正确。'
+          : 'Invalid email format.';
+        return;
+      }
 
       this.isSubmitting = true;
 
-      try {
-        const proposalData = {
-          category: this.proposalCategory,
-          content: this.proposalText
-        };
+      // 添加节流，防止快速多次点击
+      this.submitTimeout = setTimeout(async () => {
+        try {
+          const proposalData = {
+            category: this.proposalCategory,
+            content: this.proposalText,
+            email: this.feedbackEmail
+          };
 
-        const response = await fetch('/api/send-proposal/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(proposalData)
-        });
+          const response = await fetch('/api/send-proposal/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(proposalData)
+          });
 
-        if (response.ok) {
-          this.feedbackMessage = this.lang === 'zh'
-            ? '您的提案已成功提交！'
-            : 'Your proposal has been sent successfully!';
-          this.proposalCategory = '';
-          this.proposalText = '';
-        } else {
+          if (response.ok) {
+            this.feedbackMessage = this.lang === 'zh'
+              ? '您的提案已成功提交！'
+              : 'Your proposal has been sent successfully!';
+            this.proposalCategory = '';
+            this.proposalText = '';
+            this.feedbackEmail = '';
+          } else {
+            const res = await response.json();
+            this.feedbackMessage = res.message || (this.lang === 'zh'
+              ? '提交过程中出现错误，请稍后重试。'
+              : 'There was an error sending your proposal. Please try again later.');
+          }
+        } catch (error) {
+          console.error('Error sending proposal:', error);
           this.feedbackMessage = this.lang === 'zh'
             ? '提交过程中出现错误，请稍后重试。'
             : 'There was an error sending your proposal. Please try again later.';
+        } finally {
+          this.isSubmitting = false;
         }
-      } catch (error) {
-        console.error('Error sending proposal:', error);
-        this.feedbackMessage = this.lang === 'zh'
-          ? '提交过程中出现错误，请稍后重试。'
-          : 'There was an error sending your proposal. Please try again later.';
-      } finally {
-        this.isSubmitting = false;
-      }
+      }, 300); // 300ms的节流延迟
     }
   }
 };
@@ -108,9 +158,7 @@ export default {
   height: 100%;
   background: #ebeef5;
   text-align: center;
-  position: absolute;
   overflow: auto;
-  padding-top: 40px;
 }
 
 .content {
@@ -125,6 +173,15 @@ export default {
 
 .form-group {
   margin-bottom: 20px;
+}
+
+.email-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 5px;
 }
 
 .submit-button {
