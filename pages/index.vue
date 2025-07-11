@@ -2,7 +2,7 @@
   <div class="main" @click.right.prevent @copy.prevent @paste.prevent>
     <div class="welcome-page">
       <map-background />
- 
+
       <!-- Welcome content -->
       <div class="welcome-content">
         <div v-if="lang == 'zh'" class="zh-letter-spacing">
@@ -52,6 +52,9 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >GISphere Guide</el-button
             >
+              <el-button class="big-button explore-programs" @click="$router.push('/markdown')">
+              Markdown
+            </el-button>
             <!--
             <el-button class="big-button explore-programs" @click="goToForum"
               >Forum (in Chinese)</el-button
@@ -63,7 +66,6 @@
       <!-- Functional Buttons -->
       <div class="functional-buttons">
         <el-button class="white-book-button" round @click="goToMailingList">{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe to Email' }}  </el-button>
-        <el-button class="white-book-button explore-job-recruiting" round @click="$router.push('/white-book')">{{ lang == 'zh' ? 'GISphere 留学指南 · 大数据报告白皮书' : 'GISphere Global Admission Annual Review' }}</el-button>
         <!-- Contact Us pop up card -->
         <!-- ZH -->
         <div
@@ -121,7 +123,7 @@
           <div class="tag"><span style="color: #7944dd;">GIS</span>alon</div>
         </div> -->
         <div class="intro-text-zh">{{ lang == 'zh' ? projectIntroZH : projectIntroEN }}</div>
-        
+
         <!-- Our Mission Section -->
         <div class="intro-title" style="margin-top: 40px;">
           {{ lang == 'zh' ? '我们的使命' : 'Our Mission' }}
@@ -137,17 +139,17 @@
             研究人员和专业人士。我们的最终目标是培育一个充满活力、包容性强且创新的GIS社区，推动学术界和产业界的共同进步。
           </p>
           <p v-if="lang == 'en'">
-            At GISphere, we are committed to democratizing access to Geographic Information Science (GIS) education worldwide. Established 
-            in 2019 by a group of forward-thinking Chinese students and scholars, our platform strives to break barriers in GIS education by 
+            At GISphere, we are committed to democratizing access to Geographic Information Science (GIS) education worldwide. Established
+            in 2019 by a group of forward-thinking Chinese students and scholars, our platform strives to break barriers in GIS education by
             promoting open access to information, fostering academic collaboration, and bridging the gap between research and industry.
           </p>
           <p v-if="lang == 'en'">
-            We believe that knowledge should be freely shared, and by providing a centralized hub for GIS-related resources, academic 
-            opportunities, and professional networking, we aim to empower students, researchers, and professionals across the globe. Our 
+            We believe that knowledge should be freely shared, and by providing a centralized hub for GIS-related resources, academic
+            opportunities, and professional networking, we aim to empower students, researchers, and professionals across the globe. Our
             ultimate goal is to cultivate a dynamic, inclusive, and innovative GIS community that drives progress in both academia and industry.
           </p>
         </div>
-        
+
         <!-- Our Journey Section -->
         <div class="intro-title" style="margin-top: 40px;">
           {{ lang == 'zh' ? '我们的旅程' : 'Our Journey' }}
@@ -162,12 +164,12 @@
             通过持续的成长和扩展，我们的团队开发了一系列支持GIS教育、职业发展和学术网络的倡议：
           </p>
           <p v-if="lang == 'en'">
-            GISphere started as a platform dedicated to publishing GIS-related articles and social media content in Chinese, specifically designed to 
-            support Chinese students seeking accessible geospatial education. Over time, we have grown beyond linguistic and regional boundaries, 
+            GISphere started as a platform dedicated to publishing GIS-related articles and social media content in Chinese, specifically designed to
+            support Chinese students seeking accessible geospatial education. Over time, we have grown beyond linguistic and regional boundaries,
             evolving into a global initiative that connects scholars, educators, and professionals across diverse backgrounds.
           </p>
           <p v-if="lang == 'en'">
-            Through continuous growth and expansion, our team has developed a range of initiatives to support GIS education, career development, 
+            Through continuous growth and expansion, our team has developed a range of initiatives to support GIS education, career development,
             and academic networking:
           </p>
           <ul class="initiatives-list" v-if="lang == 'zh'">
@@ -180,9 +182,9 @@
           </ul>
           <ul class="initiatives-list" v-if="lang == 'en'">
             <li><span class="initiative-highlight">GISphere Guide</span> - Our flagship database, providing comprehensive information on GIS and Geography institutions and graduate programs across more than 80 countries.</li>
-            <li><span class="initiative-highlight">GISalon</span> - A series of engaging roundtable discussions offering students valuable insights into graduate study experiences, academic pathways, and career development. Recordings are 
+            <li><span class="initiative-highlight">GISalon</span> - A series of engaging roundtable discussions offering students valuable insights into graduate study experiences, academic pathways, and career development. Recordings are
               available on YouTube (English) and Bilibili (Chinese).</li>
-            <li><span class="initiative-highlight">GISource</span> - A global news service delivering up-to-date information on GIS-related master's and doctoral program admissions, as well as academic and industry hiring opportunities 
+            <li><span class="initiative-highlight">GISource</span> - A global news service delivering up-to-date information on GIS-related master's and doctoral program admissions, as well as academic and industry hiring opportunities
               worldwide.</li>
             <li><span class="initiative-highlight">GISphere WeChat Official Account</span> - A hub for sharing application experiences, study insights, and professional advice from GIS students and experts worldwide. Additionally, we publish a biweekly GISource newsletter, GIStory articles, and more.</li>
             <li><span class="initiative-highlight">GISpace</span> - A vibrant community discussion platform on WhatsApp and WeChat, fostering peer connections and knowledge-sharing among GIS enthusiasts.</li>
@@ -346,7 +348,7 @@ export default {
       // 对外入口
       this.$router.push('/school');
     },
-    goToForum() { 
+    goToForum() {
       window.location.href = 'https://forum.gisphere.info'
     },
     goUrl(url) {
@@ -381,7 +383,7 @@ export default {
       .catch(err => {
         this.$message.error(err);
       });
-      
+
     },
   },
 }
