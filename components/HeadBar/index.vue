@@ -7,14 +7,14 @@
     <!-- 中文情况下的链接 -->
     <div v-if="lang == 'zh'" class="links-div">
       <div class="link" @click="goPageByRouteName('aboutUs')">关于我们</div>
-      <div class="link" @click="goPageByRouteName('propose-info')">填写建议</div>
+      <div class="link" @click="goPageByRouteName('suggestion')">填写建议</div>
       <div class="link" @click="setGlobalLanguage('en')">English</div>
       <div class="link" @click="goPageByRouteName('manage/dashboard')">管理员登录</div>
     </div>
     <!-- 英文情况下的链接 -->
     <div v-if="lang == 'en'" class="links-div">
       <div class="link" @click="goPageByRouteName('aboutUs')">About</div>
-      <div class="link" @click="goPageByRouteName('propose-info')">SuggestEdit</div>
+      <div class="link" @click="goPageByRouteName('suggestion')">SuggestEdit</div>
       <div class="link" @click="setGlobalLanguage('zh')">Language</div>
       <div class="link" @click="goPageByRouteName('manage/dashboard')">Login (Admin Only)</div>
     </div>
@@ -109,3 +109,4 @@ export default {
   transition: 200ms ease-in-out;
 }
 </style>
+
