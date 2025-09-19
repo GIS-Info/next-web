@@ -31,7 +31,7 @@
         </el-checkbox-group>
     </el-row>
       <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GISphere Guide' }}</strong></h1>
-        {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'Launched in September 2019, the GISphere Guide Project continues to be actively updated, with the most recent version as of April 2023. Information for the guide is collected from current students, recent graduates, and young faculty involved in GIS-related programs from around the globe. Our goal is to offer current and comprehensive information to help students applying to GIS graduate programs.' }}
+        {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'Launched in September 2019, the GISphere Guide Project continues to be actively updated. Information for the guide is collected from current students, recent graduates, and young faculty involved in GIS-related programs from around the globe. Our goal is to offer current and comprehensive information to help students applying to GIS graduate programs.' }}
       <!-- Statistics Section -->
       <el-row class="statistics-section">
         <el-col :span="8">
