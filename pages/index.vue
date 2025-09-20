@@ -52,7 +52,7 @@
             <el-button class="big-button explore-programs" @click="goToUniversityList"
               >GISphere Guide</el-button
             >
-                        <el-button class="big-button explore-programs" @click="$router.push('/markdown')">
+                        <el-button class="big-button explore-programs" @click="$router.push('/gistory')">
               GIStory Interview
             </el-button>
             <!--
