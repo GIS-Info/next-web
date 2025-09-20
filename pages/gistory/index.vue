@@ -86,7 +86,7 @@ export default {
     },
     goToDetail(file) {
       const encodedUrl = encodeURIComponent(file.url);
-      this.$router.push(`/markdown/detail?url=${encodedUrl}`);
+      this.$router.push(`/gistory/detail?url=${encodedUrl}`);
     },
     extractTitle(content) {
       const lines = content.split('\n');
