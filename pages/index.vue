@@ -223,7 +223,7 @@
             class="sponsor-card"
             @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')"
           >
-            <b>GIS-Vision 留学</b>
+            <b>GIS-Vision</b>
           </div>
           <div
             class="sponsor-card"
