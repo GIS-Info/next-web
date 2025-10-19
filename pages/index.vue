@@ -199,10 +199,7 @@
             <!-- GISalon -->
             <div
               class="platform-card"
-              @click="() => window.open('https://www.youtube.com/@gisphere', '_blank')"
-              @keydown.enter="() => window.open('https://www.youtube.com/@gisphere', '_blank')"
-              tabindex="0"
-              role="button"
+              @click="goUrl('https://www.youtube.com/@gisphere')"
             >
               <h3 class="card-title">{{ lang === 'zh' ? 'GISalon' : 'GISalon' }}</h3>
               <p class="card-desc" v-if="lang === 'zh'">
@@ -758,7 +755,7 @@ export default {
   bottom: 60px;
   right: 60px;
 }
-/* Platform Cards Styling (without icons) */
+/* Platform Cards Styling*/
 .platform-cards {
   display: flex;
   flex-wrap: wrap;
