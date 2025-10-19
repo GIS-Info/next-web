@@ -171,24 +171,66 @@
             Through continuous growth and expansion, our team has developed a range of initiatives to support GIS education, career development,
             and academic networking:
           </p>
-          <ul class="initiatives-list" v-if="lang == 'zh'">
-            <li><span class="initiative-highlight">GISphere Guide</span> - 我们的旗舰数据库，提供全球80多个国家的GIS和地理机构及研究生项目的综合信息。</li>
-            <li><span class="initiative-highlight">GISalon</span> - 一系列引人入胜的圆桌讨论，为学生提供关于研究生学习经验、学术路径和职业发展的宝贵见解。录制内容可在YouTube（英文）和Bilibili（中文）上获取。</li>
-            <li><span class="initiative-highlight">GISource</span> - 一项全球新闻服务，提供关于GIS相关硕士和博士项目招生以及全球学术和行业招聘机会的最新信息。</li>
-            <li><span class="initiative-highlight">GISphere 微信公众号</span> - 分享来自全球GIS学生和专家的申请经验、学习见解和专业建议的平台。此外，我们还发布双周GISource通讯、GIStory文章等。</li>
-            <li><span class="initiative-highlight">GISpace</span> - 在WhatsApp和微信上的活跃社区讨论平台，促进GIS爱好者之间的同行连接和知识共享。</li>
-            <li><span class="initiative-highlight">社交媒体</span> - 在包括X（Twitter）、WhatsApp、知乎和小红书在内的社交媒体平台上分享最新的GIS相关新闻、趋势和更新。</li>
-          </ul>
-          <ul class="initiatives-list" v-if="lang == 'en'">
-            <li><span class="initiative-highlight">GISphere Guide</span> - Our flagship database, providing comprehensive information on GIS and Geography institutions and graduate programs across more than 80 countries.</li>
-            <li><span class="initiative-highlight">GISalon</span> - A series of engaging roundtable discussions offering students valuable insights into graduate study experiences, academic pathways, and career development. Recordings are
-              available on YouTube (English) and Bilibili (Chinese).</li>
-            <li><span class="initiative-highlight">GISource</span> - A global news service delivering up-to-date information on GIS-related master's and doctoral program admissions, as well as academic and industry hiring opportunities
-              worldwide.</li>
-            <li><span class="initiative-highlight">GISphere WeChat Official Account</span> - A hub for sharing application experiences, study insights, and professional advice from GIS students and experts worldwide. Additionally, we publish a biweekly GISource newsletter, GIStory articles, and more.</li>
-            <li><span class="initiative-highlight">GISpace</span> - A vibrant community discussion platform on WhatsApp and WeChat, fostering peer connections and knowledge-sharing among GIS enthusiasts.</li>
-            <li><span class="initiative-highlight">Social Media</span> - Sharing the latest GIS-related news, trends, and updates across social media platforms including X (Twitter), WhatsApp, Zhihu, and Rednotes.</li>
-          </ul>
+
+          <!-- Core Platforms as Clickable Cards -->
+          <div class="intro-title" style="margin-top: 40px;">
+            {{ lang == 'zh' ? '核心平台' : 'Core Initiatives' }}
+            <hr class="short-horizontal-line" />
+          </div>
+      
+          <div class="platform-cards">
+            <!-- GISphere Guide -->
+            <div
+              class="platform-card"
+              @click="$router.push('/school')"
+              @keydown.enter="$router.push('/school')"
+              tabindex="0"
+              role="button"
+            >
+              <h3 class="card-title">{{ lang === 'zh' ? 'GISphere Guide' : 'GISphere Guide' }}</h3>
+              <p class="card-desc" v-if="lang === 'zh'">
+                我们的旗舰数据库，提供全球80多个国家的GIS和地理机构及研究生项目的综合信息。
+              </p>
+              <p class="card-desc" v-else>
+                Our flagship database, providing comprehensive information on GIS and Geography institutions and graduate programs across more than 80 countries.
+              </p>
+            </div>
+      
+            <!-- GISalon -->
+            <div
+              class="platform-card"
+              @click="() => window.open('https://www.youtube.com/@gisphere', '_blank')"
+              @keydown.enter="() => window.open('https://www.youtube.com/@gisphere', '_blank')"
+              tabindex="0"
+              role="button"
+            >
+              <h3 class="card-title">{{ lang === 'zh' ? 'GISalon' : 'GISalon' }}</h3>
+              <p class="card-desc" v-if="lang === 'zh'">
+                一系列引人入胜的圆桌讨论，为学生提供关于研究生学习经验、学术路径和职业发展的宝贵见解。
+              </p>
+              <p class="card-desc" v-else>
+                A series of engaging roundtable discussions offering students valuable insights into graduate study experiences, academic pathways, and career development.
+              </p>
+            </div>
+      
+            <!-- GISource -->
+            <div
+              class="platform-card"
+              @click="$router.push('/postList?type=academic')"
+              @keydown.enter="$router.push('/postList?type=academic')"
+              tabindex="0"
+              role="button"
+            >
+              <h3 class="card-title">{{ lang === 'zh' ? 'GISource' : 'GISource' }}</h3>
+              <p class="card-desc" v-if="lang === 'zh'">
+                全球新闻服务，提供GIS相关硕士和博士项目招生及学术/行业招聘机会的最新信息。
+              </p>
+              <p class="card-desc" v-else>
+                A global news service delivering up-to-date information on GIS-related master's and doctoral program admissions, as well as academic and industry hiring opportunities worldwide.
+              </p>
+            </div>
+          </div>
+          
           <p v-if="lang == 'zh'">
             随着GISphere的不断发展，我们将继续致力于通过扩展资源、促进合作和使GIS知识在全球范围内更加普及，来丰富GIS教育生态系统。
           </p>
@@ -715,5 +757,54 @@ export default {
   position: absolute;
   bottom: 60px;
   right: 60px;
+}
+/* Platform Cards Styling (without icons) */
+.platform-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.platform-card {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 32px 28px;
+  width: 320px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  outline: none;
+}
+
+.platform-card:hover {
+  transform: translateY(-6px);
+  border-color: #2c3aaa;
+  box-shadow: 0 8px 20px rgba(44, 58, 170, 0.15);
+  background-color: #f9f9ff;
+}
+
+.platform-card:focus {
+  border-color: #7944dd;
+  box-shadow: 0 0 0 3px rgba(121, 68, 221, 0.3);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3aaa;
+  margin: 0 0 16px;
+}
+
+.card-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+  margin: 0;
 }
 </style>
