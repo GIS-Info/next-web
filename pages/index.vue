@@ -199,7 +199,7 @@
             <!-- GISalon -->
             <div
               class="platform-card"
-              @click="goUrl('https://www.youtube.com/@gisphere')"
+                @click="goUrl(lang === 'zh' ? 'https://space.bilibili.com/1043870260' : 'https://www.youtube.com/@gisphere')"
             >
               <h3 class="card-title">{{ lang === 'zh' ? 'GISalon' : 'GISalon' }}</h3>
               <p class="card-desc" v-if="lang === 'zh'">
@@ -755,7 +755,6 @@ export default {
   bottom: 60px;
   right: 60px;
 }
-/* Platform Cards Styling*/
 .platform-cards {
   display: flex;
   flex-wrap: wrap;
@@ -772,11 +771,10 @@ export default {
   border-radius: 16px;
   padding: 32px 28px;
   width: 320px;
-  text-align: left;
+  text-align: left; /* ← 整体左对齐，但标题单独居中 */
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  outline: none;
 }
 
 .platform-card:hover {
@@ -786,16 +784,12 @@ export default {
   background-color: #f9f9ff;
 }
 
-.platform-card:focus {
-  border-color: #7944dd;
-  box-shadow: 0 0 0 3px rgba(121, 68, 221, 0.3);
-}
-
 .card-title {
   font-size: 20px;
   font-weight: 700;
   color: #2c3aaa;
   margin: 0 0 16px;
+  text-align: center; /* ← 标题居中 */
 }
 
 .card-desc {
@@ -803,5 +797,6 @@ export default {
   line-height: 1.6;
   color: #444;
   margin: 0;
+  text-align: left; /* ← 描述左对齐（可省略，因父容器已设为 left） */
 }
 </style>
