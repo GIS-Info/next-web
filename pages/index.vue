@@ -772,7 +772,7 @@ export default {
   border-radius: 16px;
   padding: 32px 28px;
   width: 320px;
-  text-align: right;
+  text-align: left;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
