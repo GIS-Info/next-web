@@ -736,7 +736,7 @@ export default {
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
   display: block;
 }
 .sponsor-card {
