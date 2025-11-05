@@ -37,7 +37,7 @@
         <el-col :span="8">
           <div class="statistic">
             <div class="statistic-number" id="total-schools">{{ totalSchools }}</div>
-            <div class="statistic-label">{{ lang == 'zh' ? '院校数量' : 'Total Schools' }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '院校数量' : 'Total Institutions' }}</div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -49,7 +49,7 @@
         <el-col :span="8">
           <div class="statistic">
             <div class="statistic-number" id="total-professors">{{ totalProfessors }}</div>
-            <div class="statistic-label">{{ lang == 'zh' ? '教授数量' : 'Total Professors' }}</div>
+            <div class="statistic-label">{{ lang == 'zh' ? '教授数量' : 'Total Faculty' }}</div>
           </div>
         </el-col>
       </el-row>
@@ -135,9 +135,9 @@ export default {
   data() {
     return {
       loading: true,
-      totalSchools: 562,
+      totalSchools: 508,
       totalCountries: 96,
-      totalProfessors: 2101,
+      totalProfessors: 2207,
       rawData: [],
 
       // 查找表
