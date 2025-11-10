@@ -4,14 +4,16 @@
       <h2 class="copyright-title">Copyright</h2>
       <p class="copyright-content">
         This work is licensed under a
-        <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="blank">
-          Creative Commons Attribution-NonCommercial 4.0 International License
-        </a>.
-        This project is supported by a group of scholars who have studied or
+        <a
+          href="https://creativecommons.org/licenses/by-nc/4.0/"
+          target="blank"
+        >
+          Creative Commons Attribution-NonCommercial 4.0 International License </a
+        >. This project is supported by a group of scholars who have studied or
         worked in GIS-related departments around the world. We want to say thank
         you to all of those who provided school information and/or worked on
-        managing this project as volunteers.
-        Please feel free to leave a message in
+        managing this project as volunteers. Please feel free to leave a message
+        in
         <a href="https://github.com/gisphere/gisphere.github.io" target="blank">
           this GitHub issue
         </a>
@@ -36,19 +38,19 @@
         gisphere@outlook.com
       </a>
       <a class="link" href="https://twitter.com/GISphereGuide">
-         <img class="img" src="./imgs/x.png" />
+        <img class="img" src="./imgs/x.png" />
         GISphereGuide
       </a>
       <a class="link" href="https://www.youtube.com/@gisphere">
-         <img class="img" src="./imgs/youtube.png" />
+        <img class="img" src="./imgs/youtube.png" />
         Youtube GISalon
       </a>
       <a class="link" href="https://space.bilibili.com/1043870260">
-         <img class="img" src="./imgs/bilibili.png" />
+        <img class="img" src="./imgs/bilibili.png" />
         Bilibili GISalon
       </a>
       <a class="link" href="https://www.zhihu.com/people/gisphere">
-         <img class="img" src="./imgs/zhihu.png" />
+        <img class="img" src="./imgs/zhihu.png" />
         GISphere
       </a>
       <a
@@ -73,25 +75,25 @@
         </transition>
       </a>
       <a
-         class="link"
-         @mouseover="
-            () => {
+        class="link"
+        @mouseover="
+          () => {
             showWhatsapptPopup = true
-            }
-         "
-         @mouseleave="
-            () => {
+          }
+        "
+        @mouseleave="
+          () => {
             showWhatsapptPopup = false
-            }
-         "
+          }
+        "
       >
         <img class="img" src="./imgs/whatsapp.png" />
-          Whatsapp
-         <transition name="popup">
-            <div v-if="showWhatsapptPopup" class="popup">
-                <img class="qr-img" src="./imgs/whatsapp-qrcode.png" />
-            </div>
-         </transition>
+        Whatsapp
+        <transition name="popup">
+          <div v-if="showWhatsapptPopup" class="popup">
+            <img class="qr-img" src="./imgs/whatsapp-qrcode.png" />
+          </div>
+        </transition>
       </a>
     </div>
   </div>
@@ -111,14 +113,14 @@ export default {
 <style lang="less" scoped>
 .bg {
   width: 100%;
-  height: 300px;
+  padding: 12px 0;
   background: #dcdfe6;
   display: flex;
   flex-direction: column;
   .content {
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    padding: 12px 0;
+    line-height: 1.4;
     font-style: normal;
     font-weight: 400;
     font-size: 22px;
@@ -144,7 +146,7 @@ export default {
       cursor: pointer;
       text-decoration: none;
       position: relative;
-      white-space:nowrap;
+      white-space: nowrap;
       .img {
         height: 16px;
         transform: translateY(3px);

@@ -17,12 +17,12 @@
               @click="goToPostList('academic')"
               >招生信息</el-button
             >
-            <el-button
-              v-if="false"
-              @click="goToPostList('job')"
+            <el-button v-if="false" @click="goToPostList('job')"
               >招聘信息</el-button
             >
-            <el-button class="big-button explore-programs" @click="goToUniversityList"
+            <el-button
+              class="big-button explore-programs"
+              @click="goToUniversityList"
               >院校指南</el-button
             >
             <!--
@@ -32,29 +32,23 @@
             -->
           </div>
         </div>
-        <div v-if="lang == 'en'" class=".en-letter-spacing">
+        <div v-if="lang == 'en'" class="en-letter-spacing">
           <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
           <div class="welcome-description">
             Empower GIScience and Geography education for the future
           </div>
-          <div class="welcome-buttons">
-            <el-button
-              type="primary"
-              class="big-button explore-academic-recruiting"
-              @click="goToPostList('academic')"
-              >Academic Recruiting</el-button
+          <div class="welcome-buttons cta-group">
+            <nuxt-link
+              class="cta-btn cta-primary"
+              :to="{ path: '/postList', query: { type: 'academic' } }"
+              >Academic Recruiting</nuxt-link
             >
-            <el-button
-              v-if="false"
-              @click="goToPostList('job')"
-              >Job Recruiting</el-button
+            <nuxt-link class="cta-btn cta-outline" to="/school"
+              >GISphere Guide</nuxt-link
             >
-            <el-button class="big-button explore-programs" @click="goToUniversityList"
-              >GISphere Guide</el-button
+            <nuxt-link class="cta-btn cta-outline" to="/gistory"
+              >GIStory Interview</nuxt-link
             >
-                        <el-button class="big-button explore-programs" @click="$router.push('/gistory')">
-              GIStory Interview
-            </el-button>
             <!--
 
             -->
@@ -63,8 +57,19 @@
       </div>
       <!-- Functional Buttons -->
       <div class="functional-buttons">
-        <el-button class="white-book-button" round @click="goToMailingList">{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe to Email' }}  </el-button>
-        <el-button class="white-book-button explore-job-recruiting" round @click="$router.push('/white-book')">{{ lang == 'zh' ? 'GISphere 留学指南 · 大数据报告白皮书' : 'GISphere Global Admission Annual Review' }}</el-button>
+        <el-button class="white-book-button" round @click="goToMailingList"
+          >{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe to Email' }}
+        </el-button>
+        <el-button
+          class="white-book-button explore-job-recruiting"
+          round
+          @click="$router.push('/white-book')"
+          >{{
+            lang == 'zh'
+              ? 'GISphere 留学指南 · 大数据报告白皮书'
+              : 'GISphere Global Admission Annual Review'
+          }}</el-button
+        >
         <!-- Contact Us pop up card -->
         <!-- ZH -->
         <div
@@ -83,7 +88,9 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" class="contact-us" round>联系我们 / 加入我们</el-button>
+          <el-button type="info" class="contact-us" round
+            >联系我们 / 加入我们</el-button
+          >
         </div>
         <!-- EN -->
         <div
@@ -102,7 +109,9 @@
               </div>
             </div>
           </transition>
-          <el-button type="info" round class="contact-us">Contact Us / Join Us</el-button>
+          <el-button type="info" round class="contact-us"
+            >Contact Us / Join Us</el-button
+          >
         </div>
       </div>
     </div>
@@ -121,16 +130,19 @@
           <div class="tag"><span style="color: #7944dd;">GIS</span>pace</div>
           <div class="tag"><span style="color: #7944dd;">GIS</span>alon</div>
         </div> -->
-        <div class="intro-text-zh">{{ lang == 'zh' ? projectIntroZH : projectIntroEN }}</div>
+        <div class="intro-text-zh">
+          {{ lang == 'zh' ? projectIntroZH : projectIntroEN }}
+        </div>
 
         <!-- Our Mission Section -->
-        <div class="intro-title" style="margin-top: 40px;">
+        <div class="intro-title" style="margin-top: 40px">
           {{ lang == 'zh' ? '我们的使命' : 'Our Mission' }}
           <hr class="short-horizontal-line" />
         </div>
         <div class="intro-text-zh">
           <p v-if="lang == 'zh'">
-            GISphere 致力于在全球范围内普及地理信息科学（GIS）教育。我们由一群具有前瞻性思维的中国学生和学者于2019年创立，
+            GISphere
+            致力于在全球范围内普及地理信息科学（GIS）教育。我们由一群具有前瞻性思维的中国学生和学者于2019年创立，
             通过促进信息的开放获取、培养学术合作以及连接研究与产业，我们的平台努力打破GIS教育中的各种障碍。
           </p>
           <p v-if="lang == 'zh'">
@@ -138,46 +150,57 @@
             研究人员和专业人士。我们的最终目标是培育一个充满活力、包容性强且创新的GIS社区，推动学术界和产业界的共同进步。
           </p>
           <p v-if="lang == 'en'">
-            At GISphere, we are committed to democratizing access to Geographic Information Science (GIS) education worldwide. Established
-            in 2019 by a group of forward-thinking Chinese students and scholars, our platform strives to break barriers in GIS education by
-            promoting open access to information, fostering academic collaboration, and bridging the gap between research and industry.
+            At GISphere, we are committed to democratizing access to Geographic
+            Information Science (GIS) education worldwide. Established in 2019
+            by a group of forward-thinking Chinese students and scholars, our
+            platform strives to break barriers in GIS education by promoting
+            open access to information, fostering academic collaboration, and
+            bridging the gap between research and industry.
           </p>
           <p v-if="lang == 'en'">
-            We believe that knowledge should be freely shared, and by providing a centralized hub for GIS-related resources, academic
-            opportunities, and professional networking, we aim to empower students, researchers, and professionals across the globe. Our
-            ultimate goal is to cultivate a dynamic, inclusive, and innovative GIS community that drives progress in both academia and industry.
+            We believe that knowledge should be freely shared, and by providing
+            a centralized hub for GIS-related resources, academic opportunities,
+            and professional networking, we aim to empower students,
+            researchers, and professionals across the globe. Our ultimate goal
+            is to cultivate a dynamic, inclusive, and innovative GIS community
+            that drives progress in both academia and industry.
           </p>
         </div>
 
         <!-- Our Journey Section -->
-        <div class="intro-title" style="margin-top: 40px;">
+        <div class="intro-title" style="margin-top: 40px">
           {{ lang == 'zh' ? '我们的旅程' : 'Our Journey' }}
           <hr class="short-horizontal-line" />
         </div>
         <div class="intro-text-zh">
           <p v-if="lang == 'zh'">
-            GISphere 最初是一个专注于用中文发布GIS相关文章和社交媒体内容的平台，专为寻求地理空间教育的中国学生设计。
+            GISphere
+            最初是一个专注于用中文发布GIS相关文章和社交媒体内容的平台，专为寻求地理空间教育的中国学生设计。
             随着时间的推移，我们已经突破了语言和地域的界限，发展成为一个连接不同背景的学者、教育者和专业人士的全球性倡议。
           </p>
           <p v-if="lang == 'zh'">
             通过持续的成长和扩展，我们的团队开发了一系列支持GIS教育、职业发展和学术网络的倡议：
           </p>
           <p v-if="lang == 'en'">
-            GISphere started as a platform dedicated to publishing GIS-related articles and social media content in Chinese, specifically designed to
-            support Chinese students seeking accessible geospatial education. Over time, we have grown beyond linguistic and regional boundaries,
-            evolving into a global initiative that connects scholars, educators, and professionals across diverse backgrounds.
+            GISphere started as a platform dedicated to publishing GIS-related
+            articles and social media content in Chinese, specifically designed
+            to support Chinese students seeking accessible geospatial education.
+            Over time, we have grown beyond linguistic and regional boundaries,
+            evolving into a global initiative that connects scholars, educators,
+            and professionals across diverse backgrounds.
           </p>
           <p v-if="lang == 'en'">
-            Through continuous growth and expansion, our team has developed a range of initiatives to support GIS education, career development,
+            Through continuous growth and expansion, our team has developed a
+            range of initiatives to support GIS education, career development,
             and academic networking:
           </p>
 
           <!-- Core Platforms as Clickable Cards -->
-          <div class="intro-title" style="margin-top: 40px;">
+          <div class="intro-title" style="margin-top: 40px">
             {{ lang == 'zh' ? '核心平台' : 'Core Initiatives' }}
             <hr class="short-horizontal-line" />
           </div>
-      
+
           <div class="platform-cards">
             <!-- GISphere Guide -->
             <div
@@ -187,29 +210,43 @@
               tabindex="0"
               role="button"
             >
-              <h3 class="card-title">{{ lang === 'zh' ? 'GISphere Guide' : 'GISphere Guide' }}</h3>
+              <h3 class="card-title">
+                {{ lang === 'zh' ? 'GISphere Guide' : 'GISphere Guide' }}
+              </h3>
               <p class="card-desc" v-if="lang === 'zh'">
                 我们的旗舰数据库，提供全球80多个国家的GIS和地理机构及研究生项目的综合信息。
               </p>
               <p class="card-desc" v-else>
-                Our flagship database, providing comprehensive information on GIS and Geography institutions and graduate programs across more than 80 countries.
+                Our flagship database, providing comprehensive information on
+                GIS and Geography institutions and graduate programs across more
+                than 80 countries.
               </p>
             </div>
-      
+
             <!-- GISalon -->
             <div
               class="platform-card"
-                @click="goUrl(lang === 'zh' ? 'https://space.bilibili.com/1043870260' : 'https://www.youtube.com/@gisphere')"
+              @click="
+                goUrl(
+                  lang === 'zh'
+                    ? 'https://space.bilibili.com/1043870260'
+                    : 'https://www.youtube.com/@gisphere'
+                )
+              "
             >
-              <h3 class="card-title">{{ lang === 'zh' ? 'GISalon' : 'GISalon' }}</h3>
+              <h3 class="card-title">
+                {{ lang === 'zh' ? 'GISalon' : 'GISalon' }}
+              </h3>
               <p class="card-desc" v-if="lang === 'zh'">
                 一系列引人入胜的圆桌讨论，为学生提供关于研究生学习经验、学术路径和职业发展的宝贵见解。
               </p>
               <p class="card-desc" v-else>
-                A series of engaging roundtable discussions offering students valuable insights into graduate study experiences, academic pathways, and career development.
+                A series of engaging roundtable discussions offering students
+                valuable insights into graduate study experiences, academic
+                pathways, and career development.
               </p>
             </div>
-      
+
             <!-- GISource -->
             <div
               class="platform-card"
@@ -218,27 +255,31 @@
               tabindex="0"
               role="button"
             >
-              <h3 class="card-title">{{ lang === 'zh' ? 'GISource' : 'GISource' }}</h3>
+              <h3 class="card-title">
+                {{ lang === 'zh' ? 'GISource' : 'GISource' }}
+              </h3>
               <p class="card-desc" v-if="lang === 'zh'">
                 全球新闻服务，提供GIS相关硕士和博士项目招生及学术/行业招聘机会的最新信息。
               </p>
               <p class="card-desc" v-else>
-                A global news service delivering up-to-date information on GIS-related master's and doctoral program admissions, as well as academic and industry hiring opportunities worldwide.
+                A global news service delivering up-to-date information on
+                GIS-related master's and doctoral program admissions, as well as
+                academic and industry hiring opportunities worldwide.
               </p>
             </div>
           </div>
-          
+
           <p v-if="lang == 'zh'">
             随着GISphere的不断发展，我们将继续致力于通过扩展资源、促进合作和使GIS知识在全球范围内更加普及，来丰富GIS教育生态系统。
           </p>
           <p v-if="lang == 'en'">
-            As GISphere continues to grow, we remain dedicated to enriching the GIS education ecosystem by expanding resources, facilitating collaborations, and making GIS knowledge more accessible worldwide.
+            As GISphere continues to grow, we remain dedicated to enriching the
+            GIS education ecosystem by expanding resources, facilitating
+            collaborations, and making GIS knowledge more accessible worldwide.
           </p>
         </div>
       </div>
     </div>
-
-
 
     <!-- Sponsor -->
     <div class="sponsor-part">
@@ -300,29 +341,54 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="订阅 ( Subscribe )" :visible.sync="dialogFormVisible" :modal-append-to-body="false" :top="'17vh'">
+    <el-dialog
+      title="订阅 ( Subscribe )"
+      :visible.sync="dialogFormVisible"
+      :modal-append-to-body="false"
+      :top="'17vh'"
+    >
       <el-form :model="form">
         <el-form-item
           label="邮箱 ( email )"
           prop="email"
           :rules="[
-            { required: true, message: '请输入邮箱地址 ( Please enter your email address. )', trigger: 'blur' },
-            { type: 'email', message: '请输入正确的邮箱地址 ( Please enter a valid email address. )', trigger: ['blur', 'change'] }
-          ]">
+            {
+              required: true,
+              message: '请输入邮箱地址 ( Please enter your email address. )',
+              trigger: 'blur',
+            },
+            {
+              type: 'email',
+              message:
+                '请输入正确的邮箱地址 ( Please enter a valid email address. )',
+              trigger: ['blur', 'change'],
+            },
+          ]"
+        >
           <el-input v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item
           label="名 ( first name )"
           :rules="[
-            { required: true, message: '请输入 ( Please enter your first name. )', trigger: 'blur' },
-          ]">
+            {
+              required: true,
+              message: '请输入 ( Please enter your first name. )',
+              trigger: 'blur',
+            },
+          ]"
+        >
           <el-input v-model="form.firstName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item
           label="姓 ( last name )"
           :rules="[
-            { required: true, message: '请输入 ( Please enter your last name. )', trigger: 'blur' },
-          ]">
+            {
+              required: true,
+              message: '请输入 ( Please enter your last name. )',
+              trigger: 'blur',
+            },
+          ]"
+        >
           <el-input v-model="form.lastName" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -349,7 +415,7 @@ export default {
       projectIntroZH: ProjectIntro[0],
       projectIntroEN: ProjectIntro[1],
       form: {
-        email:'',
+        email: '',
         firstName: '',
         lastName: '',
       },
@@ -357,7 +423,7 @@ export default {
   },
   head() {
     return {
-      title: 'GISphere'
+      title: 'GISphere',
     }
   },
   computed: {
@@ -384,7 +450,7 @@ export default {
     },
     goToUniversityList() {
       // 对外入口
-      this.$router.push('/school');
+      this.$router.push('/school')
     },
     goToForum() {
       window.location.href = 'https://forum.gisphere.info'
@@ -396,32 +462,32 @@ export default {
       e.preventDefault()
     },
     goToMailingList() {
-      window.open('https://mailchi.mp/da300ab42ac5/gisphere', '_blank');
+      window.open('https://mailchi.mp/da300ab42ac5/gisphere', '_blank')
     },
     // 提交订阅邮件的请求
     handleFormSubmit() {
-      this.dialogFormVisible = false;
-      const form = this.form;
+      this.dialogFormVisible = false
+      const form = this.form
 
       // 构造个人信息和邮件列表标签
       const params = {
         first_name: form.firstName,
         last_name: form.lastName,
         email: form.email,
-        mailing_list_slug: 'test'
-      };
+        mailing_list_slug: 'test',
+      }
 
-      this.$axios.post('api/subscribe', params)
-      .then(res => {
-        this.$message({
-          message: res.data.message,
-          type: 'success'
-        });
-      })
-      .catch(err => {
-        this.$message.error(err);
-      });
-
+      this.$axios
+        .post('api/subscribe', params)
+        .then((res) => {
+          this.$message({
+            message: res.data.message,
+            type: 'success',
+          })
+        })
+        .catch((err) => {
+          this.$message.error(err)
+        })
     },
   },
 }
@@ -472,7 +538,7 @@ export default {
 }
 
 .initiatives-list li:before {
-  content: "•";
+  content: '•';
   color: #2c3aaa;
   font-size: 20px;
   position: absolute;
@@ -517,7 +583,7 @@ export default {
   flex-direction: row;
   align-items: center;
 }
-.big-button{
+.big-button {
   border: solid 2px #2c3aaa;
   width: 220px;
   height: 50px;
@@ -530,9 +596,9 @@ export default {
   color: #2c3aaa;
 }
 .big-button:hover {
-  background-color: #53389e;
+  background-color: #2c3aaa;
   color: #ffffff;
-  transition: 100ms ease-in-out;
+  transition: background-color 100ms ease-in-out, color 100ms ease-in-out;
 }
 .contact-us {
   margin-left: 10px;
@@ -581,7 +647,18 @@ export default {
   font-size: 20px;
   text-align: center;
   font-style: oblique;
-  background: linear-gradient(120deg,#ffffff, #ffffff 89%, #c5c9e3 89%, #c5c9e3 90%, #ffffff 90%,#ffffff 94%, #c5c9e3 94%, #c5c9e3 95%, #ffffff 95%);
+  background: linear-gradient(
+    120deg,
+    #ffffff,
+    #ffffff 89%,
+    #c5c9e3 89%,
+    #c5c9e3 90%,
+    #ffffff 90%,
+    #ffffff 94%,
+    #c5c9e3 94%,
+    #c5c9e3 95%,
+    #ffffff 95%
+  );
   font-weight: 800;
 }
 .uni-table {
@@ -659,7 +736,7 @@ export default {
   color: #000000;
   margin-left: 151.5px;
   margin-right: 151.5px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
   display: block;
 }
 .sponsor-card {
@@ -735,18 +812,21 @@ export default {
     margin-bottom: 1rem;
   }
 }
-.white-book-button{
+.white-book-button {
   font-family: 'Montserrat', sans-serif !important;
   margin-left: 10px;
   border: solid 2px #2c3aaa;
   color: #2c3aaa;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .white-book-button:hover {
   color: #fff;
-  background-color: #53389e;
+  background-color: #2c3aaa;
 }
-.functional-buttons{
+.welcome-buttons {
+  text-shadow: none;
+}
+.functional-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -774,7 +854,7 @@ export default {
   text-align: left; /* ← 整体左对齐，但标题单独居中 */
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .platform-card:hover {
@@ -798,5 +878,50 @@ export default {
   color: #444;
   margin: 0;
   text-align: left; /* ← 描述左对齐（可省略，因父容器已设为 left） */
+}
+
+/* High-performance CTA buttons */
+.cta-group {
+  gap: 14px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 50px;
+  font-size: 17px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif !important;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 2px solid #2c3aaa;
+  color: #2c3aaa;
+  background-color: rgba(255, 255, 255, 0.85);
+  will-change: transform, background-color, color;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: paint;
+  transition: transform 120ms ease, background-color 120ms ease,
+    color 120ms ease, border-color 120ms ease;
+}
+
+.cta-primary {
+  background-color: #2c3aaa;
+  color: #fff;
+  border-color: #2c3aaa;
+}
+
+.cta-outline {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #2c3aaa;
+}
+
+.cta-btn:hover {
+  transform: translateY(-1px);
+  background-color: #2c3aaa;
+  color: #fff;
+  border-color: #2c3aaa;
 }
 </style>
