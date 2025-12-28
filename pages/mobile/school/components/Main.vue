@@ -230,6 +230,28 @@
             @change="handleSchoolChange"
           ></el-cascader>
         </div>
+    <div class="right-search">
+      <el-autocomplete
+          v-model="searchString"
+          :fetch-suggestions="querySearch"
+          placeholder="Search for Schools/Scholar"
+          :trigger-on-focus="false"
+          @select="handleSearchSelect"
+          style="margin-left: 10px; width: 250px;"
+          popper-class="wide-search-dropdown"
+          clearable
+    >
+        <template slot-scope="{ item }">
+          <div class="name">
+            {{ item.value }}
+            <span v-if="item.type === 'person'" style="font-size: 12px; color: #b4b4b4; float: right;">
+              {{ item.school }}
+            </span>
+          </div>
+        
+        </template>
+      </el-autocomplete>
+      </div>
         <el-select
           v-model="selectedTags"
           multiple
@@ -274,12 +296,13 @@
               <div
                 v-for="school in Object.keys(countryToSchool[country])"
                 :key="school"
-              >
+                :id="'school-' + school.replace(/\s+/g, '_')"
+>
                 <SchoolCard
                   :school="schools[school]"
                   :people="schoolToPeople[school]"
                   :lang="lang"
-                />
+              />
               </div>
             </div>
             <el-divider />
@@ -341,6 +364,8 @@ export default {
       schoolOptions: [], // 当前选中国家的学校数据
       selectedCountry: null, // 当前选中的国家
       showBackToTopButton: false,
+      searchString: '',
+      allSearchOptions:[]
     }
   },
   /**
@@ -396,7 +421,13 @@ export default {
       const countryToSchool = {}
       const schools = {}
       const schoolToPeople = {}
+      const searchOptions = []
+
       this.rawData.forEach((item) => {
+        // ensure continent bucket exists
+        if (!continentToCountry[item.Co_Continent_EN]) {
+          continentToCountry[item.Co_Continent_EN] = {}
+        }
         // 写入 continentToCountry
         if (!continentToCountry[item.Co_Continent_EN][item.C_Country_EN]) {
           continentToCountry[item.Co_Continent_EN][item.C_Country_EN] = true
@@ -429,6 +460,50 @@ export default {
           schoolToPeople[item.U_Name_EN][item.P_people_id] = item
         }
       })
+      
+      // 1. 遍历所有学校加入搜索列表
+      Object.keys(schools).forEach((schoolName) => {
+        const schoolData = schools[schoolName]
+        const abbr = schoolData.U_Abbreviation || schoolData.U_Abbr || schoolData.Abbreviation || schoolData.U_ShortName || '';
+        const contentToSearch=[
+          schoolData.U_Name_CN,
+          schoolData.U_Name_EN,
+          schoolData.C_Country_EN,
+          schoolData.Co_Continent_EN,
+          abbr,
+          schoolData.U_Description,
+        ].join(' ').toLowerCase();
+
+        searchOptions.push({
+          value:
+            this.lang === 'zh'
+              ? schoolData.U_Name_CN || schoolData.U_Name_EN
+              : schoolData.U_Name_EN || schoolData.U_Name_CN, // 下拉框显示的文字
+          searchKey: schoolName, // 点击后跳转的目标
+          type: 'school',
+          school: schoolName, // 用于提示所属学校
+          matchStr: contentToSearch
+        })  
+      })
+      
+      // 2. 遍历所有教授加入搜索列表
+      this.rawData.forEach((item) => {
+        if (item.P_Name_CN || item.P_Name_EN) {
+          // 构建显示名称"
+          let label = item.P_Name_EN || ''
+          if (this.lang === 'zh' && item.P_Name_CN) {
+            label = `${item.P_Name_CN} (${item.P_Name_EN || ''})`
+          }
+
+          searchOptions.push({
+            value: label, // 下拉框显示的文字
+            searchKey: item.U_Name_EN, // 点击后跳转的目标（也是学校）
+            type: 'person',
+            school: this.lang === 'zh' ? item.U_Name_CN : item.U_Name_EN, // 用于提示所属学校
+          })
+        }
+      })
+      this.allSearchOptions = searchOptions
       this.continentToCountry = continentToCountry
       this.countries = countries
       this.countryToSchool = countryToSchool
@@ -436,6 +511,49 @@ export default {
       this.schoolToPeople = schoolToPeople
       this.loading = false
     },
+
+    // === 搜索建议逻辑 ===
+    querySearch(queryString, cb) {
+      const results = queryString
+        ? this.allSearchOptions.filter(this.createFilter(queryString))
+        : []
+      // 调用 callback 返回建议列表的数据
+      cb(results)
+    },
+
+    // 过滤规则：不区分大小写匹配
+    createFilter(queryString) {
+      return (item) => {
+        if(item.matchStr){
+        return item.matchStr.includes(queryString.toLowerCase())
+     }
+      return (item.value.toLowerCase().includes(queryString.toLowerCase())||
+      (item.school && item.school.toLowerCase().includes(queryString.toLowerCase()))
+    )
+    }
+  },
+
+    // 选中后的跳转逻辑
+    handleSearchSelect(item) {
+      // 获取目标ID，注意要和 template 中生成的规则一致（替换空格）
+      const targetId = 'school-' + item.searchKey.replace(/\s+/g, '_')
+
+      const element = document.getElementById(targetId)
+      if (element) {
+        // 平滑滚动到该元素
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+        // 可选：高亮一下该区域，增强体验
+        element.style.transition = 'background 1s'
+        element.style.backgroundColor = '#f0f9eb'
+        setTimeout(() => {
+          element.style.backgroundColor = 'transparent'
+        }, 2000)
+      } else {
+        console.warn('Target element not found:', targetId)
+      }
+    },
+    
     animateValue(id, start, end, duration) {
       const obj = document.getElementById(id) // 使用 const 代替 let
       let current = start // 当前值初始化为起始值
@@ -530,7 +648,7 @@ export default {
       cascaderElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     //   this.showBackToTopButton = false
     },
-  },
+  }
 }
 </script>
 
@@ -565,10 +683,13 @@ el-collapse-item:hover {
   /* position: fixed; */
   display: flex;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 .left-cascader {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap; 
+  gap: 10px;
 }
 .back-to-top {
   position: fixed;

@@ -25,11 +25,38 @@
     </el-menu>
     
     <el-main class="main">
-      <el-row>
+      <el-row type="flex" justify="space-between" align="middle" style="margin-bottom: 20px;">
         <el-checkbox-group v-model="selectedTags" @change="tagSelectHandler">
           <el-checkbox-button v-for="tag in tags" :key="tag.en" :label="tag.en">{{ tag[lang] }}</el-checkbox-button>
         </el-checkbox-group>
-    </el-row>
+
+        <div class="right-search">
+          <el-autocomplete
+            v-model="searchString"
+            :fetch-suggestions="querySearch"
+            :placeholder="lang === 'en' ? 'Search School/Scholar' : '搜索院校/学者'"
+            :trigger-on-focus="false"
+            @select="handleSearchSelect"
+            popper-class="wide-search-dropdown"
+            size="medium"
+            clearable
+          >
+            <template slot-scope="{ item }">
+              <div class="name">
+                {{ item.value }}
+                <span v-if="item.type === 'person'" style="font-size: 12px; color: #b4b4b4; float: right; margin-left: 10px;">
+                  {{ item.school }}
+                </span>
+                <span v-if="item.type === 'school'" style="font-size: 12px; color: #b4b4b4; float: right; margin-left: 10px;">
+                  {{ item.country }}
+                </span>
+              </div>
+            </template>
+          </el-autocomplete>
+        </div>
+      </el-row>
+
+      
       <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GISphere Guide' }}</strong></h1>
         {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'Launched in September 2019, the GISphere Guide Project continues to be actively updated. Information for the guide is collected from current students, recent graduates, and young faculty involved in GIS-related programs from around the globe. Our goal is to offer current and comprehensive information to help students applying to GIS graduate programs.' }}
       <!-- Statistics Section -->
@@ -106,7 +133,8 @@
           <div v-for="country in Object.keys(continentToCountry[continent])" :key="country">
             <h3 :id="`country:${country}`">{{ (lang == 'zh' ? countries[country] : country) || (countries[country] || country || '-') }}</h3>
             <div v-if="countryToSchool[country]">
-              <div v-for="school in Object.keys(countryToSchool[country])" :key="school">
+              <div v-for="school in Object.keys(countryToSchool[country])" :key="school"
+              :id="'school-' + schools[school].U_Name_EN.replace(/\s+/g, '_')">
                   <SchoolCard :school="schools[school]" :people="schoolToPeople[school]" :lang="lang"/>
               </div>
             </div>
@@ -139,6 +167,8 @@ export default {
       totalCountries: 96,
       totalProfessors: 2207,
       rawData: [],
+      searchString: '',
+      allSearchOptions: [],
 
       // 查找表
       continents: {
@@ -176,22 +206,20 @@ export default {
    * 使用 fetch 方法是为了服务端渲染，参考 https://nuxtjs.org/docs/features/data-fetching
    */
   async fetch() {
-    // 向后端发起请求
     await this.$axios
-      // 首屏先请求亚洲院校数据，优化首屏速度
       .get('/api/schools?continent=Asia')
       .then((res) => {
         this.setData(res);
       })
       .catch((error) => {
         console.log('err', error)
-        // 跳转到error界面
         this.$router.push('/error')
       });
   },
   computed: {},
   watch: {
   },
+
   mounted() {
     setTimeout(() => {
       this.loading = false;
@@ -207,6 +235,7 @@ export default {
     setData(res){
       // 每次追加新的大洲数据
       this.rawData = this.rawData.concat(res.data || []);
+      const searchOptions = [];
       const continentToCountry = {
         Asia: {},
         Europe: {},
@@ -249,13 +278,105 @@ export default {
           schoolToPeople[item.U_Name_EN][item.P_people_id] = item;
         }
       })
+
+      // A. 遍历学校，构建 matchStr
+      Object.keys(schools).forEach((schoolName) => {
+        const schoolData = schools[schoolName]
+        
+        // 获取所有可能的缩写字段
+        const abbr = schoolData.U_Abbreviation || schoolData.U_Abbr || schoolData.Abbreviation || schoolData.U_ShortName || '';
+        
+        // 拼接搜索内容 (名字、国家、缩写、简介)
+        const matchStr = [
+          schoolData.U_Name_CN,
+          schoolData.U_Name_EN,
+          schoolData.C_Country_EN,
+          schoolData.Co_Continent_EN,
+          abbr, 
+          schoolData.U_Description || ''
+        ].join(' ').toLowerCase();
+
+        searchOptions.push({
+          value: this.lang === 'zh' ? (schoolData.U_Name_CN || schoolName) : schoolName,
+          searchKey: schoolName,
+          type: 'school',
+          school: schoolName,
+          country: this.lang === 'zh' ? schoolData.Co_Name_CN : schoolData.C_Country_EN,
+          matchStr // 关键字段，用于搜索匹配
+        })
+      })
+
+      // B. 遍历教授，构建 matchStr
+      this.rawData.forEach((item) => {
+        if (item.P_Name_CN || item.P_Name_EN) {
+          let label = item.P_Name_EN || ''
+          if (this.lang === 'zh' && item.P_Name_CN) {
+            label = `${item.P_Name_CN} (${item.P_Name_EN || ''})`
+          }
+          // 教授的搜索内容包含：人名 + 学校名
+          const personMatchStr = [
+            item.P_Name_CN, 
+            item.P_Name_EN, 
+            item.U_Name_EN, 
+            item.U_Name_CN
+          ].join(' ').toLowerCase();
+
+          searchOptions.push({
+            value: label,
+            searchKey: item.U_Name_EN,
+            type: 'person',
+            school: this.lang === 'zh' ? item.U_Name_CN : item.U_Name_EN,
+            matchStr: personMatchStr
+          })
+        }
+      })
+
       this.continentToCountry = continentToCountry;
       this.countries = countries;
       this.countryToSchool = countryToSchool;
       this.schools = schools;
       this.schoolToPeople = schoolToPeople;
       this.loading = false;
+      this.allSearchOptions = searchOptions;
     },
+    // === 新增搜索方法 ===
+    querySearch(queryString, cb) {
+      const results = queryString
+        ? this.allSearchOptions.filter(this.createFilter(queryString))
+        : [];
+      cb(results);
+    },
+
+    // 过滤规则：只要 matchStr 包含查询词即可
+    createFilter(queryString) {
+      return (item) => {
+        if (item.matchStr) {
+           return item.matchStr.includes(queryString.toLowerCase())
+        }
+        return false;
+      };
+    },
+
+    // === 新增：点击跳转逻辑 ===
+    handleSearchSelect(item) {
+      const targetId = 'school-' + item.searchKey.replace(/\s+/g, '_')
+
+      const element = document.getElementById(targetId)
+      if (element) {
+        // 平滑滚动到该元素
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+        // 高亮一下该区域
+        element.style.transition = 'background 1s'
+        element.style.backgroundColor = '#fff6b2'
+        setTimeout(() => {
+          element.style.backgroundColor = 'transparent'
+        }, 2000)
+      } else {
+        console.warn('Target element not found:', targetId)
+      }
+    },
+
     animateValue(id, start, end, duration) {
       const obj = document.getElementById(id); // 使用 const 代替 let
       let current = start; // 当前值初始化为起始值
@@ -397,5 +518,13 @@ el-collapse-item:hover {
 .statistic-number:hover {
   transform: scale(1.1); /* 鼠标悬停时放大 */
 }
+/* 搜索框容器 */
+.right-search {
+  width: 300px; /* PC端给个固定宽度即可 */
+}
 
+/* 确保 autocomplete 占满容器 */
+.right-search .el-autocomplete {
+  width: 100%;
+}
 </style>
