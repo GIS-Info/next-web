@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="content-card">
       <header class="form-header">
-        <h2>{{ lang === 'zh' ? '帮我们更新 GISphere 信息!' : 'Help Us Keep GISphere Information Accurate and Up-to-Date!' }}</h2>
+        <h2>{{ lang === 'zh' ? '帮我们更新 GISphere 信息!' : 'Help GISphere Information Up-to-Date!' }}</h2>
       </header>
   
       <section class="intro-section">
@@ -12,7 +12,8 @@
           <p class="highlight-text">{{ lang === 'zh' ? '我们真诚地欢迎您的支持！' : 'We truly appreciate your effort in keeping GISphere a reliable resource. Our team will review and verify the submitted updates as soon as possible and get back to you if needed. Thank you for your support!' }}</p>
         </div>
       </section>
-
+      <br>
+      
       <form @submit.prevent="submitProposal" class="proposal-form">
         <div class="form-grid">
           <div class="form-group">
