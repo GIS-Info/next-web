@@ -2,11 +2,16 @@
   <div class="main-container">
     <div class="content-card">
       <header class="form-header">
-        <h2>{{ lang === 'zh' ? '更新 GISphere 信息' : 'Update GISphere Info' }}</h2>
-        <p class="subtitle">
-          {{ lang === 'zh' ? '您的贡献是维持数据准确性的基础，感谢支持！' : 'Your contributions keep our dataset reliable and up-to-date.' }}
-        </p>
+        <h2>{{ lang === 'zh' ? '帮我们更新 GISphere 信息!' : 'Help Us Keep GISphere Information Accurate and Up-to-Date!' }}</h2>
       </header>
+  
+      <section class="intro-section">
+        <div class="notice-box">
+          <p>{{ lang === 'zh' ? '我们认可我们的数据可能不是最新的，且有些数据可能缺失或有时有错误，特别是在某些区域或机构。' : 'We acknowledge that some of our data might not be fully up-to-date, and there may be missing entries or occasional errors in our dataset, particularly in certain regions or institutions.' }}</p>
+          <p>{{ lang === 'zh' ? '您的贡献是维持GISphere信息准确和完整的基础。如果您发现错误或不准确的信息，或者如果您有额外的数据可以分享，请在这里提交您的修正。' : 'Your contributions are invaluable in improving the accuracy and completeness of GISphere. If you notice incorrect or outdated information, or if you have additional data to share, please submit your corrections here.' }}</p>
+          <p class="highlight-text">{{ lang === 'zh' ? '我们真诚地欢迎您的支持！' : 'We truly appreciate your effort in keeping GISphere a reliable resource. Our team will review and verify the submitted updates as soon as possible and get back to you if needed. Thank you for your support!' }}</p>
+        </div>
+      </section>
 
       <form @submit.prevent="submitProposal" class="proposal-form">
         <div class="form-grid">
