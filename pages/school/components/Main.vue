@@ -25,37 +25,51 @@
     </el-menu>
     
     <el-main class="main">
-      <el-row type="flex" justify="space-between" align="middle" style="margin-bottom: 20px;">
-        <el-checkbox-group v-model="selectedTags" @change="tagSelectHandler">
-          <el-checkbox-button v-for="tag in tags" :key="tag.en" :label="tag.en">{{ tag[lang] }}</el-checkbox-button>
-        </el-checkbox-group>
-
-        <div class="right-search">
-          <el-autocomplete
-            v-model="searchString"
-            :fetch-suggestions="querySearch"
-            :placeholder="lang === 'en' ? 'Search School/Scholar' : '搜索院校/学者'"
-            :trigger-on-focus="false"
-            @select="handleSearchSelect"
-            popper-class="wide-search-dropdown"
-            size="medium"
-            clearable
-          >
-            <template slot-scope="{ item }">
-              <div class="name">
-                {{ item.value }}
-                <span v-if="item.type === 'person'" style="font-size: 12px; color: #b4b4b4; float: right; margin-left: 10px;">
-                  {{ item.school }}
-                </span>
-                <span v-if="item.type === 'school'" style="font-size: 12px; color: #b4b4b4; float: right; margin-left: 10px;">
-                  {{ item.country }}
-                </span>
-              </div>
-            </template>
-          </el-autocomplete>
-        </div>
-      </el-row>
-
+      <div class="filter-toolbar">
+        <el-row type="flex" justify="space-between" align="middle" class="toolbar-row">
+          
+          <div class="filter-container">
+            <div class="filter-label">
+              <i class="el-icon-collection-tag"></i>
+              <span>{{ lang === 'zh' ? '专业方向' : 'Research Fields' }}</span>
+            </div>
+            <el-checkbox-group v-model="selectedTags" @change="tagSelectHandler" size="medium">
+              <el-checkbox-button v-for="tag in tags" :key="tag.en" :label="tag.en">
+                {{ tag[lang] }}
+              </el-checkbox-button>
+            </el-checkbox-group>
+          </div>
+      
+          <div class="search-container">
+            <el-autocomplete
+              v-model="searchString"
+              :fetch-suggestions="querySearch"
+              :placeholder="lang === 'en' ? 'Search School / Scholar / Abbr...' : '搜索院校 / 学者 / 缩写...'"
+              :trigger-on-focus="false"
+              @select="handleSearchSelect"
+              popper-class="wide-search-dropdown"
+              size="medium"
+              clearable
+              class="search-input"
+            >
+              <i slot="prefix" class="el-input__icon el-icon-search"></i>
+              
+              <template slot-scope="{ item }">
+                <div class="search-item-wrapper">
+                  <span class="item-name">{{ item.value }}</span>
+                  <span v-if="item.type === 'person'" class="item-info person-tag">
+                     <i class="el-icon-user"></i> {{ item.school }}
+                  </span>
+                  <span v-if="item.type === 'school'" class="item-info school-tag">
+                     <i class="el-icon-location-outline"></i> {{ item.country }}
+                  </span>
+                </div>
+              </template>
+            </el-autocomplete>
+          </div>
+      
+        </el-row>
+      </div>
       
       <h1><strong>{{ lang == 'zh' ? 'GIS-Info 院校指南' : 'GISphere Guide' }}</strong></h1>
         {{ lang == 'zh' ? 'GIS-Info院校指南公益项目发起于2019年9月，旨在提供及时且全面的全球GIS及相关专业院校信息。信息由来自世界各地GIS及城市规划等相关专业名校的在读学生、近期毕业校友或青年教师提供，内容主要包括各院系的优势科研方向、开设学位和导师信息。希望这份指南能为有留学意向的GIS相关专业朋友们提供帮助和支持。' : 'Launched in September 2019, the GISphere Guide Project continues to be actively updated. Information for the guide is collected from current students, recent graduates, and young faculty involved in GIS-related programs from around the globe. Our goal is to offer current and comprehensive information to help students applying to GIS graduate programs.' }}
@@ -518,9 +532,104 @@ el-collapse-item:hover {
 .statistic-number:hover {
   transform: scale(1.1); /* 鼠标悬停时放大 */
 }
-/* 搜索框容器 */
-.right-search {
-  width: 300px; /* PC端给个固定宽度即可 */
+
+.filter-toolbar {
+  background: #ffffff;
+  padding: 18px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 柔和阴影 */
+  margin-bottom: 30px;
+  border: 1px solid #ebeef5;
+  transition: all 0.3s ease;
+}
+
+.toolbar-row {
+  flex-wrap: wrap; /* 适配窄屏 */
+  gap: 15px;
+}
+
+/* 筛选标签区域布局 */
+.filter-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  font-weight: 700;
+  color: #1a4986; /* 使用项目主蓝色 */
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.filter-label i {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
+/* 搜索框区域 */
+.search-container {
+  width: 350px;
+}
+
+.search-input {
+  width: 100%;
+}
+
+/* 搜索建议列表项美化 */
+.search-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.item-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-info {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.person-tag {
+  color: #909399;
+  background-color: #f4f4f5;
+}
+
+.school-tag {
+  color: #409eff;
+  background-color: #ecf5ff;
+}
+
+/* Checkbox Button 样式微调*/
+::v-deep .el-checkbox-button__inner {
+  border-left: 1px solid #dcdfe6 !important;
+  border-radius: 6px !important;
+  margin-right: 8px;
+  border: 1px solid #dcdfe6;
+  transition: all 0.2s;
+}
+
+::v-deep .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
+}
+
+::v-deep .el-checkbox-button:hover .el-checkbox-button__inner {
+  color: #409eff;
+  background-color: #f5f7fa;
 }
 
 /* 确保 autocomplete 占满容器 */
