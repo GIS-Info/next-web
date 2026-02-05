@@ -24,7 +24,7 @@
               >院校指南</el-button
             >
             <el-button class="big-button-zh" @click="goToForum"
-              >讨论区</el-button
+              >GIScience访谈</el-button
             >
           </div>
         </div>
@@ -268,7 +268,7 @@ export default {
       this.$router.push('/school')
     },
     goToForum() { 
-      window.location.href = 'https://forum.gisphere.info'
+      window.location.href = 'https://mp.weixin.qq.com/mp/homepage?__biz=Mzg3OTUyMjk3OQ==&hid=5&sn=3587fb68bd6892591c79b32606a286bf&scene=18'
     },
     goToMailingList() {
       window.open('https://mailchi.mp/da300ab42ac5/gisphere', '_blank');

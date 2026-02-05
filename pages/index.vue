@@ -25,11 +25,11 @@
               @click="goToUniversityList"
               >院校指南</el-button
             >
-            <!--
+            
             <el-button class="big-button explore-programs" @click="goToForum"
-              >讨论区</el-button
+              >GIScience访谈</el-button
             >
-            -->
+            
           </div>
         </div>
         <div v-if="lang == 'en'" class="en-letter-spacing">
@@ -453,7 +453,7 @@ export default {
       this.$router.push('/school')
     },
     goToForum() {
-      window.location.href = 'https://forum.gisphere.info'
+      window.location.href = 'https://mp.weixin.qq.com/mp/homepage?__biz=Mzg3OTUyMjk3OQ==&hid=5&sn=3587fb68bd6892591c79b32606a286bf&scene=18'
     },
     goUrl(url) {
       window.location.href = url
