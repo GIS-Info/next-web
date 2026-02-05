@@ -15,7 +15,7 @@
     <div v-if="lang == 'en'" class="links-div">
       <div class="link" @click="goPageByRouteName('aboutUs')">About</div>
       <div class="link" @click="goPageByRouteName('suggestion')">SuggestEdit</div>
-      <div class="link" @click="setGlobalLanguage('zh')">Language</div>
+      <div class="link" @click="setGlobalLanguage('zh')">Chinese</div>
       <div class="link" @click="goPageByRouteName('manage/dashboard')">Login (Admin Only)</div>
     </div>
   </div>
@@ -109,4 +109,5 @@ export default {
   transition: 200ms ease-in-out;
 }
 </style>
+
 
