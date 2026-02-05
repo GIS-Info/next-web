@@ -1,113 +1,144 @@
 <template>
-  <div class="container">
-    <div class="title-div" @click="goPageByRouteName('')">
-      <img class="logo" src="./logo.png" />
+  <div class="header-container">
+    <div class="brand-section" @click="goPageByRouteName('')">
+      <img class="logo" src="./logo.png" alt="GISphere Logo" />
       <span class="title-text">GISphere</span>
     </div>
-    <!-- 中文情况下的链接 -->
-    <div v-if="lang == 'zh'" class="links-div">
-      <div class="link" @click="goPageByRouteName('aboutUs')">关于我们</div>
-      <div class="link" @click="goPageByRouteName('suggestion')">填写建议</div>
-      <div class="link" @click="setGlobalLanguage('en')">English</div>
-      <div class="link" @click="goPageByRouteName('manage/dashboard')">管理员登录</div>
-    </div>
-    <!-- 英文情况下的链接 -->
-    <div v-if="lang == 'en'" class="links-div">
-      <div class="link" @click="goPageByRouteName('aboutUs')">About</div>
-      <div class="link" @click="goPageByRouteName('suggestion')">SuggestEdit</div>
-      <div class="link" @click="setGlobalLanguage('zh')">Chinese</div>
-      <div class="link" @click="goPageByRouteName('manage/dashboard')">Login (Admin Only)</div>
-    </div>
+
+    <nav class="nav-links">
+      <div 
+        v-for="(item, index) in currentMenuItems" 
+        :key="index" 
+        class="nav-item" 
+        @click="handleNavClick(item)"
+      >
+        {{ item.label }}
+      </div>
+    </nav>
   </div>
 </template>
+
 <script>
-import {mapState, mapMutations} from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   computed: {
-    ...mapState({lang: 'language'}),
+    ...mapState({ lang: 'language' }),
+    // Generate menu items dynamically based on language
+    currentMenuItems() {
+      const isZh = this.lang === 'zh';
+      return [
+        { label: isZh ? '关于我们' : 'About', action: 'route', value: 'aboutUs' },
+        { label: isZh ? '填写建议' : 'Suggest Edit', action: 'route', value: 'suggestion' },
+        // Language Switcher
+        { label: isZh ? 'English' : '中文', action: 'lang', value: isZh ? 'en' : 'zh' },
+        // Admin Login (Simplified text)
+        { label: isZh ? '管理员' : 'Admin', action: 'route', value: 'manage/dashboard' },
+      ];
+    }
   },
   mounted() {
-    const query=JSON.parse(JSON.stringify(this.$route.query))
-    if(query?.lang && query?.lang !== this.lang){
-      this.setGlobalLanguage(query?.lang)
+    const query = this.$route.query;
+    if (query?.lang && query?.lang !== this.lang) {
+      this.setGlobalLanguage(query.lang);
     }
   },
   methods: {
-    ...mapMutations([  
-        'setLanguage',
-    ]),
-    goPageByRouteName(name){
-      this.$router.push(`/${name}`)
+    ...mapMutations(['setLanguage']),
+    
+    // Unified handler for clicks
+    handleNavClick(item) {
+      if (item.action === 'route') {
+        this.goPageByRouteName(item.value);
+      } else if (item.action === 'lang') {
+        this.setGlobalLanguage(item.value);
+      }
+    },
+    goPageByRouteName(name) {
+      // Avoid redundant navigation error
+      if (this.$route.name !== name) { 
+         this.$router.push(`/${name}`).catch(err => {}); 
+      }
     },
     setGlobalLanguage(lang) {
-      const query=JSON.parse(JSON.stringify(this.$route.query))
-      query.lang=lang
-      this.$router.replace({ path: this.$route.path, query })
+      const query = { ...this.$route.query, lang };
+      this.$router.replace({ path: this.$route.path, query });
       this.setLanguage(lang);
     }
   }
 }
 </script>
+
 <style scoped>
-.container {
-  height: 88px;
-  background: #DCDFE6;
+.header-container {
+  height: 64px; /* Reduced from 88px for a sleeker look */
+  background: #ffffff; /* White background */
   width: 100%;
-  overflow: hidden;
   display: flex;
   justify-content: space-between;
-  flex-direction: row;
-  padding: 24px 80px;
+  align-items: center; /* Vertically center everything */
+  padding: 0 40px; /* Reduced side padding */
   box-sizing: border-box;
+  /* Adds a subtle shadow for separation */
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 100;
 }
-.title-div{
-  background: #DCDFE6;
-  width:198px;
-  height:40px;
-  display:flex;
-  flex-direction:row;
-  justify-content: left;
+
+.brand-section {
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  user-select: none;
 }
-.logo{
-  display:block;
-  width:40px;
-  height:40px;
+
+.logo {
+  width: 32px; /* Slightly smaller to match new height */
+  height: 32px;
+  display: block;
 }
-.title-text{
-  margin-left:12px;
-  line-height:40px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
+
+.title-text {
+  margin-left: 12px;
+  font-weight: 600; /* Made slightly bolder */
+  font-size: 20px;
   color: #303133;
+  letter-spacing: 0.5px;
 }
-.links-div{
-  height:40px;
-  width: 40px;
-  display:flex;
+
+.nav-links {
+  display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  flex-grow: 1;
-  overflow: hidden;
+  align-items: center;
 }
-.link{
-  font-style: normal;
+
+.nav-item {
   font-weight: 500;
-  font-size: 16px;
-  line-height: 40px;
-  height: 40px;
-  color: #303133;
-  margin-left: 36px;
+  font-size: 15px;
+  color: #606266; /* Softer gray for text */
+  margin-left: 32px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
 }
-/* .link:active {
+
+.nav-item:hover {
   color: #0073FF;
-} */
-.link:hover {
-  color: #0073FF;
-  transition: 200ms ease-in-out;
+}
+
+/* Optional: Add a small active indicator on hover */
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #0073FF;
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%;
 }
 </style>
-
-
