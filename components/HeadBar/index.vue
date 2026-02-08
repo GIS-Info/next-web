@@ -72,7 +72,7 @@ export default {
 <style scoped>
 .header-container {
   height: 64px; /* Reduced from 88px for a sleeker look */
-  background: #ffffff; /* White background */
+  background: #DCDFE6; /* White background */
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -142,3 +142,4 @@ export default {
   width: 100%;
 }
 </style>
+
