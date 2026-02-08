@@ -12,14 +12,29 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        shell: bash
+        run: |
+          set -e
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 43.154.149.214 >> ~/.ssh/known_hosts
+
       - name: Deploy on server
         shell: bash
         run: |
+          set -e
+          ssh -i ~/.ssh/id_rsa ubuntu@43.154.149.214 << 'EOF'
           set -e
           cd /home/lighthouse/proj/next-web
           sudo git pull
           sudo yarn install --frozen-lockfile
           sudo yarn build
           sudo pm2 reload all || sudo pm2 start npm -- run start
+          EOF
