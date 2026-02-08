@@ -1,0 +1,25 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron: "0 0 * * *" # Daily 00:00 UTC
+
+concurrency:
+  group: deploy-next-web
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Deploy on server
+        shell: bash
+        run: |
+          set -e
+          cd /home/lighthouse/proj/next-web
+          sudo git pull
+          sudo yarn install --frozen-lockfile
+          sudo yarn build
+          sudo pm2 reload all || sudo pm2 start npm -- run start
