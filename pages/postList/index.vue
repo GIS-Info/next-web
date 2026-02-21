@@ -1,458 +1,342 @@
 <template>
   <client-only>
-    <main v-loading="loading" class="post-list-container">
-      <!-- 错误提示 -->
-      <div v-if="errorMsg" class="error-banner">
-        {{ errorMsg }}
-        <button @click="errorMsg = ''">×</button>
-      </div>
-
-      <!-- List Section -->
-      <section class="content-area">
-        <div v-if="postListData.length === 0 && !loading" class="empty-state">
-          <p>{{ lang === 'zh' ? '暂无数据' : 'No data available' }}</p>
-          <button @click="resetQueryParams" class="text-btn">
-            {{ lang === 'zh' ? '重置筛选' : 'Reset filters' }}
-          </button>
-        </div>
-
-        <div v-else class="posts-wrapper">
-          <article
-            v-for="post in postListData"
-            :key="post.event_id"
-            class="post-card"
-            @click="goPost(post.event_id)"
-          >
-            <h2 class="post-title">{{ displayTitle(post) }}</h2>
-            <p class="post-description">{{ cleanDescription(post.description) }}</p>
-            <div class="post-meta">
-              <span class="meta-country">
-                <strong>{{ displayCountry(post) }}</strong>
-              </span>
-              <time class="meta-date">
-                {{ lang === 'zh' ? '发布于' : 'Published on' }}
-                <strong>{{ post.date || (lang === 'zh' ? '未知时间' : 'Unknown') }}</strong>
-              </time>
-            </div>
-          </article>
-        </div>
-
-        <el-pagination
-          v-if="totalCount > pageSize"
-          background
-          layout="prev, pager, next"
-          :current-page="queryParams.pageIndex"
-          :total="totalCount"
-          :page-size="pageSize"
-          @current-change="handlePageChange"
-          class="pagination"
-        />
-      </section>
-
-      <!-- Filter Sidebar -->
-      <aside class="filter-sidebar">
-        <button 
-          class="filter-btn reset-btn" 
-          @click="resetQueryParams"
-          :disabled="!hasActiveFilters"
-        >
-          {{ lang === 'zh' ? '重置搜索条件' : 'Reset search criteria' }}
-        </button>
-
-        <!-- Content Search -->
-        <div class="filter-block">
-          <h3 class="filter-title">{{ lang === 'zh' ? '按内容搜索' : 'Search By Content' }}</h3>
-          <div class="search-box">
-            <input
-              v-model="searchQuery"
-              type="text"
-              class="search-input"
-              :placeholder="lang === 'zh' ? '输入关键词...' : 'Enter keywords...'"
-              @keyup.enter="handleSearch"
-            />
-            <button class="search-btn" @click="handleSearch">
-              <svg class="search-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Date Filter -->
-        <div class="filter-block">
-          <h3 class="filter-title">{{ lang === 'zh' ? '按截止时间搜索' : 'Search by Deadline' }}</h3>
-          <div class="by-date">
-            <el-date-picker
-              v-model="selectedDate"
-              type="month"
-              :editable="false"
-              :placeholder="lang === 'zh' ? '选择月' : 'Select Month'"
-              value-format="yyyy-MM"
-              @change="handleDateChange"
-              style="width: 100%"
-            />
-          </div>
-        </div>
-
-        <!-- Field Filter -->
-        <div class="filter-block">
-          <h3 class="filter-title">{{ lang === 'zh' ? '按专业领域搜索' : 'Search by Field' }}</h3>
-          <div class="field-tags">
-            <button
-              v-for="field in fields"
-              :key="field.key"
-              class="field-btn"
-              :class="{ active: queryParams.label === field.key }"
-              @click="handleLabelChange(field.key)"
+    <el-main v-loading="loading" class="main-container">
+      <div class="content-wrapper">
+        
+        <div class="list-section">
+          <div v-if="postListData.length > 0">
+            <div
+              v-for="post in postListData"
+              :key="post.event_id"
+              class="entry-card"
+              @click="goPost(post.event_id)"
             >
-              {{ lang === 'zh' ? field.labelZh : field.labelEn }}
-            </button>
+              <div class="entry-title">
+                {{ (lang == 'zh' ? post.title_cn : post.title_en) || '-' }}
+              </div>
+              <div class="entry-content-brief">{{ post?.description || '-' }}</div>
+              <div class="entry-bottom-flex">
+                <span>
+                  <b>{{ (lang == 'zh' ? post.country_cn : post.country_en) || '-' }}</b>
+                </span>
+                <span>
+                  {{ lang == 'zh' ? '发布于' : 'Published on' }}
+                  <b class="date-text">{{ post.date || (lang == 'zh' ? '未知时间' : 'Unknown') }}</b>
+                </span>
+              </div>
+            </div>
+
+            <el-pagination
+              class="pagination-container"
+              background
+              layout="prev, pager, next"
+              :current-page="queryParams.pageIndex"
+              :total="totalCount"
+              :page-size="pageSize"
+              @current-change="handlePageChange"
+            />
+          </div>
+
+          <el-empty 
+            v-else-if="!loading" 
+            :description="lang === 'zh' ? '暂无数据' : 'No Data Found'"
+          />
+        </div>
+
+        <div class="filter-sidebar">
+          <el-button class="button-reset" @click="resetQueryParams">
+            {{ lang == 'en' ? 'Reset search criteria' : '重置搜索条件' }}
+          </el-button>
+
+          <div class="filter-group">
+            <div class="filter-title">
+              {{ lang == 'zh' ? "按内容搜索" : "Search By Content" }}
+              <hr />
+            </div>
+            <div class="search-bar">
+              <input
+                v-model="queryString"
+                type="text"
+                class="search-input"
+                :placeholder="lang == 'zh' ? '输入关键词...' : 'Keywords...'"
+                @keyup.enter="handleTextChange"
+              />
+              <button class="button-search-icon" @click="handleTextChange">
+                <svg viewBox="0 0 20 20" height="18" width="18">
+                  <path fill="currentColor" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-title">
+              {{ lang == 'zh' ? "按截止时间搜索" : "Search by Deadline" }}
+              <hr />
+            </div>
+            <el-date-picker
+              v-model="date"
+              type="month"
+              style="width: 100%"
+              value-format="yyyy-M"
+              :placeholder="lang === 'zh' ? '选择月份' : 'Select Month'"
+              @change="handleDateChange"
+            />
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-title">
+              {{ lang == 'zh' ? "按专业领域搜索" : "Search by Field" }}
+              <hr />
+            </div>
+            <div class="field-grid">
+              <el-button 
+                v-for="f in fieldOptions" 
+                :key="f.id"
+                :class="['button-field', { 'is-active': queryParams.label === f.id }]"
+                @click="handleLabelChange(f.id)"
+              >
+                {{ lang == 'zh' ? f.zh : f.en }}
+              </el-button>
+            </div>
           </div>
         </div>
-      </aside>
-    </main>
+
+      </div>
+    </el-main>
   </client-only>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
-// 简单的防抖函数（不依赖 lodash）
-function debounce(fn, delay) {
-  let timer = null
-  return function (...args) {
-    if (timer) clearTimeout(timer)
-    timer = setTimeout(() => {
-      fn.apply(this, args)
-    }, delay)
-  }
-}
+import { mapState } from 'vuex';
 
 export default {
   name: 'PostList',
-  
   data() {
     return {
       postListData: [],
+      queryString: '',
       pageSize: 7,
       totalCount: 0,
-      loading: false,
-      errorMsg: '',
-      
+      date: '',
+      loading: true,
+      searchTimer: null,
       queryParams: {
         pageIndex: 1,
         queryString: '',
+        label: '',
         year: '',
-        month: '',
-        label: ''
+        month: ''
       },
-      
-      searchQuery: '',
-      selectedDate: '',
-      
-      fields: [
-        { key: 'gis', labelZh: '地理信息科学', labelEn: 'GIScience' },
-        { key: 'rs', labelZh: '遥感', labelEn: 'Remote Sensing' },
-        { key: 'physical_geo', labelZh: '自然地理学', labelEn: 'Physical Geography' },
-        { key: 'human_geo', labelZh: '人文地理学', labelEn: 'Human Geography' },
-        { key: 'urban', labelZh: '城市规划', labelEn: 'Urban Planning' },
-        { key: 'gnss', labelZh: '卫星导航', labelEn: 'GNSS' }
+      fieldOptions: [
+        { id: 'gis', zh: '地理信息科学', en: 'GIScience' },
+        { id: 'rs', zh: '遥感', en: 'Remote Sensing' },
+        { id: 'physical_geo', zh: '自然地理学', en: 'Physical Geo' },
+        { id: 'human_geo', zh: '人文地理学', en: 'Human Geo' },
+        { id: 'urban', zh: '城市规划', en: 'Urban Planning' },
+        { id: 'gnss', zh: '卫星导航', en: 'GNSS' }
       ]
-    }
+    };
   },
-
+  head() {
+    return { title: 'GISphere | 资讯' };
+  },
   computed: {
     ...mapState({ lang: 'language' }),
-    
-    hasActiveFilters() {
-      return this.queryParams.queryString || 
-             this.queryParams.label || 
-             this.queryParams.year
+  },
+  watch: {
+    // Debounced search for the text input
+    queryString(newVal) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = setTimeout(() => {
+        this.handleTextChange();
+      }, 500);
     }
   },
-
-  mounted() {
-    console.log('PostList component mounted')
-    this.initializeData()
+  async mounted() {
+    const stored = sessionStorage.getItem('queryParams');
+    if (stored) {
+      this.queryParams = JSON.parse(stored);
+      this.queryString = this.queryParams.queryString || '';
+      if (this.queryParams.year && this.queryParams.month) {
+        this.date = `${this.queryParams.year}-${this.queryParams.month}`;
+      }
+    } else {
+      this.queryParams.queryType = this.$route.query?.type || '';
+    }
+    await this.queryByParams();
   },
-
   methods: {
-    // 初始化数据（从 sessionStorage 或 URL）
-    initializeData() {
+    async queryByParams() {
+      this.loading = true;
       try {
-        const stored = sessionStorage.getItem('queryParams')
-        if (stored) {
-          const parsed = JSON.parse(stored)
-          this.queryParams = { ...this.queryParams, ...parsed }
-          this.searchQuery = this.queryParams.queryString || ''
-          if (this.queryParams.year && this.queryParams.month) {
-            this.selectedDate = `${this.queryParams.year}-${this.queryParams.month}`
-          }
-        } else if (this.$route.query?.type) {
-          this.queryParams.type = this.$route.query.type
-        }
-      } catch (e) {
-        console.error('Restore state error:', e)
-      }
-      
-      // 初始加载
-      this.fetchData()
-    },
-
-    // 保存状态
-    saveState() {
-      try {
-        sessionStorage.setItem('queryParams', JSON.stringify(this.queryParams))
-      } catch (e) {
-        console.error('Save state error:', e)
-      }
-    },
-
-    // 获取数据
-    async fetchData() {
-      this.loading = true
-      this.errorMsg = ''
-      
-      try {
-        console.log('Fetching with params:', this.queryParams)
-        const res = await this.$axios.post('/api/post_by_params', this.queryParams)
-        
+        const res = await this.$axios.post('api/post_by_params', this.queryParams);
         if (res?.data?.code === 0) {
-          this.postListData = res.data.data.map(item => ({
-            ...item,
-            description: this.cleanDescription(item.description)
-          }))
-          this.totalCount = res.data.count
-          this.saveState()
+          this.postListData = res.data.data.map((i) => ({
+            ...i,
+            description: i.description
+              ? i.description.replace(/<\/?[^>]+(>|$)/g, '').replace(/\\n/g, '')
+              : ''
+          }));
+          this.totalCount = res.data.count;
         } else {
-          this.errorMsg = res?.data?.msg || 'Request failed'
+          console.error('Request Error:', res.msg);
         }
-      } catch (error) {
-        console.error('Fetch error:', error)
-        this.errorMsg = error.message || 'Network error'
+      } catch (err) {
+        console.error('Network Error:', err);
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
-
-    // 防抖搜索
-    handleSearch: debounce(function() {
-      this.queryParams.queryString = this.searchQuery
-      this.queryParams.pageIndex = 1
-      this.fetchData()
-    }, 300),
-
-    handleDateChange(date) {
-      if (date) {
-        const [year, month] = date.split('-')
-        this.queryParams.year = year
-        this.queryParams.month = month
+    async resetQueryParams() {
+      this.queryParams = { pageIndex: 1, queryString: '', label: '', year: '', month: '' };
+      this.queryString = '';
+      this.date = '';
+      sessionStorage.removeItem('queryParams');
+      await this.queryByParams();
+    },
+    handleTextChange() {
+      this.queryParams.queryString = this.queryString;
+      this.queryParams.pageIndex = 1;
+      this.queryByParams();
+    },
+    handleDateChange() {
+      if (this.date) {
+        const [year, month] = this.date.split('-');
+        this.$set(this.queryParams, 'year', year);
+        this.$set(this.queryParams, 'month', month);
       } else {
-        this.queryParams.year = ''
-        this.queryParams.month = ''
+        this.queryParams.year = '';
+        this.queryParams.month = '';
       }
-      this.queryParams.pageIndex = 1
-      this.fetchData()
+      this.queryParams.pageIndex = 1;
+      this.queryByParams();
     },
-
     handleLabelChange(label) {
-      // 切换选择
-      this.queryParams.label = this.queryParams.label === label ? '' : label
-      this.queryParams.pageIndex = 1
-      this.fetchData()
+      // Toggle logic: click again to deselect
+      this.queryParams.label = this.queryParams.label === label ? '' : label;
+      this.queryParams.pageIndex = 1;
+      this.queryByParams();
     },
-
-    handlePageChange(page) {
-      this.queryParams.pageIndex = page
-      this.fetchData()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+    handlePageChange(i) {
+      this.queryParams.pageIndex = i;
+      this.queryByParams();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
-
-    resetQueryParams() {
-      this.queryParams = {
-        pageIndex: 1,
-        queryString: '',
-        year: '',
-        month: '',
-        label: ''
-      }
-      this.searchQuery = ''
-      this.selectedDate = ''
-      this.fetchData()
-    },
-
     goPost(id) {
-      this.saveState()
-      this.$router.push(`/post/${id}`)
-    },
-
-    displayTitle(post) {
-      if (!post) return '-'
-      return this.lang === 'zh' ? (post.title_cn || '-') : (post.title_en || '-')
-    },
-
-    displayCountry(post) {
-      if (!post) return '-'
-      return this.lang === 'zh' ? (post.country_cn || '-') : (post.country_en || '-')
-    },
-
-    cleanDescription(desc) {
-      if (!desc) return '-'
-      return String(desc)
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/\\n/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .substring(0, 200) + (String(desc).length > 200 ? '...' : '')
+      sessionStorage.setItem('queryParams', JSON.stringify(this.queryParams));
+      this.$router.push('/post/' + id);
     }
   }
-}
+};
 </script>
 
 <style scoped>
-/* 基础样式 - 确保即使其他样式失效也能看到内容 */
-.post-list-container {
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', Arial, sans-serif;
+.main-container {
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.content-wrapper {
+  display: flex;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f7fa;
-  min-height: 100vh;
-  display: flex;
+  padding: 40px 20px;
   gap: 30px;
 }
 
-.content-area {
-  flex: 1;
-  min-width: 0; /* 防止 flex item 溢出 */
+/* List Styles */
+.list-section {
+  flex: 3;
 }
 
-.filter-sidebar {
-  width: 300px;
-  flex-shrink: 0;
-}
-
-/* 错误提示 */
-.error-banner {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #f56c6c;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* 文章卡片 */
-.posts-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.post-card {
-  background: white;
-  border-radius: 8px;
+.entry-card {
+  background: #ffffff;
+  border-radius: 12px;
   padding: 20px;
+  margin-bottom: 15px;
+  text-align: left;
   cursor: pointer;
-  transition: all 0.3s;
-  border: 1px solid #ebeef5;
+  transition: all 0.2s ease-in-out;
+  border-left: 5px solid transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.post-card:hover {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+.entry-card:hover {
+  transform: translateX(5px);
+  border-left-color: #53389e;
+  box-shadow: 0 4px 12px rgba(83, 56, 158, 0.15);
 }
 
-.post-title {
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  color: #303133;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.entry-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
 }
 
-.post-description {
-  margin: 0 0 10px 0;
-  font-size: 14px;
-  color: #909399;
-  line-height: 1.5;
+.entry-content-brief {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.post-meta {
+.entry-bottom-flex {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: #606266;
+  font-size: 0.85rem;
+  color: #95a5a6;
+  padding-top: 10px;
+  border-top: 1px solid #f9f9f9;
 }
 
-/* 筛选栏 */
-.filter-block {
-  background: white;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+/* Sidebar Styles */
+.filter-sidebar {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.filter-group {
+  margin-bottom: 25px;
 }
 
 .filter-title {
-  font-size: 16px;
   font-weight: bold;
-  margin: 0 0 12px 0;
-  color: #303133;
-  border-bottom: 2px solid #53389e;
-  padding-bottom: 8px;
+  font-size: 0.9rem;
+  color: #53389e;
+  text-align: left;
+  margin-bottom: 15px;
 }
 
-.filter-btn {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 16px;
-  border: 1px solid #dcdfe6;
-  background: white;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
+.filter-title hr {
+  border: none;
+  border-top: 2px solid #53389e;
+  width: 30px;
+  margin: 5px 0 0 0;
 }
 
-.filter-btn:hover:not(:disabled) {
-  background: #53389e;
-  color: white;
-  border-color: #53389e;
-}
-
-.filter-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* 搜索框 */
-.search-box {
+.search-bar {
+  position: relative;
   display: flex;
-  gap: 8px;
 }
 
 .search-input {
-  flex: 1;
-  height: 36px;
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border-radius: 8px;
   border: 1px solid #dcdfe6;
-  border-radius: 18px;
-  padding: 0 12px;
   outline: none;
 }
 
@@ -460,91 +344,56 @@ export default {
   border-color: #53389e;
 }
 
-.search-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: #53389e;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-icon {
-  width: 16px;
-  height: 16px;
-  fill: white;
-}
-
-/* 领域标签 */
-.field-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.field-btn {
-  flex: 1 0 40%;
-  padding: 8px 12px;
-  border: 1px solid #dcdfe6;
-  background: white;
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.3s;
-  color: #606266;
-}
-
-.field-btn:hover {
-  border-color: #53389e;
-  color: #53389e;
-}
-
-.field-btn.active {
-  background: #53389e;
-  color: white;
-  border-color: #53389e;
-}
-
-/* 空状态 */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: #909399;
-}
-
-.text-btn {
-  color: #53389e;
+.button-search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
+  color: #909399;
   cursor: pointer;
-  text-decoration: underline;
-  margin-top: 10px;
 }
 
-/* 分页 */
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-/* 响应式 */
-@media (max-width: 768px) {
-  .post-list-container {
-    flex-direction: column;
+.button-field {
+  margin: 0 !important;
+  font-size: 0.75rem;
+  padding: 10px 5px;
+  border-radius: 8px;
+}
+
+.button-field.is-active {
+  background-color: #53389e;
+  color: #fff;
+  border-color: #53389e;
+}
+
+.button-reset {
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.pagination-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .content-wrapper {
+    flex-direction: column-reverse;
   }
-  
   .filter-sidebar {
+    position: static;
     width: 100%;
-    order: -1;
-  }
-  
-  .field-btn {
-    flex: 1 0 100%;
+    box-sizing: border-box;
   }
 }
 </style>
