@@ -1,16 +1,14 @@
 <template>
   <div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-1 -1 120 70" preserveAspectRatio="xMidYMid slice" class="svg">
-      <g v-for="(line, xindex) in arr" :key="xindex" :transform="`translate(${xindex},0)`">
-          <circle v-for=" y in line" :key='`${xindex}-${y}`' cx="0" :cy="y" r="0.3" fill="#404144">
-              <animate
-                attributeName="fill"
-                values="#404144;#404144;#404144;#f7c800;#404144;#404144;#404144;"
-                dur="4s"
-                :begin="`${(xindex/160)*4}s`"
-                repeatCount="indefinite"
-              />
-          </circle>
+    <svg v-once xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-1 -1 120 70" preserveAspectRatio="xMidYMid slice" class="svg">
+      <g
+        v-for="(line, xindex) in arr"
+        :key="xindex"
+        :transform="`translate(${xindex},0)`"
+        class="map-col"
+        :style="{ animationDelay: `${(xindex / arr.length) * duration}s` }"
+      >
+          <circle v-for="y in line" :key='`${xindex}-${y}`' cx="0" :cy="y" r="0.3" fill="currentColor" />
       </g>
     </svg>
   </div>
@@ -18,23 +16,27 @@
 
 <script>
 import json from './map.json'
+
+const COLUMN_ANIMATION_DURATION = 4
+const MAP_COLUMNS = Object.freeze(
+  json.data.split(',').map((line) => {
+    const parsedLine = []
+    line.split('').forEach((v, index) => {
+      if (v === '1') {
+        parsedLine.push(index)
+      }
+    })
+    return Object.freeze(parsedLine)
+  })
+)
+
 export default {
   data() {
     return {
-      arr: [[]],
+      arr: MAP_COLUMNS,
+      duration: COLUMN_ANIMATION_DURATION,
     }
   },
-  created(){
-      this.arr = json.data.split(',').map(line=>{
-        const nline = []
-        line.split('').forEach((v,index) => {
-          if(v === '1'){
-            nline.push(index)
-          }
-        });
-        return nline;
-      });
-  }
 }
 </script>
 <style scoped>
@@ -46,5 +48,22 @@ export default {
   position: absolute;
   top: 0px;
   z-index: -1;
+}
+
+.map-col {
+  color: #404144;
+  animation: col-wave 4s linear infinite;
+}
+
+@keyframes col-wave {
+  0%, 35%, 100% {
+    color: #404144;
+  }
+  45% {
+    color: #f7c800;
+  }
+  55% {
+    color: #404144;
+  }
 }
 </style>
