@@ -33,8 +33,15 @@ jobs:
           ssh -i ~/.ssh/id_rsa ubuntu@43.154.149.214 << 'EOF'
           set -e
           cd /home/lighthouse/proj/next-web
-          sudo git pull
-          sudo yarn install --frozen-lockfile
-          sudo yarn build
-          sudo pm2 reload all || sudo pm2 start npm -- run start
+          git pull
+          yarn install --frozen-lockfile
+          yarn build
+
+          # Keep a single named PM2 app to avoid duplicate node processes.
+          if pm2 describe next-web > /dev/null 2>&1; then
+            pm2 restart next-web --update-env
+          else
+            pm2 start npm --name next-web -- run start
+          fi
+          pm2 save
           EOF
