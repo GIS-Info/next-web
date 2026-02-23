@@ -2,9 +2,10 @@ name: Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   schedule:
     - cron: "0 0 * * *" # Daily 00:00 UTC
+  workflow_dispatch:
 
 concurrency:
   group: deploy-next-web
