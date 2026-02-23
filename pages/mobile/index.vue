@@ -46,9 +46,6 @@
             <el-button class="big-button" @click="goToUniversityList"
               >Institutions</el-button
             >
-            <el-button class="big-button" @click="goToForum"
-              >Forum</el-button
-            >
           </div>
         </div>
       </div>
