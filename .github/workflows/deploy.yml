@@ -39,6 +39,9 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
 
+          # Repair PM2 ownership if previous deployments ran PM2 with sudo/root.
+          sudo chown -R lighthouse:lighthouse /home/lighthouse/.pm2
+
           # Keep a single named PM2 app to avoid duplicate node processes.
           if pm2 describe next-web > /dev/null 2>&1; then
             pm2 restart next-web --update-env
