@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          ssh -i ~/.ssh/id_rsa ubuntu@43.154.149.214 << 'EOF'
+          ssh -i ~/.ssh/id_rsa lighthouse@43.154.149.214 << 'EOF'
           set -e
           cd /home/lighthouse/proj/next-web
           git pull
