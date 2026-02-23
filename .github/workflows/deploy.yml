@@ -34,7 +34,8 @@ jobs:
           ssh -i ~/.ssh/id_rsa lighthouse@43.154.149.214 << 'EOF'
           set -e
           cd /home/lighthouse/proj/next-web
-          git pull
+          git fetch origin main
+          git reset --hard origin/main
           yarn install --frozen-lockfile
           yarn build
 
