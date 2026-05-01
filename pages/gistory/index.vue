@@ -13,7 +13,7 @@
         </h1>
         <p class="page-subtitle">
           Conversations with geographers, scientists, and practitioners shaping
-          the future of geographic information science.
+          the future of GIScience.
         </p>
         <div class="header-meta">
           <span class="meta-item">
