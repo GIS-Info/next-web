@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-detail">
-    <div v-if="loading">加载中...</div>
+    <div v-if="loading">loading...</div>
     <div v-else v-html="renderedContent" class="markdown-content"></div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       const res = await this.$axios.get(decodeURIComponent(url))
       this.renderedContent = marked(res.data)
     } catch (err) {
-      console.error('加载失败', err)
+      console.error('wrong', err)
       this.renderedContent = '<p>❌ 加载失败</p>'
     } finally {
       this.loading = false
