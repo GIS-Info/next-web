@@ -145,13 +145,29 @@ export default {
   },
   methods: {
     extractFirstImage(content) {
+      // 提取 HTML 格式的图片链接
       const imageRegex = /<img[^>]+src="([^">]+)"/i;
+      // 提取 Markdown 格式的图片链接
       const mdImageRegex = /!\[.*?\]\((.*?)\)/;
+      let imageUrl = null;
       const htmlMatch = content.match(imageRegex);
-      if (htmlMatch) return htmlMatch[1];
-      const mdMatch = content.match(mdImageRegex);
-      if (mdMatch) return mdMatch[1];
-      return null;
+      if (htmlMatch) {
+        imageUrl = htmlMatch[1];
+      } else {
+        const mdMatch = content.match(mdImageRegex);
+        if (mdMatch) imageUrl = mdMatch[1];
+      }
+      // 如果没找到图片，返回 null
+      if (!imageUrl) return null;
+      if (imageUrl.startsWith('./')) {
+        // 将其替换为GitHub 仓库的 Raw 原文件绝对地址
+        const githubRawBaseUrl = 'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
+        return imageUrl.replace('./', githubRawBaseUrl + '/');
+      }
+      if (imageUrl.includes('.r2.dev')) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}`;
+      }
+      return imageUrl;
     },
     extractTitle(content) {
       const lines = content.split('\n');
