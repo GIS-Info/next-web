@@ -1,253 +1,185 @@
 <template>
-  <div class="gistory-detail-page">
-    <!-- Back navigation -->
-    <nav class="detail-nav">
-      <button class="back-btn" @click="goBack">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Back to GIStory</span>
-      </button>
-    </nav>
-
-    <!-- Loading state -->
+  <div class="detail-page">
+    <!-- Loading -->
     <div v-if="loading" class="loading-state">
       <div class="loading-pulse"></div>
-      <p>Loading interview…</p>
+      <p>Loading story…</p>
     </div>
 
-    <!-- Error state -->
+    <!-- Error -->
     <div v-else-if="error" class="error-state">
-      <div class="error-icon">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="20" stroke="var(--accent)" stroke-width="1.5"/>
-          <path d="M16 16l16 16M32 16L16 32" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h2>Failed to load article</h2>
-      <p>{{ error }}</p>
-      <button class="retry-btn" @click="loadArticle">Retry</button>
+      <p class="error-title">Failed to load this interview</p>
+      <p class="error-message">{{ error }}</p>
+      <button class="back-button" @click="goBack">← Back to all interviews</button>
     </div>
 
-    <!-- Article content -->
-    <article v-else class="article-container">
-      <!-- Header info -->
+    <!-- Article -->
+    <article v-else class="article">
+      <!-- Top nav: back link -->
+      <div class="article-topbar">
+        <button class="back-link" @click="goBack" aria-label="Back to list">
+          <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
+            <path d="M16 4H2M5 1L2 4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>All interviews</span>
+        </button>
+      </div>
+
+      <!-- Header -->
       <header class="article-header">
-        <span class="article-issue">{{ issueLabel }}</span>
-        <h1 class="article-title">{{ cleanTitle }}</h1>
-        <div class="article-meta">
-          <span class="meta-date">{{ publishDate }}</span>
+        <div class="header-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text">{{ issueLabel }} · GIStory</span>
+          <span class="eyebrow-line"></span>
         </div>
+        <h1 class="article-title">{{ cleanTitle }}</h1>
       </header>
 
-      <!-- Featured image -->
-      <div v-if="featuredImage" class="article-hero-image">
-        <img
-          :src="featuredImage"
-          :alt="cleanTitle"
-          @error="handleImageError"
-        />
-      </div>
-
-      <!-- Markdown content -->
+      <!-- Body — rendered markdown -->
       <div class="article-body markdown-body" v-html="renderedContent"></div>
+
+      <!-- Footer -->
+      <footer class="article-footer">
+        <div class="footer-divider">
+          <span>End of interview</span>
+        </div>
+        <button class="back-button" @click="goBack">← Back to all interviews</button>
+      </footer>
     </article>
   </div>
 </template>
 
 <script>
-import MarkdownIt from 'markdown-it';
+import { marked } from 'marked';
 
 export default {
-  name: 'GistoryDetail',
   data() {
     return {
       loading: true,
       error: null,
-      rawMarkdown: '',
-      articleUrl: '',
-      featuredImage: null,
+      rawContent: '',
+      fileName: '',
     };
   },
   computed: {
-    issueLabel() {
-      const filename = this.getFilenameFromUrl();
-      const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
-      return `Issue ${String(num).padStart(2, '0')}`;
-    },
-    cleanTitle() {
-      const title = this.extractTitle(this.rawMarkdown);
-      return title.replace(/^GIStory\s+Issue\s+\d+\s*\|\s*/i, '').trim();
-    },
-    publishDate() {
-      const filename = this.getFilenameFromUrl();
-      const match = filename.match(/\d+/);
-      if (match) {
-        const issueNum = parseInt(match[0], 10);
-        // 假设 Issue 1 是 2024年1月，每月一期
-        const baseYear = 2024;
-        const baseMonth = 0; // January
-        const monthOffset = issueNum - 1;
-        const date = new Date(baseYear, baseMonth + monthOffset, 1);
-        return date.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-        });
-      }
-      return '';
-    },
+    /** Render the cleaned markdown to HTML */
     renderedContent() {
-      if (!this.rawMarkdown) return '';
-
-      // 先清洗 markdown 中的图片路径
-      const cleanedMarkdown = this.formatMarkdownImages(this.rawMarkdown);
-
-      // 使用 markdown-it 渲染
-      const md = new MarkdownIt({
-        html: true,
-        linkify: true,
-        typographer: true,
-      });
-
-      return md.render(cleanedMarkdown);
+      if (!this.rawContent) return '';
+      const cleaned = this.formatMarkdownImages(this.rawContent);
+      return marked.parse(cleaned, { breaks: true, gfm: true });
     },
-  },
-  mounted() {
-    this.loadArticle();
-  },
-  methods: {
-    // ═══════════════════════════════════════
-    // 核心：图片路径清洗方法
-    // ═══════════════════════════════════════
-    formatMarkdownImages(rawContent) {
-      const githubRawBaseUrl = 'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
-
-      // 1. 替换 Markdown 格式的图片: ![alt](./images/1.png) 或 ![alt](https://...r2.dev/1.png)
-      let processedContent = rawContent.replace(
-        /!\[([^\]]*)\]\(([^)]+)\)/g,
-        (match, alt, url) => {
-          let newUrl = url.trim();
-
-          if (newUrl.startsWith('./')) {
-            // 替换相对路径：./images/xxx.png → https://raw.githubusercontent.com/.../images/xxx.png
-            newUrl = newUrl.replace('./', githubRawBaseUrl + '/');
-          } else if (newUrl.includes('.r2.dev')) {
-            // 替换 R2 测试域名（使用 wsrv.nl 代理洗白证书）
-            newUrl = `https://wsrv.nl/?url=${encodeURIComponent(newUrl)}`;
-          }
-
-          return `![${alt}](${newUrl})`;
-        }
-      );
-
-      // 2. 替换 HTML 格式的图片: <img src="./images/1.png">
-      processedContent = processedContent.replace(
-        /<img([^>]+)src="([^"]+)"([^>]*)>/gi,
-        (match, before, url, after) => {
-          let newUrl = url.trim();
-
-          if (newUrl.startsWith('./')) {
-            // 替换相对路径
-            newUrl = newUrl.replace('./', githubRawBaseUrl + '/');
-          } else if (newUrl.includes('.r2.dev')) {
-            // 替换 R2 测试域名
-            newUrl = `https://wsrv.nl/?url=${encodeURIComponent(newUrl)}`;
-          }
-
-          return `<img${before}src="${newUrl}"${after}>`;
-        }
-      );
-
-      return processedContent;
+    /** "9.md" -> "Issue 09" */
+    issueLabel() {
+      const num = parseInt(this.fileName.match(/\d+/)?.[0] || 0, 10);
+      return num ? `Issue ${String(num).padStart(2, '0')}` : 'Issue';
     },
-
-    // ═══════════════════════════════════════
-    // 加载文章
-    // ═══════════════════════════════════════
-    async loadArticle() {
-      this.loading = true;
-      this.error = null;
-
-      try {
-        // 从 URL query 参数获取文章地址
-        const urlParam = this.$route.query.url;
-        if (!urlParam) {
-          throw new Error('No article URL provided');
-        }
-
-        this.articleUrl = decodeURIComponent(urlParam);
-
-        // 获取 markdown 内容
-        const res = await this.$axios.get(this.articleUrl);
-        this.rawMarkdown = res.data;
-
-        // 提取首图用于 hero 展示
-        this.featuredImage = this.extractFirstImage(this.rawMarkdown);
-
-      } catch (err) {
-        console.error('加载文章失败:', err);
-        this.error = err.message || 'Failed to load article content';
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    // ═══════════════════════════════════════
-    // 辅助方法
-    // ═══════════════════════════════════════
-    getFilenameFromUrl() {
-      if (!this.articleUrl) return '';
-      return this.articleUrl.split('/').pop() || '';
-    },
-
-    extractTitle(content) {
-      const lines = content.split('\n');
+    /** Strip "title:" / leading "# " / "GIStory Issue N | " prefix */
+    cleanTitle() {
+      const lines = this.rawContent.split('\n');
       const titleLine = lines.find(
         line => line.startsWith('title:') || line.startsWith('# ')
       );
+      let title = 'Untitled';
       if (titleLine?.startsWith('title:')) {
-        return titleLine.replace('title:', '').trim();
+        title = titleLine.replace('title:', '').trim();
       } else if (titleLine?.startsWith('# ')) {
-        return titleLine.replace('# ', '').trim();
+        title = titleLine.replace('#', '').trim();
       }
-      return 'Untitled';
+      return title.replace(/^GIStory\s+Issue\s+\d+\s*\|\s*/i, '').trim();
     },
+  },
+  async mounted() {
+    const url = this.$route.query.url;
+    if (!url) {
+      this.error = 'No article URL provided.';
+      this.loading = false;
+      return;
+    }
 
-    extractFirstImage(content) {
-      const imageRegex = /<img[^>]+src="([^">]+)"/i;
-      const mdImageRegex = /!\[.*?\]\((.*?)\)/;
+    try {
+      const decodedUrl = decodeURIComponent(url);
+      // Extract filename from the download_url (e.g. ".../main/9.md")
+      this.fileName = decodedUrl.split('/').pop() || '';
 
-      let imageUrl = null;
-      const htmlMatch = content.match(imageRegex);
-      if (htmlMatch) {
-        imageUrl = htmlMatch[1];
-      } else {
-        const mdMatch = content.match(mdImageRegex);
-        if (mdMatch) imageUrl = mdMatch[1];
-      }
+      const res = await this.$axios.get(decodedUrl);
+      this.rawContent = typeof res.data === 'string'
+        ? res.data
+        : JSON.stringify(res.data);
 
-      if (!imageUrl) return null;
+      // Strip the front-matter title line + first H1 from body, since we render
+      // the title separately in the article header.
+      this.rawContent = this.stripFrontTitle(this.rawContent);
+    } catch (err) {
+      console.error('加载文章失败:', err);
+      this.error = '无法加载这篇文章，请稍后再试。';
+    } finally {
+      this.loading = false;
+    }
+  },
+  methods: {
+    /**
+     * Rewrite image URLs inside a raw markdown string so that:
+     *   - Relative paths (`./images/x.png`) → absolute GitHub raw URLs
+     *   - R2 dev domains (`*.r2.dev/...`)  → proxied through wsrv.nl
+     * Handles BOTH markdown image syntax `![alt](url)` and HTML `<img src="url">`.
+     */
+    formatMarkdownImages(rawContent) {
+      const githubRawBaseUrl =
+        'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
 
-      // 同样对提取到的首图做路径处理
-      const githubRawBaseUrl = 'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
+      const rewriteUrl = (url) => {
+        if (!url) return url;
+        const trimmed = url.trim();
+        if (trimmed.startsWith('./')) {
+          // ./images/1.png  →  https://raw.githubusercontent.com/.../main/images/1.png
+          return githubRawBaseUrl + '/' + trimmed.slice(2);
+        }
+        if (trimmed.includes('.r2.dev')) {
+          // Route R2 dev URLs through wsrv.nl proxy to bypass cert/CORS issues
+          return `https://wsrv.nl/?url=${encodeURIComponent(trimmed)}`;
+        }
+        return trimmed;
+      };
 
-      if (imageUrl.startsWith('./')) {
-        imageUrl = imageUrl.replace('./', githubRawBaseUrl + '/');
-      } else if (imageUrl.includes('.r2.dev')) {
-        imageUrl = `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}`;
-      }
+      // 1) Markdown images: ![alt](url)
+      let out = rawContent.replace(
+        /!\[([^\]]*)\]\(([^)]+)\)/g,
+        (_match, alt, url) => `![${alt}](${rewriteUrl(url)})`
+      );
 
-      return imageUrl;
+      // 2) HTML images: <img ... src="url" ...>
+      out = out.replace(
+        /<img([^>]*?)src="([^"]+)"([^>]*)>/gi,
+        (_match, before, url, after) =>
+          `<img${before}src="${rewriteUrl(url)}"${after}>`
+      );
+
+      return out;
     },
-
-    handleImageError(e) {
-      // 图片加载失败时的处理
-      console.warn('Image failed to load:', e.target.src);
-      e.target.style.display = 'none';
+    /**
+     * Remove the leading title line (`title: ...` or `# ...`) from the
+     * markdown body since the page renders the title separately.
+     */
+    stripFrontTitle(content) {
+      const lines = content.split('\n');
+      let removed = false;
+      const filtered = lines.filter((line) => {
+        if (removed) return true;
+        if (line.startsWith('title:') || line.startsWith('# ')) {
+          removed = true;
+          return false;
+        }
+        return true;
+      });
+      return filtered.join('\n').trimStart();
     },
-
     goBack() {
-      this.$router.push('/gistory');
+      // Prefer router back, fall back to list route
+      if (window.history.length > 1) {
+        this.$router.back();
+      } else {
+        this.$router.push('/gistory');
+      }
     },
   },
 };
@@ -256,10 +188,10 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700&display=swap');
 
-/* ═══════════════════════════════════════
-   Design Tokens
-   ═══════════════════════════════════════ */
-.gistory-detail-page {
+/* ================================
+   Design Tokens (matched to list page)
+================================ */
+.detail-page {
   --ink: #1a1a1a;
   --ink-soft: #4a4a4a;
   --ink-muted: #8a8a8a;
@@ -268,57 +200,46 @@ export default {
   --rule: #eaeaea;
   --accent: #c0392b;
   --accent-deep: #8e2a20;
+  --highlight: #d4a72c;
 
   --serif: 'Montserrat', system-ui, sans-serif;
-  --sans: 'Montserrat', system-ui, sans-serif;
-  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --sans:  'Montserrat', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
 
   background: var(--paper);
   color: var(--ink);
   min-height: 100vh;
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ═══════════════════════════════════════
-   Navigation
-   ═══════════════════════════════════════ */
-.detail-nav {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 32px 24px 0;
+/* Subtle ambient tint, same as list page */
+.detail-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(192, 57, 43, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(212, 167, 44, 0.03) 0%, transparent 40%);
 }
 
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  background: none;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.back-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  transform: translateX(-2px);
-}
-
-/* ═══════════════════════════════════════
-   Loading & Error States
-   ═══════════════════════════════════════ */
+/* ================================
+   Loading & error
+================================ */
 .loading-state,
 .error-state {
   text-align: center;
-  padding: 120px 24px;
+  padding: 140px 24px;
+  color: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
 }
 
 .loading-pulse {
@@ -332,283 +253,374 @@ export default {
 
 @keyframes pulse {
   0%, 100% { transform: scale(0.8); opacity: 0.6; }
-  50% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1);   opacity: 1;   }
 }
 
-.error-state h2 {
+.error-state {
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.error-title {
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  margin: 16px 0 8px;
+  color: var(--ink);
+  margin: 0 0 12px;
 }
 
-.error-state p {
-  color: var(--ink-muted);
-  margin-bottom: 24px;
+.error-message {
+  margin: 0 0 28px;
+  color: var(--ink-soft);
 }
 
-.retry-btn {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--accent);
-  border: none;
-  border-radius: 4px;
-  padding: 12px 28px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.retry-btn:hover {
-  background: var(--accent-deep);
-}
-
-/* ═══════════════════════════════════════
-   Article Container
-   ═══════════════════════════════════════ */
-.article-container {
-  max-width: 780px;
+/* ================================
+   Article layout
+================================ */
+.article {
+  max-width: 760px;
   margin: 0 auto;
-  padding: 48px 24px 96px;
+  padding: 40px 24px 96px;
+  position: relative;
+  z-index: 1;
 }
 
-/* ═══════════════════════════════════════
-   Article Header
-   ═══════════════════════════════════════ */
+.article-topbar {
+  margin-bottom: 32px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 6px 0;
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+
+.back-link:hover {
+  color: var(--accent);
+  gap: 14px;
+}
+
+/* ================================
+   Article header
+================================ */
 .article-header {
   text-align: center;
-  margin-bottom: 48px;
-  padding-bottom: 40px;
+  padding: 32px 0 56px;
   border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
 }
 
-.article-issue {
-  display: inline-block;
+.header-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.eyebrow-line {
+  width: 32px;
+  height: 1px;
+  background: var(--ink-muted);
+}
+
+.eyebrow-text {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .article-title {
   font-family: var(--serif);
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(28px, 4vw, 44px);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin: 0 0 20px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
   color: var(--ink);
+  margin: 0;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.article-meta {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink-muted);
-  letter-spacing: 0.05em;
-}
-
-/* ═══════════════════════════════════════
-   Hero Image
-   ═══════════════════════════════════════ */
-.article-hero-image {
-  margin-bottom: 48px;
-  border-radius: 4px;
-  overflow: hidden;
-  background: var(--paper-warm);
-}
-
-.article-hero-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-}
-
-/* ═══════════════════════════════════════
-   Markdown Body Styles
-   ═══════════════════════════════════════ */
-.markdown-body {
-  font-family: var(--serif);
+/* ================================
+   Article body — markdown rendered content
+   (these can't be scoped to deep selectors easily,
+    so we use a wrapper class)
+================================ */
+.article-body {
+  font-family: var(--sans);
   font-size: 17px;
   line-height: 1.8;
-  color: var(--ink-soft);
-}
-
-.markdown-body :deep(h1),
-.markdown-body :deep(h2),
-.markdown-body :deep(h3),
-.markdown-body :deep(h4) {
-  font-family: var(--serif);
-  font-weight: 600;
   color: var(--ink);
-  margin-top: 48px;
-  margin-bottom: 20px;
-  line-height: 1.3;
 }
 
-.markdown-body :deep(h1) {
-  font-size: 32px;
-  letter-spacing: -0.02em;
+/* Use ::v-deep / :deep() to style the v-html'd content */
+.article-body ::v-deep(p),
+.article-body :deep(p) {
+  margin: 0 0 24px;
+  color: var(--ink-soft);
+  font-weight: 400;
 }
 
-.markdown-body :deep(h2) {
-  font-size: 26px;
+.article-body :deep(h1),
+.article-body :deep(h2),
+.article-body :deep(h3),
+.article-body :deep(h4) {
+  font-family: var(--serif);
+  color: var(--ink);
+  font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 56px 0 20px;
+}
+
+.article-body :deep(h2) {
+  font-size: 26px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--rule);
 }
 
-.markdown-body :deep(h3) {
-  font-size: 22px;
+.article-body :deep(h3) {
+  font-size: 21px;
 }
 
-.markdown-body :deep(p) {
-  margin-bottom: 20px;
+.article-body :deep(h4) {
+  font-size: 17px;
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
-.markdown-body :deep(a) {
+.article-body :deep(a) {
   color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s ease;
+  border-bottom: 1px solid rgba(192, 57, 43, 0.3);
+  transition: border-color 0.2s ease;
 }
 
-.markdown-body :deep(a:hover) {
+.article-body :deep(a:hover) {
   border-bottom-color: var(--accent);
 }
 
-/* 图片样式 */
-.markdown-body :deep(img) {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin: 32px 0;
-  display: block;
+.article-body :deep(strong) {
+  color: var(--ink);
+  font-weight: 700;
 }
 
-.markdown-body :deep(figure) {
-  margin: 32px 0;
-}
-
-.markdown-body :deep(figcaption) {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink-muted);
-  text-align: center;
-  margin-top: 12px;
-}
-
-/* 引用块 */
-.markdown-body :deep(blockquote) {
-  margin: 32px 0;
-  padding: 20px 24px;
-  border-left: 4px solid var(--accent);
-  background: var(--paper-warm);
+.article-body :deep(em) {
   font-style: italic;
+}
+
+.article-body :deep(blockquote) {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.article-body :deep(blockquote p) {
+  margin: 0 0 12px;
+  color: inherit;
+}
+
+.article-body :deep(blockquote p:last-child) {
+  margin-bottom: 0;
+}
+
+.article-body :deep(ul),
+.article-body :deep(ol) {
+  margin: 0 0 24px;
+  padding-left: 28px;
   color: var(--ink-soft);
 }
 
-.markdown-body :deep(blockquote p) {
-  margin: 0;
+.article-body :deep(li) {
+  margin-bottom: 8px;
 }
 
-/* 代码 */
-.markdown-body :deep(code) {
+.article-body :deep(li::marker) {
+  color: var(--accent);
+}
+
+.article-body :deep(hr) {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 48px 0;
+}
+
+.article-body :deep(code) {
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 0.9em;
   background: var(--paper-warm);
   padding: 2px 6px;
   border-radius: 3px;
   color: var(--accent-deep);
 }
 
-.markdown-body :deep(pre) {
-  background: #1a1a1a;
-  color: #f0f0f0;
-  padding: 24px;
+.article-body :deep(pre) {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
   border-radius: 4px;
+  padding: 18px 20px;
   overflow-x: auto;
-  margin: 32px 0;
+  margin: 0 0 24px;
 }
 
-.markdown-body :deep(pre code) {
+.article-body :deep(pre code) {
   background: none;
-  color: inherit;
   padding: 0;
+  color: var(--ink);
   font-size: 14px;
-  line-height: 1.6;
 }
 
-/* 列表 */
-.markdown-body :deep(ul),
-.markdown-body :deep(ol) {
-  margin: 20px 0;
-  padding-left: 28px;
-}
-
-.markdown-body :deep(li) {
-  margin-bottom: 8px;
-}
-
-/* 表格 */
-.markdown-body :deep(table) {
+.article-body :deep(table) {
   width: 100%;
   border-collapse: collapse;
-  margin: 32px 0;
+  margin: 0 0 32px;
   font-size: 15px;
 }
 
-.markdown-body :deep(th),
-.markdown-body :deep(td) {
-  padding: 12px 16px;
+.article-body :deep(th),
+.article-body :deep(td) {
   text-align: left;
+  padding: 12px 14px;
   border-bottom: 1px solid var(--rule);
 }
 
-.markdown-body :deep(th) {
-  font-weight: 600;
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 12px;
-  letter-spacing: 0.05em;
+.article-body :deep(th) {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 600;
   background: var(--paper-warm);
 }
 
-.markdown-body :deep(hr) {
-  border: none;
-  height: 1px;
-  background: var(--rule);
-  margin: 48px 0;
+/* Images — the main reason this page exists 🙂 */
+.article-body :deep(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 36px auto;
+  border-radius: 4px;
+  background: var(--paper-warm);
+  box-shadow: 0 12px 32px -16px rgba(26, 26, 26, 0.15);
 }
 
-/* ═══════════════════════════════════════
+/* ================================
+   Footer
+================================ */
+.article-footer {
+  margin-top: 80px;
+  padding-top: 40px;
+  text-align: center;
+}
+
+.footer-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  color: var(--ink-muted);
+}
+
+.footer-divider::before,
+.footer-divider::after {
+  content: '';
+  flex: 0 0 48px;
+  height: 1px;
+  background: var(--rule);
+}
+
+.footer-divider span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 12px 24px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ================================
    Responsive
-   ═══════════════════════════════════════ */
-@media (max-width: 640px) {
-  .article-container {
-    padding: 32px 20px 64px;
+================================ */
+@media (max-width: 720px) {
+  .article {
+    padding: 24px 20px 64px;
   }
 
-  .markdown-body {
+  .article-header {
+    padding: 16px 0 40px;
+    margin-bottom: 40px;
+  }
+
+  .article-body {
     font-size: 16px;
     line-height: 1.75;
   }
 
-  .markdown-body :deep(h1) {
-    font-size: 26px;
-  }
-
-  .markdown-body :deep(h2) {
+  .article-body :deep(h2) {
     font-size: 22px;
+    margin: 40px 0 16px;
   }
 
-  .detail-nav {
-    padding: 24px 20px 0;
+  .article-body :deep(h3) {
+    font-size: 19px;
+    margin: 36px 0 14px;
+  }
+
+  .article-body :deep(blockquote) {
+    font-size: 17px;
+    padding-left: 20px;
+  }
+
+  .article-body :deep(img) {
+    margin: 24px auto;
   }
 }
 </style>
