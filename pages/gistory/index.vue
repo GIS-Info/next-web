@@ -9,7 +9,7 @@
           <span class="eyebrow-line"></span>
         </div>
         <h1 class="page-title">
-          G<span class="title-main">GIStory</span>
+          <span class="title-main">GIStory</span>
         </h1>
         <p class="page-subtitle">
           Conversations with geographers, scientists, and practitioners shaping
