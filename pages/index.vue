@@ -1,927 +1,719 @@
 <template>
-  <div class="main" @click.right.prevent @copy.prevent @paste.prevent>
-    <div class="welcome-page">
-      <map-background />
-
-      <!-- Welcome content -->
-      <div class="welcome-content">
-        <div v-if="lang == 'zh'" class="zh-letter-spacing">
-          <div class="welcome-heading">时空桥接无限可能</div>
-          <div class="welcome-description">
-            致力于分享世界各地 GIS 相关领域教育信息
-          </div>
-          <div class="welcome-buttons">
-            <el-button
-              type="primary"
-              class="big-button explore-academic-recruiting"
-              @click="goToPostList('academic')"
-              >招生信息</el-button
-            >
-            <el-button v-if="false" @click="goToPostList('job')"
-              >招聘信息</el-button
-            >
-            <el-button
-              class="big-button explore-programs"
-              @click="goToUniversityList"
-              >院校指南</el-button
-            >
-            
-            <el-button class="big-button explore-programs" @click="goToForum"
-              >GIScience访谈</el-button
-            >
-            
-          </div>
+  <div class="gistory-page">
+    <header class="page-header">
+      <div class="header-inner">
+        <div class="header-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text">An interview series by GISphere</span>
+          <span class="eyebrow-line"></span>
         </div>
-        <div v-if="lang == 'en'" class="en-letter-spacing">
-          <div class="welcome-heading">Where GeoSpatial Thinking Shines</div>
-          <div class="welcome-description">
-            Empower GIScience and Geography education for the future
-          </div>
-          <div class="welcome-buttons cta-group">
-            <nuxt-link
-              class="cta-btn cta-primary"
-              :to="{ path: '/postList', query: { type: 'academic' } }"
-              >Academic Recruiting</nuxt-link
-            >
-            <nuxt-link class="cta-btn cta-outline" to="/school"
-              >GISphere Guide</nuxt-link
-            >
-            <nuxt-link class="cta-btn cta-outline" to="/gistory"
-              >GIStory Interview</nuxt-link
-            >
-            <!--
-
-            -->
-          </div>
-        </div>
+        <h1 class="page-title">
+          <span class="title-main">GIStory</span>
+        </h1>
+        <p class="page-subtitle">
+          Conversations with geographers, scientists, and practitioners shaping
+          the future of GIScience.
+        </p>
       </div>
-      <!-- Functional Buttons -->
-      <div class="functional-buttons">
-        <el-button class="white-book-button" round @click="goToMailingList"
-          >{{ lang == 'zh' ? '订阅邮箱' : 'Subscribe to Email' }}
-        </el-button>
-        <el-button
-          class="white-book-button explore-job-recruiting"
-          round
-          @click="$router.push('/white-book')"
-          >{{
-            lang == 'zh'
-              ? 'GISphere 留学指南 · 大数据报告白皮书'
-              : 'GISphere Global Admission Annual Review'
-          }}</el-button
-        >
-        <!-- Contact Us pop up card -->
-        <!-- ZH -->
-        <div
-          v-if="lang == 'zh'"
-          @mouseover="showContactCard = true"
-          @mouseleave="showContactCard = false"
-        >
-          <transition name="trans-content">
-            <div v-if="showContactCard" class="contact-us-card">
-              <div class="contact-us-content">
-                <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
-              </div>
-              <div class="contact-us-content">加入微信社区</div>
-              <div class="contact-us-qrcode">
-                <img src="../components/BottomBar/imgs/wechat-qrcode.png" />
-              </div>
-            </div>
-          </transition>
-          <el-button type="info" class="contact-us" round
-            >联系我们 / 加入我们</el-button
-          >
-        </div>
-        <!-- EN -->
-        <div
-          v-if="lang == 'en'"
-          @mouseover="showContactCard = true"
-          @mouseleave="showContactCard = false"
-        >
-          <transition name="trans-content">
-            <div v-if="showContactCard" class="contact-us-card">
-              <div class="contact-us-content">
-                <a href="mailto:gisphere@outlook.com"> gisphere@outlook.com </a>
-              </div>
-              <div class="contact-us-content">Join our Whatsapp</div>
-              <div class="contact-us-qrcode">
-                <img src="../static/WhatsApp.png" />
-              </div>
-            </div>
-          </transition>
-          <el-button type="info" round class="contact-us"
-            >Contact Us / Join Us</el-button
-          >
-        </div>
-      </div>
+    </header>
+
+    <div v-if="loading" class="loading-state">
+      <div class="loading-pulse"></div>
+      <p>Loading stories…</p>
     </div>
 
-    <!-- Project Introduction -->
-    <div class="field">
-      <div class="introduce-page">
-        <div class="intro-title">
-          {{ lang == 'zh' ? '项目介绍' : 'About Us' }}
-          <hr class="short-horizontal-line" />
+    <main v-else class="content">
+      <section v-if="featured" class="featured" @click="goToDetail(featured)">
+        <div class="featured-image-wrap">
+          <img
+            v-if="featured.image"
+            :src="featured.image"
+            :alt="featured.title"
+            class="featured-image"
+          />
+          <div v-else class="featured-placeholder">GIStory</div>
+          <div class="featured-badge">Latest Issue</div>
         </div>
-        <!-- <div class="intro-tag">
-          <div class="tag"><span style="color: #7944dd;">GIS</span>-Info</div>
-          <div class="tag"><span style="color: #7944dd;">GIS</span>phere</div>
-          <div class="tag"><span style="color: #7944dd;">GIS</span>ource</div>
-          <div class="tag"><span style="color: #7944dd;">GIS</span>pace</div>
-          <div class="tag"><span style="color: #7944dd;">GIS</span>alon</div>
-        </div> -->
-        <div class="intro-text-zh">
-          {{ lang == 'zh' ? projectIntroZH : projectIntroEN }}
+        <div class="featured-content">
+          <span class="featured-issue">{{ getIssueLabel(featured.name) }}</span>
+          <h2 class="featured-title">{{ getCleanTitle(featured.title) }}</h2>
+          <p class="featured-excerpt">
+            Read the latest conversation in our ongoing interview series.
+          </p>
+          <span class="featured-cta">
+            Read interview
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
+              <path d="M0 5h18M14 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
         </div>
+      </section>
 
-        <!-- Our Mission Section -->
-        <div class="intro-title" style="margin-top: 40px">
-          {{ lang == 'zh' ? '我们的使命' : 'Our Mission' }}
-          <hr class="short-horizontal-line" />
-        </div>
-        <div class="intro-text-zh">
-          <p v-if="lang == 'zh'">
-            GISphere
-            致力于在全球范围内普及地理信息科学（GIS）教育。我们由一群具有前瞻性思维的中国学生和学者于2019年创立，
-            通过促进信息的开放获取、培养学术合作以及连接研究与产业，我们的平台努力打破GIS教育中的各种障碍。
-          </p>
-          <p v-if="lang == 'zh'">
-            我们相信知识应该自由共享，通过提供一个集中的GIS相关资源、学术机会和专业网络的平台，我们旨在赋能全球的学生、
-            研究人员和专业人士。我们的最终目标是培育一个充满活力、包容性强且创新的GIS社区，推动学术界和产业界的共同进步。
-          </p>
-          <p v-if="lang == 'en'">
-            At GISphere, we are committed to democratizing access to Geographic
-            Information Science (GIS) education worldwide. Established in 2019
-            by a group of forward-thinking Chinese students and scholars, our
-            platform strives to break barriers in GIS education by promoting
-            open access to information, fostering academic collaboration, and
-            bridging the gap between research and industry.
-          </p>
-          <p v-if="lang == 'en'">
-            We believe that knowledge should be freely shared, and by providing
-            a centralized hub for GIS-related resources, academic opportunities,
-            and professional networking, we aim to empower students,
-            researchers, and professionals across the globe. Our ultimate goal
-            is to cultivate a dynamic, inclusive, and innovative GIS community
-            that drives progress in both academia and industry.
-          </p>
-        </div>
-
-        <!-- Our Journey Section -->
-        <div class="intro-title" style="margin-top: 40px">
-          {{ lang == 'zh' ? '我们的旅程' : 'Our Journey' }}
-          <hr class="short-horizontal-line" />
-        </div>
-        <div class="intro-text-zh">
-          <p v-if="lang == 'zh'">
-            GISphere
-            最初是一个专注于用中文发布GIS相关文章和社交媒体内容的平台，专为寻求地理空间教育的中国学生设计。
-            随着时间的推移，我们已经突破了语言和地域的界限，发展成为一个连接不同背景的学者、教育者和专业人士的全球性倡议。
-          </p>
-          <p v-if="lang == 'zh'">
-            通过持续的成长和扩展，我们的团队开发了一系列支持GIS教育、职业发展和学术网络的倡议：
-          </p>
-          <p v-if="lang == 'en'">
-            GISphere started as a platform dedicated to publishing GIS-related
-            articles and social media content in Chinese, specifically designed
-            to support Chinese students seeking accessible geospatial education.
-            Over time, we have grown beyond linguistic and regional boundaries,
-            evolving into a global initiative that connects scholars, educators,
-            and professionals across diverse backgrounds.
-          </p>
-          <p v-if="lang == 'en'">
-            Through continuous growth and expansion, our team has developed a
-            range of initiatives to support GIS education, career development,
-            and academic networking:
-          </p>
-
-          <!-- Core Platforms as Clickable Cards -->
-          <div class="intro-title" style="margin-top: 40px">
-            {{ lang == 'zh' ? '核心平台' : 'Core Initiatives' }}
-            <hr class="short-horizontal-line" />
-          </div>
-
-          <div class="platform-cards">
-            <!-- GISphere Guide -->
-            <div
-              class="platform-card"
-              @click="$router.push('/school')"
-              @keydown.enter="$router.push('/school')"
-              tabindex="0"
-              role="button"
-            >
-              <h3 class="card-title">
-                {{ lang === 'zh' ? 'GISphere Guide' : 'GISphere Guide' }}
-              </h3>
-              <p class="card-desc" v-if="lang === 'zh'">
-                我们的旗舰数据库，提供全球80多个国家的GIS和地理机构及研究生项目的综合信息。
-              </p>
-              <p class="card-desc" v-else>
-                Our flagship database, providing comprehensive information on
-                GIS and Geography institutions and graduate programs across more
-                than 80 countries.
-              </p>
-            </div>
-
-            <!-- GISalon -->
-            <div
-              class="platform-card"
-              @click="
-                goUrl(
-                  lang === 'zh'
-                    ? 'https://space.bilibili.com/1043870260'
-                    : 'https://www.youtube.com/@gisphere'
-                )
-              "
-            >
-              <h3 class="card-title">
-                {{ lang === 'zh' ? 'GISalon' : 'GISalon' }}
-              </h3>
-              <p class="card-desc" v-if="lang === 'zh'">
-                一系列引人入胜的圆桌讨论，为学生提供关于研究生学习经验、学术路径和职业发展的宝贵见解。
-              </p>
-              <p class="card-desc" v-else>
-                A series of engaging roundtable discussions offering students
-                valuable insights into graduate study experiences, academic
-                pathways, and career development.
-              </p>
-            </div>
-
-            <!-- GISource -->
-            <div
-              class="platform-card"
-              @click="$router.push('/postList?type=academic')"
-              @keydown.enter="$router.push('/postList?type=academic')"
-              tabindex="0"
-              role="button"
-            >
-              <h3 class="card-title">
-                {{ lang === 'zh' ? 'GISource' : 'GISource' }}
-              </h3>
-              <p class="card-desc" v-if="lang === 'zh'">
-                全球新闻服务，提供GIS相关硕士和博士项目招生及学术/行业招聘机会的最新信息。
-              </p>
-              <p class="card-desc" v-else>
-                A global news service delivering up-to-date information on
-                GIS-related master's and doctoral program admissions, as well as
-                academic and industry hiring opportunities worldwide.
-              </p>
-            </div>
-          </div>
-
-          <p v-if="lang == 'zh'">
-            随着GISphere的不断发展，我们将继续致力于通过扩展资源、促进合作和使GIS知识在全球范围内更加普及，来丰富GIS教育生态系统。
-          </p>
-          <p v-if="lang == 'en'">
-            As GISphere continues to grow, we remain dedicated to enriching the
-            GIS education ecosystem by expanding resources, facilitating
-            collaborations, and making GIS knowledge more accessible worldwide.
-          </p>
-        </div>
+      <div class="section-divider">
+        <span class="divider-label">All Issues</span>
       </div>
-    </div>
 
-    <!-- Sponsor -->
-    <div class="sponsor-part">
-      <div class="introduce-page">
-        <div class="intro-title">
-          {{ lang == 'zh' ? '赞助商' : 'SPONSORS' }}
-          <hr class="short-horizontal-line" />
-        </div>
-        <div class="sponsor-list">
-          <div class="sponsor-card" @click="goUrl('https://maptable.com')">
-            <b>Maptable</b>
-            <small>
-              {{
-                lang == 'zh'
-                  ? '新一代空间数据协同工具'
-                  : 'Next-Generation Spatial Data Analytics Platform'
-              }}
-            </small>
+      <section class="article-grid">
+        <article
+          v-for="(file, index) in restOfArticles"
+          :key="file.name"
+          class="article-card"
+          :style="{ animationDelay: (index * 60) + 'ms' }"
+          @click="goToDetail(file)"
+        >
+          <div class="card-image-wrap">
+            <img
+              v-if="file.image"
+              :src="file.image"
+              :alt="file.title"
+              class="card-image"
+              loading="lazy"
+            />
+            <div v-else class="card-placeholder">GIStory</div>
+            <div class="card-issue-tag">{{ getIssueNumber(file.name) }}</div>
           </div>
-          <div
-            class="sponsor-card"
-            @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')"
-          >
-            <b>GIS-Vision</b>
+          <div class="card-body">
+            <span class="card-issue">{{ getIssueLabel(file.name) }}</span>
+            <h3 class="card-title">{{ getCleanTitle(file.title) }}</h3>
+            <span class="card-arrow" aria-hidden="true">
+              <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
+                <path d="M0 4h14M11 1l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
           </div>
-          <div
-            class="sponsor-card"
-            @click="goUrl('mailto:gisphere@outlook.com')"
-          >
-            <b v-if="lang == 'zh'">成为赞助商？</b>
-            <small v-if="lang == 'zh'">联系 gisphere@outlook.com</small>
-            <b v-if="lang == 'en'">Become Our Sponsor?</b>
-            <small v-if="lang == 'en'">mail to gisphere@outlook.com</small>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <bottom-bar />
-
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      :append-to-body="true"
-      width="30%"
-    >
-      <p>此网站正在建设中</p>
-      <p>
-        如须获取 GISphere 相关信息，请访问
-        <a href="https://www.gisphere.net">https://www.gisphere.net</a>
-      </p>
-      <p>
-        如有疑问，请联系
-        <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>
-      </p>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </span>
-    </el-dialog>
-    <el-dialog
-      title="订阅 ( Subscribe )"
-      :visible.sync="dialogFormVisible"
-      :modal-append-to-body="false"
-      :top="'17vh'"
-    >
-      <el-form :model="form">
-        <el-form-item
-          label="邮箱 ( email )"
-          prop="email"
-          :rules="[
-            {
-              required: true,
-              message: '请输入邮箱地址 ( Please enter your email address. )',
-              trigger: 'blur',
-            },
-            {
-              type: 'email',
-              message:
-                '请输入正确的邮箱地址 ( Please enter a valid email address. )',
-              trigger: ['blur', 'change'],
-            },
-          ]"
-        >
-          <el-input v-model="form.email"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="名 ( first name )"
-          :rules="[
-            {
-              required: true,
-              message: '请输入 ( Please enter your first name. )',
-              trigger: 'blur',
-            },
-          ]"
-        >
-          <el-input v-model="form.firstName" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="姓 ( last name )"
-          :rules="[
-            {
-              required: true,
-              message: '请输入 ( Please enter your last name. )',
-              trigger: 'blur',
-            },
-          ]"
-        >
-          <el-input v-model="form.lastName" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleFormSubmit">提 交</el-button>
-      </div>
-    </el-dialog>
+        </article>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { isMobile } from '@/utils/index'
-import { ProjectIntro } from '~/utils/ProjectIntro'
-
 export default {
-  name: 'IndexPage',
   data() {
     return {
-      dialogVisible: false,
-      dialogFormVisible: false,
-      showContactCard: false,
-      projectIntroZH: ProjectIntro[0],
-      projectIntroEN: ProjectIntro[1],
-      form: {
-        email: '',
-        firstName: '',
-        lastName: '',
-      },
-    }
-  },
-  head() {
-    return {
-      title: 'GISphere',
-    }
+      loading: true,
+      markdownFiles: [],
+    };
   },
   computed: {
-    ...mapState({ lang: 'language' }),
+    featured() {
+      return this.markdownFiles[0] || null;
+    },
+    restOfArticles() {
+      return this.markdownFiles.slice(1);
+    },
   },
-  mounted() {
-    if (isMobile()) {
-      this.$router.push('/mobile/')
+  async mounted() {
+    try {
+      const res = await this.$axios.get(
+        'https://api.github.com/repos/Pengyu-gis/markdown_repo/contents/'
+      );
+      const mdFiles = res.data
+        .filter(file => file.name.endsWith('.md'))
+        .sort((a, b) => {
+          const numA = parseInt(a.name.match(/\d+/)?.[0] || 0, 10);
+          const numB = parseInt(b.name.match(/\d+/)?.[0] || 0, 10);
+          return numB - numA;
+        });
+
+      this.markdownFiles = await Promise.all(
+        mdFiles.map(async file => {
+          try {
+            const contentRes = await this.$axios.get(file.download_url);
+            const content = contentRes.data;
+            return {
+              name: file.name,
+              url: file.download_url,
+              title: this.extractTitle(content),
+              image: this.extractFirstImage(content),
+            };
+          } catch (err) {
+            return {
+              name: file.name,
+              url: file.download_url,
+              title: '⚠️ loading failed',
+              image: null,
+            };
+          }
+        })
+      );
+    } catch (err) {
+      console.error('加载文件列表失败:', err);
+    } finally {
+      this.loading = false;
     }
-    this.dialogVisible = false
   },
   methods: {
-    goToPostList(type) {
-      if (type) {
-        this.$router.push({
-          path: '/postList',
-          query: {
-            type,
-          },
-        })
-      } else {
-        this.$router.push('/postList')
+    extractFirstImage(content) {
+      const imageRegex = /<img[^>]+src="([^">]+)"/i;
+      const mdImageRegex = /!\[.*?\]\((.*?)\)/;
+      const htmlMatch = content.match(imageRegex);
+      if (htmlMatch) return htmlMatch[1];
+      const mdMatch = content.match(mdImageRegex);
+      if (mdMatch) return mdMatch[1];
+      return null;
+    },
+    extractTitle(content) {
+      const lines = content.split('\n');
+      const titleLine = lines.find(
+        line => line.startsWith('title:') || line.startsWith('# ')
+      );
+      if (titleLine?.startsWith('title:')) {
+        return titleLine.replace('title:', '').trim();
+      } else if (titleLine?.startsWith('# ')) {
+        return titleLine.replace('#', '').trim();
       }
+      return 'Untitled';
     },
-    goToUniversityList() {
-      // 对外入口
-      this.$router.push('/school')
+    goToDetail(file) {
+      const encodedUrl = encodeURIComponent(file.url);
+      this.$router.push(`/gistory/detail?url=${encodedUrl}`);
     },
-    goToForum() {
-      window.location.href = 'https://mp.weixin.qq.com/mp/homepage?__biz=Mzg3OTUyMjk3OQ==&hid=5&sn=3587fb68bd6892591c79b32606a286bf&scene=18'
+    getIssueLabel(filename) {
+      const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
+      return `Issue ${String(num).padStart(2, '0')}`;
     },
-    goUrl(url) {
-      window.location.href = url
+    getIssueNumber(filename) {
+      const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
+      return String(num).padStart(2, '0');
     },
-    disableCopy(e) {
-      e.preventDefault()
-    },
-    goToMailingList() {
-      window.open('https://mailchi.mp/da300ab42ac5/gisphere', '_blank')
-    },
-    // 提交订阅邮件的请求
-    handleFormSubmit() {
-      this.dialogFormVisible = false
-      const form = this.form
-
-      // 构造个人信息和邮件列表标签
-      const params = {
-        first_name: form.firstName,
-        last_name: form.lastName,
-        email: form.email,
-        mailing_list_slug: 'test',
-      }
-
-      this.$axios
-        .post('api/subscribe', params)
-        .then((res) => {
-          this.$message({
-            message: res.data.message,
-            type: 'success',
-          })
-        })
-        .catch((err) => {
-          this.$message.error(err)
-        })
+    getCleanTitle(title) {
+      return title.replace(/^GIStory\s+Issue\s+\d+\s*\|\s*/i, '').trim();
     },
   },
-}
+};
 </script>
 
 <style scoped>
-.main {
-  width: 100%;
-  height: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700&display=swap');
+
+/* ================================
+   Design Tokens
+================================ */
+.gistory-page {
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a4a;
+  --ink-muted: #8a8a8a;
+  --paper: #ffffff;        /* Changed to pure white */
+  --paper-warm: #f9f9f9;   /* Adjusted to match the white background better */
+  --rule: #eaeaea;         /* Adjusted border/rule color for white background */
+  --accent: #c0392b;       /* editorial red */
+  --accent-deep: #8e2a20;
+  --highlight: #d4a72c;    /* mustard accent */
+
+  /* Changed primary fonts to Montserrat */
+  --serif: 'Montserrat', system-ui, sans-serif;
+  --sans:  'Montserrat', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.welcome-page {
-  height: 100%;
-  width: 100%;
+
+/* Subtle paper texture */
+.gistory-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(192, 57, 43, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(212, 167, 44, 0.03) 0%, transparent 40%);
+}
+
+/* ================================
+   Header
+================================ */
+.page-header {
   position: relative;
-}
-.introduce-page {
-  height: auto;
-  width: 100%;
-}
-.welcome-content {
-  position: absolute;
-  left: 40%;
-  top: 25vh;
-  height: 25vh;
-  margin-left: -30%;
-  margin-right: 10%;
-  margin-top: -12.5vh;
-}
-.uni-content {
-  width: 20%;
-  height: 2.5rem;
-  font-size: 14px;
+  padding: 80px 24px 56px;
   text-align: center;
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, var(--paper-warm) 0%, var(--paper) 100%);
 }
 
-/* 新增样式 */
-.initiatives-list {
-  margin: 20px 0 30px 0;
-  padding-left: 20px;
-  list-style-type: none;
-}
-
-.initiatives-list li {
-  margin-bottom: 15px;
+.header-inner {
+  max-width: 680px; /* Made window slightly smaller (was 720px) */
+  margin: 0 auto;
   position: relative;
-  padding-left: 20px;
-  line-height: 1.6;
+  z-index: 1;
 }
 
-.initiatives-list li:before {
-  content: '•';
-  color: #2c3aaa;
-  font-size: 20px;
-  position: absolute;
-  left: 0;
-  top: -2px;
-}
-
-.initiative-highlight {
-  color: #7944dd;
-  font-weight: 600;
-  font-style: oblique;
-}
-
-.intro-text-zh p {
-  margin-bottom: 15px;
-  line-height: 1.6;
-}
-.welcome-heading {
-  font-style: normal;
-  font-weight: 800;
-  font-size: 50px;
-  line-height: 60px;
-  color: #ffffff;
-  /* 保持背景黑色阴影 */
-  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
-    0 0 80px #1f1f20;
-}
-.welcome-description {
-  margin-top: 15px;
-  font-size: 20px;
-  color: #ffffff;
-  /* 保持背景黑色阴影 */
-  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
-    0 0 80px #1f1f20;
-}
-.welcome-buttons {
-  margin-top: 39px;
-  margin-bottom: 39px;
-  text-shadow: 0 0 20px #1f1f20, 0 0 40px #1f1f20, 0 0 60px #1f1f20,
-    0 0 80px #1f1f20;
+.header-eyebrow {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
 }
-.big-button {
-  border: solid 2px #2c3aaa;
-  width: 220px;
-  height: 50px;
-  font-size: 17px;
+
+.eyebrow-line {
+  width: 40px;
+  height: 1px;
+  background: var(--ink-muted);
+}
+
+.eyebrow-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: clamp(64px, 9vw, 112px);
+  font-weight: 700; /* Increased weight for Montserrat */
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  color: var(--ink);
+}
+
+.title-script {
+  font-style: italic;
+  color: var(--accent);
   font-weight: 400;
-  /* 覆盖默认字体 */
-  font-family: 'Montserrat', sans-serif !important;
 }
-.explore-programs {
-  color: #2c3aaa;
+
+.title-main {
+  font-weight: 700; /* Increased weight for Montserrat */
 }
-.big-button:hover {
-  background-color: #2c3aaa;
-  color: #ffffff;
-  transition: background-color 100ms ease-in-out, color 100ms ease-in-out;
+
+.page-subtitle {
+  font-family: var(--serif);
+  font-size: clamp(16px, 2vw, 20px); /* Slightly reduced size for Montserrat */
+  font-style: normal; /* Removed italic since Montserrat handles normal better for subtitles */
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin: 0 auto 36px;
 }
-.contact-us {
-  margin-left: 10px;
-  border: solid 2px #ffffff00;
+
+.header-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  padding: 10px 24px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
 }
-.contact-us-card {
-  background-color: transparent;
-  margin-left: 10px;
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-.intro-title {
+
+.meta-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.meta-divider {
+  color: var(--ink-muted);
+  opacity: 0.5;
+}
+
+/* ================================
+   Loading
+================================ */
+.loading-state {
   text-align: center;
-  font-size: 40px;
-  color: #2c3aaa;
-  margin-top: 32px;
+  padding: 120px 24px;
+  color: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
-.short-horizontal-line {
-  width: 5%;
-  height: 2px;
-  background-color: #2c3aaa;
-  margin-top: 16px;
+
+.loading-pulse {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 0 auto 16px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.6; }
+  50%      { transform: scale(1);   opacity: 1;   }
+}
+
+/* ================================
+   Content layout
+================================ */
+.content {
+  max-width: 1080px; /* Made window slightly smaller (was 1200px) */
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================
+   Featured Article
+================================ */
+.featured {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding: 32px;
+  margin-bottom: 80px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s ease;
+}
+
+.featured:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -16px rgba(26, 26, 26, 0.15);
+}
+
+.featured:hover::before {
+  transform: scaleY(1);
+}
+
+.featured-image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--paper-warm);
+}
+
+.featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  filter: saturate(0.95);
+}
+
+.featured:hover .featured-image {
+  transform: scale(1.04);
+}
+
+.featured-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 32px;
+  color: var(--ink-muted);
+  background: var(--paper-warm);
+}
+
+.featured-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.featured-content {
+  padding: 16px 16px 16px 0;
+}
+
+.featured-issue {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.featured-title {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.featured-excerpt {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 28px;
+  max-width: 440px;
+}
+
+.featured-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--ink);
+  transition: gap 0.3s ease, color 0.3s ease;
+}
+
+.featured:hover .featured-cta {
+  gap: 18px;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ================================
+   Section Divider
+================================ */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.divider-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ================================
+   Article Grid
+================================ */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+
+.article-card {
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  opacity: 0;
+  animation: fadeInUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--paper-warm);
+  border-radius: 2px;
   margin-bottom: 20px;
 }
-.intro-text-zh {
-  line-height: 26px;
-  color: #000000;
-  margin-left: 151.5px;
-  margin-right: 151.5px;
-}
-.intro-text-en {
-  line-height: 26px;
-  color: #000000;
-  margin-left: 151.5px;
-  margin-right: 151.5px;
-}
-.intro-tag {
-  margin: 16px 151.5px;
-  display: flex;
-  justify-content: space-evenly;
-}
-.tag {
-  border-radius: 10px;
-  height: 50px;
-  line-height: 50px;
-  width: 200px;
-  border: solid 2px #2c3aaa;
-  font-size: 20px;
-  text-align: center;
-  font-style: oblique;
+
+.card-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(
-    120deg,
-    #ffffff,
-    #ffffff 89%,
-    #c5c9e3 89%,
-    #c5c9e3 90%,
-    #ffffff 90%,
-    #ffffff 94%,
-    #c5c9e3 94%,
-    #c5c9e3 95%,
-    #ffffff 95%
+    180deg,
+    transparent 50%,
+    rgba(26, 26, 26, 0.4) 100%
   );
-  font-weight: 800;
-}
-.uni-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-.uni-content-title {
-  font-size: 1.15rem;
-  text-align: center;
-  /* margin-bottom: 100px; */
-}
-.uni-content {
-  width: 20%;
-  height: 2.5rem;
-  font-size: 14px;
-  text-align: center;
-}
-.el-divider {
-  height: 2px;
-  width: 3rem;
-  margin: 0.25rem auto;
-}
-.contact-content {
-  width: 50%;
-  font-size: 15px;
-  text-align: center;
-}
-.contact-us-content {
-  background-color: #fff;
-  border-radius: 30px;
-  height: 40px;
-  width: 171.68px;
-  line-height: 42px;
-  text-align: center;
-  font-size: small;
-  margin-bottom: 5px;
-}
-.contact-us-qrcode {
-  background-color: #fff;
-  border-radius: 20px;
-  height: 171.68px;
-  width: 171.68px;
-  margin-bottom: 10px;
-}
-.contact-us-qrcode > img {
-  width: 80%;
-  height: 80%;
-  /* 图片居中显示 */
-  margin-left: 10%;
-  margin-top: 10%;
-}
-.trans-content-enter-active,
-.trans-content-leave-active {
-  transition: all 0.3s cubic-bezier(0.34, 0.34, 0.77, 0.75);
-}
-.trans-content-enter,
-.trans-content-leave-to {
-  transform: translateY(-20px);
   opacity: 0;
+  transition: opacity 0.4s ease;
 }
-.school {
-  margin-bottom: 64px;
+
+.article-card:hover .card-image-wrap::after {
+  opacity: 1;
 }
-.to-be-added {
-  color: #2c3aaa;
-  text-align: center;
-  font-display: block;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 0.8rem;
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) saturate(0.95);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              filter 0.4s ease;
 }
-.sponsor-part {
-  line-height: 26px;
-  color: #000000;
-  margin-left: 151.5px;
-  margin-right: 151.5px;
-  margin-bottom: 10px;
-  display: block;
+
+.article-card:hover .card-image {
+  transform: scale(1.05);
+  filter: grayscale(0) saturate(1.05);
 }
-.sponsor-card {
-  background-color: #efefef;
-  border-radius: 10px;
-  height: 80px;
-  width: 300px;
+
+.card-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  margin: 30px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.sponsor-card:hover {
-  transform: translateY(-5px);
-  background-color: #f6f4f4;
-}
-.sponsor-list {
-  display: flex;
-  justify-content: center;
-}
-.zh-letter-spacing {
-  letter-spacing: 2px;
-}
-.en-letter-spacing {
-  letter-spacing: 1px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--ink-muted);
 }
 
-/* 响应式调整比例 */
-@media (max-width: 1920px) {
-  .welcome-content {
-    transform: scale(1.3);
-  }
-}
-@media (max-width: 1600px) {
-  .welcome-content {
-    transform: scale(1.2);
-  }
-}
-@media (max-width: 1440px) {
-  .welcome-content {
-    transform: scale(1.1);
-  }
-}
-
-@media (max-width: 768px) {
-  .welcome-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-  }
-  .explore-academic-recruiting {
-    border-color: #ffffff;
-    background-color: #ffffff;
-    color: #2c3aaa;
-    margin-bottom: 1rem;
-  }
-  .explore-job-recruiting {
-    border-color: #ffffff;
-    background-color: transparent;
-    color: #ffffff;
-    margin-left: 0 !important;
-    margin-bottom: 1rem;
-  }
-  .explore-programs {
-    border-color: #28292a;
-    background-color: transparent;
-    color: #2c3aaa;
-    margin-left: 0 !important;
-    margin-bottom: 1rem;
-  }
-}
-.white-book-button {
-  font-family: 'Montserrat', sans-serif !important;
-  margin-left: 10px;
-  border: solid 2px #2c3aaa;
-  color: #2c3aaa;
-  background-color: rgba(255, 255, 255, 0.5);
-}
-.white-book-button:hover {
-  color: #fff;
-  background-color: #2c3aaa;
-}
-.welcome-buttons {
-  text-shadow: none;
-}
-.functional-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
+.card-issue-tag {
   position: absolute;
-  bottom: 60px;
-  right: 60px;
-}
-.platform-cards {
+  top: 12px;
+  left: 12px;
+  width: 36px;
+  height: 36px;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  gap: 30px;
-  margin: 40px auto;
-  max-width: 1200px;
-  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.platform-card {
-  background: #ffffff;
-  border: 2px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 32px 28px;
-  width: 320px;
-  text-align: left; /* ← 整体左对齐，但标题单独居中 */
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.card-body {
+  padding: 0 4px;
 }
 
-.platform-card:hover {
-  transform: translateY(-6px);
-  border-color: #2c3aaa;
-  box-shadow: 0 8px 20px rgba(44, 58, 170, 0.15);
-  background-color: #f9f9ff;
+.card-issue {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .card-title {
+  font-family: var(--serif);
   font-size: 20px;
-  font-weight: 700;
-  color: #2c3aaa;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  color: var(--ink);
   margin: 0 0 16px;
-  text-align: center; /* ← 标题居中 */
+  transition: color 0.3s ease;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.card-desc {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #444;
-  margin: 0;
-  text-align: left; /* ← 描述左对齐（可省略，因父容器已设为 left） */
+.article-card:hover .card-title {
+  color: var(--accent);
 }
 
-/* High-performance CTA buttons */
-.cta-group {
-  gap: 14px;
-}
-
-.cta-btn {
+.card-arrow {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 220px;
-  height: 50px;
-  font-size: 17px;
-  font-weight: 500;
-  font-family: 'Montserrat', sans-serif !important;
-  border-radius: 4px;
-  text-decoration: none;
-  border: 2px solid #2c3aaa;
-  color: #2c3aaa;
-  background-color: rgba(255, 255, 255, 0.85);
-  will-change: transform, background-color, color;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  contain: paint;
-  transition: transform 120ms ease, background-color 120ms ease,
-    color 120ms ease, border-color 120ms ease;
+  color: var(--ink-muted);
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.cta-primary {
-  background-color: #2c3aaa;
-  color: #fff;
-  border-color: #2c3aaa;
+.article-card:hover .card-arrow {
+  transform: translateX(4px);
+  color: var(--accent);
 }
 
-.cta-outline {
-  background-color: rgba(255, 255, 255, 0.85);
-  color: #2c3aaa;
+/* ================================
+   Responsive
+================================ */
+@media (max-width: 960px) {
+  .featured {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 20px;
+  }
+  .featured-content {
+    padding: 8px 4px 16px;
+  }
+  .article-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px;
+  }
+  .page-header {
+    padding: 56px 20px 40px;
+  }
+  .content {
+    padding: 40px 20px 64px;
+  }
 }
 
-.cta-btn:hover {
-  transform: translateY(-1px);
-  background-color: #2c3aaa;
-  color: #fff;
-  border-color: #2c3aaa;
+@media (max-width: 560px) {
+  .article-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .header-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 14px;
+  }
+  .featured {
+    margin-bottom: 56px;
+  }
 }
 </style>
