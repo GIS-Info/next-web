@@ -9,28 +9,12 @@
           <span class="eyebrow-line"></span>
         </div>
         <h1 class="page-title">
-          <span class="title-script">G</span><span class="title-main">IStory</span>
+          G<span class="title-main">GIStory</span>
         </h1>
         <p class="page-subtitle">
           Conversations with geographers, scientists, and practitioners shaping
           the future of GIScience.
         </p>
-        <div class="header-meta">
-          <span class="meta-item">
-            <strong>{{ markdownFiles.length }}</strong>
-            <span>Issues</span>
-          </span>
-          <span class="meta-divider">·</span>
-          <span class="meta-item">
-            <strong>Updated</strong>
-            <span>Monthly</span>
-          </span>
-          <span class="meta-divider">·</span>
-          <span class="meta-item">
-            <strong>EN</strong>
-            <span>/ 中文</span>
-          </span>
-        </div>
       </div>
     </header>
 
