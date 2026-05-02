@@ -144,14 +144,23 @@ export default {
     }
   },
   methods: {
-    extractFirstImage(content) {
+  extractFirstImage(content) {
       const imageRegex = /<img[^>]+src="([^">]+)"/i;
       const mdImageRegex = /!\[.*?\]\((.*?)\)/;
+      let imageUrl = null;
       const htmlMatch = content.match(imageRegex);
-      if (htmlMatch) return htmlMatch[1];
-      const mdMatch = content.match(mdImageRegex);
-      if (mdMatch) return mdMatch[1];
-      return null;
+      if (htmlMatch) {
+        imageUrl = htmlMatch[1];
+      } else {
+        const mdMatch = content.match(mdImageRegex);
+        if (mdMatch) imageUrl = mdMatch[1];
+      }
+      if (!imageUrl) return null;
+      // 强制使用全球图片代理服务“洗白”证书
+      if (imageUrl.includes('.r2.dev')) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}`;
+      }
+      return imageUrl;
     },
     extractTitle(content) {
       const lines = content.split('\n');
