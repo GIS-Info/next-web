@@ -1,185 +1,184 @@
 <template>
-  <div class="detail-page">
-    <!-- Loading -->
-    <div v-if="loading" class="loading-state">
-      <div class="loading-pulse"></div>
-      <p>Loading story…</p>
-    </div>
-
-    <!-- Error -->
-    <div v-else-if="error" class="error-state">
-      <p class="error-title">Failed to load this interview</p>
-      <p class="error-message">{{ error }}</p>
-      <button class="back-button" @click="goBack">← Back to all interviews</button>
-    </div>
-
-    <!-- Article -->
-    <article v-else class="article">
-      <!-- Top nav: back link -->
-      <div class="article-topbar">
-        <button class="back-link" @click="goBack" aria-label="Back to list">
-          <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
-            <path d="M16 4H2M5 1L2 4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>All interviews</span>
-        </button>
-      </div>
-
-      <!-- Header -->
-      <header class="article-header">
+  <div class="gistory-page">
+    <header class="page-header">
+      <div class="header-inner">
         <div class="header-eyebrow">
           <span class="eyebrow-line"></span>
-          <span class="eyebrow-text">{{ issueLabel }} · GIStory</span>
+          <span class="eyebrow-text">An interview series by GISphere</span>
           <span class="eyebrow-line"></span>
         </div>
-        <h1 class="article-title">{{ cleanTitle }}</h1>
-      </header>
+        <h1 class="page-title">
+          <span class="title-main">GIStory</span>
+        </h1>
+        <p class="page-subtitle">
+          Conversations with geographers, scientists, and practitioners shaping
+          the future of GIScience.
+        </p>
+      </div>
+    </header>
 
-      <!-- Body — rendered markdown -->
-      <div class="article-body markdown-body" v-html="renderedContent"></div>
+    <div v-if="loading" class="loading-state">
+      <div class="loading-pulse"></div>
+      <p>Loading stories…</p>
+    </div>
 
-      <!-- Footer -->
-      <footer class="article-footer">
-        <div class="footer-divider">
-          <span>End of interview</span>
+    <main v-else class="content">
+      <section v-if="featured" class="featured" @click="goToDetail(featured)">
+        <div class="featured-image-wrap">
+          <img
+            v-if="featured.image"
+            :src="featured.image"
+            :alt="featured.title"
+            class="featured-image"
+          />
+          <div v-else class="featured-placeholder">GIStory</div>
+          <div class="featured-badge">Latest Issue</div>
         </div>
-        <button class="back-button" @click="goBack">← Back to all interviews</button>
-      </footer>
-    </article>
+        <div class="featured-content">
+          <span class="featured-issue">{{ getIssueLabel(featured.name) }}</span>
+          <h2 class="featured-title">{{ getCleanTitle(featured.title) }}</h2>
+          <p class="featured-excerpt">
+            Read the latest conversation in our ongoing interview series.
+          </p>
+          <span class="featured-cta">
+            Read interview
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
+              <path d="M0 5h18M14 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </section>
+
+      <div class="section-divider">
+        <span class="divider-label">All Issues</span>
+      </div>
+
+      <section class="article-grid">
+        <article
+          v-for="(file, index) in restOfArticles"
+          :key="file.name"
+          class="article-card"
+          :style="{ animationDelay: (index * 60) + 'ms' }"
+          @click="goToDetail(file)"
+        >
+          <div class="card-image-wrap">
+            <img
+              v-if="file.image"
+              :src="file.image"
+              :alt="file.title"
+              class="card-image"
+              loading="lazy"
+            />
+            <div v-else class="card-placeholder">GIStory</div>
+            <div class="card-issue-tag">{{ getIssueNumber(file.name) }}</div>
+          </div>
+          <div class="card-body">
+            <span class="card-issue">{{ getIssueLabel(file.name) }}</span>
+            <h3 class="card-title">{{ getCleanTitle(file.title) }}</h3>
+            <span class="card-arrow" aria-hidden="true">
+              <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
+                <path d="M0 4h14M11 1l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </article>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
-import { marked } from 'marked';
-
 export default {
   data() {
     return {
       loading: true,
-      error: null,
-      rawContent: '',
-      fileName: '',
+      markdownFiles: [],
     };
   },
   computed: {
-    /** Render the cleaned markdown to HTML */
-    renderedContent() {
-      if (!this.rawContent) return '';
-      const cleaned = this.formatMarkdownImages(this.rawContent);
-      return marked.parse(cleaned, { breaks: true, gfm: true });
+    featured() {
+      return this.markdownFiles[0] || null;
     },
-    /** "9.md" -> "Issue 09" */
-    issueLabel() {
-      const num = parseInt(this.fileName.match(/\d+/)?.[0] || 0, 10);
-      return num ? `Issue ${String(num).padStart(2, '0')}` : 'Issue';
-    },
-    /** Strip "title:" / leading "# " / "GIStory Issue N | " prefix */
-    cleanTitle() {
-      const lines = this.rawContent.split('\n');
-      const titleLine = lines.find(
-        line => line.startsWith('title:') || line.startsWith('# ')
-      );
-      let title = 'Untitled';
-      if (titleLine?.startsWith('title:')) {
-        title = titleLine.replace('title:', '').trim();
-      } else if (titleLine?.startsWith('# ')) {
-        title = titleLine.replace('#', '').trim();
-      }
-      return title.replace(/^GIStory\s+Issue\s+\d+\s*\|\s*/i, '').trim();
+    restOfArticles() {
+      return this.markdownFiles.slice(1);
     },
   },
   async mounted() {
-    const url = this.$route.query.url;
-    if (!url) {
-      this.error = 'No article URL provided.';
-      this.loading = false;
-      return;
-    }
-
     try {
-      const decodedUrl = decodeURIComponent(url);
-      // Extract filename from the download_url (e.g. ".../main/9.md")
-      this.fileName = decodedUrl.split('/').pop() || '';
+      const res = await this.$axios.get(
+        'https://api.github.com/repos/Pengyu-gis/markdown_repo/contents/'
+      );
+      const mdFiles = res.data
+        .filter(file => file.name.endsWith('.md'))
+        .sort((a, b) => {
+          const numA = parseInt(a.name.match(/\d+/)?.[0] || 0, 10);
+          const numB = parseInt(b.name.match(/\d+/)?.[0] || 0, 10);
+          return numB - numA;
+        });
 
-      const res = await this.$axios.get(decodedUrl);
-      this.rawContent = typeof res.data === 'string'
-        ? res.data
-        : JSON.stringify(res.data);
-
-      // Strip the front-matter title line + first H1 from body, since we render
-      // the title separately in the article header.
-      this.rawContent = this.stripFrontTitle(this.rawContent);
+      this.markdownFiles = await Promise.all(
+        mdFiles.map(async file => {
+          try {
+            const contentRes = await this.$axios.get(file.download_url);
+            const content = contentRes.data;
+            return {
+              name: file.name,
+              url: file.download_url,
+              title: this.extractTitle(content),
+              image: this.extractFirstImage(content),
+            };
+          } catch (err) {
+            return {
+              name: file.name,
+              url: file.download_url,
+              title: '⚠️ loading failed',
+              image: null,
+            };
+          }
+        })
+      );
     } catch (err) {
-      console.error('加载文章失败:', err);
-      this.error = '无法加载这篇文章，请稍后再试。';
+      console.error('加载文件列表失败:', err);
     } finally {
       this.loading = false;
     }
   },
   methods: {
-    /**
-     * Rewrite image URLs inside a raw markdown string so that:
-     *   - Relative paths (`./images/x.png`) → absolute GitHub raw URLs
-     *   - R2 dev domains (`*.r2.dev/...`)  → proxied through wsrv.nl
-     * Handles BOTH markdown image syntax `![alt](url)` and HTML `<img src="url">`.
-     */
-    formatMarkdownImages(rawContent) {
-      const githubRawBaseUrl =
-        'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
-
-      const rewriteUrl = (url) => {
-        if (!url) return url;
-        const trimmed = url.trim();
-        if (trimmed.startsWith('./')) {
-          // ./images/1.png  →  https://raw.githubusercontent.com/.../main/images/1.png
-          return githubRawBaseUrl + '/' + trimmed.slice(2);
-        }
-        if (trimmed.includes('.r2.dev')) {
-          // Route R2 dev URLs through wsrv.nl proxy to bypass cert/CORS issues
-          return `https://wsrv.nl/?url=${encodeURIComponent(trimmed)}`;
-        }
-        return trimmed;
-      };
-
-      // 1) Markdown images: ![alt](url)
-      let out = rawContent.replace(
-        /!\[([^\]]*)\]\(([^)]+)\)/g,
-        (_match, alt, url) => `![${alt}](${rewriteUrl(url)})`
-      );
-
-      // 2) HTML images: <img ... src="url" ...>
-      out = out.replace(
-        /<img([^>]*?)src="([^"]+)"([^>]*)>/gi,
-        (_match, before, url, after) =>
-          `<img${before}src="${rewriteUrl(url)}"${after}>`
-      );
-
-      return out;
+    extractFirstImage(content) {
+      const imageRegex = /<img[^>]+src="([^">]+)"/i;
+      const mdImageRegex = /!\[.*?\]\((.*?)\)/;
+      const htmlMatch = content.match(imageRegex);
+      if (htmlMatch) return htmlMatch[1];
+      const mdMatch = content.match(mdImageRegex);
+      if (mdMatch) return mdMatch[1];
+      return null;
     },
-    /**
-     * Remove the leading title line (`title: ...` or `# ...`) from the
-     * markdown body since the page renders the title separately.
-     */
-    stripFrontTitle(content) {
+    extractTitle(content) {
       const lines = content.split('\n');
-      let removed = false;
-      const filtered = lines.filter((line) => {
-        if (removed) return true;
-        if (line.startsWith('title:') || line.startsWith('# ')) {
-          removed = true;
-          return false;
-        }
-        return true;
-      });
-      return filtered.join('\n').trimStart();
-    },
-    goBack() {
-      // Prefer router back, fall back to list route
-      if (window.history.length > 1) {
-        this.$router.back();
-      } else {
-        this.$router.push('/gistory');
+      const titleLine = lines.find(
+        line => line.startsWith('title:') || line.startsWith('# ')
+      );
+      if (titleLine?.startsWith('title:')) {
+        return titleLine.replace('title:', '').trim();
+      } else if (titleLine?.startsWith('# ')) {
+        return titleLine.replace('#', '').trim();
       }
+      return 'Untitled';
+    },
+    goToDetail(file) {
+      const encodedUrl = encodeURIComponent(file.url);
+      this.$router.push(`/gistory/detail?url=${encodedUrl}`);
+    },
+    getIssueLabel(filename) {
+      const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
+      return `Issue ${String(num).padStart(2, '0')}`;
+    },
+    getIssueNumber(filename) {
+      const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
+      return String(num).padStart(2, '0');
+    },
+    getCleanTitle(title) {
+      return title.replace(/^GIStory\s+Issue\s+\d+\s*\|\s*/i, '').trim();
     },
   },
 };
@@ -189,19 +188,20 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700&display=swap');
 
 /* ================================
-   Design Tokens (matched to list page)
+   Design Tokens
 ================================ */
-.detail-page {
+.gistory-page {
   --ink: #1a1a1a;
   --ink-soft: #4a4a4a;
   --ink-muted: #8a8a8a;
-  --paper: #ffffff;
-  --paper-warm: #f9f9f9;
-  --rule: #eaeaea;
-  --accent: #c0392b;
+  --paper: #ffffff;        /* Changed to pure white */
+  --paper-warm: #f9f9f9;   /* Adjusted to match the white background better */
+  --rule: #eaeaea;         /* Adjusted border/rule color for white background */
+  --accent: #c0392b;       /* editorial red */
   --accent-deep: #8e2a20;
-  --highlight: #d4a72c;
+  --highlight: #d4a72c;    /* mustard accent */
 
+  /* Changed primary fonts to Montserrat */
   --serif: 'Montserrat', system-ui, sans-serif;
   --sans:  'Montserrat', system-ui, sans-serif;
   --mono:  'JetBrains Mono', 'Courier New', monospace;
@@ -214,8 +214,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle ambient tint, same as list page */
-.detail-page::before {
+/* Subtle paper texture */
+.gistory-page::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -227,19 +227,119 @@ export default {
 }
 
 /* ================================
-   Loading & error
+   Header
 ================================ */
-.loading-state,
-.error-state {
+.page-header {
+  position: relative;
+  padding: 80px 24px 56px;
   text-align: center;
-  padding: 140px 24px;
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, var(--paper-warm) 0%, var(--paper) 100%);
+}
+
+.header-inner {
+  max-width: 680px; /* Made window slightly smaller (was 720px) */
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.header-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.eyebrow-line {
+  width: 40px;
+  height: 1px;
+  background: var(--ink-muted);
+}
+
+.eyebrow-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: clamp(64px, 9vw, 112px);
+  font-weight: 700; /* Increased weight for Montserrat */
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  color: var(--ink);
+}
+
+.title-script {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.title-main {
+  font-weight: 700; /* Increased weight for Montserrat */
+}
+
+.page-subtitle {
+  font-family: var(--serif);
+  font-size: clamp(16px, 2vw, 20px); /* Slightly reduced size for Montserrat */
+  font-style: normal; /* Removed italic since Montserrat handles normal better for subtitles */
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin: 0 auto 36px;
+}
+
+.header-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  padding: 10px 24px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.meta-divider {
+  color: var(--ink-muted);
+  opacity: 0.5;
+}
+
+/* ================================
+   Loading
+================================ */
+.loading-state {
+  text-align: center;
+  padding: 120px 24px;
   color: var(--ink-muted);
   font-family: var(--mono);
   font-size: 13px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  position: relative;
-  z-index: 1;
 }
 
 .loading-pulse {
@@ -256,371 +356,364 @@ export default {
   50%      { transform: scale(1);   opacity: 1;   }
 }
 
-.error-state {
-  text-transform: none;
-  letter-spacing: 0;
-  font-family: var(--sans);
-  font-size: 15px;
-}
-
-.error-title {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink);
-  margin: 0 0 12px;
-}
-
-.error-message {
-  margin: 0 0 28px;
-  color: var(--ink-soft);
-}
-
 /* ================================
-   Article layout
+   Content layout
 ================================ */
-.article {
-  max-width: 760px;
+.content {
+  max-width: 1080px; /* Made window slightly smaller (was 1200px) */
   margin: 0 auto;
-  padding: 40px 24px 96px;
+  padding: 64px 24px 96px;
   position: relative;
   z-index: 1;
 }
 
-.article-topbar {
-  margin-bottom: 32px;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  padding: 6px 0;
-  transition: color 0.25s ease, gap 0.25s ease;
-}
-
-.back-link:hover {
-  color: var(--accent);
-  gap: 14px;
-}
-
 /* ================================
-   Article header
+   Featured Article
 ================================ */
-.article-header {
-  text-align: center;
-  padding: 32px 0 56px;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 56px;
-}
-
-.header-eyebrow {
-  display: flex;
+.featured {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.eyebrow-line {
-  width: 32px;
-  height: 1px;
-  background: var(--ink-muted);
-}
-
-.eyebrow-text {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.article-title {
-  font-family: var(--serif);
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  margin: 0;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-/* ================================
-   Article body — markdown rendered content
-   (these can't be scoped to deep selectors easily,
-    so we use a wrapper class)
-================================ */
-.article-body {
-  font-family: var(--sans);
-  font-size: 17px;
-  line-height: 1.8;
-  color: var(--ink);
-}
-
-/* Use ::v-deep / :deep() to style the v-html'd content */
-.article-body ::v-deep(p),
-.article-body :deep(p) {
-  margin: 0 0 24px;
-  color: var(--ink-soft);
-  font-weight: 400;
-}
-
-.article-body :deep(h1),
-.article-body :deep(h2),
-.article-body :deep(h3),
-.article-body :deep(h4) {
-  font-family: var(--serif);
-  color: var(--ink);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-  margin: 56px 0 20px;
-}
-
-.article-body :deep(h2) {
-  font-size: 26px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.article-body :deep(h3) {
-  font-size: 21px;
-}
-
-.article-body :deep(h4) {
-  font-size: 17px;
-  font-family: var(--mono);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.article-body :deep(a) {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(192, 57, 43, 0.3);
-  transition: border-color 0.2s ease;
-}
-
-.article-body :deep(a:hover) {
-  border-bottom-color: var(--accent);
-}
-
-.article-body :deep(strong) {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.article-body :deep(em) {
-  font-style: italic;
-}
-
-.article-body :deep(blockquote) {
-  margin: 32px 0;
-  padding: 4px 0 4px 24px;
-  border-left: 3px solid var(--accent);
-  font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.6;
-  color: var(--ink);
-}
-
-.article-body :deep(blockquote p) {
-  margin: 0 0 12px;
-  color: inherit;
-}
-
-.article-body :deep(blockquote p:last-child) {
-  margin-bottom: 0;
-}
-
-.article-body :deep(ul),
-.article-body :deep(ol) {
-  margin: 0 0 24px;
-  padding-left: 28px;
-  color: var(--ink-soft);
-}
-
-.article-body :deep(li) {
-  margin-bottom: 8px;
-}
-
-.article-body :deep(li::marker) {
-  color: var(--accent);
-}
-
-.article-body :deep(hr) {
-  border: none;
-  border-top: 1px solid var(--rule);
-  margin: 48px 0;
-}
-
-.article-body :deep(code) {
-  font-family: var(--mono);
-  font-size: 0.9em;
-  background: var(--paper-warm);
-  padding: 2px 6px;
-  border-radius: 3px;
-  color: var(--accent-deep);
-}
-
-.article-body :deep(pre) {
-  background: var(--paper-warm);
+  padding: 32px;
+  margin-bottom: 80px;
+  background: #fff;
   border: 1px solid var(--rule);
   border-radius: 4px;
-  padding: 18px 20px;
-  overflow-x: auto;
-  margin: 0 0 24px;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.article-body :deep(pre code) {
-  background: none;
-  padding: 0;
-  color: var(--ink);
-  font-size: 14px;
+.featured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s ease;
 }
 
-.article-body :deep(table) {
+.featured:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -16px rgba(26, 26, 26, 0.15);
+}
+
+.featured:hover::before {
+  transform: scaleY(1);
+}
+
+.featured-image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--paper-warm);
+}
+
+.featured-image {
   width: 100%;
-  border-collapse: collapse;
-  margin: 0 0 32px;
-  font-size: 15px;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  filter: saturate(0.95);
 }
 
-.article-body :deep(th),
-.article-body :deep(td) {
-  text-align: left;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--rule);
+.featured:hover .featured-image {
+  transform: scale(1.04);
 }
 
-.article-body :deep(th) {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  font-weight: 600;
-  background: var(--paper-warm);
-}
-
-/* Images — the main reason this page exists 🙂 */
-.article-body :deep(img) {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 36px auto;
-  border-radius: 4px;
-  background: var(--paper-warm);
-  box-shadow: 0 12px 32px -16px rgba(26, 26, 26, 0.15);
-}
-
-/* ================================
-   Footer
-================================ */
-.article-footer {
-  margin-top: 80px;
-  padding-top: 40px;
-  text-align: center;
-}
-
-.footer-divider {
+.featured-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 32px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 32px;
   color: var(--ink-muted);
+  background: var(--paper-warm);
 }
 
-.footer-divider::before,
-.footer-divider::after {
-  content: '';
-  flex: 0 0 48px;
-  height: 1px;
-  background: var(--rule);
+.featured-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 2px;
 }
 
-.footer-divider span {
+.featured-content {
+  padding: 16px 16px 16px 0;
+}
+
+.featured-issue {
+  display: inline-block;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
 }
 
-.back-button {
+.featured-title {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.featured-excerpt {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 28px;
+  max-width: 440px;
+}
+
+.featured-cta {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: none;
-  border: 1px solid var(--ink);
-  cursor: pointer;
+  gap: 12px;
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink);
-  padding: 12px 24px;
-  border-radius: 2px;
-  transition: all 0.3s ease;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--ink);
+  transition: gap 0.3s ease, color 0.3s ease;
 }
 
-.back-button:hover {
-  background: var(--ink);
-  color: var(--paper);
+.featured:hover .featured-cta {
+  gap: 18px;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ================================
+   Section Divider
+================================ */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.divider-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ================================
+   Article Grid
+================================ */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+
+.article-card {
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  opacity: 0;
+  animation: fadeInUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--paper-warm);
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.card-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    rgba(26, 26, 26, 0.4) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.article-card:hover .card-image-wrap::after {
+  opacity: 1;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) saturate(0.95);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              filter 0.4s ease;
+}
+
+.article-card:hover .card-image {
+  transform: scale(1.05);
+  filter: grayscale(0) saturate(1.05);
+}
+
+.card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--ink-muted);
+}
+
+.card-issue-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card-body {
+  padding: 0 4px;
+}
+
+.card-issue {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.card-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  margin: 0 0 16px;
+  transition: color 0.3s ease;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.article-card:hover .card-title {
+  color: var(--accent);
+}
+
+.card-arrow {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink-muted);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.article-card:hover .card-arrow {
+  transform: translateX(4px);
+  color: var(--accent);
 }
 
 /* ================================
    Responsive
 ================================ */
-@media (max-width: 720px) {
-  .article {
-    padding: 24px 20px 64px;
+@media (max-width: 960px) {
+  .featured {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 20px;
   }
-
-  .article-header {
-    padding: 16px 0 40px;
-    margin-bottom: 40px;
+  .featured-content {
+    padding: 8px 4px 16px;
   }
-
-  .article-body {
-    font-size: 16px;
-    line-height: 1.75;
+  .article-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px;
   }
-
-  .article-body :deep(h2) {
-    font-size: 22px;
-    margin: 40px 0 16px;
+  .page-header {
+    padding: 56px 20px 40px;
   }
-
-  .article-body :deep(h3) {
-    font-size: 19px;
-    margin: 36px 0 14px;
+  .content {
+    padding: 40px 20px 64px;
   }
+}
 
-  .article-body :deep(blockquote) {
-    font-size: 17px;
-    padding-left: 20px;
+@media (max-width: 560px) {
+  .article-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
-
-  .article-body :deep(img) {
-    margin: 24px auto;
+  .header-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 14px;
+  }
+  .featured {
+    margin-bottom: 56px;
   }
 }
 </style>
