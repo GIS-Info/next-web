@@ -1,6 +1,5 @@
 <template>
   <div class="gistory-page">
-    <!-- Editorial Header -->
     <header class="page-header">
       <div class="header-inner">
         <div class="header-eyebrow">
@@ -18,15 +17,12 @@
       </div>
     </header>
 
-    <!-- Loading State -->
     <div v-if="loading" class="loading-state">
       <div class="loading-pulse"></div>
       <p>Loading stories…</p>
     </div>
 
-    <!-- Featured + Grid -->
     <main v-else class="content">
-      <!-- Featured (latest) Article -->
       <section v-if="featured" class="featured" @click="goToDetail(featured)">
         <div class="featured-image-wrap">
           <img
@@ -53,12 +49,10 @@
         </div>
       </section>
 
-      <!-- Section divider -->
       <div class="section-divider">
-        <span class="divider-label">All Issues</span>
+        <span class="divider-label">All interviews</span>
       </div>
 
-      <!-- Article Grid -->
       <section class="article-grid">
         <article
           v-for="(file, index) in restOfArticles"
@@ -175,17 +169,14 @@ export default {
       const encodedUrl = encodeURIComponent(file.url);
       this.$router.push(`/gistory/detail?url=${encodedUrl}`);
     },
-    /** "GIStory Issue 9 | Chen Min: ..." -> "Issue 09" */
     getIssueLabel(filename) {
       const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
       return `Issue ${String(num).padStart(2, '0')}`;
     },
-    /** "GIStory Issue 9 | Chen Min: ..." -> "09" */
     getIssueNumber(filename) {
       const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
       return String(num).padStart(2, '0');
     },
-    /** Strip "GIStory Issue N | " prefix for cleaner display */
     getCleanTitle(title) {
       return title.replace(/^GIStory\s+Issue\s+\d+\s*\|\s*/i, '').trim();
     },
@@ -194,6 +185,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700&display=swap');
+
 /* ================================
    Design Tokens
 ================================ */
@@ -201,15 +194,16 @@ export default {
   --ink: #1a1a1a;
   --ink-soft: #4a4a4a;
   --ink-muted: #8a8a8a;
-  --paper: #fafaf7;
-  --paper-warm: #f4f1ea;
-  --rule: #e8e4d9;
+  --paper: #ffffff;        /* Changed to pure white */
+  --paper-warm: #f9f9f9;   /* Adjusted to match the white background better */
+  --rule: #eaeaea;         /* Adjusted border/rule color for white background */
   --accent: #c0392b;       /* editorial red */
   --accent-deep: #8e2a20;
   --highlight: #d4a72c;    /* mustard accent */
 
-  --serif: 'Cormorant Garamond', 'Playfair Display', 'Times New Roman', Georgia, serif;
-  --sans:  'Inter Tight', 'Helvetica Neue', system-ui, sans-serif;
+  /* Changed primary fonts to Montserrat */
+  --serif: 'Montserrat', system-ui, sans-serif;
+  --sans:  'Montserrat', system-ui, sans-serif;
   --mono:  'JetBrains Mono', 'Courier New', monospace;
 
   background: var(--paper);
@@ -245,7 +239,7 @@ export default {
 }
 
 .header-inner {
-  max-width: 720px;
+  max-width: 680px; /* Made window slightly smaller (was 720px) */
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -276,7 +270,7 @@ export default {
 .page-title {
   font-family: var(--serif);
   font-size: clamp(64px, 9vw, 112px);
-  font-weight: 500;
+  font-weight: 700; /* Increased weight for Montserrat */
   line-height: 0.95;
   letter-spacing: -0.02em;
   margin: 0 0 24px;
@@ -290,14 +284,15 @@ export default {
 }
 
 .title-main {
-  font-weight: 600;
+  font-weight: 700; /* Increased weight for Montserrat */
 }
 
 .page-subtitle {
   font-family: var(--serif);
-  font-size: clamp(18px, 2vw, 22px);
-  font-style: italic;
-  line-height: 1.5;
+  font-size: clamp(16px, 2vw, 20px); /* Slightly reduced size for Montserrat */
+  font-style: normal; /* Removed italic since Montserrat handles normal better for subtitles */
+  font-weight: 400;
+  line-height: 1.6;
   color: var(--ink-soft);
   max-width: 540px;
   margin: 0 auto 36px;
@@ -365,7 +360,7 @@ export default {
    Content layout
 ================================ */
 .content {
-  max-width: 1200px;
+  max-width: 1080px; /* Made window slightly smaller (was 1200px) */
   margin: 0 auto;
   padding: 64px 24px 96px;
   position: relative;
@@ -441,7 +436,7 @@ export default {
   align-items: center;
   justify-content: center;
   font-family: var(--serif);
-  font-style: italic;
+  font-weight: 500;
   font-size: 32px;
   color: var(--ink-muted);
   background: var(--paper-warm);
@@ -478,9 +473,9 @@ export default {
 
 .featured-title {
   font-family: var(--serif);
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 500;
-  line-height: 1.15;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
   letter-spacing: -0.01em;
   color: var(--ink);
   margin: 0 0 20px;
@@ -488,8 +483,7 @@ export default {
 
 .featured-excerpt {
   font-family: var(--serif);
-  font-size: 17px;
-  font-style: italic;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--ink-soft);
   margin: 0 0 28px;
@@ -612,7 +606,7 @@ export default {
   align-items: center;
   justify-content: center;
   font-family: var(--serif);
-  font-style: italic;
+  font-weight: 500;
   font-size: 24px;
   color: var(--ink-muted);
 }
@@ -654,9 +648,9 @@ export default {
 
 .card-title {
   font-family: var(--serif);
-  font-size: 21px;
-  font-weight: 500;
-  line-height: 1.3;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
   letter-spacing: -0.005em;
   color: var(--ink);
   margin: 0 0 16px;
