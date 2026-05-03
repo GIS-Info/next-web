@@ -2,11 +2,6 @@
   <div class="gistory-page">
     <header class="page-header">
       <div class="header-inner">
-        <div class="header-eyebrow">
-          <span class="eyebrow-line"></span>
-          <span class="eyebrow-text">An interview series by GISphere</span>
-          <span class="eyebrow-line"></span>
-        </div>
         <h1 class="page-title">
           <span class="title-main">GIStory</span>
         </h1>
@@ -14,6 +9,11 @@
           Conversations with geographers, scientists, and practitioners shaping
           the future of GIScience.
         </p>
+        <div class="header-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text">An interview series by GISphere</span>
+          <span class="eyebrow-line"></span>
+        </div>
       </div>
     </header>
 
@@ -149,7 +149,7 @@ export default {
         })
       );
     } catch (err) {
-      console.error('加载文件列表失败:', err);
+      console.error('loading error:', err);
     } finally {
       this.loading = false;
     }
