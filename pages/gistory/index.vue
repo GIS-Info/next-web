@@ -23,13 +23,19 @@
     </div>
 
     <main v-else class="content">
-      <section v-if="featured" class="featured" @click="goToDetail(featured)">
+      <section
+        v-if="featured"
+        class="featured"
+        :class="featuredOrientationClass"
+        @click="goToDetail(featured)"
+      >
         <div class="featured-image-wrap">
           <img
             v-if="featured.image"
             :src="featured.image"
             :alt="featured.title"
             class="featured-image"
+            @load="onFeaturedImageLoad"
           />
           <div v-else class="featured-placeholder">GIStory</div>
           <div class="featured-badge">Latest Issue</div>
@@ -93,6 +99,8 @@ export default {
     return {
       loading: true,
       markdownFiles: [],
+      // 'landscape' | 'portrait' | 'square' — set when the featured image loads
+      featuredOrientation: 'landscape',
     };
   },
   computed: {
@@ -101,6 +109,9 @@ export default {
     },
     restOfArticles() {
       return this.markdownFiles.slice(1);
+    },
+    featuredOrientationClass() {
+      return `is-${this.featuredOrientation}`;
     },
   },
   async mounted() {
@@ -144,10 +155,22 @@ export default {
     }
   },
   methods: {
+    /**
+     * Detect aspect ratio of the featured image and switch the layout class:
+     *   ratio >= 1.15 → landscape (wide image, 4:3 frame)
+     *   ratio <= 0.85 → portrait  (tall image, 3:4 frame, narrower column)
+     *   in between    → square    (1:1 frame)
+     */
+    onFeaturedImageLoad(e) {
+      const img = e.target;
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const ratio = img.naturalWidth / img.naturalHeight;
+      if (ratio >= 1.15) this.featuredOrientation = 'landscape';
+      else if (ratio <= 0.85) this.featuredOrientation = 'portrait';
+      else this.featuredOrientation = 'square';
+    },
     extractFirstImage(content) {
-      // 提取 HTML 格式的图片链接
       const imageRegex = /<img[^>]+src="([^">]+)"/i;
-      // 提取 Markdown 格式的图片链接
       const mdImageRegex = /!\[.*?\]\((.*?)\)/;
       let imageUrl = null;
       const htmlMatch = content.match(imageRegex);
@@ -157,10 +180,8 @@ export default {
         const mdMatch = content.match(mdImageRegex);
         if (mdMatch) imageUrl = mdMatch[1];
       }
-      // 如果没找到图片，返回 null
       if (!imageUrl) return null;
       if (imageUrl.startsWith('./')) {
-        // 将其替换为GitHub 仓库的 Raw 原文件绝对地址
         const githubRawBaseUrl = 'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
         return imageUrl.replace('./', githubRawBaseUrl + '/');
       }
@@ -210,14 +231,13 @@ export default {
   --ink: #1a1a1a;
   --ink-soft: #4a4a4a;
   --ink-muted: #8a8a8a;
-  --paper: #ffffff;        /* Changed to pure white */
-  --paper-warm: #f9f9f9;   /* Adjusted to match the white background better */
-  --rule: #eaeaea;         /* Adjusted border/rule color for white background */
-  --accent: #c0392b;       /* editorial red */
+  --paper: #ffffff;
+  --paper-warm: #f9f9f9;
+  --rule: #eaeaea;
+  --accent: #c0392b;
   --accent-deep: #8e2a20;
-  --highlight: #d4a72c;    /* mustard accent */
+  --highlight: #d4a72c;
 
-  /* Changed primary fonts to Montserrat */
   --serif: 'Montserrat', system-ui, sans-serif;
   --sans:  'Montserrat', system-ui, sans-serif;
   --mono:  'JetBrains Mono', 'Courier New', monospace;
@@ -230,7 +250,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle paper texture */
 .gistory-page::before {
   content: '';
   position: fixed;
@@ -250,12 +269,11 @@ export default {
   padding: 80px 24px 56px;
   text-align: center;
   border-bottom: 1px solid var(--rule);
-  background:
-    linear-gradient(180deg, var(--paper-warm) 0%, var(--paper) 100%);
+  background: linear-gradient(180deg, var(--paper-warm) 0%, var(--paper) 100%);
 }
 
 .header-inner {
-  max-width: 680px; /* Made window slightly smaller (was 720px) */
+  max-width: 680px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -286,63 +304,25 @@ export default {
 .page-title {
   font-family: var(--serif);
   font-size: clamp(64px, 9vw, 112px);
-  font-weight: 700; /* Increased weight for Montserrat */
+  font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.02em;
   margin: 0 0 24px;
   color: var(--ink);
 }
 
-.title-script {
-  font-style: italic;
-  color: var(--accent);
-  font-weight: 400;
-}
-
 .title-main {
-  font-weight: 700; /* Increased weight for Montserrat */
+  font-weight: 700;
 }
 
 .page-subtitle {
   font-family: var(--serif);
-  font-size: clamp(16px, 2vw, 20px); /* Slightly reduced size for Montserrat */
-  font-style: normal; /* Removed italic since Montserrat handles normal better for subtitles */
+  font-size: clamp(16px, 2vw, 20px);
   font-weight: 400;
   line-height: 1.6;
   color: var(--ink-soft);
   max-width: 540px;
   margin: 0 auto 36px;
-}
-
-.header-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 18px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  color: var(--ink-soft);
-  padding: 10px 24px;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(8px);
-}
-
-.meta-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.meta-item strong {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.meta-divider {
-  color: var(--ink-muted);
-  opacity: 0.5;
 }
 
 /* ================================
@@ -376,7 +356,7 @@ export default {
    Content layout
 ================================ */
 .content {
-  max-width: 1080px; /* Made window slightly smaller (was 1200px) */
+  max-width: 1080px;
   margin: 0 auto;
   padding: 64px 24px 96px;
   position: relative;
@@ -384,11 +364,10 @@ export default {
 }
 
 /* ================================
-   Featured Article
+   Featured — adaptive layout based on image orientation
 ================================ */
 .featured {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
   gap: 48px;
   align-items: center;
   padding: 32px;
@@ -401,6 +380,17 @@ export default {
               box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
+}
+
+/* Three layout variants — column proportions follow the image shape */
+.featured.is-landscape {
+  grid-template-columns: 1.2fr 1fr;
+}
+.featured.is-square {
+  grid-template-columns: 1fr 1fr;
+}
+.featured.is-portrait {
+  grid-template-columns: 0.85fr 1fr; /* narrower image column when tall */
 }
 
 .featured::before {
@@ -425,12 +415,25 @@ export default {
   transform: scaleY(1);
 }
 
+/* Image wrapper aspect ratio also follows the orientation */
 .featured-image-wrap {
   position: relative;
-  aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 2px;
   background: var(--paper-warm);
+}
+
+.featured.is-landscape .featured-image-wrap {
+  aspect-ratio: 4 / 3;
+}
+.featured.is-square .featured-image-wrap {
+  aspect-ratio: 1 / 1;
+}
+.featured.is-portrait .featured-image-wrap {
+  aspect-ratio: 3 / 4;
+  /* Cap portrait height so the card doesn't get absurdly tall */
+  max-height: 560px;
+  margin: 0 auto;
 }
 
 .featured-image {
@@ -495,6 +498,11 @@ export default {
   letter-spacing: -0.01em;
   color: var(--ink);
   margin: 0 0 20px;
+}
+
+/* Slightly tighter title in portrait variant since text column is wider */
+.featured.is-portrait .featured-title {
+  font-size: clamp(22px, 2.6vw, 32px);
 }
 
 .featured-excerpt {
@@ -588,11 +596,7 @@ export default {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 50%,
-    rgba(26, 26, 26, 0.4) 100%
-  );
+  background: linear-gradient(180deg, transparent 50%, rgba(26, 26, 26, 0.4) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -606,8 +610,7 @@ export default {
   height: 100%;
   object-fit: cover;
   filter: grayscale(0.15) saturate(0.95);
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-              filter 0.4s ease;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
 }
 
 .article-card:hover .card-image {
@@ -671,7 +674,6 @@ export default {
   color: var(--ink);
   margin: 0 0 16px;
   transition: color 0.3s ease;
-
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -695,13 +697,19 @@ export default {
 }
 
 /* ================================
-   Responsive
+   Responsive — stack to single column on mobile, regardless of orientation
 ================================ */
 @media (max-width: 960px) {
-  .featured {
+  .featured,
+  .featured.is-landscape,
+  .featured.is-square,
+  .featured.is-portrait {
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 20px;
+  }
+  .featured.is-portrait .featured-image-wrap {
+    max-height: 480px;
   }
   .featured-content {
     padding: 8px 4px 16px;
@@ -722,11 +730,6 @@ export default {
   .article-grid {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-  .header-meta {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 14px;
   }
   .featured {
     margin-bottom: 56px;
