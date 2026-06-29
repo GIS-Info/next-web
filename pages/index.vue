@@ -402,7 +402,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import { isMobile } from '@/utils/index'
 import { ProjectIntro } from '~/utils/ProjectIntro'
 
 export default {
@@ -428,12 +427,6 @@ export default {
   },
   computed: {
     ...mapState({ lang: 'language' }),
-  },
-  mounted() {
-    if (isMobile()) {
-      this.$router.push('/mobile/')
-    }
-    this.dialogVisible = false
   },
   methods: {
     goToPostList(type) {
