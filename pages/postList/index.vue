@@ -4,12 +4,12 @@
       <div class="content-wrapper">
         
         <div class="left-column">
-          <div class="list-header" v-if="totalCount > 0">
-            <span>{{ lang == 'zh' ? '共找到' : 'Found' }} <b>{{ totalCount }}</b> {{ lang == 'zh' ? '条资讯' : 'posts' }}</span>
+          <div class="list-header" v-if="filteredCount > 0">
+            <span>{{ lang == 'zh' ? '共找到' : 'Found' }} <b>{{ filteredCount }}</b> {{ lang == 'zh' ? '条资讯' : 'posts' }}</span>
           </div>
 
           <div
-            v-for="post in postListData"
+            v-for="post in pagedPosts"
             :key="post.event_id"
             class="post-card"
             @click="goPost(post.event_id)"
@@ -34,8 +34,8 @@
             <el-pagination
               background
               layout="prev, pager, next"
-              :current-page="queryParams.pageIndex"
-              :total="totalCount"
+              :current-page="currentPage"
+              :total="filteredCount"
               :page-size="pageSize"
               @current-change="handlePageChange"
             >
@@ -67,6 +67,20 @@
                 @clear="handleTextChange"
               >
               </el-input>
+            </div>
+
+            <div class="filter-item">
+              <div class="label">{{ lang == 'zh' ? '地区' : 'Region' }}</div>
+              <el-cascader
+                v-model="region"
+                :options="regionOptions"
+                :props="cascaderProps"
+                :placeholder="lang == 'zh' ? '选择大洲 / 国家' : 'Continent / Country'"
+                style="width: 100%"
+                clearable
+                @change="handleRegionChange"
+              >
+              </el-cascader>
             </div>
 
             <div class="filter-item">
@@ -111,25 +125,33 @@
 
 <script>
 import { mapState } from 'vuex'
+import { REGIONS, COUNTRY_TO_CONTINENT, normalizeCountry } from '@/utils/regions'
+
+// 一次性把匹配的帖子全量拉回，地区筛选与分页都在前端做，
+// 因此地区筛选不依赖后端支持任何地区参数
+const FETCH_ALL_SIZE = 9999
 
 export default {
     name: 'PostList',
     data() {
         return {
-            postListData: [],
-            pageIndex: 1,
+            allPosts: [],       // 后端按 关键词/月份/领域 过滤后的全量结果
+            currentPage: 1,     // 前端分页页码
             pageSize: 3,
-            totalCount: 0,
-            
+
             // 筛选相关绑定值
             queryString: '',
             date: '', // 绑定日期选择器
             label: '', // 绑定下拉框
-            
-            // 发送给后端的参数对象
+            region: [], // 绑定地区级联选择器 [] / [大洲] / [大洲, 国家]
+
+            // 级联选择器配置：checkStrictly 允许只选到大洲这一级
+            cascaderProps: { expandTrigger: 'hover', checkStrictly: true },
+
+            // 发送给后端的参数对象（仅 关键词/月份/领域/type，不含地区）
             queryParams: {},
             loading: true,
-            
+
             // 领域选项配置
             fieldOptions: [
                 { value: 'gis', labelZh: '地理信息科学', labelEn: 'GIScience' },
@@ -148,32 +170,70 @@ export default {
     },
     computed: {
         ...mapState({ lang: 'language' }),
+
+        // 按当前语言生成级联选项（value 始终为英文，label 随语言切换）
+        regionOptions() {
+            return REGIONS.map((c) => ({
+                value: c.value,
+                label: this.lang == 'zh' ? c.zh : c.en,
+                children: c.countries.map((country) => ({
+                    value: country.value,
+                    label: this.lang == 'zh' ? country.zh : country.en,
+                })),
+            }));
+        },
+
+        // 前端地区筛选：country_en 先做别名归一化，再按国家或大洲匹配
+        regionFilteredPosts() {
+            if (!this.region || this.region.length === 0) return this.allPosts;
+            const [continent, country] = this.region;
+            return this.allPosts.filter((p) => {
+                const norm = normalizeCountry(p.country_en);
+                return country ? norm === country : COUNTRY_TO_CONTINENT[norm] === continent;
+            });
+        },
+
+        filteredCount() {
+            return this.regionFilteredPosts.length;
+        },
+
+        // 前端分页
+        pagedPosts() {
+            const start = (this.currentPage - 1) * this.pageSize;
+            return this.regionFilteredPosts.slice(start, start + this.pageSize);
+        },
     },
     async mounted() {
         // 读取缓存的搜索状态
         const storedQueryParams = sessionStorage.getItem('queryParams');
+        const storedRegion = sessionStorage.getItem('postListRegion');
+        const storedPage = sessionStorage.getItem('postListPage');
+
         if (storedQueryParams) {
             this.queryParams = JSON.parse(storedQueryParams);
-            
             // 回显前端控件的状态 (让输入框里有值)
             this.queryString = this.queryParams.queryString || '';
             this.label = this.queryParams.label || '';
             if (this.queryParams.year && this.queryParams.month) {
                 this.date = `${this.queryParams.year}-${this.queryParams.month}`;
             }
-
-            await this.queryByParams(this.queryParams);
         } else {
-             // 处理 URL 参数
-             const urlType = this.$route.query?.type;
-             if (urlType) {
-                 this.$set(this.queryParams, 'type', urlType); // 假设后端支持 type
-             }
-            await this.queryByParams(this.queryParams);
+            // 处理 URL 参数
+            const urlType = this.$route.query?.type;
+            if (urlType) {
+                this.$set(this.queryParams, 'type', urlType); // 假设后端支持 type
+            }
         }
+        // 回显地区级联控件
+        if (storedRegion) this.region = JSON.parse(storedRegion);
+
+        await this.queryByParams(this.queryParams);
+
+        // 回显分页（放在拉取之后，避免被 queryByParams 重置）
+        if (storedPage) this.currentPage = parseInt(storedPage, 10) || 1;
     },
     methods: {
-        
+
         handleDateChange(val) {
             if (val) {
                 const parts = val.split('-');
@@ -186,8 +246,6 @@ export default {
                 this.$delete(this.queryParams, 'year');
                 this.$delete(this.queryParams, 'month');
             }
-            // 每次筛选变动，重置回第一页
-            this.$set(this.queryParams, 'pageIndex', 1);
             this.queryByParams(this.queryParams);
         },
 
@@ -196,87 +254,86 @@ export default {
             this.queryString = '';
             this.date = '';
             this.label = '';
-            
+            this.region = [];
+
             // 2. 清空查询参数
-            this.queryParams = {
-                pageIndex: 1,
-                pageSize: this.pageSize
-            };
-            
+            this.queryParams = {};
+
             // 3. 清除 SessionStorage
             sessionStorage.removeItem('queryParams');
-            
+            sessionStorage.removeItem('postListRegion');
+            sessionStorage.removeItem('postListPage');
+
             // 4. 重新请求
             await this.queryByParams(this.queryParams);
-        
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         },
 
-        // 关键词搜索
+        // 关键词搜索（服务端）
         handleTextChange() {
             // Element UI 的 clear 事件也会触发，所以要处理空字符串
             this.$set(this.queryParams, 'queryString', this.queryString);
-            this.$set(this.queryParams, 'pageIndex', 1); // 搜索时重置页码
             this.queryByParams(this.queryParams);
         },
 
-        // 领域选择
+        // 领域选择（服务端）
         handleLabelChange(val) {
-            if(val) {
+            if (val) {
                 this.$set(this.queryParams, 'label', val);
             } else {
                 this.$delete(this.queryParams, 'label');
             }
-            this.$set(this.queryParams, 'pageIndex', 1);
             this.queryByParams(this.queryParams);
         },
 
-        // 翻页
+        // 地区选择：纯前端，改变绑定值即可（computed 自动重算），只需回到第一页
+        handleRegionChange() {
+            this.currentPage = 1;
+            this.persistState();
+        },
+
+        // 前端翻页
         handlePageChange(val) {
-        // 1. 强制转换为数字 
-        const pageNum = parseInt(val, 10);
-        
-        // 2. 更新参数
-        this.$set(this.queryParams, 'pageIndex', pageNum);
-        
-        // 3. 发起请求
-        this.queryByParams(this.queryParams).then(() => {
+            this.currentPage = parseInt(val, 10);
+            this.persistState();
             this.$nextTick(() => {
                 const elMain = document.querySelector('.el-main');
                 if (elMain) elMain.scrollTop = 0;
                 window.scrollTo(0, 0);
             });
-        });
-    },
-
-        updateQueryParams() {
-            sessionStorage.setItem('queryParams', JSON.stringify(this.queryParams));
         },
 
-        // 请求接口
+        persistState() {
+            sessionStorage.setItem('queryParams', JSON.stringify(this.queryParams));
+            sessionStorage.setItem('postListRegion', JSON.stringify(this.region));
+            sessionStorage.setItem('postListPage', String(this.currentPage));
+        },
+
+        // 请求接口（后端仅按 关键词/月份/领域/type 过滤，一次取回全部）
         queryByParams(params = {}) {
             this.loading = true;
-            // 确保分页参数存在
-            if(!params.pageIndex) params.pageIndex = this.pageIndex;
-            if(!params.pageSize) params.pageSize = this.pageSize;
+            const payload = { ...params, pageIndex: 1, pageSize: FETCH_ALL_SIZE };
+            // 地区不走后端
+            delete payload.continent;
+            delete payload.country_en;
 
-            return this.$axios.post('api/post_by_params', params)
-                  .then(res => {
+            return this.$axios.post('api/post_by_params', payload)
+                .then(res => {
                     if (res?.data?.code === 0) {
-                        this.postListData = res.data.data.map((i) => {
+                        this.allPosts = res.data.data.map((i) => {
                             const l = { ...i };
                             // 简单的去除 HTML 标签正则
-                            l.description = l.description
+                            l.description = (l.description || '')
                                 .replace(/<\/?[^>]+(>|$)/g, '')
                                 .replace(/&nbsp;/g, ' ')
-                                .replace(/\s+/g, ' ') 
+                                .replace(/\s+/g, ' ')
                                 .trim();
                             return l;
                         });
-                        this.totalCount = res.data.count;
-                        this.updateQueryParams();
+                        this.currentPage = 1;
+                        this.persistState();
                     } else {
-                        
                         this.$message.error(res.msg);
                     }
                 })
@@ -288,7 +345,7 @@ export default {
                 });
         },
         goPost(id) {
-            this.updateQueryParams();
+            this.persistState();
             this.$router.push('/post/' + id.toString());
         },
     },
