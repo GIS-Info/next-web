@@ -1,7 +1,5 @@
 // eslint-disable-next-line nuxt/no-cjs-in-config
 const axios = require('axios');
-// eslint-disable-next-line nuxt/no-cjs-in-config
-const webpack = require('webpack')
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -20,32 +18,37 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap' }
     ],
+    script: [
+      { src: 'https://www.googletagmanager.com/gtag/js?id=G-8CZVFCBGBQ', async: true },
+      {
+        innerHTML:
+          "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8CZVFCBGBQ');"
+      }
+    ],
+    __dangerouslyDisableSanitizers: ['script'],
     bodyAttrs: {
       style: 'margin: 0'
     }
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  // element UI DIY theme: import "../theme/index.css"
-  css: [
-    'element-ui/lib/theme-chalk/index.css',
-    'quill/dist/quill.snow.css',
-    'quill/dist/quill.bubble.css',
-    'quill/dist/quill.core.css'
-  ],
+  // Element UI 的样式由自定义主题 theme/index.css 提供（在 element-ui 插件中引入）
+  // quill 样式改由 QuillEditor 组件按需引入，不再全局加载
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '@/plugins/element-ui',
-    {
-      src: '~plugins/vue-quill-editor.js',
-      ssr: false // 富文本组件仅在客户端渲染
-    }
-  ],
+  plugins: ['@/plugins/element-ui'],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
+
+  // 全局路由中间件：服务端按 UA 做 PC / 移动端跳转
+  router: {
+    middleware: 'device-redirect'
+  },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -78,13 +81,7 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^element-ui/],
-    plugins: [
-      new webpack.ProvidePlugin({
-        'window.Quill': 'quill/dist/quill.js',
-        'Quill': 'quill/dist/quill.js'
-      })
-    ]
+    transpile: [/^element-ui/]
   },
   sitemap: {
     path: '/sitemap.xml',
