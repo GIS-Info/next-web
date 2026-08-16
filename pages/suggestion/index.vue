@@ -1,99 +1,118 @@
 <template>
-  <div class="main-container">
-    <div class="content-card">
-      <header class="form-header">
-        <h2>{{ lang === 'zh' ? '帮我们更新 GISphere 信息!' : 'Help GISphere Information Up-to-Date!' }}</h2>
+  <div class="page">
+    <div class="card">
+      <header class="card__header">
+        <h1 class="card__title">{{ t.title }}</h1>
       </header>
-  
-      <section class="intro-section">
-        <div class="notice-box">
-          <p>{{ lang === 'zh' ? '我们认可我们的数据可能不是最新的，且有些数据可能缺失或有时有错误，特别是在某些区域或机构。' : 'We acknowledge that some of our data might not be fully up-to-date, and there may be missing entries or occasional errors in our dataset, particularly in certain regions or institutions.' }}</p>
-          <p>{{ lang === 'zh' ? '您的贡献是维持GISphere信息准确和完整的基础。如果您发现错误或不准确的信息，或者如果您有额外的数据可以分享，请在这里提交您的修正。' : 'Your contributions are invaluable in improving the accuracy and completeness of GISphere. If you notice incorrect or outdated information, or if you have additional data to share, please submit your corrections here.' }}</p>
-          <p class="highlight-text">{{ lang === 'zh' ? '我们真诚地欢迎您的支持！' : 'We truly appreciate your effort in keeping GISphere a reliable resource. Our team will review and verify the submitted updates as soon as possible and get back to you if needed. Thank you for your support!' }}</p>
-        </div>
+
+      <section class="notice">
+        <p v-for="(para, i) in t.intro" :key="'i' + i">{{ para }}</p>
+        <p class="notice__highlight">{{ t.introHighlight }}</p>
       </section>
-      <br>
-      
-      <form @submit.prevent="submitProposal" class="proposal-form">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="proposalCategory">{{ lang === 'zh' ? '更新类别' : 'Category' }}</label>
-            <select id="proposalCategory" v-model="proposalCategory" required>
-              <option disabled value="">{{ lang === 'zh' ? '请选择类别' : 'Select a category' }}</option>
-              <option value="school">{{ lang === 'zh' ? '院校动态' : 'School Updates' }}</option>
-              <option value="professor">{{ lang === 'zh' ? '教授动态' : 'Professor Updates' }}</option>
-              <option value="recruitment">{{ lang === 'zh' ? '招生招聘' : 'Recruitment' }}</option>
-              <option value="competition">{{ lang === 'zh' ? '竞赛/会议' : 'Competitions/Conferences' }}</option>
+
+      <form class="form" novalidate @submit.prevent="submitProposal">
+        <div class="form__grid">
+          <div class="field">
+            <label for="proposalCategory">{{ t.categoryLabel }}</label>
+            <select
+              id="proposalCategory"
+              v-model="proposalCategory"
+              required
+            >
+              <option disabled value="">{{ t.categoryPlaceholder }}</option>
+              <option
+                v-for="opt in t.categories"
+                :key="opt.value"
+                :value="opt.value"
+              >
+                {{ opt.label }}
+              </option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="feedbackEmail">{{ lang === 'zh' ? '您的邮箱' : 'Your Email' }}</label>
+          <div class="field">
+            <label for="feedbackEmail">{{ t.emailLabel }}</label>
             <input
               id="feedbackEmail"
-              v-model="feedbackEmail"
+              v-model.trim="feedbackEmail"
               type="email"
-              :placeholder="lang === 'zh' ? '用于反馈更新进度' : 'For feedback purposes'"
+              :placeholder="t.emailPlaceholder"
               required
             />
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="proposalText">{{ lang === 'zh' ? '详细说明' : 'Details' }}</label>
+        <div class="field">
+          <label for="proposalText">{{ t.detailsLabel }}</label>
           <textarea
             id="proposalText"
             v-model="proposalText"
-            :placeholder="lang === 'zh' ? '请描述具体的修正内容、缺失信息或相关链接...' : 'Describe the correction or new information here...'"
+            :placeholder="t.detailsPlaceholder"
+            :maxlength="MAX_LEN"
             required
           ></textarea>
-          <div class="form-footer-info">
-            <span class="hint">{{ lang === 'zh' ? '* 请尽可能提供可验证的信息来源' : '* Please provide verifiable sources if possible' }}</span>
-            <span class="char-count" :class="{ 'text-danger': proposalText.length > 5000 }">
-              {{ proposalText.length }} / 5000
+          <div class="field__meta">
+            <span class="hint">{{ t.sourceHint }}</span>
+            <span class="counter" :class="{ 'is-over': nearLimit }">
+              {{ proposalText.length }} / {{ MAX_LEN }}
             </span>
           </div>
         </div>
 
-        <div class="form-group">
-          <label>{{ lang === 'zh' ? '附件证明 (可选)' : 'Attachments (Optional)' }}</label>
-          <div class="upload-zone" :class="{ 'has-file': selectedFile }">
-            <input 
-              type="file" 
-              id="fileUpload" 
+        <div class="field">
+          <span class="field__label">{{ t.attachmentLabel }}</span>
+          <div class="upload" :class="{ 'has-file': selectedFile }">
+            <input
+              id="fileUpload"
               ref="fileInput"
-              @change="handleFileChange" 
-              class="hidden-input" 
-              accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" 
+              type="file"
+              class="upload__input"
+              :accept="ACCEPT"
+              @change="handleFileChange"
             />
-            <label for="fileUpload" class="upload-container">
-              <template v-if="!selectedFile">
-                <div class="upload-trigger">
-                  <span class="plus-icon">+</span>
-                  <span>{{ lang === 'zh' ? '上传证明文件 (支持图片、PDF、Word，限5MB)' : 'Upload evidence (Images, PDF, Word, Max 5MB)' }}</span>
-                </div>
-              </template>
-              <template v-else>
-                <div class="file-preview">
-                  <span class="file-icon">📄</span>
-                  <span class="file-name">{{ selectedFile.name }}</span>
-                  <button type="button" @click.prevent="removeFile" class="remove-btn" title="Remove file">✕</button>
-                </div>
-              </template>
+
+            <label v-if="!selectedFile" for="fileUpload" class="upload__drop">
+              <span class="upload__plus" aria-hidden="true">+</span>
+              <span>{{ t.uploadPrompt }}</span>
             </label>
+
+            <div v-else class="upload__file">
+              <span class="upload__icon" aria-hidden="true">📄</span>
+              <span class="upload__name">{{ selectedFile.name }}</span>
+              <span class="upload__size">{{ readableSize }}</span>
+              <!-- .stop is required: without it the click bubbles to the
+                   wrapping label and re-opens the file picker. -->
+              <button
+                type="button"
+                class="upload__remove"
+                :aria-label="t.removeFile"
+                @click.stop.prevent="removeFile"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         </div>
 
         <div class="actions">
-          <button type="submit" :disabled="isSubmitting" class="submit-button">
-            <span v-if="!isSubmitting">{{ lang === 'zh' ? '提交更新提案' : 'Submit Update Proposal' }}</span>
-            <span v-else>{{ lang === 'zh' ? '正在安全传输中...' : 'Submitting safely...' }}</span>
+          <button
+            type="submit"
+            class="submit"
+            :disabled="isSubmitting || !canSubmit"
+          >
+            {{ isSubmitting ? t.submitting : t.submit }}
           </button>
-          
+
           <transition name="slide-fade">
-            <div v-if="feedbackMessage" :class="['feedback-msg', statusClass]">
+            <p
+              v-if="feedbackMessage"
+              class="feedback"
+              :class="'feedback--' + statusClass"
+              role="status"
+              aria-live="polite"
+            >
               {{ feedbackMessage }}
-            </div>
+            </p>
           </transition>
         </div>
       </form>
@@ -102,12 +121,111 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+
+const MAX_LEN = 5000
+const MAX_BYTES = 5 * 1024 * 1024
+const ACCEPT = '.jpg,.jpeg,.png,.pdf,.doc,.docx'
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
+const COPY = {
+  zh: {
+    title: '帮我们更新 GISphere 信息！',
+    intro: [
+      '我们知道部分数据可能不是最新的，也可能存在缺失或错误，在某些地区和机构尤其如此。',
+      '您的贡献是维持 GISphere 信息准确、完整的基础。如果您发现错误或过时的信息，或者有额外的数据可以分享，欢迎在这里提交。',
+    ],
+    introHighlight:
+      '我们的团队会尽快审核并核实您提交的内容，必要时与您联系。感谢您的支持！',
+
+    categoryLabel: '更新类别',
+    categoryPlaceholder: '请选择类别',
+    categories: [
+      { value: 'school', label: '院校动态' },
+      { value: 'professor', label: '教授动态' },
+      { value: 'recruitment', label: '招生招聘' },
+      { value: 'competition', label: '竞赛/会议' },
+    ],
+
+    emailLabel: '您的邮箱',
+    emailPlaceholder: '用于反馈更新进度',
+
+    detailsLabel: '详细说明',
+    detailsPlaceholder: '请描述具体的修正内容、缺失信息或相关链接…',
+    sourceHint: '* 请尽可能提供可验证的信息来源',
+
+    attachmentLabel: '附件证明（可选）',
+    uploadPrompt: '上传证明文件（图片、PDF、Word，单个不超过 5MB）',
+    removeFile: '移除附件',
+
+    submit: '提交更新提案',
+    submitting: '正在提交…',
+
+    errCategory: '请选择更新类别',
+    errEmail: '请输入有效的邮箱地址',
+    errDetails: '请填写详细说明',
+    errTooLong: `详细说明不能超过 ${MAX_LEN} 字`,
+    errFileSize: '单个文件需在 5MB 以内',
+    errFileType: '仅支持图片、PDF 或 Word 文件',
+    errServer: '提交失败，请稍后再试。',
+    ok: '感谢！您的提案已送交审核。',
+
+    metaDescription: '向 GISphere 提交院校、教授、招生与竞赛信息的更新与纠错。',
+  },
+
+  en: {
+    title: 'Help Keep GISphere Up to Date',
+    intro: [
+      'Some of our data may not be fully up to date, and there may be missing entries or occasional errors — particularly for certain regions and institutions.',
+      'Your contributions are what keep GISphere accurate and complete. If you notice incorrect or outdated information, or have additional data to share, please submit it here.',
+    ],
+    introHighlight:
+      'Our team reviews and verifies submissions as soon as possible, and will get back to you if needed. Thank you for your support!',
+
+    categoryLabel: 'Category',
+    categoryPlaceholder: 'Select a category',
+    categories: [
+      { value: 'school', label: 'School Updates' },
+      { value: 'professor', label: 'Professor Updates' },
+      { value: 'recruitment', label: 'Recruitment' },
+      { value: 'competition', label: 'Competitions / Conferences' },
+    ],
+
+    emailLabel: 'Your Email',
+    emailPlaceholder: 'So we can follow up with you',
+
+    detailsLabel: 'Details',
+    detailsPlaceholder:
+      'Describe the correction, the missing information, or a relevant link…',
+    sourceHint: '* Please provide verifiable sources where possible',
+
+    attachmentLabel: 'Attachments (optional)',
+    uploadPrompt: 'Upload evidence — images, PDF, or Word, up to 5MB',
+    removeFile: 'Remove attachment',
+
+    submit: 'Submit Update Proposal',
+    submitting: 'Submitting…',
+
+    errCategory: 'Choose a category',
+    errEmail: 'Enter a valid email address',
+    errDetails: 'Add some details about the update',
+    errTooLong: `Details must be under ${MAX_LEN} characters`,
+    errFileSize: 'Files must be under 5MB',
+    errFileType: 'Only images, PDF, and Word files are accepted',
+    errServer: 'Submission failed. Please try again.',
+    ok: 'Thank you — your proposal is now under review.',
+
+    metaDescription:
+      'Submit corrections and updates to GISphere program, faculty, and recruitment data.',
+  },
+}
 
 export default {
-  name: 'ProposeInformation',
+  name: 'SuggestionPage',
   data() {
     return {
+      MAX_LEN,
+      ACCEPT,
       proposalCategory: '',
       proposalText: '',
       feedbackEmail: '',
@@ -115,276 +233,431 @@ export default {
       feedbackMessage: '',
       statusClass: '',
       isSubmitting: false,
-    };
+      msgTimer: null,
+    }
+  },
+  head() {
+    return {
+      title: this.t.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.t.metaDescription,
+        },
+      ],
+    }
   },
   computed: {
-    ...mapState({ lang: 'language' })
+    ...mapState({ lang: 'language' }),
+    t() {
+      return COPY[this.lang] || COPY.en
+    },
+    nearLimit() {
+      return this.proposalText.length >= MAX_LEN * 0.95
+    },
+    canSubmit() {
+      return (
+        this.proposalCategory !== '' &&
+        this.proposalText.trim().length > 0 &&
+        this.proposalText.length <= MAX_LEN &&
+        EMAIL_RE.test(this.feedbackEmail)
+      )
+    },
+    readableSize() {
+      if (!this.selectedFile) return ''
+      const kb = this.selectedFile.size / 1024
+      return kb < 1024
+        ? `${Math.round(kb)} KB`
+        : `${(kb / 1024).toFixed(1)} MB`
+    },
+  },
+  beforeDestroy() {
+    clearTimeout(this.msgTimer)
   },
   methods: {
     handleFileChange(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      if (file.size > 5 * 1024 * 1024) {
-        this.showMessage(this.lang === 'zh' ? '单个文件需在5MB以内' : 'File must be under 5MB', 'error');
-        this.$refs.fileInput.value = '';
-        return;
+      const file = e.target.files[0]
+      if (!file) return
+
+      const ext = '.' + (file.name.split('.').pop() || '').toLowerCase()
+      if (!ACCEPT.split(',').includes(ext)) {
+        this.showMessage(this.t.errFileType, 'error')
+        this.clearFileInput()
+        return
       }
-      this.selectedFile = file;
+      if (file.size > MAX_BYTES) {
+        this.showMessage(this.t.errFileSize, 'error')
+        this.clearFileInput()
+        return
+      }
+      this.selectedFile = file
     },
     removeFile() {
-      this.selectedFile = null;
-      this.$refs.fileInput.value = '';
+      this.selectedFile = null
+      this.clearFileInput()
+    },
+    clearFileInput() {
+      if (this.$refs.fileInput) this.$refs.fileInput.value = ''
     },
     showMessage(msg, type) {
-      this.feedbackMessage = msg;
-      this.statusClass = type;
-      setTimeout(() => { this.feedbackMessage = ''; }, 6000);
+      clearTimeout(this.msgTimer)
+      this.feedbackMessage = msg
+      this.statusClass = type
+      this.msgTimer = setTimeout(() => {
+        this.feedbackMessage = ''
+      }, 6000)
+    },
+    // Returns the first problem found, or null.
+    validate() {
+      if (!this.proposalCategory) return this.t.errCategory
+      if (!EMAIL_RE.test(this.feedbackEmail)) return this.t.errEmail
+      if (!this.proposalText.trim()) return this.t.errDetails
+      if (this.proposalText.length > MAX_LEN) return this.t.errTooLong
+      return null
     },
     async submitProposal() {
-      if (this.isSubmitting) return;
+      if (this.isSubmitting) return
 
-      const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailReg.test(this.feedbackEmail)) {
-        this.showMessage(this.lang === 'zh' ? '邮箱格式不规范' : 'Invalid email format', 'error');
-        return;
+      const problem = this.validate()
+      if (problem) {
+        this.showMessage(problem, 'error')
+        return
       }
 
-      this.isSubmitting = true;
-      const formData = new FormData();
-      formData.append('category', this.proposalCategory);
-      formData.append('content', this.proposalText);
-      formData.append('email', this.feedbackEmail);
-      if (this.selectedFile) formData.append('file', this.selectedFile);
+      this.isSubmitting = true
+
+      const formData = new FormData()
+      formData.append('category', this.proposalCategory)
+      formData.append('content', this.proposalText)
+      formData.append('email', this.feedbackEmail)
+      if (this.selectedFile) formData.append('file', this.selectedFile)
 
       try {
-        const response = await fetch('/api/send-proposal/', {
-          method: 'POST',
-          body: formData 
-        });
-
-        if (response.ok) {
-          this.showMessage(this.lang === 'zh' ? '感谢！您的提案已送至后台审核。' : 'Success! Your proposal is under review.', 'success');
-          this.resetForm();
-        } else {
-          throw new Error();
-        }
-      } catch (error) {
-        this.showMessage(this.lang === 'zh' ? '服务器繁忙，请稍后再试。' : 'Server error, please try again.', 'error');
+        // Uses the app's configured axios instance (baseURL, interceptors).
+        // Do NOT set Content-Type — the browser adds the multipart boundary.
+        await this.$axios.post('/api/send-proposal/', formData)
+        this.showMessage(this.t.ok, 'success')
+        this.resetForm()
+      } catch (err) {
+        this.showMessage(this.serverMessage(err), 'error')
       } finally {
-        this.isSubmitting = false;
+        this.isSubmitting = false
       }
     },
+    // Surface what the server actually said instead of a blanket failure.
+    serverMessage(err) {
+      const data = err && err.response && err.response.data
+      if (typeof data === 'string' && data.length < 200) return data
+      if (data && (data.message || data.detail || data.error)) {
+        return data.message || data.detail || data.error
+      }
+      return this.t.errServer
+    },
     resetForm() {
-      this.proposalCategory = '';
-      this.proposalText = '';
-      this.feedbackEmail = '';
-      this.selectedFile = null;
-      if (this.$refs.fileInput) this.$refs.fileInput.value = '';
-    }
-  }
-};
+      this.proposalCategory = ''
+      this.proposalText = ''
+      this.feedbackEmail = ''
+      this.selectedFile = null
+      this.clearFileInput()
+    },
+  },
+}
 </script>
 
 <style scoped>
-/* 核心容器 */
-.main-container {
+.page {
+  --brand: #2c3aaa;
+  --brand-ink: #1e2a80;
+  --brand-soft: rgba(44, 58, 170, 0.12);
+  --ink: #1a1a1a;
+  --ink-soft: #5a6270;
+  --line: #e0e3ec;
+  --nav-h: 56px;
+
   width: 100%;
-  min-height: 100vh;
-  background: #ebeef5; /* 保持原有背景 */
-  padding: 60px 0;
+  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100svh - var(--nav-h));
+  background: #ebeef5;
+  padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 32px);
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-/* 固定宽度的卡片，专为桌面设计 */
-.content-card {
-  width: 850px;
-  background: #ffffff;
-  padding: 50px 60px;
+.card {
+  /* was a hard 850px — that overflowed every viewport below it */
+  width: min(850px, 100%);
+  background: #fff;
+  padding: clamp(28px, 5vw, 50px) clamp(20px, 5vw, 60px);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-.form-header {
-  margin-bottom: 40px;
+.card__header {
+  margin-bottom: 28px;
   text-align: center;
 }
-
-.form-header h2 {
-  font-size: 2rem;
-  color: #1a1a1a;
-  margin-bottom: 12px;
+.card__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  line-height: 1.3;
+  color: var(--ink);
   letter-spacing: -0.5px;
 }
 
-.subtitle {
-  color: #7f8c8d;
-  font-size: 1rem;
+.notice {
+  margin-bottom: 36px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.notice p {
+  margin: 0 0 12px;
+}
+.notice__highlight {
+  margin-bottom: 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--brand);
+  color: var(--ink);
+  font-weight: 500;
 }
 
-/* 栅格布局 */
-.form-grid {
+.form__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin-bottom: 25px;
+  gap: 24px;
 }
 
-.form-group {
-  margin-bottom: 25px;
+.field {
+  margin-bottom: 24px;
   text-align: left;
 }
-
-label {
+label,
+.field__label {
   display: block;
+  margin-bottom: 10px;
   font-size: 0.95rem;
   font-weight: 600;
   color: #34495e;
-  margin-bottom: 10px;
 }
 
-/* 输入控件统一风格 */
-select, textarea, input[type="email"] {
+select,
+textarea,
+input[type='email'] {
   width: 100%;
-  padding: 14px 18px;
-  border: 1px solid #e0e0e0;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
   border-radius: 10px;
   background-color: #f9fafb;
+  font: inherit;
   font-size: 1rem;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--ink);
   box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
-
-select:focus, textarea:focus, input:focus {
+select:focus,
+textarea:focus,
+input:focus {
   outline: none;
-  border-color: #409eff;
+  border-color: var(--brand);
   background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(64, 158, 255, 0.12);
+  box-shadow: 0 0 0 4px var(--brand-soft);
 }
 
 textarea {
-  height: 200px;
+  /* min-height, not height: keeps the drag handle useful */
+  min-height: 200px;
   line-height: 1.6;
+  resize: vertical;
 }
 
-.form-footer-info {
+.field__meta {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   margin-top: 8px;
+  font-size: 0.85rem;
+}
+.hint {
+  color: #95a5a6;
+}
+.counter {
+  color: #b6bcc6;
+  font-variant-numeric: tabular-nums;
+}
+.counter.is-over {
+  color: #d9363e;
+  font-weight: 700;
 }
 
-.hint { font-size: 0.85rem; color: #95a5a6; }
-.char-count { font-size: 0.85rem; color: #bdc3c7; }
-.text-danger { color: #e74c3c; font-weight: bold; }
-
-/* 上传组件 */
-.upload-zone {
+/* ---------- upload ---------- */
+.upload {
   border: 2px dashed #dcdfe6;
   border-radius: 12px;
   background: #fcfcfc;
-  transition: all 0.3s;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
 }
-
-.upload-zone:hover {
-  border-color: #409eff;
-  background: #f4f9ff;
+.upload:hover {
+  border-color: var(--brand);
+  background: #f6f7fc;
 }
-
-.upload-zone.has-file {
+.upload.has-file {
   border-style: solid;
-  border-color: #67c23a;
-  background: #f0f9eb;
+  border-color: #5aa84f;
+  background: #f3faf1;
 }
-
-.hidden-input { display: none; }
-
-.upload-container {
+.upload__input {
+  /* visually hidden but still focusable, so the control is keyboard-reachable */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.upload__input:focus-visible + .upload__drop {
+  outline: 3px solid #ffb703;
+  outline-offset: 2px;
+}
+.upload__drop {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 25px;
-  cursor: pointer;
+  gap: 12px;
   min-height: 60px;
+  margin: 0;
+  padding: 22px;
+  font-weight: 400;
+  color: #606266;
+  font-size: 0.95rem;
+  text-align: center;
+  cursor: pointer;
 }
-
-.upload-trigger {
+.upload__plus {
+  font-size: 24px;
+  line-height: 1;
+  color: var(--brand);
+  font-weight: 300;
+}
+.upload__file {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #606266;
-  font-size: 0.95rem;
+  padding: 18px 22px;
 }
-
-.plus-icon {
-  font-size: 24px;
-  color: #409eff;
-  font-weight: 300;
+.upload__icon {
+  font-size: 1.4rem;
 }
-
-.file-preview {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  width: 100%;
+.upload__name {
+  flex: 1;
+  min-width: 0;
+  color: #2c3e50;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
-.file-icon { font-size: 1.5rem; }
-.file-name { color: #2c3e50; font-weight: 500; flex: 1; }
-
-.remove-btn {
-  background: #ff4d4f;
-  color: white;
+.upload__size {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.upload__remove {
+  flex: none;
+  padding: 5px 11px;
   border: none;
   border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
+  background: #ff4d4f;
+  color: #fff;
   font-size: 0.8rem;
+  cursor: pointer;
   transition: background 0.2s;
 }
+.upload__remove:hover {
+  background: #d9363e;
+}
 
-.remove-btn:hover { background: #d9363e; }
-
-/* 提交按钮 */
-.submit-button {
+/* ---------- submit ---------- */
+.submit {
   width: 100%;
+  margin-top: 8px;
   padding: 16px;
-  background: #409eff;
-  color: white;
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 20px;
-  transition: all 0.3s;
-  box-shadow: 0 4px 14px 0 rgba(64, 158, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(44, 58, 170, 0.28);
+  transition: background 0.25s ease, transform 0.15s ease,
+    box-shadow 0.25s ease;
 }
-
-.submit-button:hover:not(:disabled) {
-  background: #66b1ff;
+.submit:hover:not(:disabled) {
+  background: var(--brand-ink);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(64, 158, 255, 0.4);
+  box-shadow: 0 6px 20px rgba(44, 58, 170, 0.36);
 }
-
-.submit-button:disabled {
-  background: #a0cfff;
+.submit:disabled {
+  background: #a6adda;
   cursor: not-allowed;
   box-shadow: none;
 }
 
-/* 反馈消息动画 */
-.feedback-msg {
-  margin-top: 20px;
-  padding: 15px;
+.feedback {
+  margin: 18px 0 0;
+  padding: 14px;
   border-radius: 8px;
   text-align: center;
   font-weight: 500;
 }
+.feedback--success {
+  background: #f0f9eb;
+  color: #4e9440;
+}
+.feedback--error {
+  background: #fef0f0;
+  color: #d9363e;
+}
 
-.feedback-msg.success { background: #f0f9eb; color: #67c23a; }
-.feedback-msg.error { background: #fef0f0; color: #f56c6c; }
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(-8px);
+  opacity: 0;
+}
 
-.slide-fade-enter-active { transition: all 0.3s ease; }
-.slide-fade-enter { transform: translateY(-10px); opacity: 0; }
+:focus-visible {
+  outline: 3px solid #ffb703;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .form__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .upload__file {
+    flex-wrap: wrap;
+  }
+  .upload__name {
+    flex: 1 1 100%;
+    white-space: normal;
+    word-break: break-all;
+  }
+}
 </style>
