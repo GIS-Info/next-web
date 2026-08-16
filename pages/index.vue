@@ -162,7 +162,7 @@ const COPY = {
         external: true,
       },
       // Adjust this wording to match your nav bar's ZH label.
-      { label: '提交信息更新', to: '/suggestion', variant: 'ghost' },
+      { label: '提交信息更新', to: '/suggestion', variant: 'accent' },
     ],
     subscribe: '订阅邮箱',
     whiteBook: 'GISphere 留学指南 · 大数据报告白皮书',
@@ -241,7 +241,7 @@ const COPY = {
       // Counterpart to the ZH WeChat link above — intentionally a different
       // destination, not a copy of it.
       { label: 'GIStory Interview', to: '/gistory' },
-      { label: 'Suggest Edit', to: '/suggestion', variant: 'ghost' },
+      { label: 'Suggest Edit', to: '/suggestion', variant: 'accent' },
     ],
     subscribe: 'Subscribe to Email',
     whiteBook: 'GISphere Global Admission Annual Review',
@@ -357,6 +357,8 @@ export default {
 .main {
   --brand: #2c3aaa;
   --brand-ink: #1e2a80;
+  --accent: #e3b23c;
+  --accent-ink: #f0c454;
   --ink: #1f1f20;
   --ink-soft: #444;
   --tint: #f6f7fc;
@@ -384,16 +386,12 @@ export default {
   inset: 0;
 }
 /* Replaces the four stacked text-shadows: one cheap gradient, better contrast. */
+/* Flat overlay, not a gradient: contrast is then identical everywhere,
+   so a button's legibility doesn't depend on where it sits in the row. */
 .hero__scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    100deg,
-    rgba(18, 20, 38, 0.74) 0%,
-    rgba(18, 20, 38, 0.5) 42%,
-    rgba(18, 20, 38, 0.12) 72%,
-    rgba(18, 20, 38, 0) 92%
-  );
+  background-color: rgba(20, 23, 42, 0.52);
   pointer-events: none;
 }
 .hero__inner {
@@ -464,12 +462,18 @@ export default {
   background-color: rgba(255, 255, 255, 0.88);
   color: var(--brand);
 }
-/* Secondary action: same footprint, quieter fill so it doesn't compete
-   with the three primary destinations. */
-.cta-btn--ghost {
-  background-color: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.85);
-  color: #fff;
+/* Contribution ask: solid gold picks up the logo mark and the map's dots,
+   so it reads as a distinct action rather than a fourth destination. */
+.cta-btn--accent {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #1f1f20;
+  font-weight: 600;
+}
+.cta-btn--accent:hover {
+  background-color: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: #1f1f20;
 }
 .cta-btn:hover {
   transform: translateY(-1px);
@@ -675,9 +679,12 @@ a.contact__row:hover {
 }
 
 /* ---------- a11y / motion floor ---------- */
+/* Double ring so it stays visible on white cards, the dark hero,
+   and the gold button alike. */
 :focus-visible {
-  outline: 3px solid #ffb703;
-  outline-offset: 3px;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(20, 23, 42, 0.9);
 }
 @media (prefers-reduced-motion: reduce) {
   * {
