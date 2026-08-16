@@ -357,8 +357,8 @@ export default {
 .main {
   --brand: #2c3aaa;
   --brand-ink: #1e2a80;
-  --accent: #e3b23c;
-  --accent-ink: #f0c454;
+  --accent: #6b7280;
+  --accent-ink: #4b515e;
   --ink: #1f1f20;
   --ink-soft: #444;
   --tint: #f6f7fc;
@@ -386,12 +386,12 @@ export default {
   inset: 0;
 }
 /* Replaces the four stacked text-shadows: one cheap gradient, better contrast. */
-/* Flat overlay, not a gradient: contrast is then identical everywhere,
-   so a button's legibility doesn't depend on where it sits in the row. */
+/* Flat white veil, not a gradient: lifts the map back toward the original
+   near-white and keeps contrast identical across the whole row. */
 .hero__scrim {
   position: absolute;
   inset: 0;
-  background-color: rgba(20, 23, 42, 0.52);
+  background-color: rgba(255, 255, 255, 0.55);
   pointer-events: none;
 }
 .hero__inner {
@@ -412,13 +412,13 @@ export default {
   /* Fluid instead of transform:scale() — stays sharp, reflows properly. */
   font-size: clamp(2rem, 4.6vw, 3.25rem);
   line-height: 1.16;
-  color: #fff;
+  color: var(--brand);
   max-width: 18ch;
 }
 .hero__description {
   margin: 16px 0 0;
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.94);
+  color: #3a3f52;
   /* narrower measure + balanced breaks: no lone "future" on line 2 */
   max-width: 34ch;
   text-wrap: balance;
@@ -459,21 +459,21 @@ export default {
   color: #fff;
 }
 .cta-btn--outline {
-  background-color: rgba(255, 255, 255, 0.88);
+  background-color: #fff;
   color: var(--brand);
 }
-/* Contribution ask: solid gold picks up the logo mark and the map's dots,
-   so it reads as a distinct action rather than a fourth destination. */
+/* Contribution ask: a solid neutral so it reads as a different kind of
+   action from the three destinations, without adding a second brand hue. */
 .cta-btn--accent {
   background-color: var(--accent);
   border-color: var(--accent);
-  color: #1f1f20;
+  color: #fff;
   font-weight: 600;
 }
 .cta-btn--accent:hover {
   background-color: var(--accent-ink);
   border-color: var(--accent-ink);
-  color: #1f1f20;
+  color: #fff;
 }
 .cta-btn:hover {
   transform: translateY(-1px);
@@ -679,12 +679,12 @@ a.contact__row:hover {
 }
 
 /* ---------- a11y / motion floor ---------- */
-/* Double ring so it stays visible on white cards, the dark hero,
-   and the gold button alike. */
+/* Double ring: dark core stays visible on the light hero and white cards,
+   pale halo keeps it visible on the indigo and gray fills. */
 :focus-visible {
-  outline: 3px solid #fff;
+  outline: 3px solid #1f2233;
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(20, 23, 42, 0.9);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.95);
 }
 @media (prefers-reduced-motion: reduce) {
   * {
