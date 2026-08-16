@@ -12,10 +12,10 @@
         <nav class="cta-group" :aria-label="t.heroNavLabel">
           <component
             :is="cta.external ? 'a' : 'nuxt-link'"
-            v-for="(cta, i) in t.ctas"
+            v-for="cta in t.ctas"
             :key="cta.label"
             class="cta-btn"
-            :class="i === 0 ? 'cta-btn--primary' : 'cta-btn--outline'"
+            :class="'cta-btn--' + (cta.variant || 'outline')"
             v-bind="
               cta.external
                 ? { href: cta.to, target: '_blank', rel: 'noopener' }
@@ -151,7 +151,7 @@ const COPY = {
     heroDescription: '致力于分享世界各地 GIS 相关领域教育信息',
     heroNavLabel: '主要入口',
     ctas: [
-      { label: '招生信息', to: '/postList?type=academic' },
+      { label: '招生信息', to: '/postList?type=academic', variant: 'primary' },
       { label: '院校指南', to: '/school' },
       // DELIBERATE: ZH visitors go to the WeChat account, EN visitors go to
       // /gistory. WeChat is the primary channel for the CN audience, so this
@@ -161,6 +161,8 @@ const COPY = {
         to: 'https://mp.weixin.qq.com/mp/homepage?__biz=Mzg3OTUyMjk3OQ==&hid=5&sn=3587fb68bd6892591c79b32606a286bf&scene=18',
         external: true,
       },
+      // Adjust this wording to match your nav bar's ZH label.
+      { label: '提交信息更新', to: '/suggestion', variant: 'ghost' },
     ],
     subscribe: '订阅邮箱',
     whiteBook: 'GISphere 留学指南 · 大数据报告白皮书',
@@ -230,11 +232,16 @@ const COPY = {
       'Empower GIScience and Geography education for the future',
     heroNavLabel: 'Primary sections',
     ctas: [
-      { label: 'Academic Recruiting', to: '/postList?type=academic' },
+      {
+        label: 'Academic Recruiting',
+        to: '/postList?type=academic',
+        variant: 'primary',
+      },
       { label: 'GISphere Guide', to: '/school' },
       // Counterpart to the ZH WeChat link above — intentionally a different
       // destination, not a copy of it.
       { label: 'GIStory Interview', to: '/gistory' },
+      { label: 'Suggest Edit', to: '/suggestion', variant: 'ghost' },
     ],
     subscribe: 'Subscribe to Email',
     whiteBook: 'GISphere Global Admission Annual Review',
@@ -436,7 +443,7 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 210px;
+  min-width: 190px;
   min-height: 50px;
   padding: 0 22px;
   font-family: 'Montserrat', sans-serif;
@@ -456,6 +463,13 @@ export default {
 .cta-btn--outline {
   background-color: rgba(255, 255, 255, 0.88);
   color: var(--brand);
+}
+/* Secondary action: same footprint, quieter fill so it doesn't compete
+   with the three primary destinations. */
+.cta-btn--ghost {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.85);
+  color: #fff;
 }
 .cta-btn:hover {
   transform: translateY(-1px);
