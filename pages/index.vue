@@ -355,13 +355,20 @@ export default {
   --tint: #f6f7fc;
   --line: #e3e5f0;
   --radius: 12px;
+  /* Height of the site nav bar above the hero. Measure yours and adjust —
+     this is the one value the hero's vertical fit depends on. */
+  --nav-h: 56px;
+  /* Grows with the viewport instead of stopping dead at 1200px. */
+  --page-max: clamp(1040px, 86vw, 1520px);
+  --gutter: clamp(20px, 5vw, 72px);
   width: 100%;
 }
 
 /* ---------- hero ---------- */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100svh - var(--nav-h));
   display: flex;
   flex-direction: column;
 }
@@ -375,9 +382,10 @@ export default {
   inset: 0;
   background: linear-gradient(
     100deg,
-    rgba(20, 22, 40, 0.62) 0%,
-    rgba(20, 22, 40, 0.34) 45%,
-    rgba(20, 22, 40, 0) 78%
+    rgba(18, 20, 38, 0.74) 0%,
+    rgba(18, 20, 38, 0.5) 42%,
+    rgba(18, 20, 38, 0.12) 72%,
+    rgba(18, 20, 38, 0) 92%
   );
   pointer-events: none;
 }
@@ -389,9 +397,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--page-max);
   margin: 0 auto;
-  padding: 120px clamp(20px, 6vw, 72px) 24px;
+  padding: clamp(40px, 7vh, 76px) var(--gutter) 24px;
 }
 .hero__heading {
   margin: 0;
@@ -405,8 +413,10 @@ export default {
 .hero__description {
   margin: 16px 0 0;
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.92);
-  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.94);
+  /* narrower measure + balanced breaks: no lone "future" on line 2 */
+  max-width: 34ch;
+  text-wrap: balance;
 }
 .is-zh {
   letter-spacing: 2px;
@@ -464,9 +474,9 @@ export default {
   justify-content: flex-end;
   gap: 12px;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--page-max);
   margin: 0 auto;
-  padding: 0 clamp(20px, 6vw, 72px) clamp(28px, 6vh, 60px);
+  padding: 0 var(--gutter) clamp(24px, 4vh, 48px);
 }
 .utility-btn {
   display: inline-flex;
@@ -551,9 +561,9 @@ a.contact__row:hover {
 .container {
   /* replaces the fixed 151.5px side margins */
   width: 100%;
-  max-width: 1080px;
+  max-width: min(var(--page-max), 1240px);
   margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 40px);
+  padding: 0 var(--gutter);
 }
 .section__title {
   margin: 0 0 32px;
@@ -574,7 +584,8 @@ a.contact__row:hover {
   max-width: 70ch;
   margin: 0 auto;
   color: var(--ink-soft);
-  font-size: 16px;
+  /* grows on large displays so the measure fills more of the column */
+  font-size: clamp(16px, 1.05vw, 19px);
   line-height: 1.75;
 }
 .prose p + p {
@@ -663,9 +674,6 @@ a.contact__row:hover {
 
 /* ---------- mobile ---------- */
 @media (max-width: 768px) {
-  .hero__inner {
-    padding-top: 96px;
-  }
   .cta-group {
     flex-direction: column;
     align-items: stretch;
