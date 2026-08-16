@@ -29,7 +29,6 @@ export default {
       const isZh = this.lang === 'zh';
       return [
         { label: isZh ? '关于我们' : 'About', action: 'route', value: 'aboutUs' },
-        { label: isZh ? '填写建议' : 'Suggest Edit', action: 'route', value: 'suggestion' },
         // Language Switcher
         { label: isZh ? 'English' : '中文', action: 'lang', value: isZh ? 'en' : 'zh' },
         // Admin Login (Simplified text)
