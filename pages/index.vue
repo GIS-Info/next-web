@@ -3,7 +3,6 @@
     <!-- ===================== HERO ===================== -->
     <header class="hero">
       <map-background class="hero__bg" />
-      <div class="hero__scrim" aria-hidden="true"></div>
 
       <div class="hero__inner" :class="letterSpacingClass">
         <h1 class="hero__heading">{{ t.heroHeading }}</h1>
@@ -385,15 +384,6 @@ export default {
   position: absolute;
   inset: 0;
 }
-/* Replaces the four stacked text-shadows: one cheap gradient, better contrast. */
-/* Flat white veil, not a gradient: lifts the map back toward the original
-   near-white and keeps contrast identical across the whole row. */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(255, 255, 255, 0.55);
-  pointer-events: none;
-}
 .hero__inner {
   position: relative;
   z-index: 1;
@@ -412,13 +402,19 @@ export default {
   /* Fluid instead of transform:scale() — stays sharp, reflows properly. */
   font-size: clamp(2rem, 4.6vw, 3.25rem);
   line-height: 1.16;
-  color: var(--brand);
+  color: #fff;
+  /* No overlay now, so the type carries its own contrast. Three tight
+     layers instead of the original four 80px blurs: same halo, less paint. */
+  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.55),
+    0 0 18px rgba(20, 23, 42, 0.75), 0 0 44px rgba(20, 23, 42, 0.55);
   max-width: 18ch;
 }
 .hero__description {
   margin: 16px 0 0;
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: #3a3f52;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.6),
+    0 0 16px rgba(20, 23, 42, 0.7);
   /* narrower measure + balanced breaks: no lone "future" on line 2 */
   max-width: 34ch;
   text-wrap: balance;
