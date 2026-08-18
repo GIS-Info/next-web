@@ -1,0 +1,34 @@
+pages/aboutUs/index.vue
+  s_c9cfa5020735ee::t_8733b7045c20b9 64-66
+pages/mobile/gitGraph/index.vue
+  s_c9cfa5020735ee::t_9a3db33e4595e1 1-15
+pages/gitGraph/index.vue
+  s_c9cfa5020735ee::t_8124d8bcd8af0e 13-18,22-24
+  s_c9cfa5020735ee::t_edb9e63c99bb1b 27-30
+  s_c9cfa5020735ee::t_bf564cc9c75384 103,106-107
+  s_c9cfa5020735ee::t_3115fac66b89c7 1-12,25-26,31-102,104-105,108-170,173-180,185-197
+  s_c9cfa5020735ee::t_47617e3878df42 171-172,181-184
+pages/mobile/aboutUs/index.vue
+  s_c9cfa5020735ee::t_b14349c3aaebd2 64-66
+nuxt.config.js
+  s_c9cfa5020735ee::t_35b51873290a71 84
+  s_c9cfa5020735ee::t_b919bc57553ad5 92-97
+  s_c9cfa5020735ee::t_193dd1620c18cd 85
+  s_c9cfa5020735ee::t_85397eb2884f7d 86-91,98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.40-trip",
+  "base_commit_sha": "29adcc1db39c0f8c588604eb5c5dcd79c74a44da",
+  "prompts": {},
+  "sessions": {
+    "s_c9cfa5020735ee": {
+      "agent_id": {
+        "tool": "kiro-desktop",
+        "id": "sess_bb50493e-836d-4aa6-9e19-4662a11f3d02",
+        "model": "claude-opus-5"
+      },
+      "human_author": "jingyuan <zjingyuan@trip.com>"
+    }
+  }
+}
