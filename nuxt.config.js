@@ -81,7 +81,21 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^element-ui/]
+    // @web-git-graph 发布的是 ESM 且用到私有类字段，webpack 4 的 acorn 无法解析，交给 babel
+    // 注意：transpile 的正则是拿绝对路径去匹配的，所以不能加 ^ 锚点
+    transpile: [/^element-ui/, /@web-git-graph/],
+    babel: {
+      // 服务端构建的 babel targets 是 node:current，会原样保留 `??=`，
+      // 而 webpack 4 的 acorn 解析不了。Nuxt 自带的 preset 已经对
+      // optional chaining / nullish coalescing 做了同样的兜底，这里补上逻辑赋值。
+      plugins: ['@babel/plugin-transform-logical-assignment-operators']
+    },
+    extend(config) {
+      // 服务端构建会按 mainFields 选到 protocol 的 .cjs 产物，
+      // 而 .cjs 不匹配 webpack 4 默认的 js loader 规则，直接别名到 ESM 产物
+      config.resolve.alias['@web-git-graph/protocol$'] =
+        '@web-git-graph/protocol/dist/index.js'
+    }
   },
   sitemap: {
     path: '/sitemap.xml',

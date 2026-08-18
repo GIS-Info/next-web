@@ -16,6 +16,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/sitemap": "^2.4.0",
+    "@web-git-graph/web": "1.0.7",
     "axios": "^0.21.1",
     "core-js": "^3.19.3",
     "cos-js-sdk-v5": "^1.4.16",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-logical-assignment-operators": "7.29.7",
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
     "@nuxt/types": "~2.15.0",

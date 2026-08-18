@@ -61,6 +61,9 @@
         <a href="https://gisphere.github.io/pages/contribute" target="_blank">here</a>,
         submit articles about vacancies in your group either in Chinese or English to be published on our WeChat official account
         <a href="https://mp.weixin.qq.com/s/EB1nVtZ58bIUGlIg4VWzgQ" target="_blank">here</a> and/or Twitter, or join our vibrant GISpace community.</p>
+    <p>Prefer to contribute code? GISphere is built in the open &mdash; this website and its backend service live in
+        two public repositories. You can follow what we are working on, and where help is welcome, on our
+        <nuxt-link to="/gitGraph">code graph</nuxt-link>.</p>
 
     <h2>Join Us in Our Mission</h2>
     <p>
