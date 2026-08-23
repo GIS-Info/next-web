@@ -1,0 +1,22 @@
+package.json
+  s_e17d17bd4fc09a::t_0f7cc673179529 56-59
+  s_e17d17bd4fc09a::t_2b5215535f57ac 25
+yarn.lock
+  ai_agent 3830-3844,4662,4676,6588,6629-6632,7871-7874,7877-7878,7885,7888-7891,7893-7894,7898-7899,7901,8628-8631,10591-10594,10596-10597,11678
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.40-trip",
+  "base_commit_sha": "9977f11a0160aca69e2a3b6b1eca27942fad43b9",
+  "prompts": {},
+  "sessions": {
+    "s_e17d17bd4fc09a": {
+      "agent_id": {
+        "tool": "kiro-desktop",
+        "id": "sess_a67ab43f-e1ca-4b82-a237-4f23c0d9479d",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "jingyuan <zjingyuan@trip.com>"
+    }
+  }
+}
