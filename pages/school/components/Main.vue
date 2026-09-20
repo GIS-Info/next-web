@@ -247,8 +247,17 @@ export default {
   },
   methods: {
     setData(res){
-      // 每次追加新的大洲数据
-      this.rawData = this.rawData.concat(res.data || []);
+      // 大洲数据可能会被重复请求；按记录的稳定字段合并，避免 rawData
+      // 和由它派生的搜索索引在每次筛选后持续增长。
+      const recordKey = (item) => [
+        item.Co_Continent_EN,
+        item.C_Country_EN,
+        item.U_Name_EN,
+        item.P_people_id || item.P_Name_EN || item.P_Name_CN || '',
+      ].join('|');
+      const records = new Map(this.rawData.map((item) => [recordKey(item), item]));
+      (res.data || []).forEach((item) => records.set(recordKey(item), item));
+      this.rawData = Array.from(records.values());
       const searchOptions = [];
       const continentToCountry = {
         Asia: {},

@@ -222,14 +222,15 @@ export default {
     // });
 
     // 允许复制，版权提示
-    document.addEventListener('cut', (e) => {
-      this.addCopy(e)
-    })
-    document.addEventListener('copy', (e) => {
-      this.addCopy(e)
-    })
+    document.addEventListener('cut', this.addCopy)
+    document.addEventListener('copy', this.addCopy)
     // window.storeChangeRc = this.storeChangeRc;
     // 不知道有没有加这句的必要，同时有alert的时候会有Uncaught的情况
+  },
+
+  beforeDestroy() {
+    document.removeEventListener('cut', this.addCopy)
+    document.removeEventListener('copy', this.addCopy)
   },
 
   methods: {
