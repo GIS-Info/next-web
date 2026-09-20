@@ -23,6 +23,25 @@
     </div>
 
     <main v-else class="content">
+      <details
+        v-if="markdownFiles.length"
+        id="interview-index"
+        class="issue-index"
+      >
+        <summary class="issue-index__summary">
+          <span>Interview index</span>
+          <span class="issue-index__count">{{ markdownFiles.length }} interviews</span>
+        </summary>
+        <ol class="issue-index__list">
+          <li v-for="file in markdownFiles" :key="file.name">
+            <button type="button" class="issue-index__link" @click="goToDetail(file)">
+              <span class="issue-index__issue">{{ getIssueLabel(file.name) }}</span>
+              <span class="issue-index__title">{{ getCleanTitle(file.title) }}</span>
+            </button>
+          </li>
+        </ol>
+      </details>
+
       <section
         v-if="featured"
         class="featured"
@@ -294,10 +313,10 @@ export default {
 }
 
 .eyebrow-text {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   color: var(--ink-soft);
 }
 
@@ -361,6 +380,95 @@ export default {
   padding: 64px 24px 96px;
   position: relative;
   z-index: 1;
+}
+
+/* ================================
+   Interview index
+================================ */
+.issue-index {
+  margin: 0 0 48px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.issue-index__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 4px;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  list-style: none;
+}
+
+.issue-index__summary::-webkit-details-marker {
+  display: none;
+}
+
+.issue-index__summary::after {
+  content: '+';
+  order: 3;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.issue-index[open] .issue-index__summary::after {
+  content: '−';
+}
+
+.issue-index__count {
+  margin-left: auto;
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.issue-index__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+  margin: 0;
+  padding: 0 0 20px;
+  list-style: none;
+}
+
+.issue-index__link {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 12px;
+  width: 100%;
+  padding: 13px 4px;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.issue-index__issue {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.issue-index__title {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.issue-index__link:hover .issue-index__title,
+.issue-index__link:focus-visible .issue-index__title {
+  color: var(--accent);
 }
 
 /* ================================
@@ -727,6 +835,9 @@ export default {
 }
 
 @media (max-width: 560px) {
+  .issue-index__list {
+    grid-template-columns: 1fr;
+  }
   .article-grid {
     grid-template-columns: 1fr;
     gap: 32px;

@@ -30,7 +30,7 @@ export default {
       return [
         { label: isZh ? '关于我们' : 'About', action: 'route', value: 'aboutUs' },
         // Language Switcher
-        { label: isZh ? 'English' : '中文', action: 'lang', value: isZh ? 'en' : 'zh' },
+        { label: isZh ? 'English' : 'Chinese', action: 'lang', value: isZh ? 'en' : 'zh' },
         // Admin Login (Simplified text)
         { label: isZh ? '管理员' : 'Admin', action: 'route', value: 'manage/dashboard' },
       ];

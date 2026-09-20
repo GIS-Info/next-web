@@ -12,18 +12,10 @@
         >. This project is supported by a group of scholars who have studied or
         worked in GIS-related departments around the world. We want to say thank
         you to all of those who provided school information and/or worked on
-        managing this project as volunteers. Please feel free to leave a message
-        in
-        <a href="https://github.com/gisphere/gisphere.github.io" target="blank">
-          this GitHub issue
-        </a>
-        if you find any errors or have any suggestions. We welcome more
-        volunteers to join this project to help maintain and develop the guide.
-        Please feel free to contact us via
-        <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>.
+        managing this project as volunteers.
       </p>
     </div>
-    <div class="content">GISphere@2025</div>
+    <div class="content">GISphere@2026</div>
     <div class="links-container">
       <a class="link" href="https://github.com/GIS-Info">
         <img class="img" src="./imgs/github.png" />
@@ -33,9 +25,9 @@
         <img class="img" src="./imgs/linkedin.png" />
         GISphere
       </a>
-      <a class="link" href="mailto:gisphere@outlook.com">
+      <a class="link" href="mailto:contact@gisphere.info">
         <img class="img" src="./imgs/email.png" />
-        gisphere@outlook.com
+        contact@gisphere.info
       </a>
       <a class="link" href="https://twitter.com/GISphereGuide">
         <img class="img" src="./imgs/x.png" />

@@ -59,8 +59,8 @@
 
           <transition name="trans-content">
             <div v-if="showContactCard" class="contact__card">
-              <a class="contact__row" href="mailto:gisphere@outlook.com">
-                gisphere@outlook.com
+              <a class="contact__row" href="mailto:contact@gisphere.info">
+                contact@gisphere.info
               </a>
               <p class="contact__row">{{ t.community }}</p>
               <div class="contact__qr">
@@ -216,8 +216,8 @@ const COPY = {
       },
       {
         name: '成为赞助商？',
-        note: '联系 gisphere@outlook.com',
-        url: 'mailto:gisphere@outlook.com',
+        note: '联系 contact@gisphere.info',
+        url: 'mailto:contact@gisphere.info',
       },
     ],
 
@@ -295,8 +295,8 @@ const COPY = {
       },
       {
         name: 'Become Our Sponsor?',
-        note: 'mail to gisphere@outlook.com',
-        url: 'mailto:gisphere@outlook.com',
+        note: 'mail to contact@gisphere.info',
+        url: 'mailto:contact@gisphere.info',
       },
     ],
 
@@ -411,10 +411,11 @@ export default {
 }
 .hero__description {
   margin: 16px 0 0;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+  font-weight: 600;
   color: #fff;
-  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.6),
-    0 0 16px rgba(20, 23, 42, 0.7);
+  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.78),
+    0 0 10px rgba(20, 23, 42, 0.82);
   /* narrower measure + balanced breaks: no lone "future" on line 2 */
   max-width: 34ch;
   text-wrap: balance;
@@ -424,6 +425,12 @@ export default {
 }
 .is-en {
   letter-spacing: 0.5px;
+}
+@media (min-width: 900px) {
+  .is-en .hero__heading {
+    max-width: none;
+    white-space: nowrap;
+  }
 }
 
 /* ---------- CTAs ---------- */
