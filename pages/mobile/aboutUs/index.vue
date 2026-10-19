@@ -39,7 +39,7 @@
                 providing valuable perspectives for aspiring students. As well as bi-week GISource newsletter, GIStory articles, and more.
             </li>
             <li style="font-size: 16px;">
-                <strong>GISpace:</strong> Community discussion groups on WeChat and WhatsApp </a> that serve
+                <strong>GISpace:</strong> Community discussion groups on WeChat and WhatsApp that serve
                 as a platform for interaction among overseas scholars and students in GIS-related fields.
             </li>
             <li style="font-size: 16px;">
