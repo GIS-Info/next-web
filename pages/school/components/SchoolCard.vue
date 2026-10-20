@@ -14,7 +14,8 @@
     {{ 'URL: ' }} <a :href="school?.U_URL">{{ school?.U_URL || '-' }}</a>
     <br/>
     {{ lang == 'zh' ? '简介: ' : 'Description: ' }}
-    <span v-html="(lang == 'zh' ? school?.Description_CN : school?.Description_EN) || (school?.Description_CN || school?.Description_EN || '-')"></span>
+    <!-- 描述内容可能带 <p> 等块级标签，不能放在 span 里，否则 SSR hydration 失败 -->
+    <div class="school-desc" v-html="descriptionHtml"></div>
     <div v-if="people">
       <div v-for="p in Object.keys(people)" :key="p">
         <!-- 老师信息 -->
@@ -38,6 +39,8 @@
 </template>
 
 <script>
+import { normalizeHtml } from '@/utils/normalizeHtml'
+
 export default {
   props: {
     school: {
@@ -57,7 +60,14 @@ export default {
     return {
     };
   },
-  computed: {},
+  computed: {
+    descriptionHtml() {
+      const school = this.school
+      const raw = (this.lang === 'zh' ? school?.Description_CN : school?.Description_EN) ||
+        school?.Description_CN || school?.Description_EN || '-'
+      return normalizeHtml(raw)
+    },
+  },
   methods: {
     splitInterests(interests) {
       if(!interests){
@@ -78,5 +88,11 @@ export default {
 }
 .custom-tag{
   margin-right: 6px
+}
+.school-desc {
+  display: inline;
+}
+.school-desc p {
+  margin: 0 0 8px;
 }
 </style>

@@ -8,14 +8,12 @@ import Main from './components/Main'
 
 export default {
   name: 'School',
-  fetchKey: 'SchoolInfo',
   components: {
     Main,
   },
   data() {
     return {}
   },
-  async fetch() {},
   head() {
     return {
       title: 'GISphere | Institution Guide',

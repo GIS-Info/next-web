@@ -8,14 +8,12 @@ import Main from './components/Main'
 
 export default {
   name: 'SchoolZh',
-  fetchKey: 'SchoolInfoZh',
   components: {
     Main,
   },
   data() {
     return {}
   },
-  async fetch() { },
   head() {
     return {
       title: 'GISphere | GIS 留学院校指南',

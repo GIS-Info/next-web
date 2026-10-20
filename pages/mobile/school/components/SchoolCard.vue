@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
     <el-card class="card" shadow="never">
       
@@ -14,11 +15,12 @@
       {{ 'URL: ' }} <a :href="school?.U_URL">{{ school?.U_URL || '-' }}</a>
       <br/>
       {{ lang == 'zh' ? '简介: ' : 'Description: ' }}
-      <span v-html="(lang == 'zh' ? school?.Description_CN : school?.Description_EN) || (school?.Description_CN || school?.Description_EN || '-')"></span>
+      <!-- 描述内容可能带 <p> 等块级标签，不能放在 span 里，否则 SSR hydration 失败 -->
+      <div class="school-desc" v-html="descriptionHtml"></div>
       <div v-if="people">
         <div v-for="p in Object.keys(people)" :key="p">
-          <!-- 老师信息 -->
-          <p>
+          <!-- 老师信息（p 里不能嵌 div，SSR hydration 会失败，所以用 div 模拟段落） -->
+          <div class="person-row">
               <a v-if="people[p]?.P_URL" :href="people[p]?.P_URL">{{ (lang == 'zh' ? people[p]?.P_Name_CN : people[p]?.P_Name_EN) || (people[p]?.P_Name_CN || people[p]?.P_Name_EN || '-') }}</a>
               <span v-else>{{ (lang == 'zh' ? people[p]?.P_Name_CN : people[p]?.P_Name_EN) || (people[p]?.P_Name_CN || people[p]?.P_Name_EN || '-') }}</span>
             {{ ': ' }}
@@ -33,13 +35,15 @@
             <!-- 下面这个是为了在中文版中国大陆学校显示中文研究方向修改的，中文版其余学校还是显示英文研究方向。如果后续全部换成中文那么修改此处代码 -->
             <el-tag v-for="(t, index) in splitInterests(lang == 'zh' && people[p].P_Research_Interests_CN !== null ? people[p]?.P_Research_Interests_CN : people[p]?.P_Research_Interests)" :key="t + index" class="custom-tag" size="small">{{ t }}</el-tag>
           </div>
-          </p>
+          </div>
         </div>
       </div>
     </el-card>
   </template>
   
   <script>
+  import { normalizeHtml } from '@/utils/normalizeHtml'
+
   export default {
     props: {
       school: {
@@ -59,7 +63,14 @@
       return {
       };
     },
-    computed: {},
+    computed: {
+      descriptionHtml() {
+        const school = this.school
+        const raw = (this.lang === 'zh' ? school?.Description_CN : school?.Description_EN) ||
+          school?.Description_CN || school?.Description_EN || '-'
+        return normalizeHtml(raw)
+      },
+    },
     methods: {
       splitInterests(interests) {
         if(!interests){
@@ -89,6 +100,16 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+  }
+  /* 原来的 <p>，改成 div 后保留段间距 */
+  .person-row {
+    margin: 1em 0;
+  }
+  .school-desc {
+    display: inline;
+  }
+  .school-desc p {
+    margin: 0 0 8px;
   }
   </style>
   
