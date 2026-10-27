@@ -79,20 +79,15 @@
         <div class="prose">
           <p>{{ t.projectIntro }}</p>
           <p v-for="(para, i) in t.mission" :key="'m' + i">{{ para }}</p>
+          <div class="leadership">
+            <h3 class="leadership__title">{{ t.leadershipTitle }}</h3>
+            <ul class="leaders">
+              <li v-for="leader in t.leaders" :key="leader.name">
+                <b>{{ leader.name }}</b> ({{ leader.years }})
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ===================== CHAIRS AND CO-CHAIRS ===================== -->
-    <section class="section section--tint">
-      <div class="container">
-        <h2 class="section__title">{{ t.leadershipTitle }}</h2>
-        <ul class="leaders">
-          <li v-for="leader in t.leaders" :key="leader.name" class="leader">
-            <b>{{ leader.name }}</b>
-            <span>{{ leader.years }}</span>
-          </li>
-        </ul>
       </div>
     </section>
 
@@ -188,9 +183,9 @@ const COPY = {
     leaders: [
       { name: 'Yuhao Kang', years: '19-23' },
       { name: 'Bing Zhou', years: '23-24' },
-      { name: 'yikang wang', years: '21-26' },
-      { name: 'yanbing chen', years: '24-now' },
-      { name: 'sigao li', years: '26-now' },
+      { name: 'Yikang Wang', years: '21-26' },
+      { name: 'Yanbing Chen', years: '24-now' },
+      { name: 'Sigao Li', years: '26-now' },
     ],
     projectIntro: ProjectIntro[0],
     mission: [
@@ -271,13 +266,13 @@ const COPY = {
     qrAlt: 'GISphere WhatsApp community QR code',
 
     aboutTitle: 'About Us',
-    leadershipTitle: 'Past Chairs and Co-Chairs',
+    leadershipTitle: 'Chairs and Co-Chairs',
     leaders: [
       { name: 'Yuhao Kang', years: '19-23' },
       { name: 'Bing Zhou', years: '23-24' },
-      { name: 'yikang wang', years: '21-26' },
-      { name: 'yanbing chen', years: '24-now' },
-      { name: 'sigao li', years: '26-now' },
+      { name: 'Yikang Wang', years: '21-26' },
+      { name: 'Yanbing Chen', years: '24-now' },
+      { name: 'Sigao Li', years: '26-now' },
     ],
     projectIntro: ProjectIntro[1],
     mission: [
@@ -642,29 +637,31 @@ a.contact__row:hover {
   margin-top: 16px;
 }
 
+.leadership {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.leadership__title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--brand);
+}
 .leaders {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  max-width: 900px;
-  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
   padding: 0;
   list-style: none;
+  font-size: 15px;
 }
-.leader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 20px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  color: var(--ink);
-  text-align: center;
+.leaders li {
+  white-space: nowrap;
 }
-.leader span {
-  color: var(--ink-soft);
+.leaders b {
+  font-weight: 600;
 }
 
 /* ---------- initiative cards ---------- */
