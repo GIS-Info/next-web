@@ -69,7 +69,7 @@
     <p>
         Explore our resources, attend our webinars, and become a part of a global movement to make GIS education accessible to all.
         If you are interested in joining our volunteer group, please do not hesitate to send your CV and a short cover letter expressing
-        your interest to <a href="mailto:gisphere@outlook.com">gisphere@outlook.com</a>.
+        your interest to <a href="mailto:contact@gisphere.info">contact@gisphere.info</a>.
     </p>
     </section>
 

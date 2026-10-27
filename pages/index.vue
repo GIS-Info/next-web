@@ -83,6 +83,19 @@
       </div>
     </section>
 
+    <!-- ===================== CHAIRS AND CO-CHAIRS ===================== -->
+    <section class="section section--tint">
+      <div class="container">
+        <h2 class="section__title">{{ t.leadershipTitle }}</h2>
+        <ul class="leaders">
+          <li v-for="leader in t.leaders" :key="leader.name" class="leader">
+            <b>{{ leader.name }}</b>
+            <span>{{ leader.years }}</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ===================== CORE INITIATIVES ===================== -->
     <!-- Moved above the longer narrative: these are the actionable links. -->
     <section class="section section--tint">
@@ -171,6 +184,14 @@ const COPY = {
     qrAlt: 'GISphere 微信社区二维码',
 
     aboutTitle: '项目介绍与使命',
+    leadershipTitle: '历年 Chair / Co-Chair',
+    leaders: [
+      { name: 'Yuhao Kang', years: '19-23' },
+      { name: 'Bing Zhou', years: '23-24' },
+      { name: 'yikang wang', years: '21-26' },
+      { name: 'yanbing chen', years: '24-now' },
+      { name: 'sigao li', years: '26-now' },
+    ],
     projectIntro: ProjectIntro[0],
     mission: [
       'GISphere 致力于在全球范围内普及地理信息科学（GIS）教育。我们由一群具有前瞻性思维的中国学生和学者于 2019 年创立，通过促进信息的开放获取、培养学术合作以及连接研究与产业，我们的平台努力打破 GIS 教育中的各种障碍。',
@@ -250,6 +271,14 @@ const COPY = {
     qrAlt: 'GISphere WhatsApp community QR code',
 
     aboutTitle: 'About Us',
+    leadershipTitle: 'Past Chairs and Co-Chairs',
+    leaders: [
+      { name: 'Yuhao Kang', years: '19-23' },
+      { name: 'Bing Zhou', years: '23-24' },
+      { name: 'yikang wang', years: '21-26' },
+      { name: 'yanbing chen', years: '24-now' },
+      { name: 'sigao li', years: '26-now' },
+    ],
     projectIntro: ProjectIntro[1],
     mission: [
       'At GISphere, we are committed to democratizing access to Geographic Information Science (GIS) education worldwide. Established in 2019 by a group of forward-thinking Chinese students and scholars, our platform strives to break barriers in GIS education by promoting open access to information, fostering academic collaboration, and bridging the gap between research and industry.',
@@ -611,6 +640,31 @@ a.contact__row:hover {
 }
 .prose p + p {
   margin-top: 16px;
+}
+
+.leaders {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.leader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-align: center;
+}
+.leader span {
+  color: var(--ink-soft);
 }
 
 /* ---------- initiative cards ---------- */
