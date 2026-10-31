@@ -71,6 +71,12 @@
         If you are interested in joining our volunteer group, please do not hesitate to send your CV and a short cover letter expressing
         your interest to <a href="mailto:contact@gisphere.info">contact@gisphere.info</a>.
     </p>
+
+    <h2>Security &amp; Governance</h2>
+    <p>
+        GISphere's designated Security Lead is Pengyu Chen, responsible for overseeing cybersecurity, access management,
+        and incident response coordination across the organization's digital infrastructure.
+    </p>
     </section>
 
       <h2>Team Member</h2>
