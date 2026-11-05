@@ -130,33 +130,30 @@
           {{ lang == 'zh' ? '赞助商' : 'SPONSOR' }}
           <hr class="short-horizontal-line" />
         </h1>
-        <div class="sponsor-list">
-          <div class="sponsor-card" @click="goUrl('https://maptable.com')">
-            <b>Maptable</b>
-            <small>
-              {{
-                lang == 'zh'
-                  ? '新一代空间数据协同工具'
-                  : 'Next-Generation Spatial Data Analytics Platform'
-              }}
-            </small>
-          </div>
-          <div
-            class="sponsor-card"
-            @click="goUrl('https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g')"
-          >
-            <b>Vision 留学</b>
-          </div>
-          <div
-            class="sponsor-card"
-            @click="goUrl('mailto:gisphere@outlook.com')"
-          >
-            <b v-if="lang == 'zh'">成为赞助商？</b>
-            <small v-if="lang == 'zh'">联系 gisphere@outlook.com</small>
-            <b v-if="lang == 'en'">Become Sponsor?</b>
-            <small v-if="lang == 'en'">mail to gisphere@outlook.com</small>
-          </div>
-        </div>
+        <ul class="sponsor-list">
+          <li v-for="sp in sponsors" :key="sp.name">
+            <a
+              class="sponsor-card"
+              :href="sp.url"
+              target="_blank"
+              rel="noopener sponsored"
+            >
+              <img :src="sp.logo" :alt="sp.name" loading="lazy" />
+              <small v-if="sp.note">{{ sp.note[lang] || sp.note.en }}</small>
+            </a>
+          </li>
+          <li>
+            <a
+              class="sponsor-card sponsor-card--join"
+              href="mailto:contact@gisphere.info"
+            >
+              <b>{{ lang == 'zh' ? '成为赞助商？' : 'Become Sponsor?' }}</b>
+              <small>
+                {{ lang == 'zh' ? '联系' : 'mail to' }} contact@gisphere.info
+              </small>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
     <mobile-bottom-bar />
@@ -228,6 +225,28 @@ export default {
   layout: 'mobile',
   data() {
     return {
+      sponsors: [
+        {
+          name: 'Maptable',
+          url: 'https://maptable.com',
+          logo: '/maptable_logo.png',
+          note: {
+            zh: '新一代空间数据协同工具',
+            en: 'Next-Generation Spatial Data Analytics Platform',
+          },
+        },
+        {
+          name: 'GIS-Vision',
+          url: 'https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g',
+          logo: '/vision_logo.png',
+        },
+        {
+          name: 'ElevenLabs',
+          url: 'https://try.elevenlabs.io/GISphere',
+          logo: '/elevenlabs-logo-black.png',
+          note: { zh: 'AI 语音与音频平台', en: 'AI Voice & Audio Platform' },
+        },
+      ],
       dialogFormVisible: false,
       form: {
         email: '',
@@ -521,21 +540,51 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sponsor-list li {
+  width: 80%;
+  margin: 10px 0;
 }
 .sponsor-card {
-  background-color: #efefef;
-  border-radius: 10px;
-  height: 50px;
-  width: 75%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  min-height: 84px;
+  padding: 16px 12px;
+  background-color: #fff;
+  border: 1px solid #e3e5f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(30, 42, 128, 0.06);
   text-align: center;
-  margin: 15px 0;
-  padding: 0 10px;
-  transition: all 0.2s;
+  color: #1f1f20;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.sponsor-card:active {
+  transform: scale(0.98);
+  border-color: #2c3aaa;
+}
+.sponsor-card img {
+  display: block;
+  max-width: min(70%, 170px);
+  max-height: 40px;
+  object-fit: contain;
+}
+.sponsor-card small {
+  font-size: 12px;
+  color: #555;
+}
+.sponsor-card--join {
+  background: transparent;
+  border: 1.5px dashed #b9bfe0;
+  box-shadow: none;
+  color: #2c3aaa;
 }
 
 .to-be-added {

@@ -96,20 +96,45 @@
     <section class="section section--tint">
       <div class="container">
         <h2 class="section__title">{{ t.initiativesTitle }}</h2>
+        <p class="section__lede">{{ t.initiativesLede }}</p>
 
         <ul class="cards">
-          <li v-for="card in t.initiatives" :key="card.title">
+          <li v-for="(card, i) in t.initiatives" :key="card.title">
             <component
               :is="card.external ? 'a' : 'nuxt-link'"
-              class="card"
+              class="card art-host"
               v-bind="
                 card.external
                   ? { href: card.to, target: '_blank', rel: 'noopener' }
                   : { to: card.to }
               "
             >
-              <h3 class="card__title">{{ card.title }}</h3>
-              <p class="card__desc">{{ card.desc }}</p>
+              <div class="card__art">
+                <initiative-art :kind="card.art" />
+              </div>
+              <div class="card__body">
+                <span class="card__tag">
+                  <span class="card__index">0{{ i + 1 }}</span>
+                  {{ card.tag }}
+                </span>
+                <h3 class="card__title">{{ card.title }}</h3>
+                <p class="card__desc">{{ card.desc }}</p>
+                <span class="card__cta">
+                  {{ card.external ? t.ctaExternal : t.ctaExplore }}
+                  <svg
+                    class="card__cta-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path v-if="card.external" d="M5 11L11 5M6 5h5v5" />
+                    <path v-else d="M3 8h10M9 4l4 4-4 4" />
+                  </svg>
+                  <span v-if="card.external" class="sr-only">
+                    {{ t.opensNewTab }}
+                  </span>
+                </span>
+              </div>
             </component>
           </li>
         </ul>
@@ -131,11 +156,31 @@
       <div class="container">
         <h2 class="section__title">{{ t.sponsorsTitle }}</h2>
 
+        <p class="section__lede">{{ t.sponsorsLede }}</p>
+
         <ul class="sponsors">
           <li v-for="s in t.sponsors" :key="s.name">
-            <a class="sponsor" :href="s.url" target="_blank" rel="noopener">
-              <b>{{ s.name }}</b>
-              <small v-if="s.note">{{ s.note }}</small>
+            <a
+              class="sponsor"
+              :href="s.url"
+              target="_blank"
+              rel="noopener sponsored"
+              :aria-label="s.name + ' — ' + t.opensNewTab"
+            >
+              <span class="sponsor__logo">
+                <img :src="s.logo" :alt="s.name" loading="lazy" />
+              </span>
+              <span v-if="s.note" class="sponsor__note">{{ s.note }}</span>
+              <span class="sponsor__visit" aria-hidden="true">
+                {{ t.visitSite }} &#8599;
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="sponsor sponsor--join" :href="t.becomeSponsor.url">
+              <span class="sponsor__plus" aria-hidden="true">+</span>
+              <b>{{ t.becomeSponsor.name }}</b>
+              <span class="sponsor__note">{{ t.becomeSponsor.note }}</span>
             </a>
           </li>
         </ul>
@@ -194,22 +239,39 @@ const COPY = {
     ],
 
     initiativesTitle: '核心平台',
+    initiativesLede: '点击任一平台，开始探索。',
+    ctaExplore: '进入',
+    ctaExternal: '前往',
+    opensNewTab: '（在新标签页打开）',
     initiatives: [
       {
         title: 'GISphere Guide',
+        tag: '院校数据库',
+        art: 'guide',
         desc: '我们的旗舰数据库，提供全球 80 多个国家的 GIS 和地理机构及研究生项目的综合信息。',
         to: '/school',
       },
       {
         title: 'GISalon',
+        tag: '圆桌视频',
+        art: 'salon',
         desc: '一系列引人入胜的圆桌讨论，为学生提供关于研究生学习经验、学术路径和职业发展的宝贵见解。',
         to: 'https://space.bilibili.com/1043870260',
         external: true,
       },
       {
         title: 'GISource',
+        tag: '招生与招聘',
+        art: 'source',
         desc: '全球新闻服务，提供 GIS 相关硕士和博士项目招生及学术/行业招聘机会的最新信息。',
         to: '/postList?type=academic',
+      },
+      {
+        title: 'GIStory',
+        tag: '人物访谈',
+        art: 'story',
+        desc: '与塑造 GIScience 未来的地理学者、科学家和从业者对话，分享他们的故事与研究历程。',
+        to: '/gistory',
       },
     ],
 
@@ -220,22 +282,32 @@ const COPY = {
     ],
 
     sponsorsTitle: '赞助商',
+    sponsorsLede: '感谢以下伙伴对 GISphere 的支持。',
+    visitSite: '访问官网',
     sponsors: [
       {
         name: 'Maptable',
         note: '新一代空间数据协同工具',
         url: 'https://maptable.com',
+        logo: '/maptable_logo.png',
       },
       {
         name: 'GIS-Vision',
         url: 'https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g',
+        logo: '/vision_logo.png',
       },
       {
-        name: '成为赞助商？',
-        note: '联系 contact@gisphere.info',
-        url: 'mailto:contact@gisphere.info',
+        name: 'ElevenLabs',
+        note: 'AI 语音与音频平台',
+        url: 'https://try.elevenlabs.io/GISphere',
+        logo: '/elevenlabs-logo-black.png',
       },
     ],
+    becomeSponsor: {
+      name: '成为赞助商？',
+      note: '联系 contact@gisphere.info',
+      url: 'mailto:contact@gisphere.info',
+    },
 
     metaDescription:
       'GISphere 分享全球 GIS 与地理信息科学的招生信息、院校指南与学术资源。',
@@ -243,8 +315,7 @@ const COPY = {
 
   en: {
     heroHeading: 'Where GeoSpatial Thinking Shines',
-    heroDescription:
-      'Empower GIScience and Geography education for the future',
+    heroDescription: 'Empower GIScience and Geography education for the future',
     heroNavLabel: 'Primary sections',
     ctas: [
       {
@@ -281,22 +352,40 @@ const COPY = {
     ],
 
     initiativesTitle: 'Core Initiatives',
+    initiativesLede:
+      'Pick a starting point — each card opens a GISphere platform.',
+    ctaExplore: 'Explore',
+    ctaExternal: 'Watch',
+    opensNewTab: '(opens in a new tab)',
     initiatives: [
       {
         title: 'GISphere Guide',
+        tag: 'Program database',
+        art: 'guide',
         desc: 'Our flagship database, covering GIS and Geography institutions and graduate programs across more than 80 countries.',
         to: '/school',
       },
       {
         title: 'GISalon',
+        tag: 'Video roundtables',
+        art: 'salon',
         desc: 'Roundtable discussions offering students insight into graduate study, academic pathways, and career development.',
         to: 'https://www.youtube.com/@gisphere',
         external: true,
       },
       {
         title: 'GISource',
+        tag: 'Admissions & jobs',
+        art: 'source',
         desc: "Up-to-date listings for GIS master's and doctoral admissions, plus academic and industry openings worldwide.",
         to: '/postList?type=academic',
+      },
+      {
+        title: 'GIStory',
+        tag: 'Interview series',
+        art: 'story',
+        desc: 'Conversations with geographers, scientists, and practitioners shaping the future of GIScience.',
+        to: '/gistory',
       },
     ],
 
@@ -307,22 +396,32 @@ const COPY = {
     ],
 
     sponsorsTitle: 'Sponsors',
+    sponsorsLede: 'Thank you to the partners who make GISphere possible.',
+    visitSite: 'Visit site',
     sponsors: [
       {
         name: 'Maptable',
         note: 'Next-Generation Spatial Data Analytics Platform',
         url: 'https://maptable.com',
+        logo: '/maptable_logo.png',
       },
       {
         name: 'GIS-Vision',
         url: 'https://mp.weixin.qq.com/s/LPq-pXcoLwVkEQ5bcnT46g',
+        logo: '/vision_logo.png',
       },
       {
-        name: 'Become Our Sponsor?',
-        note: 'mail to contact@gisphere.info',
-        url: 'mailto:contact@gisphere.info',
+        name: 'ElevenLabs',
+        note: 'AI Voice & Audio Platform',
+        url: 'https://try.elevenlabs.io/GISphere',
+        logo: '/elevenlabs-logo-black.png',
       },
     ],
+    becomeSponsor: {
+      name: 'Become Our Sponsor?',
+      note: 'mail to contact@gisphere.info',
+      url: 'mailto:contact@gisphere.info',
+    },
 
     metaDescription:
       'GISphere shares GIS and Geography admissions news, a global program guide, and academic resources.',
@@ -429,8 +528,8 @@ export default {
   color: #fff;
   /* No overlay now, so the type carries its own contrast. Three tight
      layers instead of the original four 80px blurs: same halo, less paint. */
-  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.55),
-    0 0 18px rgba(20, 23, 42, 0.75), 0 0 44px rgba(20, 23, 42, 0.55);
+  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.55), 0 0 18px rgba(20, 23, 42, 0.75),
+    0 0 44px rgba(20, 23, 42, 0.55);
   max-width: 18ch;
 }
 .hero__description {
@@ -438,8 +537,7 @@ export default {
   font-size: clamp(1.1rem, 1.7vw, 1.35rem);
   font-weight: 600;
   color: #fff;
-  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.78),
-    0 0 10px rgba(20, 23, 42, 0.82);
+  text-shadow: 0 1px 2px rgba(20, 23, 42, 0.78), 0 0 10px rgba(20, 23, 42, 0.82);
   /* narrower measure + balanced breaks: no lone "future" on line 2 */
   max-width: 34ch;
   text-wrap: balance;
@@ -664,72 +762,248 @@ a.contact__row:hover {
   font-weight: 600;
 }
 
+/* ---------- section lede ---------- */
+.section__lede {
+  max-width: 60ch;
+  margin: -12px auto 36px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: clamp(15px, 1vw, 17px);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* ---------- initiative cards ---------- */
-.cards,
-.sponsors {
+.cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: 1fr;
   gap: 24px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
+@media (min-width: 620px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1100px) {
+  .cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 .card {
-  display: block;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  padding: 30px 26px;
+  overflow: hidden;
   background: #fff;
-  border: 2px solid var(--line);
+  border: 1px solid var(--line);
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(30, 42, 128, 0.06);
   text-decoration: none;
-  transition: transform 0.25s ease, border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .card:hover,
 .card:focus-visible {
   transform: translateY(-6px);
   border-color: var(--brand);
-  box-shadow: 0 8px 20px rgba(44, 58, 170, 0.15);
+  box-shadow: 0 14px 30px rgba(44, 58, 170, 0.16);
+}
+.card__art {
+  box-sizing: border-box;
+  position: relative;
+  aspect-ratio: 2 / 1;
+  padding: 14px 16px;
+  background: linear-gradient(160deg, #f3f5ff 0%, #e6eafb 100%);
+  border-bottom: 1px solid var(--line);
+}
+/* faint graticule behind every illustration ties the set together */
+.card__art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      rgba(44, 58, 170, 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(44, 58, 170, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 20px 22px 22px;
+}
+.card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.card__index {
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
 }
 .card__title {
-  margin: 0 0 14px;
-  text-align: center;
-  font-size: 20px;
+  margin: 0 0 10px;
+  font-size: 21px;
   font-weight: 700;
   color: var(--brand);
 }
 .card__desc {
-  margin: 0;
+  flex: 1;
+  margin: 0 0 18px;
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink-soft);
 }
+.card__cta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--tint);
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.card__cta-icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s ease;
+}
+.card:hover .card__cta,
+.card:focus-visible .card__cta {
+  background: var(--brand);
+  color: #fff;
+}
+.card:hover .card__cta-icon,
+.card:focus-visible .card__cta-icon {
+  transform: translateX(3px);
+}
 
 /* ---------- sponsors ---------- */
+.sponsors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .sponsor {
+  box-sizing: border-box;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  min-height: 88px;
-  padding: 16px;
+  gap: 10px;
+  height: 100%;
+  min-height: 150px;
+  padding: 24px 20px 34px;
   background-color: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   text-align: center;
   color: var(--ink);
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.sponsor__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  width: 100%;
+}
+.sponsor__logo img {
+  display: block;
+  max-width: min(72%, 180px);
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+.sponsor__note {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.sponsor__visit {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 .sponsor:hover,
 .sponsor:focus-visible {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: var(--brand);
+  box-shadow: 0 10px 22px rgba(44, 58, 170, 0.12);
 }
-.sponsor small {
-  color: var(--ink-soft);
+.sponsor:hover .sponsor__logo img,
+.sponsor:focus-visible .sponsor__logo img {
+  transform: scale(1.05);
+}
+.sponsor:hover .sponsor__visit,
+.sponsor:focus-visible .sponsor__visit {
+  opacity: 1;
+  transform: none;
+}
+/* touch screens have no hover: keep the affordance visible */
+@media (hover: none) {
+  .sponsor__visit {
+    opacity: 1;
+    transform: none;
+  }
+}
+.sponsor--join {
+  gap: 6px;
+  padding-bottom: 24px;
+  background: transparent;
+  border: 1.5px dashed #b9bfe0;
+  color: var(--brand);
+}
+.sponsor__plus {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
 }
 
 /* ---------- a11y / motion floor ---------- */
