@@ -63,17 +63,14 @@ export default {
     };
   },
   async mounted() {
-    const url = this.$route.query.url;
-    if (!url) {
+    const fetchUrl = this.resolveFetchUrl();
+    if (!fetchUrl) {
       this.error = '无效 URL';
       this.loading = false;
       return;
     }
     try {
-      const decodedUrl = decodeURIComponent(url);
-      this.fileName = decodedUrl.split('/').pop() || '';
-
-      const res = await this.$axios.get(decodedUrl);
+      const res = await this.$axios.get(fetchUrl);
       const raw = typeof res.data === 'string' ? res.data : String(res.data);
 
       // Extract title + issue label for the header
@@ -95,20 +92,41 @@ export default {
   },
   methods: {
     /**
+     * Resolve the markdown URL to fetch, always through the same-origin proxy:
+     *   - new links:    ?file=<path in repo>
+     *   - legacy links: ?url=<raw.githubusercontent.com url> (shared before the proxy existed)
+     */
+    resolveFetchUrl() {
+      const { file, url } = this.$route.query;
+      if (file) {
+        this.fileName = file.split('/').pop() || '';
+        return `/gistory-api/raw/${encodeURIComponent(file)}`;
+      }
+      if (url) {
+        const decodedUrl = decodeURIComponent(url);
+        this.fileName = decodedUrl.split('/').pop() || '';
+        const legacy = decodedUrl.match(
+          /^https:\/\/raw\.githubusercontent\.com\/Pengyu-gis\/markdown_repo\/main\/(.+)$/
+        );
+        if (legacy) {
+          return `/gistory-api/raw/${encodeURIComponent(legacy[1])}`;
+        }
+        return decodedUrl;
+      }
+      return null;
+    },
+    /**
      * Rewrite image URLs in raw markdown:
      *   - `./images/x.png` → absolute GitHub raw URL
      *   - `*.r2.dev/...`   → proxied through wsrv.nl
      * Handles BOTH `![alt](url)` and `<img src="url">` forms.
      */
     formatMarkdownImages(rawContent) {
-      const githubRawBaseUrl =
-        'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
-
       const rewriteUrl = (url) => {
         if (!url) return url;
         const trimmed = url.trim();
         if (trimmed.startsWith('./')) {
-          return githubRawBaseUrl + '/' + trimmed.slice(2);
+          return '/gistory-api/raw/' + trimmed.slice(2);
         }
         if (trimmed.includes('.r2.dev')) {
           return `https://wsrv.nl/?url=${encodeURIComponent(trimmed)}`;

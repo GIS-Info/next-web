@@ -8,8 +8,9 @@ export default {
   layout: 'mobile',
   methods: {
     goToDetail(file) {
-      const encodedUrl = encodeURIComponent(file.url)
-      this.$router.push(`/mobile/gistory/detail?url=${encodedUrl}`)
+      this.$router.push(
+        `/mobile/gistory/detail?file=${encodeURIComponent(file.path)}`
+      )
     },
   },
 }

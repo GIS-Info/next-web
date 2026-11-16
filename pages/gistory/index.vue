@@ -135,9 +135,7 @@ export default {
   },
   async mounted() {
     try {
-      const res = await this.$axios.get(
-        'https://api.github.com/repos/Pengyu-gis/markdown_repo/contents/'
-      );
+      const res = await this.$axios.get('/gistory-api/list');
       const mdFiles = res.data
         .filter(file => file.name.endsWith('.md'))
         .sort((a, b) => {
@@ -149,18 +147,20 @@ export default {
       this.markdownFiles = await Promise.all(
         mdFiles.map(async file => {
           try {
-            const contentRes = await this.$axios.get(file.download_url);
+            const contentRes = await this.$axios.get(
+              `/gistory-api/raw/${encodeURIComponent(file.path)}`
+            );
             const content = contentRes.data;
             return {
               name: file.name,
-              url: file.download_url,
+              path: file.path,
               title: this.extractTitle(content),
               image: this.extractFirstImage(content),
             };
           } catch (err) {
             return {
               name: file.name,
-              url: file.download_url,
+              path: file.path,
               title: '⚠️ loading failed',
               image: null,
             };
@@ -201,8 +201,7 @@ export default {
       }
       if (!imageUrl) return null;
       if (imageUrl.startsWith('./')) {
-        const githubRawBaseUrl = 'https://raw.githubusercontent.com/Pengyu-gis/markdown_repo/main';
-        return imageUrl.replace('./', githubRawBaseUrl + '/');
+        return imageUrl.replace('./', '/gistory-api/raw/');
       }
       if (imageUrl.includes('.r2.dev')) {
         return `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}`;
@@ -222,8 +221,7 @@ export default {
       return 'Untitled';
     },
     goToDetail(file) {
-      const encodedUrl = encodeURIComponent(file.url);
-      this.$router.push(`/gistory/detail?url=${encodedUrl}`);
+      this.$router.push(`/gistory/detail?file=${encodeURIComponent(file.path)}`);
     },
     getIssueLabel(filename) {
       const num = parseInt(filename.match(/\d+/)?.[0] || 0, 10);
