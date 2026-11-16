@@ -50,6 +50,11 @@ export default {
     middleware: 'device-redirect'
   },
 
+  // GIStory markdown 走服务端同域代理，解决 raw.githubusercontent.com 国内无法访问
+  serverMiddleware: [
+    { path: '/gistory-api', handler: '~/server-middleware/gistory-proxy.js' }
+  ],
+
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
