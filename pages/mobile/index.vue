@@ -123,6 +123,22 @@
       </div>
     </div>
 
+    <!-- Support -->
+    <div class="support-band">
+      <h2 class="support-band__title">{{ donate.title }}</h2>
+      <p class="support-band__desc">{{ donate.desc }}</p>
+      <a
+        class="support-band__btn"
+        :href="donateUrl"
+        target="_blank"
+        rel="noopener"
+      >
+        <heart-icon />
+        {{ donate.cta }}
+      </a>
+      <small class="support-band__note">{{ donate.note }}</small>
+    </div>
+
     <!-- Sponsor -->
     <div class="school-page">
       <div class="sponsor-part">
@@ -151,6 +167,20 @@
               <small>
                 {{ lang == 'zh' ? '联系' : 'mail to' }} contact@gisphere.info
               </small>
+            </a>
+          </li>
+          <li>
+            <a
+              class="sponsor-card sponsor-card--donate"
+              :href="donateUrl"
+              target="_blank"
+              rel="noopener"
+            >
+              <b class="sponsor-card__name">
+                <heart-icon />
+                {{ donate.cardName }}
+              </b>
+              <small>{{ donate.cardNote }}</small>
             </a>
           </li>
         </ul>
@@ -220,11 +250,13 @@
 <script>
 import { mapState } from 'vuex'
 import { ProjectIntro } from '~/utils/ProjectIntro'
+import { DONATE_URL, DonateCopy } from '~/utils/donate'
 export default {
   name: 'MobileIndexPage',
   layout: 'mobile',
   data() {
     return {
+      donateUrl: DONATE_URL,
       sponsors: [
         {
           name: 'Maptable',
@@ -264,6 +296,9 @@ export default {
     ...mapState({ lang: 'language' }),
     contactUsTitle() {
       return this.lang === 'zh' ? '联系我们' : 'Contact Us'
+    },
+    donate() {
+      return DonateCopy[this.lang] || DonateCopy.en
     },
   },
   mounted() {
@@ -585,6 +620,57 @@ export default {
   border: 1.5px dashed #b9bfe0;
   box-shadow: none;
   color: #2c3aaa;
+}
+.sponsor-card--donate {
+  border: 1.5px solid #2c3aaa;
+  box-shadow: none;
+  color: #2c3aaa;
+}
+.sponsor-card__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.support-band {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 32px 10%;
+  background-color: #2c3aaa;
+}
+.support-band__title {
+  margin: 0;
+  font-size: 22px;
+  color: #fff;
+}
+.support-band__desc {
+  margin: 10px 0 20px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #e6e9fb;
+}
+.support-band__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #2c3aaa;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.support-band__btn:active {
+  background-color: #e6e9fb;
+}
+.support-band__note {
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: center;
+  color: #e6e9fb;
 }
 
 .to-be-added {
