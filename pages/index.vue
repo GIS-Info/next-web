@@ -209,35 +209,11 @@
               </span>
             </a>
           </li>
-        </ul>
-
-        <!-- Two ways to back the project: companies sponsor, people donate. -->
-        <ul class="ways">
           <li>
             <a class="sponsor sponsor--join" :href="t.becomeSponsor.url">
-              <span class="sponsor__tag">{{ t.donate.forOrgs }}</span>
               <span class="sponsor__plus" aria-hidden="true">+</span>
               <b>{{ t.becomeSponsor.name }}</b>
               <span class="sponsor__note">{{ t.becomeSponsor.note }}</span>
-            </a>
-          </li>
-          <li>
-            <a
-              class="sponsor sponsor--donate"
-              :href="donateUrl"
-              target="_blank"
-              rel="noopener"
-            >
-              <span class="sponsor__tag">{{ t.donate.forIndividuals }}</span>
-              <span
-                class="sponsor__plus sponsor__plus--heart"
-                aria-hidden="true"
-              >
-                <heart-icon />
-              </span>
-              <b>{{ t.donate.cardName }}</b>
-              <span class="sponsor__note">{{ t.donate.cardNote }}</span>
-              <span class="sr-only">{{ t.opensNewTab }}</span>
             </a>
           </li>
         </ul>
@@ -1140,30 +1116,6 @@ a.contact__row:hover {
   color: #fff;
   font-size: 22px;
   line-height: 1;
-}
-.sponsor__plus--heart {
-  font-size: 16px;
-}
-.ways {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  margin: 20px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.sponsor__tag {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent-ink);
-}
-.sponsor--donate {
-  gap: 6px;
-  padding-bottom: 24px;
-  border: 1.5px solid var(--brand);
-  color: var(--brand);
 }
 
 /* ---------- a11y / motion floor ---------- */

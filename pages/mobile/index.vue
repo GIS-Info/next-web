@@ -169,20 +169,6 @@
               </small>
             </a>
           </li>
-          <li>
-            <a
-              class="sponsor-card sponsor-card--donate"
-              :href="donateUrl"
-              target="_blank"
-              rel="noopener"
-            >
-              <b class="sponsor-card__name">
-                <heart-icon />
-                {{ donate.cardName }}
-              </b>
-              <small>{{ donate.cardNote }}</small>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -620,16 +606,6 @@ export default {
   border: 1.5px dashed #b9bfe0;
   box-shadow: none;
   color: #2c3aaa;
-}
-.sponsor-card--donate {
-  border: 1.5px solid #2c3aaa;
-  box-shadow: none;
-  color: #2c3aaa;
-}
-.sponsor-card__name {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .support-band {
