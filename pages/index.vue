@@ -28,6 +28,16 @@
 
       <div class="hero__utility">
         <a
+          class="utility-btn utility-btn--donate"
+          :href="donateUrl"
+          target="_blank"
+          rel="noopener"
+        >
+          <heart-icon />
+          {{ t.donate.label }}
+        </a>
+
+        <a
           class="utility-btn"
           href="https://mailchi.mp/da300ab42ac5/gisphere"
           target="_blank"
@@ -151,6 +161,29 @@
       </div>
     </section>
 
+    <!-- ===================== SUPPORT ===================== -->
+    <section class="support">
+      <div class="container support__inner">
+        <div class="support__text">
+          <h2 class="support__title">{{ t.donate.title }}</h2>
+          <p class="support__desc">{{ t.donate.desc }}</p>
+        </div>
+        <div class="support__action">
+          <a
+            class="support__btn"
+            :href="donateUrl"
+            target="_blank"
+            rel="noopener"
+          >
+            <heart-icon />
+            {{ t.donate.cta }}
+            <span class="sr-only">{{ t.opensNewTab }}</span>
+          </a>
+          <span class="support__note">{{ t.donate.note }}</span>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== SPONSORS ===================== -->
     <section class="section section--tint">
       <div class="container">
@@ -176,11 +209,35 @@
               </span>
             </a>
           </li>
+        </ul>
+
+        <!-- Two ways to back the project: companies sponsor, people donate. -->
+        <ul class="ways">
           <li>
             <a class="sponsor sponsor--join" :href="t.becomeSponsor.url">
+              <span class="sponsor__tag">{{ t.donate.forOrgs }}</span>
               <span class="sponsor__plus" aria-hidden="true">+</span>
               <b>{{ t.becomeSponsor.name }}</b>
               <span class="sponsor__note">{{ t.becomeSponsor.note }}</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="sponsor sponsor--donate"
+              :href="donateUrl"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="sponsor__tag">{{ t.donate.forIndividuals }}</span>
+              <span
+                class="sponsor__plus sponsor__plus--heart"
+                aria-hidden="true"
+              >
+                <heart-icon />
+              </span>
+              <b>{{ t.donate.cardName }}</b>
+              <span class="sponsor__note">{{ t.donate.cardNote }}</span>
+              <span class="sr-only">{{ t.opensNewTab }}</span>
             </a>
           </li>
         </ul>
@@ -194,6 +251,7 @@
 <script>
 import { mapState } from 'vuex'
 import { ProjectIntro } from '~/utils/ProjectIntro'
+import { DONATE_URL, DonateCopy } from '~/utils/donate'
 
 // Non-reactive copy table. Add a language by adding a key — the template
 // never branches on `lang` again.
@@ -308,6 +366,7 @@ const COPY = {
       note: '联系 contact@gisphere.info',
       url: 'mailto:contact@gisphere.info',
     },
+    donate: DonateCopy.zh,
 
     metaDescription:
       'GISphere 分享全球 GIS 与地理信息科学的招生信息、院校指南与学术资源。',
@@ -422,6 +481,7 @@ const COPY = {
       note: 'mail to contact@gisphere.info',
       url: 'mailto:contact@gisphere.info',
     },
+    donate: DonateCopy.en,
 
     metaDescription:
       'GISphere shares GIS and Geography admissions news, a global program guide, and academic resources.',
@@ -433,6 +493,7 @@ export default {
   data() {
     return {
       showContactCard: false,
+      donateUrl: DONATE_URL,
     }
   },
   head() {
@@ -644,6 +705,19 @@ export default {
 .utility-btn--solid {
   border-color: transparent;
   background-color: rgba(255, 255, 255, 0.92);
+}
+/* The only filled pill in the row, so the ask stands apart from the links. */
+.utility-btn--donate {
+  gap: 8px;
+  background-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(20, 23, 42, 0.22);
+}
+.utility-btn--donate:hover,
+.utility-btn--donate:focus-visible {
+  border-color: var(--brand-ink);
+  background-color: var(--brand-ink);
 }
 
 /* ---------- contact popover ---------- */
@@ -905,6 +979,68 @@ a.contact__row:hover {
   transform: translateX(3px);
 }
 
+/* ---------- support band ---------- */
+.support {
+  padding: clamp(40px, 5vw, 56px) 0;
+  background-color: var(--brand);
+}
+.support__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px 48px;
+}
+.support__text {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+.support__title {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.4vw, 1.875rem);
+  font-weight: 700;
+  color: #fff;
+}
+.support__desc {
+  max-width: 60ch;
+  margin: 12px 0 0;
+  font-size: clamp(15px, 1vw, 17px);
+  line-height: 1.7;
+  color: #e6e9fb;
+}
+.support__action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.support__btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 190px;
+  min-height: 52px;
+  padding: 0 28px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 6px;
+  background-color: #fff;
+  color: var(--brand);
+  text-decoration: none;
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+.support__btn:hover {
+  transform: translateY(-1px);
+  background-color: #e6e9fb;
+}
+.support__note {
+  font-size: 13px;
+  color: #e6e9fb;
+}
+
 /* ---------- sponsors ---------- */
 .sponsors {
   display: grid;
@@ -1004,6 +1140,30 @@ a.contact__row:hover {
   color: #fff;
   font-size: 22px;
   line-height: 1;
+}
+.sponsor__plus--heart {
+  font-size: 16px;
+}
+.ways {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.sponsor__tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.sponsor--donate {
+  gap: 6px;
+  padding-bottom: 24px;
+  border: 1.5px solid var(--brand);
+  color: var(--brand);
 }
 
 /* ---------- a11y / motion floor ---------- */
